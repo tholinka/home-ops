@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: flaresolverr
+spec:
+  interval: 1h
+  install:
+    timeout: 5m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 5m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  values:
+    controllers:
+      flaresolverr:
+        type: deployment
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: 'true'
+
+        containers:
+          app:
+            image:
+              repository: 21hsmw/flaresolverr
+              tag: nodriver@sha256:dca8cda5852b04e6142752fc044c9845eb536353ea6f8b7bb58b4ff9419538fa
+            resources:
+              requests:
+                cpu: 15m
+                memory: 256M
+              limits:
+                memory: 800M
+    service:
+      flaresolverr:
+        controller: flaresolverr
+        ports:
+          http:
+            port: 8191

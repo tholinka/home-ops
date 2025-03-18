@@ -1,0 +1,16 @@
+{
+	"files.associations": {
+		"**/*.json5": "json5"
+	},
+	"yaml.schemaStore.enable": true,
+	"yaml.schemas": {
+		"Kubernetes": "./kubernetes/**/*.yaml"
+	},
+	"vs-kubernetes": {
+		"vs-kubernetes.kubeconfig": "./kubeconfig",
+		"vs-kubernetes.knownKubeconfigs": [
+			"./kubeconfig"
+		]
+	},
+	"yaml.format.singleQuote": true
+}

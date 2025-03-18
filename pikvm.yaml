@@ -1,0 +1,68 @@
+# su
+# rw
+# curl -Lo /etc/kvmd/override.yaml https://raw.githubusercontent.com/tholinka/home-ops/refs/heads/main/pikvm.yaml
+# ro
+# systemctl restart kvmd
+
+kvmd:
+  atx:
+    type: disabled
+  gpio:
+    drivers:
+      wol_c1:
+        type: wol
+        mac: c4:62:37:00:3c:73
+      wol_c2:
+        type: wol
+        mac: c4:62:37:00:3d:fe
+      wol_c3:
+        type: wol
+        mac: c4:62:37:00:3b:d2
+      wol_w1:
+        type: wol
+        mac: 80:e8:2c:2f:b4:ad
+      wol_w2:
+        type: wol
+        mac: e8:d8:d1:56:8a:1a
+      wol_w3:
+        type: wol
+        mac: e8:d8:d1:56:8b:4a
+    scheme:
+      wol_c1:
+        driver: wol_c1
+        pin: 0
+        mode: output
+        switch: false
+      wol_c2:
+        driver: wol_c2
+        pin: 0
+        mode: output
+        switch: false
+      wol_c3:
+        driver: wol_c3
+        pin: 0
+        mode: output
+        switch: false
+      wol_w1:
+        driver: wol_w1
+        pin: 0
+        mode: output
+        switch: false
+      wol_w2:
+        driver: wol_w2
+        pin: 0
+        mode: output
+        switch: false
+      wol_w3:
+        driver: wol_w3
+        pin: 0
+        mode: output
+        switch: false
+    view:
+      table:
+        - ['c1', 'wol_c1|Send Wake-on-LAN to c1']
+        - ['c2', 'wol_c2|Send Wake-on-LAN to c2']
+        - ['c3', 'wol_c3|Send Wake-on-LAN to c3']
+        - ['w1', 'wol_w1|Send Wake-on-LAN to w1']
+        - ['w2', 'wol_w2|Send Wake-on-LAN to w2']
+        - ['w3', 'wol_w3|Send Wake-on-LAN to w3']

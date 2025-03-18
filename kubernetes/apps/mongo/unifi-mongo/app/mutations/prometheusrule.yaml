@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: unifi-mongo-rules
+  namespace: mongo
+spec:
+  groups:
+    - name: mongo.rules
+      rules:
+        - alert: UnifiMongoNotUsingVolsync
+          expr: |
+            absent(kube_persistentvolumeclaim_info{namespace="mongo",persistentvolumeclaim=~"data-volume-unifi-mongo-0"}) != 1
+          for: 5m
+          annotations:
+            summary: >
+              Unifi Mongo created a data-volume PVC, check that the mutations are working!
+          labels:
+            severity: critical

@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: devices
+spec:
+  module: icmp
+  prober:
+    url: blackbox-exporter.observability.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - nas.servers.internal
+        - pikvm.servers.internal
+
+        - zigbee.iot.internal
+        - garage.iot.internal
+
+        - bedroom.air.iot.internal
+        - outdoor.air.iot.internal
+        - living.air.iot.internal
+
+        - one.plugs.iot.internal
+        - two.plugs.iot.internal
+        - three.plugs.iot.internal
+        - four.plugs.iot.internal

@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app unifi-mongo
+  namespace: &namespace mongo
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/apps/mongo/unifi-mongo/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: volsync
+      namespace: volsync-system
+    - name: mongo
+      namespace: mongo
+    - name: bitwarden-certificates
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 5Gi

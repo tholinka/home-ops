@@ -1,0 +1,165 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  generate-config:
+    desc: Generate Talos configuration
+    dir: '{{.TALHELPER_DIR}}'
+    cmds:
+      - bws run --no-inherit-env -- talhelper genconfig
+    preconditions:
+      - bws project list
+      - test -f {{.TALHELPER_DIR}}/talconfig.yaml
+      - test -f {{.TALHELPER_DIR}}/talsecret.yaml
+      - which talhelper
+
+  apply-node:
+    desc: Apply Talos config to a node [IP=required]
+    dir: '{{.TALHELPER_DIR}}'
+    cmds:
+      - task: down
+      - talhelper gencommand apply --node {{.IP}} --extra-flags '--mode={{.MODE}}' | bash
+      - talosctl --nodes {{.IP}} health
+      - task: up
+    vars:
+      MODE: '{{.MODE | default "auto"}}'
+    requires:
+      vars: [IP]
+    preconditions:
+      - talosctl --nodes {{.IP}} get machineconfig
+      - talosctl config info
+      - test -f {{.TALOSCONFIG}}
+      - which talhelper talosctl yq
+
+  upgrade-node:
+    desc: Upgrade Talos on a single node [IP=required]
+    dir: '{{.TALHELPER_DIR}}'
+    cmds:
+      - task: down
+      - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}:{{.TALOS_VERSION}}' --timeout=10m" | bash
+      - talosctl --nodes {{.IP}} health
+      - task: up
+    vars:
+      TALOS_IMAGE:
+        sh: yq '.nodes[] | select(.ipAddress == "{{.IP}}") | .talosImageURL' {{.TALHELPER_DIR}}/talconfig.yaml
+      TALOS_VERSION:
+        sh: yq '.talosVersion' {{.TALHELPER_DIR}}/talconfig.yaml
+    requires:
+      vars: [IP]
+    preconditions:
+      - talosctl --nodes {{.IP}} get machineconfig
+      - talosctl config info
+      - test -f {{.TALOSCONFIG}}
+      - which kubectl talhelper talosctl yq
+
+  upgrade-k8s:
+    desc: Upgrade Kubernetes
+    dir: '{{.TALHELPER_DIR}}'
+    cmds:
+      - task: down
+      - talhelper gencommand upgrade-k8s --extra-flags "--to '{{.KUBERNETES_VERSION}}'" | bash
+      - task: up
+    vars:
+      KUBERNETES_VERSION:
+        sh: yq '.kubernetesVersion' {{.TALHELPER_DIR}}/talconfig.yaml
+    preconditions:
+      - talosctl config info
+      - test -f {{.TALOSCONFIG}}
+      - which talhelper talosctl yq
+
+  reboot-node:
+    desc: Reboot Talos on a single node [IP=required] [MODE=default]
+    cmds:
+      - task: down
+      - talosctl --nodes {{.IP}} reboot --mode={{.MODE}}
+      - talosctl --nodes {{.IP}} health
+      - task: up
+    vars:
+      MODE: '{{.MODE | default "default"}}'
+    requires:
+      vars: [IP]
+    preconditions:
+      - talosctl --nodes {{.IP}} get machineconfig
+      - talosctl config info
+      - test -f {{.ROOT_DIR}}/talos/clusterconfig/talosconfig
+      - which talosctl
+
+  shutdown-cluster:
+    desc: Shutdown Talos across the whole cluster
+    prompt: Shutdown the Talos cluster ... continue?
+    cmd: talosctl shutdown --nodes {{.IP_ADDRS}} --force
+    vars:
+      IP_ADDRS:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(",")'
+    preconditions:
+      - talosctl --nodes {{.NODES}} get machineconfig
+      - talosctl config info
+      - test -f {{.ROOT_DIR}}/talos/clusterconfig/talosconfig
+      - which jq talosctl
+
+  apply-cluster:
+    desc: Apply Talos config across the whole cluster [MODE=default]
+    cmds:
+      - for: { var: IP_ADDRS }
+        task: apply-node
+        vars:
+          IP: '{{.ITEM}}'
+          MODE: '{{.MODE}}'
+    vars:
+      MODE: '{{.MODE | default "auto"}}'
+      IP_ADDRS:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    preconditions:
+      - which jq talosctl
+
+  upgrade-cluster:
+    desc: Upgrade Talos across the whole cluster
+    cmds:
+      - for: { var: IP_ADDRS }
+        task: upgrade-node
+        vars:
+          IP: '{{.ITEM}}'
+    vars:
+      IP_ADDRS:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    preconditions:
+      - which jq talosctl
+
+  reboot-cluster:
+    desc: Reboot Talos on a single node [IP=required] [MODE=default]
+    cmds:
+      - for: { var: IP_ADDRS }
+        task: reboot-node
+        vars:
+          IP: '{{.ITEM}}'
+          MODE: '{{.MODE}}'
+    vars:
+      IP_ADDRS:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    preconditions:
+      - which jq talosctl
+
+  reset:
+    desc: Resets nodes back to maintenance mode
+    dir: '{{.TALHELPER_DIR}}'
+    prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
+    cmd: talhelper gencommand reset --extra-flags="--reboot {{- if eq .CLI_FORCE false }} --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL{{ end }} --graceful=false --wait=false" | bash
+    preconditions:
+      - which talhelper
+
+  down:
+    internal: true
+    cmds:
+      - until kubectl wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
+      - until kubectl wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+    preconditions:
+      - which kubectl
+
+  up:
+    internal: true
+    cmds:
+      - until kubectl wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
+      - until kubectl wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+    preconditions:
+      - which kubectl

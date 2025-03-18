@@ -1,0 +1,177 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: kube-prometheus-stack
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 70.0.2
+  url: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: kube-prometheus-stack
+  install:
+    crds: Skip
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    crds:
+      enabled: true
+      upgradeJob:
+        enabled: true
+        forceConflicts: true
+    cleanPrometheusOperatorObjectNames: true
+    alertmanager:
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - alertmanager.${SECRET_DOMAIN}
+          parentRefs:
+            - name: internal
+              namespace: kube-system
+              sectionName: https
+        annotations:
+          hajimari.io/appName: Alertmanager
+          hajimari.io/icon: mdi:alert-box
+      alertmanagerSpec:
+        alertmanagerConfiguration:
+          name: alertmanager
+          global:
+            resolveTimeout: 5m
+        externalUrl: https://alertmanager.${SECRET_DOMAIN}
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: ceph-block
+              resources:
+                requests:
+                  storage: 1Gi
+    kubeEtcd:
+      service:
+        selector:
+          component: kube-apiserver # etcd runs on control plane nodes
+    kubeProxy:
+      enabled: false
+    prometheus:
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - 'prometheus.${SECRET_DOMAIN}'
+          parentRefs:
+            - name: internal
+              namespace: kube-system
+              sectionName: https
+        annotations:
+          hajimari.io/appName: Prometheus
+          hajimari.io/icon: simple-icons:prometheus
+      prometheusSpec:
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        ruleSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        enableAdminAPI: true
+        walCompression: true
+        enableFeatures:
+          - memory-snapshot-on-shutdown
+        retention: 14d
+        retentionSize: 50GB
+        resources:
+          requests:
+            cpu: 800m
+          limits:
+            memory: 3000Mi
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: ceph-block
+              resources:
+                requests:
+                  storage: 50Gi
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ['__meta_kubernetes_pod_node_name']
+              targetLabel: kubernetes_node
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      metricLabelsAllowlist:
+        - pods=[*]
+        - deployments=[*]
+        - persistentvolumeclaims=[*]
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ['__meta_kubernetes_pod_node_name']
+              targetLabel: kubernetes_node
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+    additionalPrometheusRulesMap:
+      dockerhub-rules:
+        groups:
+          - name: dockerhub
+            rules:
+              - alert: DockerhubRateLimitRisk
+                annotations:
+                  summary: Kubernetes cluster Dockerhub rate limit risk
+                expr: count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 100
+                labels:
+                  severity: critical
+      oom-rules:
+        groups:
+          - name: oom
+            rules:
+              - alert: OomKilled
+                annotations:
+                  summary: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.
+                expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+                labels:
+                  severity: critical
+      btrfs-rules:
+        groups:
+          - name: btrfs
+            rules:
+              - alert: BtrfsDeviceErrorsDetected
+                annotations:
+                  sumamry: BTRFS device {{$labels.device}} on {{$labels.kubernetes_node}}@{{$labels.instance}} detected an error of type {{$labels.type}}
+                expr: node_btrfs_device_errors_total > 0
+                labels:
+                  severity: critical
+              - alert: BtrfsDeviceAlmostFull
+                annotations:
+                  summary: BTRFS device {{$labels.device}}@{{$labels.instance}} has less than 1% of free space left
+                expr: (node_btrfs_device_unused_bytes{job="node-exporter"} / node_btrfs_device_size_bytes{job="node-exporter"} * 100) < 1
+                labels:
+                  severity: critical

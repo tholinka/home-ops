@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: gatus-rules
+spec:
+  groups:
+    - name: gatus.rules
+      rules:
+        - alert: GatusEndpointDown
+          # if down internally, don't report that it's also down externally
+          expr: |
+            gatus_results_endpoint_success{group="external"} == 0 unless on (name) (gatus_results_endpoint_success{group="internal"}) == 0
+          for: 5m
+          annotations:
+            summary: >-
+              The {{ $labels.name }} endpoint is down externally
+          labels:
+            severity: critical
+
+        - alert: GatusInternalEndpointDown
+          expr: |
+            gatus_results_endpoint_success{group="internal"} == 0
+          for: 5m
+          annotations:
+            summary: >-
+              The {{ $labels.name }} endpoint is down internally
+          labels:
+            severity: critical
+
+        - alert: GatusEndpointExposed
+          expr: |
+            gatus_results_endpoint_success{group="guarded"} == 0
+          for: 5m
+          annotations:
+            summary: >-
+              The {{ $labels.name }} endpoint has a public DNS record and is exposed
+          labels:
+            severity: critical

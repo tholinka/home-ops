@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: nut-exporter-rules
+  namespace: observability
+spec:
+  groups:
+    - name: nut-exporter.rules
+      rules:
+        - alert: NUTUPSRuntimeCritical
+          expr: |
+            nut_battery_runtime_seconds < 600
+          annotations:
+            summary: >
+              NUT reports that UPS "{{$labels.ups}}" less than 10 minutes of power left!
+          labels:
+            severity: critical
+        - alert: NUTUPSOnBattery
+          expr: |
+            nut_ups_status{status="OL"} != 1
+          for: 5m
+          annotations:
+            summary: >
+              NUT reports that UPS {{$labels.ups}} is on battery!
+          labels:
+            severity: critical

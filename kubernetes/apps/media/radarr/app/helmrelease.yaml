@@ -1,0 +1,121 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app radarr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      radarr:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/radarr
+              tag: 5.20.2.9777@sha256:e23ae79f0c88aa988aacaf9df34cf626632bed0205c51e7ba34bcc508d2f38a6
+            env:
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__DBENABLED: 'False'
+              RADARR__LOG__LEVEL: info
+              RADARR__SERVER__PORT: &port 80
+              RADARR__UPDATE__BRANCH: develop
+            envFrom:
+              - secretRef:
+                  name: radarr-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 4Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: radarr
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+        annotations:
+          hajimari.io/appName: radarr
+          hajimari.io/icon: simple-icons:radarr
+    persistence:
+      config:
+        existingClaim: radarr
+      config-cache:
+        existingClaim: radarr-cache
+        globalMounts:
+          - path: /config/MediaCover
+      scripts:
+        type: configMap
+        name: radarr-configmap
+        defaultMode: 0775
+        globalMounts:
+          - path: /scripts/pushover-notifier.sh
+            subPath: pushover-notifier.sh
+            readOnly: true
+      media:
+        type: nfs
+        server: nfs.servers.internal
+        path: /media
+        globalMounts:
+          - path: /media
+      media-qbit:
+        type: nfs
+        server: nfs.servers.internal
+        path: /media/downloads/qbittorrent
+        globalMounts:
+          - path: /media/downloads/qbittorrent
+            readOnly: true
+      tmp:
+        type: emptyDir

@@ -1,0 +1,47 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: spegel
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: v0.0.30
+  url: oci://ghcr.io/spegel-org/helm-charts/spegel
+  verify:
+    provider: cosign
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: spegel
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: spegel
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    grafanaDashboard:
+      enabled: true
+    service:
+      registry:
+        hostPort: 29999
+    serviceMonitor:
+      enabled: true
+    spegel:
+      appendMirrors: true
+      containerdSock: /run/containerd/containerd.sock
+      containerdRegistryConfigPath: /etc/cri/conf.d/hosts

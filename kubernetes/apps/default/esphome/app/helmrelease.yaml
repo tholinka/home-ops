@@ -1,0 +1,143 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app esphome
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  values:
+    controllers:
+      esphome:
+        annotations:
+          secret.reloader.stakater.com/reload: esphome-secrets,esphome-deploykey
+
+        pod:
+          annotations:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/esphome
+              tag: 2025.2.2@sha256:ef149bc310f699609be8c3e8aa4eaa54703828a8309f51b9810ec6a86175d6f1
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 5m
+                memory: 512Mi
+              limits:
+                memory: 3072Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+          code-server:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.98.2@sha256:9ed588a05d4e81aa464e753a409bc3b2b93267323d1c3975fbddf6f9aef84c26
+            args:
+              - --auth
+              - none
+              - --disable-telemetry
+              - --disable-update-check
+              - --user-data-dir
+              - /config/.code-server
+              - --extensions-dir
+              - /config/.code-server
+              - --port
+              - '12321'
+              - /config
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+
+    service:
+      app:
+        controller: esphome
+        ports:
+          http:
+            port: &http 6052
+          code-server:
+            port: &code 12321
+
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - name: *app
+                port: *http
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /code
+            backendRefs:
+              - name: *app
+                port: *code
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplacePrefixMatch
+                    replacePrefixMatch: /
+        annotations:
+          hajimari.io/appName: ESPHome
+          hajimari.io/icon: simple-icons:esphome
+
+    persistence:
+      config:
+        existingClaim: esphome
+        advancedMounts:
+          esphome:
+            app:
+              - path: /config
+            code-server:
+              - path: /config
+      secrets:
+        type: secret
+        name: esphome-secrets
+        globalMounts:
+          - path: /config/secrets.yaml
+            subPath: secrets.yaml
+      cache:
+        type: emptyDir
+        advancedMounts:
+          esphome:
+            app:
+              - path: /cache
+      deploy-key:
+        type: secret
+        name: esphome-deploykey
+        defaultMode: 256
+        advancedMounts:
+          esphome:
+            code-server:
+              - path: /home/coder/.ssh/id_ed25519
+                subPath: id_ed25519

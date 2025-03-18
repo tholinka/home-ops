@@ -1,0 +1,42 @@
+# from https://github.com/longhorn/longhorn/issues/3473#issuecomment-2001928894
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: volman
+spec:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+  containers:
+    - image: docker.io/library/alpine:latest
+      name: volman
+      command:
+        - /bin/sh
+        - -c
+      args:
+        - sleep 1000000
+      volumeMounts:
+        - mountPath: /data/old
+          name: old
+        - mountPath: /data/new
+          name: new
+  volumes:
+    # - name: old
+    #   hostPath:
+    #     path: /dev/disk
+    - name: old
+      nfs:
+        server: nfs.servers.internal
+        path: /backups
+        readOnly: true
+    - name: new
+      persistentVolumeClaim:
+        claimName: qbittorrent
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+# kubectl scale -n namespace sts sts-name --replicas=0
+# kubectl apply -f volume-manager.yaml -n namespace
+# kubectl exec -ti myvolman -n namespace -- /bin/sh
+# cp -a /data/old/. data/new/
+# kubectl delete pod myvolman -n namespace
+# kubectl scale -n namespace sts sts-name --replicas=1

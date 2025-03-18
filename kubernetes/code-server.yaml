@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: code-server
+spec:
+  containers:
+    - args:
+        - --auth
+        - none
+        - --user-data-dir
+        - /tmp/.vscode
+        - --extensions-dir
+        - /tmp/.vscode
+        - --port
+        - '12321'
+        - /machine
+      image: ghcr.io/coder/code-server:latest
+      imagePullPolicy: IfNotPresent
+      name: code-server
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 10m
+      volumeMounts:
+        - mountPath: /machine
+          name: machine-root
+        - mountPath: /tmp
+          name: tmp
+      securityContext:
+        privileged: true
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+  hostNetwork: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: false
+  nodeName: nas
+  restartPolicy: Always
+  volumes:
+    - name: machine-root
+      hostPath:
+        path: /
+        type: Directory
+    - emptyDir: {}
+      name: tmp
+# open http://nodeName:12321 in your browser

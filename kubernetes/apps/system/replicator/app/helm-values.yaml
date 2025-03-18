@@ -1,0 +1,13 @@
+image:
+  repository: quay.io/mittwald/kubernetes-replicator
+  tag: v2.11.1
+grantClusterAdmin: false
+args:
+  - -resync-period=5m
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000

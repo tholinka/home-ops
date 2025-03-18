@@ -1,0 +1,26 @@
+{% for namespace in ["external-secrets", "flux-system"] %}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ namespace }}
+{% endfor %}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bitwarden
+  namespace: external-secrets
+stringData:
+  # this can NOT end in a newline or it doesn't work
+  token: {{ ENV['bitwarden-machine-key'] }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cluster-secrets
+  namespace: flux-system
+  annotations:
+    replicator.v1.mittwald.de/replicate-to: ".*"
+stringData:
+  {{ ENV['cluster-secrets'] | indent(2) | safe }}

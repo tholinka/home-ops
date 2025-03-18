@@ -1,0 +1,12 @@
+---
+devices:
+  - name: tun
+    groups:
+      - count: 1000
+        paths:
+          - path: /dev/net/tun
+
+  - name: gpio
+    groups:
+      - paths:
+          - path: /dev/ttyAMA0

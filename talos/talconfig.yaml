@@ -1,0 +1,310 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+---
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.9.5
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.32.3
+
+clusterName: kubernetes
+endpoint: https://192.168.20.2:6443
+
+clusterPodNets:
+  - '10.69.0.0/16'
+  - '2001:cafe:42::/56'
+clusterSvcNets:
+  - '10.96.0.0/16'
+  - '2001:cafe:43::/112'
+
+additionalApiServerCertSans: &sans
+  - '192.168.20.2'
+  - 'cluster.servers.internal'
+  - '127.0.0.1'
+additionalMachineCertSans: *sans
+
+# Disable built-in Flannel to use Cilium
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: 'p1'
+    ipAddress: '192.168.20.51'
+    installDiskSelector:
+      serial: '0x31f66767'
+    # see this bug: https://github.com/siderolabs/sbc-raspberrypi/issues/38, SDcards won't boot with the watchdog turned on
+    # configTxt: |
+    #   See https://www.raspberrypi.com/documentation/computers/configuration.html
+    #   # Reduce GPU memory to give more to CPU.
+    #   gpu_mem=32
+    #   # Enable maximum compatibility on both HDMI ports;
+    #   # only the one closest to the power/USB-C port will work in practice.
+    #   hdmi_safe:0=1
+    #   hdmi_safe:1=1
+    #   # Load U-Boot.
+    #   kernel=u-boot.bin
+    #   # Forces the kernel loading system to assume a 64-bit kernel.
+    #   arm_64bit=1
+    #   # Run as fast as firmware / board allows.
+    #   arm_boost=1
+    #   # Enable the primary/console UART.
+    #   enable_uart=1
+    #   # Disable Bluetooth.
+    #   dtoverlay=disable-bt
+    #   # Disable WiFi.
+    #   dtoverlay=disable-wifi
+    talosImageURL: factory.talos.dev/installer/51db99629c625f3a8cb69725f97b43e9398bbf247ce9ddab5daf8e545bb0352e
+    controlPlane: false
+    networkInterfaces:
+      - interface: end0
+        dhcp: false
+        addresses:
+          - '192.168.20.51/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+  - hostname: 'c1'
+    ipAddress: '192.168.20.61'
+    installDisk: '/dev/sda'
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei, thunderbolt
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: 'c4:62:37:00:3c:73' # 1gbps interface: '00:23:24:c8:da:f6'
+        dhcp: false
+        addresses:
+          - '192.168.20.61/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+        vip:
+          ip: '192.168.20.2'
+    patches:
+      - '@./patches/intel/machine-modules.yaml'
+      - '@./patches/intel/machine-sysfs.yaml'
+      - '@./patches/intel/machine-udev.yaml'
+  - hostname: 'c2'
+    ipAddress: '192.168.20.62'
+    installDisk: '/dev/sda'
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei, thunderbolt
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: 'c4:62:37:00:3d:fe' # 1gbps interface: '00:23:24:b4:65:24'
+        dhcp: false
+        addresses:
+          - '192.168.20.62/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+        vip:
+          ip: '192.168.20.2'
+    patches:
+      - '@./patches/intel/machine-modules.yaml'
+      - '@./patches/intel/machine-sysfs.yaml'
+      - '@./patches/intel/machine-udev.yaml'
+  - hostname: 'c3'
+    ipAddress: '192.168.20.63'
+    installDisk: '/dev/sda'
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei, thunderbolt
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: 'c4:62:37:00:3b:d2' # 1gbps interface: '00:23:24:c7:57:7e'
+        dhcp: false
+        addresses:
+          - '192.168.20.63/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+        vip:
+          ip: '192.168.20.2'
+    patches:
+      - '@./patches/intel/machine-modules.yaml'
+      - '@./patches/intel/machine-sysfs.yaml'
+      - '@./patches/intel/machine-udev.yaml'
+  - hostname: 'w1'
+    ipAddress: '192.168.20.71'
+    installDiskSelector:
+      serial: '1922DD470802'
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei, thunderbolt
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector: # 2.5GbE usb
+          hardwareAddr: '6c:1f:f7:1a:c3:b7'
+        dhcp: false
+        addresses:
+          - '192.168.20.71/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+      - deviceSelector: # backup 1GbE port
+          hardwareAddr: '80:e8:2c:2f:b4:ad'
+        dhcp: false
+        addresses:
+          - '192.168.20.81/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+    patches:
+      - '@./patches/intel/machine-modules.yaml'
+      - '@./patches/intel/machine-sysfs.yaml'
+      - '@./patches/intel/machine-udev.yaml'
+      - |-
+        machine:
+          sysfs:
+            devices.system.cpu.cpu4.cpufreq.energy_performance_preference: balance_performance
+            devices.system.cpu.cpu5.cpufreq.energy_performance_preference: balance_performance
+  - hostname: 'w2'
+    ipAddress: '192.168.20.72'
+    installDiskSelector:
+      serial: 'S4GNNF0N211290'
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei, thunderbolt
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector: # 2.5GbE usb
+          hardwareAddr: '6c:*'
+        dhcp: false
+        addresses:
+          - '192.168.20.72/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+      - deviceSelector: # backup 1GbE port
+          hardwareAddr: 'e8:*'
+        dhcp: false
+        addresses:
+          - '192.168.20.82/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+    patches:
+      - '@./patches/intel/machine-modules.yaml'
+      - '@./patches/intel/machine-sysfs.yaml'
+      - '@./patches/intel/machine-udev.yaml'
+      - |-
+        machine:
+          sysfs:
+            devices.system.cpu.cpu4.cpufreq.energy_performance_preference: balance_performance
+            devices.system.cpu.cpu5.cpufreq.energy_performance_preference: balance_performance
+  - hostname: 'w3'
+    ipAddress: '192.168.20.73'
+    installDisk: /dev/sda
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei, thunderbolt
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector: # 2.5GbE usb
+          hardwareAddr: '6c:*'
+        dhcp: false
+        addresses:
+          - '192.168.20.73/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+      - deviceSelector: # backup 1GbE port
+          hardwareAddr: 'e8:*'
+        dhcp: false
+        addresses:
+          - '192.168.20.83/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+    patches:
+      - '@./patches/intel/machine-modules.yaml'
+      - '@./patches/intel/machine-sysfs.yaml'
+      - '@./patches/intel/machine-udev.yaml'
+      - |-
+        machine:
+          sysfs:
+            devices.system.cpu.cpu4.cpufreq.energy_performance_preference: balance_performance
+            devices.system.cpu.cpu5.cpufreq.energy_performance_preference: balance_performance
+  - hostname: 'w4'
+    ipAddress: '192.168.20.74'
+    installDiskSelector:
+      serial: 'S4GNNF0N206772'
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei, thunderbolt
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector: # 2.5GbE usb
+          hardwareAddr: '6c:*'
+        dhcp: false
+        addresses:
+          - '192.168.20.74/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+      - deviceSelector: # backup 1GbE port
+          hardwareAddr: '80:*'
+        dhcp: false
+        addresses:
+          - '192.168.20.84/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+    patches:
+      - '@./patches/intel/machine-modules.yaml'
+      - '@./patches/intel/machine-sysfs.yaml'
+      - '@./patches/intel/machine-udev.yaml'
+      - |-
+        machine:
+          sysfs:
+            devices.system.cpu.cpu4.cpufreq.energy_performance_preference: balance_performance
+            devices.system.cpu.cpu5.cpufreq.energy_performance_preference: balance_performance
+  - hostname: 'q1'
+    ipAddress: '192.168.20.101'
+    installDisk: /dev/sda
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515 # nocloud qemu-guest-agent
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          driver: virtio_net
+        dhcp: false
+        addresses:
+          - '192.168.20.101/24'
+        routes:
+          - network: '0.0.0.0/0'
+            gateway: '192.168.20.1'
+        mtu: 1500
+
+# Global patches
+patches:
+  - '@./patches/global/machine-features.yaml'
+  - '@./patches/global/machine-files.yaml'
+  - '@./patches/global/machine-kubelet.yaml'
+  - '@./patches/global/machine-modules.yaml'
+  - '@./patches/global/machine-network.yaml'
+  - '@./patches/global/machine-sysctls.yaml'
+  - '@./patches/global/machine-time.yaml'
+
+# Controller patches
+controlPlane:
+  patches:
+    - '@./patches/controller/admission-controller-patch.yaml'
+    - '@./patches/controller/cluster.yaml'
+    - '@./patches/controller/machine-features.yaml'

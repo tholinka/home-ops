@@ -1,0 +1,82 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicybinding-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: volsync-${APP}-remove-volume-template
+spec:
+  policyName: volsync-${APP}-remove-volume-template
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicy-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: volsync-${APP}-remove-volume-template
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups: ['apps']
+        apiVersions: ['v1']
+        operations: ['CREATE', 'UPDATE']
+        resources: ['statefulsets']
+  matchConditions:
+    - name: ${APP}-only
+      expression: >
+        object.metadata.name == "unifi-mongo" && object.metadata.namespace == "mongo"
+    - name: ${APP}-has-default-data-volume
+      expression: >
+        has(object.spec.volumeClaimTemplates) && object.spec.volumeClaimTemplates.size() == 2 && object.spec.volumeClaimTemplates[0].metadata.name == "data-volume"
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >
+          [
+            JSONPatch{op: "remove", path: "/spec/volumeClaimTemplates/0"}
+          ]
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicybinding-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: volsync-${APP}
+spec:
+  policyName: volsync-${APP}
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicy-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: volsync-${APP}
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups: ['apps']
+        apiVersions: ['v1']
+        operations: ['CREATE', 'UPDATE']
+        resources: ['statefulsets']
+  matchConditions:
+    - name: ${APP}-only
+      expression: >
+        object.metadata.name == "unifi-mongo" && object.metadata.namespace == "mongo"
+    - name: ${APP}-has-default-data-volume
+      expression: >
+        !object.spec.template.spec.volumes.exists(v, v.name == "data-volume")
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >
+          [
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/volumes/-",
+              value: Object.spec.template.spec.volumes{
+                name: "data-volume",
+                persistentVolumeClaim: Object.spec.template.spec.volumes.persistentVolumeClaim{
+                  claimName: "${APP}"
+                }
+              }
+            }
+          ]

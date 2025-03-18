@@ -1,0 +1,257 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app pihole
+  namespace: network
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      annotations:
+        kubectl.kubernetes.io/default-container: pihole
+    controllers:
+      pihole:
+        enabled: true
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        labels: {}
+        replicas: 1
+        strategy: RollingUpdate
+        rollingUpdate:
+          unavailable: 1
+          surge: 1
+
+        initContainers:
+          init:
+            image:
+              repository: ghcr.io/pi-hole/pihole
+              tag: 2025.03.0@sha256:6c872c3f8f1954423dbd1c7db661719b447e7b890e231489ada2a6a2904342ff
+            command:
+              - 'bash'
+            args:
+              - '-e'
+              - /config/update.sh
+            securityContext:
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                cpu: 200m
+              limits:
+                memory: 256Mi
+          dnscrypt-proxy:
+            image:
+              repository: ghcr.io/klutchell/dnscrypt-proxy
+              tag: main@sha256:f029e2f726044ae38425d05a58ed488d7195f69016e0998e52a8a406cecd70f1
+            restartPolicy: Always
+            probes:
+              liveness: &dnscrypt-probes
+                enabled: true
+                custom: true
+                spec:
+                  failureThreshold: 3
+                  initialDelaySeconds: 60
+                  periodSeconds: 20
+                  successThreshold: 1
+                  exec:
+                    command:
+                      - /usr/local/bin/dnsprobe
+                      - cloudflare.com
+                      - '127.0.0.1:5053'
+                  timeoutSeconds: 1
+              readiness: *dnscrypt-probes
+            resources:
+              requests:
+                cpu: 25m
+              limits:
+                memory: 32Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFileSystem: true
+              capabilities: { drop: ['ALL'] }
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+        containers:
+          pihole:
+            image:
+              repository: ghcr.io/pi-hole/pihole
+              tag: 2025.03.0@sha256:6c872c3f8f1954423dbd1c7db661719b447e7b890e231489ada2a6a2904342ff
+            env:
+              FTLCONF_dns_listeningMode: all
+              FTLCONF_dns_dnssec: 'false'
+              FTLCONF_dns_upstreams: 127.0.0.1#5053;127.0.0.1#5053
+              FTLCONF_webserver_interface_boxed: false
+              FTLCONF_webserver_interface_theme: default-auto
+              FTLCONF_webserver_port: &pihole-port 80
+              FTLCONF_webserver_api_password: &pihole-password
+                valueFrom:
+                  secretKeyRef:
+                    name: pihole-secret
+                    key: password
+            probes:
+              liveness: &pihole-probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /admin/login
+                    port: *pihole-port
+                    scheme: HTTP
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  successThreshold: 1
+                  timeoutSeconds: 5
+                  failureThreshold: 30
+              startup: *pihole-probes
+              readiness: *pihole-probes
+            securityContext:
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 256Mi
+          exporter:
+            image:
+              repository: ekofr/pihole-exporter
+              tag: v1.0.1
+            env:
+              PIHOLE_HOSTNAME:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.podIP
+              PIHOLE_PORT: *pihole-port
+              PIHOLE_PASSWORD: *pihole-password
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 32Mi
+            probes:
+              liveness: &exporter-probes
+                enabled: true
+                custom: true
+                spec:
+                  failureThreshold: 3
+                  initialDelaySeconds: 10
+                  periodSeconds: 20
+                  successThreshold: 1
+                  tcpSocket:
+                    port: &exporter-port 9617
+                  timeoutSeconds: 1
+              readiness: *exporter-probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFileSystem: true
+              capabilities: { drop: ['ALL'] }
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+    service:
+      pihole:
+        controller: pihole
+        type: LoadBalancer
+        internalTrafficPolicy: Cluster
+        externalTrafficPolicy: Cluster
+        #ipFamilyPolicy: PreferDualStack
+        annotations:
+          #lbipam.cilium.io/ips: '192.168.20.6,fdaa:aaaa:aaaa:aa20::6
+          lbipam.cilium.io/ips: '192.168.20.6'
+        ports:
+          dns-udp:
+            primary: false
+            port: 53
+            protocol: UDP
+          dns-tcp:
+            primary: false
+            port: 53
+            protocol: TCP
+          http:
+            primary: true
+            port: *pihole-port
+            protocol: HTTP
+          https:
+            primary: false
+            port: 443
+            protocol: HTTPS
+          prometheus:
+            primary: false
+            port: *exporter-port
+            protocol: HTTP
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *pihole-port
+        annotations:
+          hajimari.io/appName: PiHole
+          hajimari.io/icon: mdi:pi-hole
+          hajimari.io/group: servers
+    serviceMonitor:
+      pihole:
+        serviceName: pihole
+        endpoints:
+          - port: prometheus # exporter-port's name
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        storageClass: 'ceph-block'
+        accessMode: 'ReadWriteOnce'
+        size: 500Mi
+        advancedMounts:
+          pihole:
+            pihole:
+              - path: /etc/pihole
+                readOnly: false
+            init:
+              - path: /final
+                readOnly: false
+      config-map:
+        type: configMap
+        name: pihole-configmap
+        advancedMounts:
+          pihole:
+            init:
+              - path: /config/update.sh
+                subPath: update.sh
+                readOnly: true
+            pihole:
+              - path: /etc/dnsmasq.d/02-custom.conf
+                subPath: 02-custom.conf
+                readOnly: true
+              - path: /etc/dnsmasq.d/03-hosts.conf
+                subPath: 03-hosts.conf
+                readOnly: true
+            dnscrypt-proxy:
+              - path: /config/dnscrypt-proxy.toml
+                subPath: dnscrypt-proxy.toml
+                readOnly: true

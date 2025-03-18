@@ -1,0 +1,111 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app zwave
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      zwave:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zwave-js/zwave-js-ui
+              tag: 9.33.0@sha256:e2febaed461f0779a394c9b43b6275638fad3d126bf2d058bdc683983cb46c56
+            env:
+              PORT: &port 80
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+              startup: *probes # template has a default failureThreshold of 30
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+                squat.ai/gpio: 1
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: p1 # only p1 has the zwave ZAC93-800 GPIO
+      securityContext:
+        # needs to be root to access /dev/ttyAMA0
+        # runAsNonRoot: true
+        # runAsUser: 1000
+        # runAsGroup: 1000
+        # fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: zwave
+        ports:
+          http:
+            port: *port
+          websocket:
+            port: 3000
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+        annotations:
+          hajimari.io/appName: Z-Wave
+          hajimari.io/icon: mdi:z-wave
+    persistence:
+      config:
+        existingClaim: zwave
+        globalMounts:
+          - path: /usr/src/app/store
+      config-cache:
+        existingClaim: zwave-cache
+        globalMounts:
+          - path: /usr/src/app/store/.config-db
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /usr/src/app/store/logs
+      tmp:
+        type: emptyDir
+    serviceMonitor:
+      app:
+        serviceName: zwave
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s

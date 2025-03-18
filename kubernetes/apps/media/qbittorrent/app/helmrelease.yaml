@@ -1,0 +1,271 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# mostly from from https://github.com/bjw-s-labs/home-ops/blob/8f16bd6f22ec5950e62c018e0e0e2e7390e0a8e6/kubernetes/apps/downloads/qbittorrent/app/helmrelease.yaml
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app qbittorrent
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      qbittorrent:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              # TODO migrate to home-operations container when upgrading to 5.0.4 is viable
+              repository: ghcr.io/onedr0p/qbittorrent
+              tag: 5.0.3@sha256:0c0310d8266d62debd8c402a3183d646757e9bb982925a7c64be4beea57618f0
+            env:
+              UMASK: '022'
+              QBT_WEBUI_PORT: &port 80
+              CROSS_SEED_ENABLED: true
+              CROSS_SEED_HOST: cross-seed.media.svc.cluster.local
+              CROSS_SEED_PORT: 80
+              CROSS_SEED_SLEEP_INTERVAL: 0
+              PUSHOVER_ENABLED: true
+            envFrom:
+              - secretRef:
+                  name: qbittorrent-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 8Gi
+          vuetorrent:
+            dependsOn: app
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.4.0
+            args:
+              - --repo=https://github.com/WDaan/VueTorrent
+              - --ref=latest-release
+              - --period=86400s
+              - --root=/addons
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 25Mi
+          port-forward:
+            image:
+              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
+              tag: 0.0.4@sha256:5fd1da9f2d6509c00b6d6f4b3b7ada6fa097b8134040fc8965b6c1dc8584dc6b
+            env:
+              GLUETUN_CONTROL_SERVER_HOST: localhost
+              GLUETUN_CONTROL_SERVER_PORT: 8000
+              GLUETUN_CONTROL_SERVER_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: qbittorrent-secret
+                    key: GLUETUN_CONTROL_SERVER_API_KEY
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_WEBUI_PORT: *port
+              CRON_ENABLED: true
+              CRON_SCHEDULE: '*/5 * * * *'
+              LOG_TIMESTAMP: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+        initContainers:
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.8
+            restartPolicy: Always
+
+          gluetun:
+            dependsOn:
+              - dnsdist
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
+            env:
+              DOT: 'off'
+              DNS_ADDRESS: 127.0.0.2
+              HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: &gluetunAuthPath /gluetun/auth.toml
+              FIREWALL_INPUT_PORTS: 80,8388,9999 # 80: WebUI, 8388 Socks Proxy, 9999 Kube Probes
+              FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16,10.96.0.0/16 # Allow access to k8s subnets
+              HEALTH_SERVER_ADDRESS: :9999
+              HEALTH_SUCCESS_WAIT_DURATION: 10s
+              VPN_TYPE: wireguard
+              VPN_PORT_FORWARDING: 'on'
+              PORT_FORWARD_ONLY: 'on'
+              VPN_INTERFACE: tun0
+              SERVER_COUNTRIES: 'United States'
+              UPDATER_PERIOD: 24h
+            envFrom:
+              - secretRef:
+                  name: wireguard-secret
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  timeoutSeconds: 10
+                  periodSeconds: 30
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  failureThreshold: 5
+            lifecycle:
+              postStart:
+                exec:
+                  command:
+                    [
+                      '/bin/sh',
+                      '-c',
+                      '(ip rule del table 51820; ip -6 rule del table 51820) || true',
+                    ]
+            restartPolicy: Always
+            securityContext:
+              # can't be non-root, or it has no access to tunnel
+              runAsNonRoot: false
+              runAsUser: 0
+              runAsGroup: 0
+              capabilities:
+                add:
+                  - NET_ADMIN
+              allowPrivilegeEscalation: false
+            resources:
+              limits:
+                squat.ai/tun: 1
+          # TODO: Replace once gluetun supports socks5, nothing supports shadowsocks
+          socks5:
+            restartPolicy: Always
+            image:
+              repository: serjs/go-socks5-proxy
+              tag: latest@sha256:aad36c623f16850d7cea0171d1aa79d706129191db9e270b6dfd7db6b552c734
+            env:
+              PROXY_PORT: &proxy-port 8388
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: *app
+        nameOverride: *app
+        #type: LoadBalancer
+        #annotations:
+        #  lbipam.cilium.io/ips: 192.168.20.122
+        ports:
+          http:
+            primary: true
+            port: *port
+      gluetun:
+        controller: *app
+        nameOverride: gluetun
+        ports:
+          socks-proxy:
+            enabled: true
+            port: *proxy-port
+    route:
+      app:
+        hostnames:
+          - 'qb.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+        annotations:
+          hajimari.io/appName: qBittorrent
+          hajimari.io/icon: simple-icons:qbittorrent
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: *app
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config
+      empty-config:
+        type: emptyDir
+        advancedMounts:
+          qbittorrent:
+            port-forward:
+              - path: /config
+
+      gluetun-auth:
+        type: secret
+        name: qbittorrent-gluetun-secret
+        advancedMounts:
+          qbittorrent:
+            gluetun:
+              - path: *gluetunAuthPath
+                subPath: auth.toml
+      dnsdist:
+        type: configMap
+        name: qbittorrent-dnsdist
+        advancedMounts:
+          qbittorrent:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.conf
+                subPath: dnsdist.conf
+                readOnly: true
+      scripts:
+        type: configMap
+        name: qbittorrent-scripts
+        defaultMode: 0775
+        globalMounts:
+          - readOnly: true
+      media:
+        type: nfs
+        server: nfs.servers.internal
+        path: /media
+        globalMounts:
+          - path: /media/downloads/qbittorrent
+            subPath: downloads/qbittorrent
+      addons:
+        type: emptyDir
+        globalMounts:
+          - path: /addons

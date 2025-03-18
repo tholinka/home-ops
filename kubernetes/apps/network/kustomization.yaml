@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: network
+resources:
+  - ./cloudflare-dns/ks.yaml
+  - ./cloudflare-tunnel/ks.yaml
+  - ./echo/ks.yaml
+  - ./pihole/ks.yaml
+  - ./unifi/ks.yaml
+  - ./unifi-dns/ks.yaml
+components:
+  - ../../components/common
+  - ../../components/repos/app-template

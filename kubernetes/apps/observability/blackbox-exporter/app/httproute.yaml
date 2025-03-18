@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: blackbox-exporter
+  annotations:
+    hajimari.io/appName: Blackbox Exporter
+    hajimari.io/icon: mdi:export-variant
+spec:
+  hostnames:
+    - blackbox-exporter.${SECRET_DOMAIN}
+  parentRefs:
+    - name: internal
+      namespace: kube-system
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: blackbox-exporter
+          port: 9115

@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./helmrelease.yaml
+configMapGenerator:
+  - name: coredns-helm-values
+    files:
+      - values.yaml=./helm-values.yaml
+  - name: coredns-dnsdist
+    files:
+      - ./resources/dnsdist.conf
+configurations:
+  - kustomizeconfig.yaml
+generatorOptions:
+  disableNameSuffixHash: true

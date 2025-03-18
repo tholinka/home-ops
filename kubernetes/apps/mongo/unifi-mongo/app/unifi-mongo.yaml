@@ -1,0 +1,67 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: unifi-mongo
+spec:
+  refreshInterval: '1h'
+  secretStoreRef:
+    name: bitwarden
+    kind: ClusterSecretStore
+  target:
+    name: unifi-mongo
+    creationPolicy: Owner
+  data:
+    - secretKey: password
+      remoteRef:
+        key: unifi
+---
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: unifi-mongo
+spec:
+  members: 1
+  type: ReplicaSet
+  # renovate: datasource=docker depName=mongodb/mongodb-community-server
+  version: 8.0.5
+  # this HAS to be upgraded before going to the next major version (e.g. can go from 7->8 with this set to 7, but can't go from 8->9 without changing this to 8)
+  featureCompatibilityVersion: '8.0'
+  security:
+    authentication:
+      modes:
+        - 'SCRAM'
+        - 'SCRAM-SHA-1'
+  users:
+    - name: unifi
+      db: unifi
+      passwordSecretRef:
+        name: unifi-mongo
+        key: password
+      roles:
+        - name: dbOwner
+          db: unifi
+        - name: dbOwner
+          db: unifi_stat
+      scramCredentialsSecretName: unifi-scram
+  additionalMongodConfig:
+    storage.wiredTiger.engineConfig.journalCompressor: zlib
+  statefulSet:
+    spec:
+      volumeClaimTemplates:
+        - metadata:
+            name: data-volume
+          spec:
+            accessModes: ['ReadWriteOnce']
+            storageClassName: ceph-block
+            resources:
+              requests:
+                storage: 1G # we patch this with a mutation policy, so it never gets used
+        - metadata:
+            name: logs-volume
+          spec:
+            accessModes: ['ReadWriteOnce']
+            storageClassName: ceph-block
+            resources:
+              requests:
+                storage: 2G
