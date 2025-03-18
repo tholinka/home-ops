@@ -23,6 +23,87 @@ spec:
       qbittorrent:
         annotations:
           reloader.stakater.com/auto: 'true'
+        initContainers:
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.8
+            restartPolicy: Always
+
+          gluetun:
+            dependsOn:
+              - dnsdist
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
+            env:
+              DOT: 'off'
+              DNS_ADDRESS: 127.0.0.2
+              HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: &gluetunAuthPath /gluetun/auth.toml
+              FIREWALL_INPUT_PORTS: 80,8388,9999 # 80: WebUI, 8388 Socks Proxy, 9999 Kube Probes
+              FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16,10.96.0.0/16 # Allow access to k8s subnets
+              HEALTH_SERVER_ADDRESS: :9999
+              HEALTH_SUCCESS_WAIT_DURATION: 10s
+              VPN_TYPE: wireguard
+              VPN_PORT_FORWARDING: 'on'
+              PORT_FORWARD_ONLY: 'on'
+              VPN_INTERFACE: tun0
+              SERVER_COUNTRIES: 'United States'
+              UPDATER_PERIOD: 24h
+            envFrom:
+              - secretRef:
+                  name: wireguard-secret
+            probes:
+              liveness: &gluetun-probe
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - >-
+                        [ $(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/openvpn/portforwarded) != '{"port":0}' ]
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - >-
+                        wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/publicip/ip
+            lifecycle:
+              postStart:
+                exec:
+                  command:
+                    [
+                      '/bin/sh',
+                      '-c',
+                      '(ip rule del table 51820; ip -6 rule del table 51820) || true',
+                    ]
+            restartPolicy: Always
+            securityContext:
+              # can't be non-root, or it has no access to tunnel
+              runAsNonRoot: false
+              runAsUser: 0
+              runAsGroup: 0
+              capabilities:
+                add:
+                  - NET_ADMIN
+              allowPrivilegeEscalation: false
+            resources:
+              limits:
+                squat.ai/tun: 1
+          # TODO: Replace once gluetun supports socks5, nothing supports shadowsocks
+          socks5:
+            restartPolicy: Always
+            image:
+              repository: serjs/go-socks5-proxy
+              tag: latest@sha256:aad36c623f16850d7cea0171d1aa79d706129191db9e270b6dfd7db6b552c734
+            env:
+              PROXY_PORT: &proxy-port 8388
         containers:
           app:
             image:
@@ -97,88 +178,6 @@ spec:
               capabilities:
                 drop:
                   - ALL
-        initContainers:
-          dnsdist:
-            image:
-              repository: docker.io/powerdns/dnsdist-19
-              tag: 1.9.8
-            restartPolicy: Always
-
-          gluetun:
-            dependsOn:
-              - dnsdist
-            image:
-              repository: ghcr.io/qdm12/gluetun
-              tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
-            env:
-              DOT: 'off'
-              DNS_ADDRESS: 127.0.0.2
-              HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: &gluetunAuthPath /gluetun/auth.toml
-              FIREWALL_INPUT_PORTS: 80,8388,9999 # 80: WebUI, 8388 Socks Proxy, 9999 Kube Probes
-              FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16,10.96.0.0/16 # Allow access to k8s subnets
-              HEALTH_SERVER_ADDRESS: :9999
-              HEALTH_SUCCESS_WAIT_DURATION: 10s
-              VPN_TYPE: wireguard
-              VPN_PORT_FORWARDING: 'on'
-              PORT_FORWARD_ONLY: 'on'
-              VPN_INTERFACE: tun0
-              SERVER_COUNTRIES: 'United States'
-              UPDATER_PERIOD: 24h
-            envFrom:
-              - secretRef:
-                  name: wireguard-secret
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 9999
-                  timeoutSeconds: 10
-                  periodSeconds: 30
-                  failureThreshold: 5
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 9999
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  failureThreshold: 5
-            lifecycle:
-              postStart:
-                exec:
-                  command:
-                    [
-                      '/bin/sh',
-                      '-c',
-                      '(ip rule del table 51820; ip -6 rule del table 51820) || true',
-                    ]
-            restartPolicy: Always
-            securityContext:
-              # can't be non-root, or it has no access to tunnel
-              runAsNonRoot: false
-              runAsUser: 0
-              runAsGroup: 0
-              capabilities:
-                add:
-                  - NET_ADMIN
-              allowPrivilegeEscalation: false
-            resources:
-              limits:
-                squat.ai/tun: 1
-          # TODO: Replace once gluetun supports socks5, nothing supports shadowsocks
-          socks5:
-            restartPolicy: Always
-            image:
-              repository: serjs/go-socks5-proxy
-              tag: latest@sha256:aad36c623f16850d7cea0171d1aa79d706129191db9e270b6dfd7db6b552c734
-            env:
-              PROXY_PORT: &proxy-port 8388
-
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
