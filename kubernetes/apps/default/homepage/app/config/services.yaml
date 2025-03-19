@@ -62,7 +62,7 @@
           type: bazarr
           url: http://bazarr.media.svc.cluster.local.:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
-- Server:
+- Infrastructure:
     - Unifi: # homepage doesn't support TLSRoute
         icon: unifi.svg
         href: https://unifi.${SECRET_DOMAIN}

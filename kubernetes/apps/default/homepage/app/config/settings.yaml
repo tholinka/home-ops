@@ -5,27 +5,23 @@ theme: dark
 color: slate
 headerStyle: clean
 layout:
+  Media:
+    style: row
+    columns: 4
+    icon: mdi-play-circle
   Calendar:
     style: column
     icon: mdi-calendar
-  Media:
-    style: column
-    icon: mdi-play-circle
-  Infrastructure:
-    style: row
-    columns: 3
-    icon: mdi-server
-  Storage:
-    style: row
-    columns: 2
-    icon: mdi-desktop-tower
   Home:
     style: column
     icon: mdi-home-analytics
+  Dev Tools:
+    style: column
+    icon: mdi-desktop-tower
   Observability:
     style: column
     icon: mdi-chart-line
-  Downloads:
+  Infrastructure:
     style: row
-    columns: 3
-    icon: mdi-download-circle
+    columns: 4
+    icon: mdi-server

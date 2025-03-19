@@ -1,6 +1,4 @@
 ---
-#- logo:
-#    icon: https://raw.githubusercontent.com/LilDrunkenSmurf/k3s-home-cluster/main/icons/lds-transparent.png
 - search:
     provider: custom
     url: https://kagi.com/search?q=
@@ -8,13 +6,10 @@
     target: _blank
     suggestionUrl: https://kagi.com/api/autosuggest?q=
     showSearchSuggestions: true
-- greeting:
-    text_size: xl
-    text: Hello.
 - kubernetes:
     cluster:
       cpu: true
-      label: cluster
+      #label: cluster
       memory: true
       show: true
       showLabel: true
@@ -31,7 +26,7 @@
     units: imperial
     cache: 5
 - datetime:
-    text_size: l
+    text_size: x1
     format:
       dateStyle: long
       timeStyle: short
