@@ -3,7 +3,7 @@
     - Home Assistant:
         href: https://ha.${SECRET_DOMAIN}
         icon: home-assistant.png
-        description: Home Assistant
+        #description: Home Assistant
         app: home-assistant
         namespace: default
         widget:
@@ -14,7 +14,7 @@
     - Autobrr:
         icon: autobrr.svg
         href: https://autobrr.${SECRET_DOMAIN}
-        description: Download Automation
+        #description: Download Automation
         app: autobrr
         namespace: media
         widget:
@@ -24,7 +24,7 @@
     - Plex:
         icon: plex.svg
         href: https://plex.${SECRET_DOMAIN}
-        description: Media Server
+        #description: Media Server
         app: plex
         namespace: media
         widget:
@@ -35,7 +35,7 @@
     - Sonarr:
         href: https://sonarr.${SECRET_DOMAIN}
         icon: sonarr.svg
-        description: TV Shows
+        #description: TV Shows
         app: sonarr
         namespace: media
         widget:
@@ -45,7 +45,7 @@
     - Radarr:
         href: https://radarr.${SECRET_DOMAIN}
         icon: radarr.svg
-        description: Movies
+        #description: Movies
         app: radarr
         namespace: media
         widget:
@@ -55,7 +55,7 @@
     - Bazarr:
         icon: bazarr.svg
         href: https://bazarr.${SECRET_DOMAIN}
-        description: Subtitles Management
+        #description: Subtitles Management
         app: bazarr
         namespace: media
         widget:
@@ -66,7 +66,7 @@
     - Unifi: # homepage doesn't support TLSRoute
         icon: unifi.svg
         href: https://unifi.${SECRET_DOMAIN}
-        description: Unifi Network Application
+        #description: Unifi Network Application
         app: unifi
         namespace: network
 
