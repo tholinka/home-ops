@@ -10,6 +10,11 @@
           type: homeassistant
           url: http://home-assistant.default.svc.cluster.local.:8123
           key: '{{HOMEPAGE_VAR_HA_TOKEN}}'
+          custom:
+            - template: "{{ states.person|selectattr('state','equalto','home')|list|length }} / {{ states.person|list|length }}"
+              label: homeassistant.people_home
+            - template: "{{ states.light|selectattr('state','equalto','on')|list|length }} / {{ states.light|list|length }}"
+              label: homeassistant.lights_on
 - Media:
     - Autobrr:
         icon: autobrr.svg
