@@ -50,11 +50,12 @@ spec:
             - name: internal
               namespace: kube-system
               sectionName: https
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Observability
-          gethomepage.dev/name: Alertmanager
-          gethomepage.dev/icon: alertmanager.svg
+          annotations:
+            gethomepage.dev/enabled: 'true'
+            gethomepage.dev/group: Observability
+            gethomepage.dev/name: Alertmanager
+            gethomepage.dev/icon: alertmanager.svg
+            gethomepage.dev/pod-selector: app.kubernetes.io/name=alertmanager
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
@@ -84,12 +85,14 @@ spec:
             - name: internal
               namespace: kube-system
               sectionName: https
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Observability
-          gethomepage.dev/name: Prometheus
-          gethomepage.dev/icon: prometheus.svg
-          gethomepage.dev/widget.type: prometheus
+          annotations:
+            gethomepage.dev/enabled: 'true'
+            gethomepage.dev/group: Observability
+            gethomepage.dev/name: Prometheus
+            gethomepage.dev/icon: prometheus.svg
+            gethomepage.dev/pod-selector: operator.prometheus.io/name=kube-prometheus-stack
+            gethomepage.dev/widget.type: prometheus
+            gethomepage.dev/widget.url: 'http://kube-prometheus-stack-prometheus.observability.svc.cluster.local.:9090'
       prometheusSpec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
