@@ -216,8 +216,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: qBittorrent
-          hajimari.io/icon: simple-icons:qbittorrent
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: qBittorrent
+          gethomepage.dev/icon: qbittorrent.svg
 
     persistence:
       config:

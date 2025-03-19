@@ -64,8 +64,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: IT Tools
-          hajimari.io/icon: mdi:tools
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: IT Tools
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/icon: it-tools.svg
 
     persistence:
       tmp:

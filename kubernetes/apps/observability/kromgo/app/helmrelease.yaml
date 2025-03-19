@@ -81,8 +81,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *serverPort
-        annotations:
-          hajimari.io/enable: 'false'
     persistence:
       config-file:
         type: configMap

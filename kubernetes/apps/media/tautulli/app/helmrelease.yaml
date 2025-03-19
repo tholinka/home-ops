@@ -77,8 +77,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Tautulli
-          hajimari.io/icon: mdi:plex
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Tautulli
+          gethomepage.dev/icon: tautulli.svg
     persistence:
       config:
         existingClaim: tautulli

@@ -82,5 +82,7 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Echo Server
-          hajimari.io/icon: mdi:forum
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/name: Echo Server
+          gethomepage.dev/icon: mdi-forum

@@ -105,8 +105,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Gatus
-          hajimari.io/icon: mdi:list-status
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Observability
+          gethomepage.dev/name: Gatus
+          gethomepage.dev/icon: gatus.svg
     serviceAccount:
       create: true
       name: *app

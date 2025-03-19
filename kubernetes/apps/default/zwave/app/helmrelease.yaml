@@ -83,8 +83,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Z-Wave
-          hajimari.io/icon: mdi:z-wave
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: Z-Wave
+          gethomepage.dev/group: Home
+          gethomepage.dev/icon: z-wave-js-ui.svg
     persistence:
       config:
         existingClaim: zwave

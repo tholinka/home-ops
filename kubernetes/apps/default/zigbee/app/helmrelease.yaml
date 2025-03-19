@@ -99,8 +99,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Zigbee
-          hajimari.io/icon: mdi:zigbee
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: Zigbee
+          gethomepage.dev/group: Home
+          gethomepage.dev/icon: zigbee2mqtt.svg
     persistence:
       config:
         existingClaim: zigbee

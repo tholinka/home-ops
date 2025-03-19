@@ -86,9 +86,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          hajimari.io/appName: sonarr
-          hajimari.io/icon: simple-icons:sonarr
     persistence:
       config:
         existingClaim: sonarr

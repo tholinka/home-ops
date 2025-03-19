@@ -92,9 +92,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          hajimari.io/appName: Bazarr
-          hajimari.io/icon: mdi:subtitles
     persistence:
       config:
         existingClaim: bazarr

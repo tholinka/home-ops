@@ -81,8 +81,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Jellyseerr
-          hajimari.io/icon: mdi:jellyfish
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Jellyseerr
+          gethomepage.dev/icon: jellyseerr.svg
     persistence:
       config:
         existingClaim: jellyseerr

@@ -93,8 +93,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: autobrr
-          hajimari.io/icon: mdi:cloud-download
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Autobrr
+          gethomepage.dev/icon: autobrr.svg
     persistence:
       config:
         existingClaim: autobrr

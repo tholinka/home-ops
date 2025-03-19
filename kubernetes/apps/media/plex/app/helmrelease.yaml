@@ -104,9 +104,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          hajimari.io/appName: Plex
-          hajimari.io/icon: simple-icons:plex
     persistence:
       config:
         existingClaim: plex

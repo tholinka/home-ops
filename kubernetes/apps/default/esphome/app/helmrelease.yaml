@@ -108,8 +108,10 @@ spec:
                     type: ReplacePrefixMatch
                     replacePrefixMatch: /
         annotations:
-          hajimari.io/appName: ESPHome
-          hajimari.io/icon: simple-icons:esphome
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: ESPHome
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/icon: esphome.svg
 
     persistence:
       config:

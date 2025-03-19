@@ -126,9 +126,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Unifi
-          hajimari.io/icon: mdi:router-network
-          hajimari.io/group: servers
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Servers
+          gethomepage.dev/name: Unifi
+          gethomepage.dev/icon: unifi.svg
     persistence:
       config:
         existingClaim: unifi

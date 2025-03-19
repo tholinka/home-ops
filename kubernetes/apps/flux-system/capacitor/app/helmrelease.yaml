@@ -115,6 +115,7 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Capacitor
-          hajimari.io/icon: simple-icons:flux
-          hajimari.io/group: servers
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: Capacitor
+          gethomepage.dev/group: Server
+          gethomepage.dev/icon: flux-cd.svg

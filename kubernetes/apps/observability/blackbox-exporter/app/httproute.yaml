@@ -5,8 +5,11 @@ kind: HTTPRoute
 metadata:
   name: blackbox-exporter
   annotations:
-    hajimari.io/appName: Blackbox Exporter
-    hajimari.io/icon: mdi:export-variant
+    gethomepage.dev/enabled: 'true'
+    gethomepage.dev/group: Observability
+    gethomepage.dev/name: Blackbox Exporter
+    gethomepage.dev/icon: mdi-export-variant
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=prometheus-blackbox-exporter
 spec:
   hostnames:
     - blackbox-exporter.${SECRET_DOMAIN}

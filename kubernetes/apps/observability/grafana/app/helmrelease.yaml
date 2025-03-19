@@ -259,8 +259,10 @@ spec:
             namespace: kube-system
             sectionName: https
         annotations:
-          hajimari.io/appName: Grafana
-          hajimari.io/icon: simple-icons:grafana
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Observability
+          gethomepage.dev/name: Grafana
+          gethomepage.dev/icon: grafana.svg
 
     persistence:
       enabled: false

@@ -106,9 +106,6 @@ spec:
                   path:
                     type: ReplacePrefixMatch
                     replacePrefixMatch: /
-        annotations:
-          hajimari.io/appName: Home Assistant
-          hajimari.io/icon: simple-icons:homeassistant
     serviceMonitor:
       app:
         serviceName: home-assistant

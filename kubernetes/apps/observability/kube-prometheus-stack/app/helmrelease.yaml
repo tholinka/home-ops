@@ -51,8 +51,10 @@ spec:
               namespace: kube-system
               sectionName: https
         annotations:
-          hajimari.io/appName: Alertmanager
-          hajimari.io/icon: mdi:alert-box
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Observability
+          gethomepage.dev/name: Alertmanager
+          gethomepage.dev/icon: alertmanager.svg
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
@@ -83,8 +85,10 @@ spec:
               namespace: kube-system
               sectionName: https
         annotations:
-          hajimari.io/appName: Prometheus
-          hajimari.io/icon: simple-icons:prometheus
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Observability
+          gethomepage.dev/name: Prometheus
+          gethomepage.dev/icon: prometheus.svg
       prometheusSpec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false

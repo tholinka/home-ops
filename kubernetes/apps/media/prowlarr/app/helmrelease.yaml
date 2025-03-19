@@ -86,8 +86,10 @@ spec:
               - name: *app
                 port: *port
         annotations:
-          hajimari.io/appName: Prowlarr
-          hajimari.io/icon: simple-icons:podcastindex
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Prowlarr
+          gethomepage.dev/icon: prowlarr.svg
 
     persistence:
       config:

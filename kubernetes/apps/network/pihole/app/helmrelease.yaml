@@ -209,9 +209,10 @@ spec:
               - name: *app
                 port: *pihole-port
         annotations:
-          hajimari.io/appName: PiHole
-          hajimari.io/icon: mdi:pi-hole
-          hajimari.io/group: servers
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Servers
+          gethomepage.dev/name: PiHole
+          gethomepage.dev/icon: pi-hole.svg
     serviceMonitor:
       pihole:
         serviceName: pihole
