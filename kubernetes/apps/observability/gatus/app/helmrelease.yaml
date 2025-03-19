@@ -95,7 +95,8 @@ spec:
     route:
       app:
         hostnames:
-          - 'status.${SECRET_DOMAIN}'
+          - ${SECRET_DOMAIN:=secret.domain}
+          - status.${SECRET_DOMAIN}
         parentRefs:
           - name: external
             namespace: kube-system
