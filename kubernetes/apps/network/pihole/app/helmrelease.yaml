@@ -126,7 +126,8 @@ spec:
               requests:
                 cpu: 100m
               limits:
-                memory: 256Mi
+                # looking at the query log can spike the memory usage very high
+                memory: 512Mi
           exporter:
             image:
               repository: ekofr/pihole-exporter
