@@ -76,11 +76,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Media
-          gethomepage.dev/name: Tautulli
-          gethomepage.dev/icon: tautulli.svg
     persistence:
       config:
         existingClaim: tautulli

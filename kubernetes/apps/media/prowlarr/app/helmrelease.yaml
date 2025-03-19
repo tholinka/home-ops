@@ -85,11 +85,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Media
-          gethomepage.dev/name: Prowlarr
-          gethomepage.dev/icon: prowlarr.svg
 
     persistence:
       config:

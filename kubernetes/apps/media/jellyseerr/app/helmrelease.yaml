@@ -80,11 +80,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Media
-          gethomepage.dev/name: Jellyseerr
-          gethomepage.dev/icon: jellyseerr.svg
     persistence:
       config:
         existingClaim: jellyseerr

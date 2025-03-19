@@ -92,11 +92,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Media
-          gethomepage.dev/name: SABnzbd
-          gethomepage.dev/icon: sabnzbd.svg
     persistence:
       config:
         existingClaim: sabnzbd
