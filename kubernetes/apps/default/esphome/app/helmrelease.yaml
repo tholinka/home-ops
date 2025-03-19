@@ -112,7 +112,7 @@ spec:
           gethomepage.dev/name: ESPHome
           gethomepage.dev/group: Dev Tools
           gethomepage.dev/icon: esphome.svg
-
+          gethomepage.dev/widget.type: esphome
     persistence:
       config:
         existingClaim: esphome

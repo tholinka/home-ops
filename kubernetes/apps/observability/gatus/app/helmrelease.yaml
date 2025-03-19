@@ -109,6 +109,7 @@ spec:
           gethomepage.dev/group: Observability
           gethomepage.dev/name: Gatus
           gethomepage.dev/icon: gatus.svg
+          gethomepage.dev/widget.type: gatus
     serviceAccount:
       create: true
       name: *app

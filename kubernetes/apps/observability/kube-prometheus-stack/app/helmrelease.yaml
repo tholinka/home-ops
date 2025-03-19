@@ -89,6 +89,7 @@ spec:
           gethomepage.dev/group: Observability
           gethomepage.dev/name: Prometheus
           gethomepage.dev/icon: prometheus.svg
+          gethomepage.dev/widget.type: prometheus
       prometheusSpec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false

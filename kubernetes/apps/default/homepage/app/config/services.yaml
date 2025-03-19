@@ -9,8 +9,16 @@
           url: http://home-assistant.default.svc.cluster.local.:8123
           key: '{{HOMEPAGE_VAR_HA_TOKEN}}'
 - Media:
+    - Autobrr:
+        icon: autobrr.svg
+        href: https://autobrr.${SECRET_DOMAIN}
+        description: Download Automation
+        widget:
+          type: autobrr
+          url: http://autobrr.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_AUTOBRR_TOKEN}}'
     - Plex:
-        icon: plex.png
+        icon: plex.svg
         href: https://plex.${SECRET_DOMAIN}
         description: Media Server
         widget:
@@ -20,7 +28,7 @@
           enableNowPlaying: true
     - Sonarr:
         href: https://sonarr.${SECRET_DOMAIN}
-        icon: sonarr.png
+        icon: sonarr.svg
         description: TV Shows
         widget:
           type: sonarr
@@ -28,14 +36,14 @@
           key: '{{HOMEPAGE_VAR_SONARR_TOKEN}}'
     - Radarr:
         href: https://radarr.${SECRET_DOMAIN}
-        icon: radarr.png
+        icon: radarr.svg
         description: Movies
         widget:
           type: radarr
           url: http://radarr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_RADARR_TOKEN}}'
     - Bazarr:
-        icon: bazarr.png
+        icon: bazarr.svg
         href: https://bazarr.${SECRET_DOMAIN}
         description: Subtitles Management
         widget:
@@ -49,9 +57,9 @@
           view: agenda # optional - possible values monthly, agenda
           maxEvents: 5 # optional - defaults to 10
           integrations: # optional
-            - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
+            - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr, lidarr, readarr, ical
               service_group: Media # group name where widget exists
               service_name: Sonarr # service name for that widget
-            - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
+            - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr, lidarr, readarr, ical
               service_group: Media # group name where widget exists
               service_name: Radarr # service name for that widget
