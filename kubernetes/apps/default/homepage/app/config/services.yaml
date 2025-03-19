@@ -90,17 +90,6 @@
           type: bazarr
           url: http://bazarr.media.svc.cluster.local.:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
-    - qBittorrent:
-        icon: qbittorrent.svg
-        href: https://qb.${SECRET_DOMAIN}
-        app: qbittorrent
-        namespace: media
-        widget:
-          type: qbittorrent
-          url: http://qbittorrent.media.svc.cluster.local.:80
-          username: '{{HOMEPAGE_VAR_QBITTORRENT_USER}}'
-          password: '{{HOMEPAGE_VAR_QBITTORRENT_PASS}}'
-          enableLeechProgress: true # optional, defaults to false
     - SABnzbd:
         icon: sabnzbd.svg
         href: https://sab.${SECRET_DOMAIN}
@@ -110,6 +99,17 @@
           type: sabnzbd
           url: http://sabnzbd.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_SABNZBD_TOKEN}}'
+    - qBittorrent:
+        icon: qbittorrent.svg
+        href: https://qb.${SECRET_DOMAIN}
+        app: qbittorrent
+        namespace: media
+        # widget: # doesn't properly escape the password it seems, so it fails
+        #   type: qbittorrent
+        #   url: http://qbittorrent.media.svc.cluster.local.:80
+        #   username: '{{HOMEPAGE_VAR_QBITTORRENT_USER}}'
+        #   password: '{{HOMEPAGE_VAR_QBITTORRENT_PASS}}'
+        #   enableLeechProgress: true # optional, defaults to false
 - Infrastructure:
     - Unifi: # homepage doesn't support TLSRoute. Container doesn't have tls stuff installed, so it can't connect over https to unifi
         icon: unifi.svg
