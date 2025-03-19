@@ -95,7 +95,6 @@ spec:
     route:
       app:
         hostnames:
-          - ${SECRET_DOMAIN:=secret.domain}
           - status.${SECRET_DOMAIN}
         parentRefs:
           - name: external
