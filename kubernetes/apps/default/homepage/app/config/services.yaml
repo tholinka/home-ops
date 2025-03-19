@@ -1,9 +1,11 @@
 ---
 - Home:
-    - HomeAssistant:
+    - Home Assistant:
         href: https://ha.${SECRET_DOMAIN}
         icon: home-assistant.png
         description: Home Assistant
+        app: home-assistant
+        namespace: default
         widget:
           type: homeassistant
           url: http://home-assistant.default.svc.cluster.local.:8123
@@ -13,6 +15,8 @@
         icon: autobrr.svg
         href: https://autobrr.${SECRET_DOMAIN}
         description: Download Automation
+        app: autobrr
+        namespace: media
         widget:
           type: autobrr
           url: http://autobrr.media.svc.cluster.local.:80
@@ -21,6 +25,8 @@
         icon: plex.svg
         href: https://plex.${SECRET_DOMAIN}
         description: Media Server
+        app: plex
+        namespace: media
         widget:
           type: plex
           url: http://plex.media.svc.cluster.local.:32400
@@ -30,6 +36,8 @@
         href: https://sonarr.${SECRET_DOMAIN}
         icon: sonarr.svg
         description: TV Shows
+        app: sonarr
+        namespace: media
         widget:
           type: sonarr
           url: http://sonarr.media.svc.cluster.local.:80
@@ -38,6 +46,8 @@
         href: https://radarr.${SECRET_DOMAIN}
         icon: radarr.svg
         description: Movies
+        app: radarr
+        namespace: media
         widget:
           type: radarr
           url: http://radarr.media.svc.cluster.local.:80
@@ -46,10 +56,20 @@
         icon: bazarr.svg
         href: https://bazarr.${SECRET_DOMAIN}
         description: Subtitles Management
+        app: bazarr
+        namespace: media
         widget:
           type: bazarr
           url: http://bazarr.media.svc.cluster.local.:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
+- Server:
+    - Unifi: # homepage doesn't support TLSRoute
+        icon: unifi.svg
+        href: https://unifi.${SECRET_DOMAIN}
+        description: Unifi Network Application
+        app: unifi
+        namespace: network
+
 - Calendar:
     - Agenda:
         widget:

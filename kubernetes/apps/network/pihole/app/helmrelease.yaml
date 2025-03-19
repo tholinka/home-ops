@@ -210,8 +210,8 @@ spec:
                 port: *pihole-port
         annotations:
           gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Servers
-          gethomepage.dev/name: PiHole
+          gethomepage.dev/group: Server
+          gethomepage.dev/name: Pi-Hole
           gethomepage.dev/icon: pi-hole.svg
     serviceMonitor:
       pihole:

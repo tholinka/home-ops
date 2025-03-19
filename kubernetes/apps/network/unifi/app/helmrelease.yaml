@@ -125,11 +125,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Servers
-          gethomepage.dev/name: Unifi
-          gethomepage.dev/icon: unifi.svg
     persistence:
       config:
         existingClaim: unifi
