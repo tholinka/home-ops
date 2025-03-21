@@ -21,7 +21,7 @@ spec:
         - outdoor.air.iot.internal
         - living.air.iot.internal
 
-        - one.plugs.iot.internal
-        - two.plugs.iot.internal
-        - three.plugs.iot.internal
-        - four.plugs.iot.internal
+        - fridge.plugs.iot.internal
+        - dehumidifier.plugs.iot.internal
+        - cluster.plugs.iot.internal
+        - freezer.plugs.iot.internal
