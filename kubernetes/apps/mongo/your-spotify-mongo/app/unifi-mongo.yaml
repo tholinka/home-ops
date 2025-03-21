@@ -2,7 +2,7 @@
 apiVersion: mongodbcommunity.mongodb.com/v1
 kind: MongoDBCommunity
 metadata:
-  name: unifi-mongo
+  name: your-spotify-mongo
 spec:
   members: 1
   type: ReplicaSet
@@ -16,17 +16,15 @@ spec:
         - 'SCRAM'
         - 'SCRAM-SHA-1'
   users:
-    - name: unifi
-      db: unifi
+    - name: your-spotify
+      db: your-spotify
       passwordSecretRef:
-        name: unifi-mongo
+        name: your-spotify-mongo
         key: password
       roles:
         - name: dbOwner
-          db: unifi
-        - name: dbOwner
-          db: unifi_stat
-      scramCredentialsSecretName: unifi-scram
+          db: your-spotify
+      scramCredentialsSecretName: your-spotify-scram
   additionalMongodConfig:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
   statefulSet:

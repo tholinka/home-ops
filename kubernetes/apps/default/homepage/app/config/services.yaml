@@ -85,6 +85,24 @@
           type: radarr
           url: http://radarr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_RADARR_TOKEN}}'
+    - Readarr:
+        href: https://readarr.${SECRET_DOMAIN}
+        icon: readarr.svg
+        app: readarr
+        namespace: media
+        widget:
+          type: readarr
+          url: http://readarr.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_READARR_TOKEN}}'
+    - Kavita:
+        href: https://kavita.${SECRET_DOMAIN}
+        icon: kavita.svg
+        app: kavita
+        namespace: media
+        widget:
+          type: kavita
+          url: http://kavita.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_KAVITA_TOKEN}}'
     - Bazarr:
         icon: bazarr.svg
         href: https://bazarr.${SECRET_DOMAIN}
