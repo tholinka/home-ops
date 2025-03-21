@@ -77,3 +77,17 @@ spec:
             - name: fstype
               value: btrfs
               isRegex: false
+      - apiVersion: monitoring.giantswarm.io/v1alpha1
+        kind: Silence
+        metadata:
+          # this fires all the time, but CPU is fine on the nodes? not sure what it's actually suppose to be monitoring, and the rulebook link 404's
+          name: no-node-system-saturaton
+          namespace: observability
+        spec:
+          matchers:
+            - name: alertname
+              value: NodeSystemSaturation
+              isRegex: true
+            - name: job
+              value: node-exporter
+              isRegex: false
