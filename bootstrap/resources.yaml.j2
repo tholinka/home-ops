@@ -18,6 +18,26 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
+  name: {{ ENV['cluster-secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}-tls
+  namespace: kube-system
+  annotations:
+    cert-manager.io/alt-names: "*.{{ ENV['cluster-secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }},{{ ENV['cluster-secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }}"
+    cert-manager.io/certificate-name: {{ ENV['cluster-secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}
+    cert-manager.io/common-name: {{ ENV['cluster-secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }}
+    cert-manager.io/ip-sans: ""
+    cert-manager.io/issuer-group: ""
+    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-name: letsencrypt
+    cert-manager.io/uri-sans: ""
+  labels:
+    controller.cert-manager.io/fao: "true"
+type: kubernetes.io/tls
+# this get saved as json, but yaml is a super-set of json so we can just directly import it :)
+data: {{ ENV['lets-encrypt-tls'] | safe}}
+---
+apiVersion: v1
+kind: Secret
+metadata:
   name: cluster-secrets
   namespace: flux-system
   annotations:
