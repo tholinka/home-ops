@@ -110,8 +110,3 @@ spec:
             backendRefs:
               - name: web
                 port: *webport
-        annotations:
-          gethomepage.dev/enabled: 'true'
-          gethomepage.dev/name: Your Spotify
-          gethomepage.dev/group: Media
-          gethomepage.dev/icon: your-spotify.svg

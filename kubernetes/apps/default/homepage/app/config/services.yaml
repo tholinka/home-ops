@@ -133,6 +133,11 @@
         #   username: '{{HOMEPAGE_VAR_QBITTORRENT_USER}}'
         #   password: '{{HOMEPAGE_VAR_QBITTORRENT_PASS}}'
         #   enableLeechProgress: true # optional, defaults to false
+    - Your Spotify:
+        icon: your-spotify.svg
+        href: https://ys.${SECRET_DOMAIN}
+        app: your-spotify
+        namespace: media
 - Infrastructure:
     - Unifi: # homepage doesn't support TLSRoute. Container doesn't have tls stuff installed, so it can't connect over https to unifi
         icon: unifi.svg
