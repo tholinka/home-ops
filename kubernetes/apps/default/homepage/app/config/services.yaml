@@ -37,14 +37,14 @@
           type: bazarr
           url: http://bazarr.media.svc.cluster.local.:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
-    - Calibre:
+    - Calibre Web Automated:
         icon: calibre-web.svg
         href: https://calibre.${SECRET_DOMAIN}
         app: calibre-web-automated
         namespace: media
         widget:
           type: calibreweb
-          url: http://calibre.media.svc.cluster.local.:80
+          url: http://calibre-web-automated.media.svc.cluster.local.:8083
           username: '{{HOMEPAGE_VAR_CALIBRE_USER}}'
           password: '{{HOMEPAGE_VAR_CALIBRE_PASS}}'
     - Jellyseerr:
@@ -63,7 +63,7 @@
         namespace: media
         widget:
           type: kavita
-          url: http://kavita.media.svc.cluster.local.:80
+          url: http://kavita.media.svc.cluster.local.:5000
           key: '{{HOMEPAGE_VAR_KAVITA_TOKEN}}'
     - Plex:
         icon: plex.svg
