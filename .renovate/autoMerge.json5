@@ -35,21 +35,6 @@
 			ignoreTests: false,
 		},
 		{
-			description: "Auto-merge GitHub Actions",
-			matchManagers: [
-				"github-actions"
-			],
-			automerge: true,
-			automergeType: "branch",
-			matchUpdateTypes: [
-				"minor",
-				"patch",
-				"digest"
-			],
-			minimumReleaseAge: "3 days",
-			ignoreTests: true,
-		},
-		{
 			description: "Auto-merge GitHub Releases",
 			matchDatasources: [
 				"github-releases"

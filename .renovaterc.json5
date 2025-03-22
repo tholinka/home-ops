@@ -1,27 +1,10 @@
 {
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
 	extends: [
-		"config:recommended",
-		"docker:enableMajor",
-		"helpers:pinGitHubActionDigests",
+		"github>tholinka/renovate-config",
 		"github>tholinka/home-ops//.renovate/autoMerge.json5",
-		"github>tholinka/home-ops//.renovate/customManagers.json5",
 		"github>tholinka/home-ops//.renovate/grafanaDashboards.json5",
 		"github>tholinka/home-ops//.renovate/groups.json5",
-		"github>tholinka/home-ops//.renovate/labels.json5",
-		"github>tholinka/home-ops//.renovate/semanticCommits.json5",
-		"mergeConfidence:all-badges",
-		":enablePreCommit",
-		":automergeBranch",
-		":disableRateLimiting",
-		":dependencyDashboard",
-		":semanticCommits",
-		":timezone(America/Chicago)"
-	],
-	dependencyDashboardTitle: "Renovate Dashboard 🤖",
-	suppressNotifications: [
-		"prEditedNotification",
-		"prIgnoreNotification",
 	],
 	ignorePaths: [
 		"**/*.sops.*",
