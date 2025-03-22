@@ -15,6 +15,7 @@
               label: homeassistant.people_home
             - template: "{{ states.light|selectattr('state','equalto','on')|list|length }} / {{ states.light|list|length }}"
               label: homeassistant.lights_on
+
 - Media:
     - Autobrr:
         icon: autobrr.svg
@@ -26,6 +27,26 @@
           type: autobrr
           url: http://autobrr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_AUTOBRR_TOKEN}}'
+    - Bazarr:
+        icon: bazarr.svg
+        href: https://bazarr.${SECRET_DOMAIN}
+        #description: Subtitles Management
+        app: bazarr
+        namespace: media
+        widget:
+          type: bazarr
+          url: http://bazarr.media.svc.cluster.local.:6767
+          key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
+    - Calibre:
+        icon: calibre-web.svg
+        href: https://calibre.${SECRET_DOMAIN}
+        app: calibre-web-automated
+        namespace: media
+        widget:
+          type: calibreweb
+          url: http://calibre.media.svc.cluster.local.:80
+          username: '{{HOMEPAGE_VAR_CALIBRE_USER}}'
+          password: '{{HOMEPAGE_VAR_CALIBRE_PASS}}'
     - Jellyseerr:
         icon: jellyseerr.svg
         href: https://requests.${SECRET_DOMAIN}
@@ -35,25 +56,15 @@
           type: jellyseerr
           url: http://jellyseerr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_JELLYSEERR_TOKEN}}'
-    - Prowlarr:
-        icon: prowlarr.svg
-        href: https://prowlarr.${SECRET_DOMAIN}
-        app: prowlarr
+    - Kavita:
+        href: https://kavita.${SECRET_DOMAIN}
+        icon: kavita.svg
+        app: kavita
         namespace: media
         widget:
-          type: prowlarr
-          url: http://prowlarr.media.svc.cluster.local.:80
-          key: '{{HOMEPAGE_VAR_PROWLARR_TOKEN}}'
-    - Tautulli:
-        icon: tautulli.svg
-        href: https://tautulli.${SECRET_DOMAIN}
-        app: plex
-        namespace: media
-        widget:
-          type: tautulli
-          url: http://tautulli.media.svc.cluster.local.:80
-          key: '{{HOMEPAGE_VAR_TAUTULLI_TOKEN}}'
-          enableNowPlaying: true
+          type: kavita
+          url: http://kavita.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_KAVITA_TOKEN}}'
     - Plex:
         icon: plex.svg
         href: https://plex.${SECRET_DOMAIN}
@@ -65,16 +76,15 @@
           url: http://plex.media.svc.cluster.local.:32400
           key: '{{HOMEPAGE_VAR_PLEX_TOKEN}}'
           enableNowPlaying: true
-    - Sonarr:
-        href: https://sonarr.${SECRET_DOMAIN}
-        icon: sonarr.svg
-        #description: TV Shows
-        app: sonarr
+    - Prowlarr:
+        icon: prowlarr.svg
+        href: https://prowlarr.${SECRET_DOMAIN}
+        app: prowlarr
         namespace: media
         widget:
-          type: sonarr
-          url: http://sonarr.media.svc.cluster.local.:80
-          key: '{{HOMEPAGE_VAR_SONARR_TOKEN}}'
+          type: prowlarr
+          url: http://prowlarr.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_PROWLARR_TOKEN}}'
     - Radarr:
         href: https://radarr.${SECRET_DOMAIN}
         icon: radarr.svg
@@ -94,25 +104,6 @@
           type: readarr
           url: http://readarr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_READARR_TOKEN}}'
-    - Kavita:
-        href: https://kavita.${SECRET_DOMAIN}
-        icon: kavita.svg
-        app: kavita
-        namespace: media
-        widget:
-          type: kavita
-          url: http://kavita.media.svc.cluster.local.:80
-          key: '{{HOMEPAGE_VAR_KAVITA_TOKEN}}'
-    - Bazarr:
-        icon: bazarr.svg
-        href: https://bazarr.${SECRET_DOMAIN}
-        #description: Subtitles Management
-        app: bazarr
-        namespace: media
-        widget:
-          type: bazarr
-          url: http://bazarr.media.svc.cluster.local.:6767
-          key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
     - SABnzbd:
         icon: sabnzbd.svg
         href: https://sab.${SECRET_DOMAIN}
@@ -122,6 +113,32 @@
           type: sabnzbd
           url: http://sabnzbd.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_SABNZBD_TOKEN}}'
+    - Sonarr:
+        href: https://sonarr.${SECRET_DOMAIN}
+        icon: sonarr.svg
+        #description: TV Shows
+        app: sonarr
+        namespace: media
+        widget:
+          type: sonarr
+          url: http://sonarr.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_SONARR_TOKEN}}'
+    - Tautulli:
+        icon: tautulli.svg
+        href: https://tautulli.${SECRET_DOMAIN}
+        app: plex
+        namespace: media
+        widget:
+          type: tautulli
+          url: http://tautulli.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_TAUTULLI_TOKEN}}'
+          enableNowPlaying: true
+    ### no widgets at bottom of list
+    - Maintainerr:
+        href: https://maintainerr.${SECRET_DOMAIN}
+        icon: maintainerr.svg
+        app: maintainerr
+        namespace: media
     - qBittorrent:
         icon: qbittorrent.svg
         href: https://qb.${SECRET_DOMAIN}
@@ -133,11 +150,17 @@
         #   username: '{{HOMEPAGE_VAR_QBITTORRENT_USER}}'
         #   password: '{{HOMEPAGE_VAR_QBITTORRENT_PASS}}'
         #   enableLeechProgress: true # optional, defaults to false
+    - Wizarr:
+        icon: wizarr.svg
+        href: https://join.${SECRET_DOMAIN}
+        app: wizarr
+        namespace: media
     - Your Spotify:
         icon: your-spotify.svg
         href: https://ys.${SECRET_DOMAIN}
         app: your-spotify
         namespace: media
+
 - Infrastructure:
     - Unifi: # homepage doesn't support TLSRoute. Container doesn't have tls stuff installed, so it can't connect over https to unifi
         icon: unifi.svg
