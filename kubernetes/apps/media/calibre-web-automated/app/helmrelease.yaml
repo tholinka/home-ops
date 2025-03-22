@@ -87,22 +87,20 @@ spec:
             subPath: config
           - path: /calibre-library
             subPath: library
-          - path: /cwa-book-ingest
-            subPath: downloads
       data-cache:
         existingClaim: calibre-web-automated-cache
         globalMounts:
           - path: /cache
 
-      # because of the s9 weirdness, mounting the nfs directly gives permission denied errors
-      # couple other people on kubesearch do a custom storage class for this
-      # but for now, just use the volsync'd volume instead
-      # media:
-      #   type: nfs
-      #   server: nas.servers.internal
-      #   path: /media
-      #   globalMounts:
-      #     - path: /calibre-library
-      #       subPath: books
-      #     - path: /cwa-book-ingest
-      #       subPath: downloads/openbooks
+      media:
+        type: nfs
+        server: nas.servers.internal
+        path: /media
+        globalMounts:
+          # because of the s9 weirdness, mounting the nfs directly gives permission denied errors
+          # couple other people on kubesearch do a custom storage class for this
+          # but for now, just use the volsync'd volume instead
+          #- path: /calibre-library
+          #  subPath: books
+          - path: /cwa-book-ingest
+            subPath: downloads/openbooks
