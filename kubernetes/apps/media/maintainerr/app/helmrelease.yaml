@@ -37,7 +37,7 @@ spec:
                   periodSeconds: 5
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              #readOnlyRootFilesystem: true # causes __PATH_PREFIX___ to be in the url
               capabilities: { drop: ['ALL'] }
             resources:
               requests:
@@ -82,5 +82,3 @@ spec:
         existingClaim: maintainerr-cache
         globalMounts:
           - path: /opt/app/ui/.next/cache
-      tmp:
-        type: emptyDir
