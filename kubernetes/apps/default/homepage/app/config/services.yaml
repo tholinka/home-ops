@@ -134,6 +134,11 @@
           key: '{{HOMEPAGE_VAR_TAUTULLI_TOKEN}}'
           enableNowPlaying: true
     ### no widgets at bottom of list
+    - Calibre Web Automated Book Downloader:
+        href: https://calibre-downloader.${SECRET_DOMAIN}
+        icon: calibre.svg
+        app: calibre-downloader
+        namespace: media
     - Maintainerr:
         href: https://maintainerr.${SECRET_DOMAIN}
         icon: maintainerr.svg
