@@ -11,6 +11,7 @@ vars:
   TALHELPER_DIR: '{{.ROOT_DIR}}/talos'
   TALOSCONFIG: '{{.ROOT_DIR}}/talos/clusterconfig/talosconfig'
   BOOTSTRAP_DIR: '{{.ROOT_DIR}}/bootstrap'
+  SCRIPTS_DIR: '{{.ROOT_DIR}}/scripts'
 
 env:
   KUBECONFIG: '{{.ROOT_DIR}}/kubeconfig'
