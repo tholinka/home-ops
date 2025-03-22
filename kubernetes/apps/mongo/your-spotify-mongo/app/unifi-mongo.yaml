@@ -29,6 +29,13 @@ spec:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
   statefulSet:
     spec:
+      template:
+        spec:
+          containers:
+            - name: mongod
+              resources:
+                limits:
+                  memory: 2Gi # importing can use a lot of memory
       volumeClaimTemplates:
         - metadata:
             name: data-volume
