@@ -71,7 +71,7 @@ spec:
         hostnames:
           - calibre.${SECRET_DOMAIN}
         parentRefs:
-          - name: internal
+          - name: external
             namespace: kube-system
             sectionName: https
         rules:
@@ -92,7 +92,7 @@ spec:
         type: nfs
         server: nas.servers.internal
         path: /media
-        globalMounts: # needs to be set to nobody:nobody perms, because of the weird stuff s6 does
+        globalMounts: # needs to be set to nobody:nobody perms on setup of a fresh volume, because of the weird stuff s6 does, then set it to 1000:1000
           - path: /calibre-library
             subPath: books
           - path: /cwa-book-ingest
