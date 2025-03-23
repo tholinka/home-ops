@@ -94,6 +94,14 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+          - name: grafana-dashboards-kubernetes
+            orgId: 1
+            folder: 'Kubernetes'
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
     dashboards:
       default:
         ceph-cluster:
@@ -227,6 +235,31 @@ spec:
           gnetId: 15587
           revision: 1
           datasource: Loki
+      grafana-dashboards-kubernetes:
+        k8s-system-api-server:
+          # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.1/dashboards/k8s-system-api-server.json
+          token: ''
+        k8s-system-coredns:
+          # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.1/dashboards/k8s-system-coredns.json
+          token: ''
+        k8s-views-global:
+          # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.1/dashboards/k8s-views-global.json
+          token: ''
+        k8s-views-namespaces:
+          # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.1/dashboards/k8s-views-namespaces.json
+          token: ''
+        k8s-views-nodes:
+          # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.1/dashboards/k8s-views-nodes.json
+          token: ''
+        k8s-views-pods:
+          # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.1/dashboards/k8s-views-pods.json
+          token: ''
     sidecar:
       dashboards:
         enabled: true
