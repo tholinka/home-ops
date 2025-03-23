@@ -1,8 +1,9 @@
 ---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/mongodbcommunity.mongodb.com/mongodbcommunity_v1.json
 apiVersion: mongodbcommunity.mongodb.com/v1
 kind: MongoDBCommunity
 metadata:
-  name: your-spotify-mongo
+  name: &app your-spotify-mongo
 spec:
   members: 1
   type: ReplicaSet
@@ -19,7 +20,7 @@ spec:
     - name: your-spotify
       db: your-spotify
       passwordSecretRef:
-        name: your-spotify-mongo
+        name: *app
         key: password
       roles:
         - name: dbOwner
@@ -53,3 +54,8 @@ spec:
             resources:
               requests:
                 storage: 2G
+  prometheus:
+    username: prom-user
+    passwordSecretRef:
+      name: *app
+      key: prom-password

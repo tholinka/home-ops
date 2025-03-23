@@ -1,0 +1,35 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: &app your-spotify-mongo
+spec:
+  endpoints:
+    - basicAuth:
+        password:
+          key: prom-password
+          name: *app
+        username:
+          key: prom-username
+          name: *app
+
+      # This port matches what we created in our MongoDB Service.
+      port: prometheus
+
+      # If using HTTPS enabled endpoint, change scheme to https
+      scheme: http
+
+      # Configure different TLS related settings. For more information, see:
+      # https://github.com/prometheus-operator/prometheus-operator/blob/main/pkg/apis/monitoring/v1/types.go#L909
+      # tlsConfig:
+      #    insecureSkipVerify: true
+
+  # What namespace to watch
+  namespaceSelector:
+    matchNames:
+      - mongo
+
+  # Service labels to match
+  selector:
+    matchLabels:
+      app: your-spotify-mongo-svc

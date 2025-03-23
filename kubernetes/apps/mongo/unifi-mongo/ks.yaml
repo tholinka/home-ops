@@ -31,3 +31,13 @@ spec:
     substitute:
       APP: data-volume-unifi-mongo-0 # volsync creates the statefulset pvc
       VOLSYNC_CAPACITY: 5Gi
+  healthChecks:
+    - apiVersion: mongodbcommunity.mongodb.com/v1
+      kind: MongoDBCommunity
+      name: *app
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: mongodbcommunity.mongodb.com/v1
+      kind: MongoDBCommunity
+      failed: status.phase == 'Failed'
+      current: status.phase == 'Running'
