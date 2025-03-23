@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cloudflare-dns
+    - name: cloudflare-external-dns
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   prune: true
   sourceRef:
