@@ -11,7 +11,7 @@ spec:
     operation: copy
   ref:
     tag: 0.12.0
-  url: oci://ghcr.io/tholinka/charts-mirror/community-operator
+  url: oci://ghcr.io/home-operations/charts-mirror/community-operator
   verify:
     provider: cosign
 ---
