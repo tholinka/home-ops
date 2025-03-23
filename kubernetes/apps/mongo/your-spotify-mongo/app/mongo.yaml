@@ -2,7 +2,7 @@
 apiVersion: mongodbcommunity.mongodb.com/v1
 kind: MongoDBCommunity
 metadata:
-  name: unifi-mongo
+  name: your-spotify-mongo
 spec:
   members: 1
   type: ReplicaSet
@@ -16,21 +16,26 @@ spec:
         - 'SCRAM'
         - 'SCRAM-SHA-1'
   users:
-    - name: unifi
-      db: unifi
+    - name: your-spotify
+      db: your-spotify
       passwordSecretRef:
-        name: unifi-mongo
+        name: your-spotify-mongo
         key: password
       roles:
         - name: dbOwner
-          db: unifi
-        - name: dbOwner
-          db: unifi_stat
-      scramCredentialsSecretName: unifi-scram
+          db: your-spotify
+      scramCredentialsSecretName: your-spotify-scram
   additionalMongodConfig:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
   statefulSet:
     spec:
+      template:
+        spec:
+          containers:
+            - name: mongod
+              resources:
+                limits:
+                  memory: 2Gi # importing can use a lot of memory
       volumeClaimTemplates:
         - metadata:
             name: data-volume
@@ -39,7 +44,7 @@ spec:
             storageClassName: ceph-block
             resources:
               requests:
-                storage: 1G # we patch this with a mutation policy, so it never gets used
+                storage: 5G # this gets created by volsync, so it never gets used
         - metadata:
             name: logs-volume
           spec:

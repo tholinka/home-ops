@@ -22,6 +22,7 @@ tasks:
     preconditions:
       - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
       - which flux kubectl
+      - test -f {{.KUBECONFIG}}
 
   unlock:
     desc: Unlock all restic source repos
@@ -33,6 +34,7 @@ tasks:
         sh: kubectl get replicationsources --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
     preconditions:
       - which kubectl
+      - test -f {{.KUBECONFIG}}
 
   snapshot:
     desc: Snapshot an app [NS=default] [APP=required]
@@ -48,6 +50,7 @@ tasks:
     preconditions:
       - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
       - which kubectl
+      - test -f {{.KUBECONFIG}}
 
   restore:
     desc: Restore an app [NS=default] [APP=required] [PREVIOUS=required]
@@ -90,6 +93,7 @@ tasks:
     preconditions:
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2
       - which flux kubectl minijinja-cli
+      - test -f {{.KUBECONFIG}}
 
   unlock-local:
     desc: Unlock a restic source repo from local machine [NS=default] [APP=required]
@@ -109,3 +113,4 @@ tasks:
     preconditions:
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2
       - which kubectl minijinja-cli stern
+      - test -f {{.KUBECONFIG}}

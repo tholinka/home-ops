@@ -29,5 +29,5 @@ spec:
       namespace: mongo
   postBuild:
     substitute:
-      APP: *app
+      APP: data-volume-your-spotify-mongo-0 # volsync creates the statefulset pvc
       VOLSYNC_CAPACITY: 5Gi
