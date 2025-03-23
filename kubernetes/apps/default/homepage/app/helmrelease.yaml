@@ -30,7 +30,7 @@ spec:
               repository: ghcr.io/gethomepage/homepage
               tag: v1.0.4@sha256:78a34acb9ca1e63eecf12919fc9fb6c91f5dea748395172d7c1904db4c5bc973
             env:
-              HOMEPAGE_ALLOWED_HOSTS: '${SECRET_DOMAIN},{{ .Release.Name }}.${SECRET_DOMAIN}'
+              HOMEPAGE_ALLOWED_HOSTS: '${SECRET_DOMAIN:=test},{{ .Release.Name }}.${SECRET_DOMAIN}'
             envFrom:
               - secretRef:
                   name: homepage-secret
@@ -123,7 +123,7 @@ spec:
       app:
         hostnames:
           - '{{ .Release.Name }}.${SECRET_DOMAIN}'
-          - '${SECRET_DOMAIN}'
+          - '${SECRET_DOMAIN:=test}'
         parentRefs:
           - name: internal
             namespace: kube-system
