@@ -10,8 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: storage-ready
+      namespace: flux-system
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/observability/gatus/app

@@ -12,8 +12,8 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
+    - name: storage-ready
+      namespace: flux-system
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/media/cross-seed/app

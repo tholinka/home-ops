@@ -13,6 +13,9 @@ spec:
   retryInterval: 2m
   path: ./kubernetes/apps/emqx/emqx/app
   prune: true
+  dependsOn:
+    - name: crds-ready
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system

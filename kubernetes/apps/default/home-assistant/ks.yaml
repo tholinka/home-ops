@@ -13,10 +13,8 @@ spec:
     - ../../../../components/gatus/external
     - ../../../../components/volsync
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: storage-ready
+      namespace: flux-system
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/default/home-assistant/app

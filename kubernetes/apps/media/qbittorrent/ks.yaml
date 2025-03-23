@@ -13,10 +13,8 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/volsync
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: storage-ready
+      namespace: flux-system
     - name: generic-device-plugin
       namespace: system
   interval: 1h

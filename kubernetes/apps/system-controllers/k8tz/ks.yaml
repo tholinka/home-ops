@@ -21,5 +21,5 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: cert-manager
-      namespace: cert-manager
+    - name: crds-ready
+      namespace: flux-system

@@ -13,12 +13,10 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/volsync
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
     - name: generic-device-plugin
       namespace: system
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: storage-ready
+      namespace: flux-system
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/default/zwave/app

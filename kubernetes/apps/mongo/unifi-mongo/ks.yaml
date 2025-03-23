@@ -23,12 +23,10 @@ spec:
   components:
     - ../../../../components/volsync
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
+    - name: storage-ready
+      namespace: flux-system
     - name: mongo
       namespace: mongo
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
   postBuild:
     substitute:
       APP: *app
