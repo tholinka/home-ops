@@ -11,7 +11,7 @@ resources:
   - ./irqbalance/ks.yaml
   - ./node-feature-discovery/ks.yaml
   - ./reloader/ks.yaml
-  - ./replicator/ks.yaml
+  - ./reflector/ks.yaml
   - ./spegel/ks.yaml
 components:
   - ../../components/common
