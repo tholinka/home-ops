@@ -1,13 +1,19 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrepository-source-v1.json
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+# yaml-language-server: $schema=https://schemas.tholinka.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
 metadata:
-  name: mongodb
-  namespace: mongo # Required for Renovate lookups
+  name: mongodb-community-operator
 spec:
   interval: 1h
-  url: https://mongodb.github.io/helm-charts
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.12.0
+  url: oci://ghcr.io/tholinka/charts-mirror/community-operator
+  verify:
+    provider: cosign
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -16,14 +22,9 @@ metadata:
   name: mongo
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: community-operator
-      version: 0.12.0
-      sourceRef:
-        kind: HelmRepository
-        name: mongodb
-        namespace: mongo
+  chartRef:
+    kind: OCIRepository
+    name: mongodb-community-operator
   install:
     remediation:
       retries: 3
