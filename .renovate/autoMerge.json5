@@ -7,7 +7,7 @@
 				"docker"
 			],
 			automerge: true,
-			automergeType: "branch",
+			automergeType: "pr",
 			matchUpdateTypes: [
 				"digest"
 			],
@@ -16,7 +16,7 @@
 				"/tholinka/",
 				"/home-operations/"
 			],
-			ignoreTests: true,
+			ignoreTests: false,
 		},
 		{
 			description: "Auto-merge Chart Releases",
