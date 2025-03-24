@@ -55,7 +55,7 @@ spec:
           dnscrypt-proxy:
             image:
               repository: ghcr.io/klutchell/dnscrypt-proxy
-              tag: main@sha256:f029e2f726044ae38425d05a58ed488d7195f69016e0998e52a8a406cecd70f1
+              tag: main@sha256:46a8e37bcf691e3cc4eedde8107e24bdf70d42d44e5ce0068716bc981fd4492b
             restartPolicy: Always
             probes:
               liveness: &dnscrypt-probes
