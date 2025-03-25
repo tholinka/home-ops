@@ -30,7 +30,7 @@ spec:
   install:
     disableHooks: true # fails with oci
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     disableHooks: true # fails with oci
     cleanupOnFail: true
