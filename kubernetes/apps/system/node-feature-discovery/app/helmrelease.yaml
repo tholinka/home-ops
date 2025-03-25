@@ -35,7 +35,6 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
-      strategy: rollback
       retries: 3
   values:
     master:
