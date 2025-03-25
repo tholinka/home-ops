@@ -23,6 +23,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: reloader
+  driftDetection:
+    mode: warn
   install:
     remediation:
       retries: 3

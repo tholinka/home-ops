@@ -23,6 +23,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: gha-runner-scale-set-controller
+  driftDetection:
+    mode: warn
   install:
     crds: CreateReplace
     remediation:

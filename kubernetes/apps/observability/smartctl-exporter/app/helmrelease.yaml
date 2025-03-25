@@ -23,6 +23,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: smartctl-exporter
+  driftDetection:
+    mode: warn
   install:
     remediation:
       retries: 3

@@ -9,6 +9,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
+  driftDetection:
+    mode: warn
   values:
     controllers:
       esphome:

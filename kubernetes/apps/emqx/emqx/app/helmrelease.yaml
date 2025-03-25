@@ -25,6 +25,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: emqx-operator
+  driftDetection:
+    mode: warn
   install:
     remediation:
       retries: 3

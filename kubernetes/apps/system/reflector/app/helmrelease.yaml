@@ -25,6 +25,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: reflector
+  driftDetection:
+    mode: warn
   maxHistory: 2
   install:
     remediation:

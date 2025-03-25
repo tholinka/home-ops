@@ -25,6 +25,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cilium
+  driftDetection:
+    mode: warn
   install:
     remediation:
       retries: 3

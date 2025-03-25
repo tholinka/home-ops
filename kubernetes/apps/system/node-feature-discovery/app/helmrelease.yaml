@@ -25,6 +25,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: node-feature-discovery
+  driftDetection:
+    mode: warn
   install:
     crds: CreateReplace
     remediation:

@@ -25,6 +25,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: openebs
+  driftDetection:
+    mode: warn
   install:
     disableHooks: true # fails with oci
     remediation:

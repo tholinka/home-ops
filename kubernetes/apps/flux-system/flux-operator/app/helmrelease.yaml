@@ -25,6 +25,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: flux-operator
+  driftDetection:
+    mode: warn
   install:
     remediation:
       retries: 3

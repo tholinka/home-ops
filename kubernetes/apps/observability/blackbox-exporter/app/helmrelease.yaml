@@ -23,6 +23,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: blackbox-exporter
+  driftDetection:
+    mode: warn
   install:
     remediation:
       retries: 3
