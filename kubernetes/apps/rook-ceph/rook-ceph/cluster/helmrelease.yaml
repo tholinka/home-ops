@@ -31,6 +31,10 @@ spec:
     name: rook-ceph-cluster
   driftDetection:
     mode: warn
+    ignore:
+      - paths: ['']
+        target:
+          kind: CephCluster
   install:
     remediation:
       retries: -1
