@@ -26,12 +26,10 @@ spec:
   driftDetection:
     mode: warn
   install:
-    crds: Skip
     remediation:
       retries: -1
   upgrade:
     cleanupOnFail: true
-    crds: Skip
     remediation:
       retries: 3
   values:
