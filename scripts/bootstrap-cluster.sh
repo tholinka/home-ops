@@ -49,30 +49,14 @@ function bootstrap_talos() {
 
 	pushd "${ROOT_DIR}/talos" >/dev/null
 
-	local bootstrapped=true
-
 	if ! controller=$(talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | shuf -n 1) || [[ -z "${controller}" ]]; then
 		log error "No Talos controller found"
 	fi
 
 	log debug "Talos controller discovered" "controller=${controller}"
 
-	until output=$(talhelper gencommand bootstrap --node "${controller}" | bash 2>&1); do
-		if [[ "${bootstrapped}" == true ]]; then
-			if [[ "${output}" == *"AlreadyExists"* ]]; then
-			log info "Talos is bootstrapped" "controller=${controller}"
-			break
-			elif [[ "${output}" == *"expired certificate"* ]]; then
-				log info "Talos is updating (got expired certificate), retrying in 1 second..." "controller=${controller}"
-				sleep 1;
-				continue;
-			fi
-		fi
-
-		# Set bootstrapped to false after the first attempt
-		bootstrapped=false
-
-		log info "Talos bootstrap failed, retrying in 10 seconds..." "controller=${controller}"
+	until output=$(talosctl --talosconfig=./clusterconfig/talosconfig --nodes="${controller}" bootstrap 2>&1 || true) && [[ "${output}" == *"AlreadyExists"* ]]; do
+		log info "Talos bootstrap in progress, waiting 10 seconds..." "controller=${controller}"
 		sleep 10
 	done
 
