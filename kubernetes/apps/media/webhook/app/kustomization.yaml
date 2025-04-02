@@ -4,19 +4,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./externalsecret.yaml
-  - ./pvc.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: sonarr-configmap
+  - name: webhook-configmap
     files:
-      - codec-tagger.sh=./resources/codec-tagger.sh
-      - tba-refresher.sh=./resources/tba-refresher.sh
-  - name: sonarr-loki-rules
-    files:
-      - sonarr.yaml=./resources/lokirule.yaml
-    options:
-      labels:
-        loki_rule: 'true'
+      - hooks.yaml=./resources/hooks.yaml
+      - radarr-pushover.sh=./resources/radarr-pushover.sh
+      - sonarr-pushover.sh=./resources/sonarr-pushover.sh
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

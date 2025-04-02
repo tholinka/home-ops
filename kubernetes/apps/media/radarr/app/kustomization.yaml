@@ -7,9 +7,12 @@ resources:
   - ./pvc.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: radarr-configmap
+  - name: radarr-loki-rules
     files:
-      - pushover-notifier.sh=./resources/pushover-notifier.sh
+      - radarr.yaml=./resources/lokirule.yaml
+    options:
+      labels:
+        loki_rule: 'true'
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

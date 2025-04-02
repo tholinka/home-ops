@@ -1,0 +1,16 @@
+---
+- id: radarr-pushover
+  execute-command: /config/radarr-pushover.sh
+  command-working-directory: /config
+  pass-arguments-to-command:
+    - source: string
+      name: '{{ getenv "RADARR_PUSHOVER_URI" }}'
+    - source: entire-payload
+
+- id: sonarr-pushover
+  execute-command: /config/sonarr-pushover.sh
+  command-working-directory: /config
+  pass-arguments-to-command:
+    - source: string
+      name: '{{ getenv "SONARR_PUSHOVER_URI" }}'
+    - source: entire-payload
