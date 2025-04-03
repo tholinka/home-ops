@@ -7,12 +7,12 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - '[STATUS] == ${GATUS_STATUS:=200}'
-  - name: '${APP}'
-    group: internal
-    url: 'https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN}${GATUS_PATH:=/}'
-    interval: 1m
-    ui:
-      hide-hostname: true
-      hide-url: true
-    conditions:
-      - '[STATUS] == ${GATUS_STATUS:=200}'
+  # - name: '${APP}'
+  #   group: internal
+  #   url: 'https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN}${GATUS_PATH:=/}'
+  #   interval: 1m
+  #   ui:
+  #     hide-hostname: true
+  #     hide-url: true
+  #   conditions:
+  #     - '[STATUS] == ${GATUS_STATUS:=200}'
