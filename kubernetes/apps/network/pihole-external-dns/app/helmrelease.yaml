@@ -56,6 +56,8 @@ spec:
     extraArgs:
       - --pihole-api-version=6
       - --pihole-server=http://pihole.network.svc.cluster.local
+      # manually create AAAA for now, AAAA causes crash loop, https://github.com/kubernetes-sigs/external-dns/pull/5226#issuecomment-2777440577
+      - --exclude-record-types=AAAA
     triggerLoopOnEvent: true
     policy: sync
     sources:
