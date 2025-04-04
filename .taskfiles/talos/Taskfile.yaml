@@ -20,7 +20,7 @@ tasks:
     cmds:
       - task: down
       - talhelper gencommand apply --node {{.IP}} --extra-flags '--mode={{.MODE}}' | bash
-      - talosctl --nodes {{.IP}} health
+      #- talosctl --nodes {{.IP}} health # waiting for etcd to be healthy: rpc error: code = PermissionDenied desc = no request forwarding on non-control nodes
       - task: up
     vars:
       MODE: '{{.MODE | default "auto"}}'
@@ -38,7 +38,7 @@ tasks:
     cmds:
       - task: down
       - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}:{{.TALOS_VERSION}}' --timeout=10m" | bash
-      - talosctl --nodes {{.IP}} health
+      #- talosctl --nodes {{.IP}} health # waiting for etcd to be healthy: rpc error: code = PermissionDenied desc = no request forwarding on non-control nodes
       - task: up
     vars:
       TALOS_IMAGE:
@@ -73,7 +73,7 @@ tasks:
     cmds:
       - task: down
       - talosctl --nodes {{.IP}} reboot --mode={{.MODE}}
-      - talosctl --nodes {{.IP}} health
+      #- talosctl --nodes {{.IP}} health # waiting for etcd to be healthy: rpc error: code = PermissionDenied desc = no request forwarding on non-control nodes
       - task: up
     vars:
       MODE: '{{.MODE | default "default"}}'
