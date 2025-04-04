@@ -35,7 +35,7 @@ servers:
         # use dnsdist to forward depending on if PiHole is up or not
         parameters: . dns://127.0.0.2:5053
       - name: cache
-        parameters: 30
+        # parameters: 30 default is 3600 for NOERROR and 1800 for denial of existence
       - name: loop
       - name: reload
       - name: loadbalance
@@ -52,6 +52,9 @@ tolerations:
   - key: node-role.kubernetes.io/control-plane
     operator: Exists
     effect: NoSchedule
+deployment:
+  annotations:
+    reloader.stakater.com/auto: 'true'
 extraContainers:
   - name: dnsdist
     image: docker.io/powerdns/dnsdist-19:1.9.8
