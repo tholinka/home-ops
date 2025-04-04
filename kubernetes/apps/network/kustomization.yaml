@@ -10,7 +10,6 @@ resources:
   - ./pihole/ks.yaml
   - ./pihole-external-dns/ks.yaml
   - ./unifi/ks.yaml
-  - ./unifi-external-dns/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template
