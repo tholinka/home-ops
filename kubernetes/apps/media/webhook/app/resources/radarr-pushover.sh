@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-PUSHOVER_URI=${1:?}
+PUSHOVER_URL=${1:?}
 PAYLOAD=${2:?}
+
+echo "[DEBUG] Payload: ${PAYLOAD}"
 
 function _jq() {
 	jq --raw-output "${1:?}" <<< "${PAYLOAD}"
@@ -49,8 +51,8 @@ function notify() {
 		printf -v pushover_priority "%s" "low"
 	fi
 
-	apprise -vv -t "${pushover_title}" -b "${pushover_msg}" \
-		"${PUSHOVER_URI}?url=${pushover_url}&url_title=${pushover_url_title}&priority=${pushover_priority}&format=markdown"
+	apprise -vv --title "${pushover_title}" --body "${pushover_msg}"  \
+		"${PUSHOVER_URL}?url=${pushover_url}&url_title=${pushover_url_title}&priority=${pushover_priority}&format=markdown"
 }
 
 function main() {
