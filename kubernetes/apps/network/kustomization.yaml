@@ -8,6 +8,7 @@ resources:
   - ./cloudflare-tunnel/ks.yaml
   - ./echo/ks.yaml
   - ./pihole/ks.yaml
+  - ./pihole-external-dns/ks.yaml
   - ./unifi/ks.yaml
   - ./unifi-external-dns/ks.yaml
 components:
