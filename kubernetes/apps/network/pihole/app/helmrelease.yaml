@@ -110,10 +110,11 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /admin/login
-                    port: *pihole-port
-                    scheme: HTTP
+                  exec:
+                    command:
+                      - /usr/bin/nslookup
+                      - pihole
+                      - '127.0.0.1'
                   initialDelaySeconds: 10
                   periodSeconds: 10
                   successThreshold: 1
