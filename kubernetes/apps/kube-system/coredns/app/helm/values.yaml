@@ -19,7 +19,7 @@ servers:
       - name: errors
       - name: health
         configBlock: |-
-          lameduck 5s
+          lameduck 10s
       - name: ready
       - name: log
         configBlock: |-
@@ -31,11 +31,14 @@ servers:
         configBlock: |-
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
+          ttl 30
       - name: forward
-        # use dnsdist to forward depending on if PiHole is up or not
-        parameters: . dns://127.0.0.2:5053
+        parameters: . dns://192.168.20.6 tls://1.1.1.1 tls://1.0.0.1
+        configBlock: |-
+          tls_servername cloudflare-dns.com
+          policy sequential
       - name: cache
-        # parameters: 30 default is 3600 for NOERROR and 1800 for denial of existence
+        # parameters: 30 # default is 3600 for NOERROR and 1800 for denial of existence
       - name: loop
       - name: reload
       - name: loadbalance
@@ -55,16 +58,3 @@ tolerations:
 deployment:
   annotations:
     reloader.stakater.com/auto: 'true'
-extraContainers:
-  - name: dnsdist
-    image: docker.io/powerdns/dnsdist-19:1.9.8
-    imagePullPolicy: IfNotPresent
-    volumeMounts:
-      - name: dnsdist
-        mountPath: /etc/dnsdist/dnsdist.conf
-        readOnly: true
-        subPath: dnsdist.conf
-extraVolumes:
-  - name: dnsdist
-    configMap:
-      name: coredns-dnsdist
