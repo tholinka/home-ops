@@ -10,10 +10,10 @@ endpoint: https://192.168.20.2:6443
 
 clusterPodNets:
   - '10.69.0.0/16'
-  - '2001:cafe:42::/56'
+  #- '2001:cafe:42::/56'
 clusterSvcNets:
   - '10.96.0.0/16'
-  - '2001:cafe:43::/112'
+  #- '2001:cafe:43::/112'
 
 additionalApiServerCertSans: &sans
   - '192.168.20.2'
