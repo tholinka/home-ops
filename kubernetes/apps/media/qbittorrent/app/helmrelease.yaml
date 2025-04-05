@@ -25,21 +25,13 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
         initContainers:
-          dnsdist:
-            image:
-              repository: docker.io/powerdns/dnsdist-19
-              tag: 1.9.8
-            restartPolicy: Always
-
           gluetun:
-            dependsOn:
-              - dnsdist
             image:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
             env:
               DOT: 'off'
-              DNS_ADDRESS: 127.0.0.2
+              DNS_ADDRESS: 192.168.20.6
               HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: &gluetunAuthPath /gluetun/auth.toml
               FIREWALL_INPUT_PORTS: 80,8388,9999 # 80: WebUI, 8388 Socks Proxy, 9999 Kube Probes
               FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16,10.96.0.0/16 # Allow access to k8s subnets
@@ -250,15 +242,6 @@ spec:
             gluetun:
               - path: *gluetunAuthPath
                 subPath: auth.toml
-      dnsdist:
-        type: configMap
-        name: qbittorrent-dnsdist
-        advancedMounts:
-          qbittorrent:
-            dnsdist:
-              - path: /etc/dnsdist/dnsdist.conf
-                subPath: dnsdist.conf
-                readOnly: true
       scripts:
         type: configMap
         name: qbittorrent-scripts
