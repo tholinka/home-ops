@@ -55,7 +55,7 @@ spec:
               - secretRef:
                   name: wireguard-secret
             probes:
-              liveness: &gluetun-probe
+              liveness:
                 enabled: true
                 custom: true
                 spec:
@@ -65,6 +65,11 @@ spec:
                       - -c
                       - >-
                         [ $(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/openvpn/portforwarded) != '{"port":0}' ]
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  successThreshold: 1
+                  timeoutSeconds: 1
+                  failureThreshold: 30
               startup:
                 enabled: true
                 custom: true
@@ -75,6 +80,11 @@ spec:
                       - -c
                       - >-
                         wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/publicip/ip
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  successThreshold: 1
+                  timeoutSeconds: 1
+                  failureThreshold: 30
             lifecycle:
               postStart:
                 exec:
