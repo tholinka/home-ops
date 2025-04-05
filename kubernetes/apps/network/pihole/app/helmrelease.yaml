@@ -115,11 +115,6 @@ spec:
                       - /usr/bin/nslookup
                       - pihole
                       - '127.0.0.1'
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  successThreshold: 1
-                  timeoutSeconds: 5
-                  failureThreshold: 30
               startup: *pihole-probes
               readiness: *pihole-probes
             securityContext:
@@ -230,7 +225,7 @@ spec:
         type: persistentVolumeClaim
         storageClass: 'ceph-block'
         accessMode: 'ReadWriteOnce'
-        size: 500Mi
+        size: 2Gi
         advancedMounts:
           pihole:
             pihole:
