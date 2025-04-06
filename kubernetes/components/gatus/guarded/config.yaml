@@ -1,7 +1,8 @@
 endpoints:
   - name: '${APP}'
     group: guarded
-    url: 1.1.1.1
+    # dnscrypt-proxy
+    url: 10.96.0.11
     interval: 1m
     ui:
       hide-hostname: true

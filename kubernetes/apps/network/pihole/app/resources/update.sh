@@ -2,8 +2,8 @@
 
 set -Eeuo pipefail
 
-# use 1.1.1.1 in case there's no dns container up
-echo "nameserver 1.1.1.1" > /etc/resolv.conf
+# use dnscrypt-proxy, and add 1.1.1.1 in case there's no dns container up
+printf "nameserver 10.96.0.11\nnameserver 1.1.1.1" > /etc/resolv.conf
 
 if [ -f "/final/gravity.db" ]; then
 	echo "using symbol link for /etc/pihole, as /final is already setup"
@@ -87,3 +87,6 @@ else
 	echo "copying config to pihole container config"
 	cp -a /etc/pihole/. /final
 fi
+
+# use only dnscrypt-proxy
+echo 'nameserver 10.96.0.11' > /etc/resolv.conf

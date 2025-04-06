@@ -6,6 +6,7 @@ namespace: network
 resources:
   - ./cloudflare-external-dns/ks.yaml
   - ./cloudflare-tunnel/ks.yaml
+  - ./dnscrypt-proxy/ks.yaml
   - ./echo/ks.yaml
   - ./pihole/ks.yaml
   - ./pihole-external-dns/ks.yaml

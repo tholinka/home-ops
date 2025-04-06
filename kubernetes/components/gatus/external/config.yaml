@@ -4,7 +4,8 @@ endpoints:
     url: 'https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN}${GATUS_PATH:=/}'
     interval: 1m
     client:
-      dns-resolver: tcp://1.1.1.1:53
+      # dnscrypt-proxy
+      dns-resolver: tcp://10.96.0.11:53
     conditions:
       - '[STATUS] == ${GATUS_STATUS:=200}'
   - name: '${APP}'

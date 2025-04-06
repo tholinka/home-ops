@@ -33,10 +33,11 @@ servers:
           fallthrough in-addr.arpa ip6.arpa
           ttl 30
       - name: forward
-        parameters: . dns://192.168.20.6 tls://1.1.1.1 tls://1.0.0.1
+        parameters: . dns://192.168.20.6 dns://10.96.0.11 tls://1.1.1.1 tls://1.0.0.1
         configBlock: |-
           tls_servername cloudflare-dns.com
           policy sequential
+          health_check 5s
       - name: cache
         # parameters: 30 # default is 3600 for NOERROR and 1800 for denial of existence
       - name: loop
@@ -49,6 +50,29 @@ affinity:
         - matchExpressions:
             - key: node-role.kubernetes.io/control-plane
               operator: Exists
+  podAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - pihole
+                  - dnscrypt-proxy
+          topologyKey: kubernetes.io/hostname
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - coredns
+          topologyKey: kubernetes.io/hostname
 tolerations:
   - key: CriticalAddonsOnly
     operator: Exists

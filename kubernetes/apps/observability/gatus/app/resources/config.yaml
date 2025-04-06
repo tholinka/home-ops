@@ -12,7 +12,8 @@ ui:
   header: Status
 connectivity:
   checker:
-    target: 1.1.1.1:53
+    # dnscrypt-proxy
+    target: 10.96.0.11:53
     interval: 1m
 endpoints:
   - name: flux-webhook
@@ -20,6 +21,7 @@ endpoints:
     url: https://flux-webhook.${SECRET_DOMAIN}
     interval: 1m
     client:
-      dns-resolver: tcp://1.1.1.1:53
+      # dnscrypt-proxy
+      dns-resolver: tcp://10.96.0.11:53
     conditions:
       - '[STATUS] == 404'

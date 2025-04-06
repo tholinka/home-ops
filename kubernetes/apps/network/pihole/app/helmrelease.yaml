@@ -23,6 +23,30 @@ spec:
     defaultPodOptions:
       annotations:
         kubectl.kubernetes.io/default-container: pihole
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - dnscrypt-proxy
+                topologyKey: kubernetes.io/hostname
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - pihole
+                topologyKey: kubernetes.io/hostname
+      priorityClassName: system-cluster-critical
     controllers:
       pihole:
         enabled: true
@@ -53,41 +77,6 @@ spec:
                 cpu: 200m
               limits:
                 memory: 256Mi
-          dnscrypt-proxy:
-            image:
-              repository: ghcr.io/klutchell/dnscrypt-proxy
-              tag: main@sha256:68b62ba30b6cf95861aef45878428622e453a4e91de76abfe040381be4049f53
-            restartPolicy: Always
-            # probes: # if probes are enabled dns dies when the internet goes down
-            #   liveness: &dnscrypt-probes
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       failureThreshold: 3
-            #       initialDelaySeconds: 60
-            #       periodSeconds: 20
-            #       successThreshold: 1
-            #       exec:
-            #         command:
-            #           - /usr/local/bin/dnsprobe
-            #           - cloudflare.com
-            #           - '127.0.0.1:5053'
-            #       timeoutSeconds: 1
-            #   readiness: *dnscrypt-probes
-            resources:
-              requests:
-                cpu: 25m
-              limits:
-                memory: 32Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFileSystem: true
-              capabilities: { drop: ['ALL'] }
-              runAsNonRoot: true
-              runAsUser: 1000
-              runAsGroup: 1000
-              fsGroup: 1000
-              fsGroupChangePolicy: OnRootMismatch
         containers:
           pihole:
             image:
@@ -96,7 +85,7 @@ spec:
             env:
               FTLCONF_dns_listeningMode: all
               FTLCONF_dns_dnssec: 'false'
-              FTLCONF_dns_upstreams: 127.0.0.1#5053;127.0.0.1#5053
+              FTLCONF_dns_upstreams: 10.96.0.11;10.96.0.11
               FTLCONF_webserver_interface_boxed: false
               FTLCONF_webserver_interface_theme: default-auto
               FTLCONF_webserver_port: &pihole-port 80
@@ -249,8 +238,4 @@ spec:
                 readOnly: true
               - path: /etc/dnsmasq.d/03-hosts.conf
                 subPath: 03-hosts.conf
-                readOnly: true
-            dnscrypt-proxy:
-              - path: /config/dnscrypt-proxy.toml
-                subPath: dnscrypt-proxy.toml
                 readOnly: true

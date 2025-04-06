@@ -8,9 +8,8 @@ resources:
 configMapGenerator:
   - name: pihole-configmap
     files:
-      - update.sh=./configs/update.sh
-      - dnscrypt-proxy.toml=./configs/dnscrypt-proxy.toml
-      - 02-custom.conf=./configs/02-custom.conf
-      - 03-hosts.conf=./configs/03-hosts.conf
+      - update.sh=./resources/update.sh
+      - 02-custom.conf=./resources/02-custom.conf
+      - 03-hosts.conf=./resources/03-hosts.conf
 generatorOptions:
   disableNameSuffixHash: true
