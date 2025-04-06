@@ -168,7 +168,7 @@ spec:
         controller: pihole
         type: LoadBalancer
         internalTrafficPolicy: Cluster
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local
         #ipFamilyPolicy: PreferDualStack
         annotations:
           #lbipam.cilium.io/ips: '192.168.20.6,fdaa:aaaa:aaaa:aa20::6
