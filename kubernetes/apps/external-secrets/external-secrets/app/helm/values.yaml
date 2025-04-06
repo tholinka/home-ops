@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/external-secrets/external-secrets/refs/heads/main/deploy/charts/external-secrets/values.schema.json
 installCRDs: true
 replicaCount: 1
 leaderElect: true

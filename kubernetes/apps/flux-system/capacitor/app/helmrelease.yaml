@@ -1,6 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
-# mostly from https://github.com/auricom/home-ops/blob/main/kubernetes/apps/flux-system/capacitor/app/helmrelease.yaml
+# yaml-language-server: $schema=https://flux.tholinka.dev/helmrelease/v2/github/bjw-s/helm-charts/main/charts/library/common
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

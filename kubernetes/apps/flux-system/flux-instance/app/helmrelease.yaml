@@ -18,7 +18,7 @@ spec:
       - issuer: ^https://token.actions.githubusercontent.com$
         subject: ^https://github.com/controlplaneio-fluxcd/charts.*$
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://flux.tholinka.dev/helmrelease/v2/github/controlplaneio-fluxcd/charts/main/charts/flux-instance
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

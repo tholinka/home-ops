@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/controlplaneio-fluxcd/charts/refs/heads/main/charts/flux-instance/values.schema.json
 instance:
   distribution:
     # renovate: datasource=github-releases depName=controlplaneio-fluxcd/distribution
