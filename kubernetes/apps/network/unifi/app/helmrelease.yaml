@@ -73,7 +73,7 @@ spec:
         controller: app
         type: LoadBalancer
         internalTrafficPolicy: Cluster
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster # if this is Local the cluster's switch gets `Connection refused`
         annotations:
           lbipam.cilium.io/ips: '192.168.20.5'
         ports:
