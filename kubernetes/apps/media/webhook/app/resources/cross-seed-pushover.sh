@@ -22,7 +22,7 @@ function notify() {
 
 	if [[ "${event}" == "RESULTS" && "${result}" == "INJECTED" ]]; then
 		printf -v pushover_title "Cross-Seed Injection"
-		printf -v pushover_msg "<b>%s</b><small>\nCategory: %s</small><p>\nPartial Match (Paused): %s</p><small>\nFrom %s to %s</small>\n\n<b>Source:</b> %s</small>" \
+		printf -v pushover_msg "<b>%s</b><small>\n<b>Category:</b> %s</small><small>\n<b>Partial Match (Paused):</b> %s</small><small>\n<b>Source:</b> %s</small><small>\nFrom %s to %s</small>" \
 			"$(_jq '.extra.name')" \
 			"$(_jq '.extra.category')" \
 			"$(_jq '.extra.paused')" \
@@ -30,7 +30,7 @@ function notify() {
 			"$(_jq '.extra.trackers[0]')" \
 			"$(_jq '.extra.source')"
 
-		printf -v pushover_url "https://qb.${SECRET_DOMAIN}/#/torrent/%s" "$(_jq '.extra.infoHashes')"
+		printf -v pushover_url "https://qb.${SECRET_DOMAIN}/#/torrent/%s" "$(_jq '.extra.infoHashes[0]')"
 		printf -v pushover_url_title "View in qbit"
 
 		printf -v pushover_priority "%s" \
