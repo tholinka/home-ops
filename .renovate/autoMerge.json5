@@ -12,7 +12,7 @@
 				"digest"
 			],
 			matchPackageNames: [
-				"/bjw-s-labs/", // it-tools, gluetun-qb-port-sync
+				"/bjw-s-labs/", // gluetun-qb-port-sync
 				"/tholinka/",
 				"/home-operations/"
 			],
