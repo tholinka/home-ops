@@ -41,9 +41,9 @@ spec:
       retries: 3
   values:
     image:
-      # TODO remove after pihole v6 support gets officially released
-      repository: gcr.io/k8s-staging-external-dns/external-dns
-      tag: v20250403-v0.16.1-70-gc5af75e3@sha256:8e0410af6ee434fb19916ac70c3c904bdf5408fdcff08e75629b1a34e90eb95a
+      # TODO remove after pihole v6 support gets officially released: https://github.com/kubernetes-sigs/external-dns/pull/5253
+      repository: ghcr.io/tholinka/external-dns
+      tag: 210585f2-dirty
     fullnameOverride: *app
     provider:
       name: pihole
@@ -56,8 +56,6 @@ spec:
     extraArgs:
       - --pihole-api-version=6
       - --pihole-server=http://pihole.network.svc.cluster.local
-      # manually create AAAA for now, AAAA causes crash loop, https://github.com/kubernetes-sigs/external-dns/pull/5226#issuecomment-2777440577
-      - --exclude-record-types=AAAA
     triggerLoopOnEvent: true
     policy: sync
     sources:
