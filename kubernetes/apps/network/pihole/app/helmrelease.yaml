@@ -47,6 +47,13 @@ spec:
                         - pihole
                 topologyKey: kubernetes.io/hostname
       priorityClassName: system-cluster-critical
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 10.96.0.11
+        options:
+          - name: ndots
+            value: '1'
     controllers:
       pihole:
         enabled: true
