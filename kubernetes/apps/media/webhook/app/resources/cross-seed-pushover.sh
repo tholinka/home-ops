@@ -2,39 +2,29 @@
 set -Eeuo pipefail
 
 PUSHOVER_URL=${1:?}
-PAYLOAD=${2:?}
-
-echo "[DEBUG] Payload: ${PAYLOAD}"
-
-function _jq() {
-	jq --raw-output "${1:?}" <<< "${PAYLOAD}"
-}
 
 function notify() {
-	local event="$(_jq '.extra.event')"
-	local result="$(_jq '.extra.result')"
-
-	if [[ "${event}" == "TEST" ]]; then
+	if [[ "${EVENT_TYPE}" == "TEST" ]]; then
 		printf -v pushover_title "Test Notification"
 		printf -v pushover_msg "Howdy this is a test notification from <b>%s</b>" "cross-seed"
 		printf -v pushover_priority "%s" "low"
 	fi
 
-	if [[ "${event}" == "RESULTS" && "${result}" == "INJECTED" ]]; then
+	if [[ "${EVENT_TYPE}" == "RESULTS" && "${EVENT_RESULT}" == "INJECTED" ]]; then
 		printf -v pushover_title "Cross-Seed Injection"
 		printf -v pushover_msg "<b>%s</b><small>\n<b>Category:</b> %s</small><small>\n<b>Partial Match (Paused):</b> %s</small><small>\n<b>Source:</b> %s</small><small>\nFrom %s to %s</small>" \
-			"$(_jq '.extra.name')" \
-			"$(_jq '.extra.category')" \
-			"$(_jq '.extra.paused')" \
-			"$(_jq '.extra.searchee.trackers[0]')" \
-			"$(_jq '.extra.trackers[0]')" \
-			"$(_jq '.extra.source')"
+			"${EVENT_NAME}" \
+			"${EVENT_CATEGORY}" \
+			"${EVENT_PAUSED}" \
+			"${EVENT_TO_TRACKER}" \
+			"${EVENT_FROM_TRACKER}" \
+			"${EVENT_SOURCE}"
 
-		printf -v pushover_url "https://qb.${SECRET_DOMAIN}/#/torrent/%s" "$(_jq '.extra.infoHashes[0]')"
+		printf -v pushover_url "https://qb.${SECRET_DOMAIN}/#/torrent/%s" "${EVENT_HASH}"
 		printf -v pushover_url_title "View in qbit"
 
 		printf -v pushover_priority "%s" \
-			"$([[ $(_jq '.extra.paused') == 'true' ]] && echo "emergency" || echo "low")"
+			"$([[ ${EVENT_PAUSED} == 'true' ]] && echo "emergency" || echo "low")"
 	fi
 
 	apprise -vv --title "${pushover_title}" --body "${pushover_msg}" \

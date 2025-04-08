@@ -1,28 +1,32 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-PUSHOVER_URL=${1:?}
-PAYLOAD=${2:?}
-
-echo "[DEBUG] Payload: ${PAYLOAD}"
-
-function _jq() {
-	jq --raw-output "${1:?}" <<< "${PAYLOAD}"
-}
+JELLYSEERR_PUSHOVER_URL=${1:?}
 
 function notify() {
-	local type="$(_jq '.notification_type')"
-
-	if [[ "${type}" == "TEST_NOTIFICATION" ]]; then
-		printf -v pushover_title "Test Notification"
-		printf -v pushover_msg "Howdy this is a test notification from <b>%s</b>" "Jellyseerr"
-		printf -v pushover_url "%s" "https://requests.${SECRET_DOMAIN}"
-		printf -v pushover_url_title "Open %s" "Jellyseerr"
-		printf -v pushover_priority "%s" "low"
+	if [[ "${EVENT_TYPE}" == "TEST_NOTIFICATION" ]]; then
+		printf -v PUSHOVER_TITLE "%s: %s" "$EVENT_EVENT" "$EVENT_SUBJECT"
+		printf -v PUSHOVER_MESSAGE "Howdy this is a test notification from <b>%s</b>\n%S" "Jellyseerr" "$EVENT_MESSAGE"
+		printf -v PUSHOVER_PRIORITY "%s" "low"
+	elif [[ ${EVENT_TYPE} == "MEDIA_AVAILABLE" ]]; then
+		printf -v PUSHOVER_TITLE "%s: %s" "$EVENT_EVENT" "$EVENT_SUBJECT"
+		printf -v PUSHOVER_MESSAGE "<small><b>Requested By:</b> %s</small><small>\t<b>Status:</b> %s</small><small>\t<b>Type:</b> %s</small><small>\n%s</small>" \
+		"$EVENT_REQUESTED_BY" \
+		"$EVENT_MEDIA_STATUS" \
+		"$EVENT_MEDIA_TYPE" \
+		"$EVENT_MESSAGE"
+		printf -v PUSHOVER_PRIORITY "%s" "low"
+	else
+		printf -v "PUSHOVER_TITLE" "Unknown Event Type: %s" "$EVENT_TYPE"
+		printf -v "PUSHOVER_MESSAGE" "%s: %s\n%s" "$EVENT_EVENT" "$EVENT_SUBJECT" "$EVENT_MESSAGE"
+		printf -v PUSHOVER_PRIORITY "%s" "emergency"
 	fi
 
-	apprise -vv --title "${pushover_title}" --body "${pushover_msg}" \
-		"${PUSHOVER_URL}?url=${pushover_url}&url_title=${pushover_url_title}&priority=${pushover_priority}&format=markdown"
+	printf -v PUSHOVER_URL "%s" "https://requests.${SECRET_DOMAIN}"
+	printf -v PUSHOVER_URL_TITLE "Open %s" "Jellyseerr"
+
+	apprise -vv --title "${PUSHOVER_TITLE}" --body "${PUSHOVER_MESSAGE}" \
+		"${JELLYSEERR_PUSHOVER_URL}?url=${PUSHOVER_URL}&url_title=${PUSHOVER_URL_TITLE}&priority=${PUSHOVER_PRIORITY}&format=markdown"
 }
 
 function main() {
