@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-JELLYSEERR_PUSHOVER_URL=${1:?}
-
 function notify() {
 	if [[ "${EVENT_TYPE}" == "TEST_NOTIFICATION" ]]; then
 		printf -v PUSHOVER_TITLE "%s: %s" "$EVENT_EVENT" "$EVENT_SUBJECT"

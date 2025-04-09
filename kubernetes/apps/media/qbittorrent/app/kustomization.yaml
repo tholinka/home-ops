@@ -12,9 +12,6 @@ configMapGenerator:
     options:
       labels:
         loki_rule: 'true'
-  - name: qbittorrent-scripts
-    files:
-      - post-process.sh=./resources/post-process.sh
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

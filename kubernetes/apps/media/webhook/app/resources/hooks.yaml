@@ -2,7 +2,7 @@
 - id: cross-seed-pushover
   execute-command: /config/cross-seed-pushover.sh
   command-working-directory: /config
-  pass-arguments-to-command:
+  pass-environment-to-command:
     - envname: EVENT_TYPE
       source: payload
       name: extra.event
@@ -30,11 +30,13 @@
     - envname: EVENT_HASH
       source: payload
       name: extra.infoHashes.0
+
 - id: jellyseerr-pushover
   execute-command: /config/jellyseerr-pushover.sh
   command-working-directory: /config
-  pass-arguments-to-command:
-    - source: string
+  pass-environment-to-command:
+    - envname: JELLYSEERR_PUSHOVER_URL
+      source: string
       name: '{{ getenv "JELLYSEERR_PUSHOVER_URL" }}'
     - envname: EVENT_TYPE
       source: payload
@@ -60,6 +62,26 @@
     - envname: EVENT_IMAGE
       source: payload
       name: image
+
+- id: qbit-pushover
+  execute-command: /config/qbit-pushover.sh
+  command-working-directory: /config
+  pass-environment-to-command:
+    - envname: QBIT_PUSHOVER_URL
+      source: string
+      name: '{{ getenv "QBITTORRENT_PUSHOVER_URL" }}'
+    - envname: RELEASE_NAME
+      source: payload
+      name: name
+    - envname: RELEASE_CAT
+      source: payload
+      name: cat
+    - envname: RELEASE_SIZE
+      source: payload
+      name: size
+    - envname: RELEASE_INDEXER
+      source: payload
+      name: indexer
 
 - id: radarr-pushover
   execute-command: /config/radarr-pushover.sh

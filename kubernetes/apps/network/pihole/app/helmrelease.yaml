@@ -171,23 +171,25 @@ spec:
           lbipam.cilium.io/ips: '192.168.20.6'
         ports:
           dns-udp:
-            primary: false
             port: 53
             protocol: UDP
           dns-tcp:
-            primary: false
             port: 53
+            protocol: TCP
+          ntp-udp:
+            port: 123
+            protocol: UDP
+          ntp-tcp:
+            port: 123
             protocol: TCP
           http:
             primary: true
             port: *pihole-port
             protocol: HTTP
           https:
-            primary: false
             port: 443
             protocol: HTTPS
           prometheus:
-            primary: false
             port: *exporter-port
             protocol: HTTP
     route:
