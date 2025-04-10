@@ -55,7 +55,7 @@ spec:
             key: *name
     extraArgs:
       - --pihole-api-version=6
-      - --pihole-server=http://pihole.network.svc.cluster.local
+      - --pihole-server=http://pihole-0.pihole.network.svc.cluster.local
     triggerLoopOnEvent: true
     policy: sync
     sources:

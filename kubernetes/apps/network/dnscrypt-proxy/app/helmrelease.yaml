@@ -99,9 +99,11 @@ spec:
     service:
       *app :
         controller: *app
-        type: ClusterIP
+        type: LoadBalancer
         clusterIP: '10.96.0.11'
         internalTrafficPolicy: Cluster
+        annotations:
+          lbipam.cilium.io/ips: 192.168.20.7
         ports:
           dns-udp:
             primary: false

@@ -92,6 +92,7 @@ pihole-FTL --config dns.reply.blocking.force4 true
 pihole-FTL --config dns.reply.blocking.IPv4 192.168.20.6
 pihole-FTL --config misc.nice -999
 pihole-FTL --config misc.check.load false
+pihole-FTL --config dns.ignoreLocalhost true
 
 echo;
 if [ -L /etc/pihole ]; then

@@ -57,7 +57,7 @@ spec:
     controllers:
       pihole:
         enabled: true
-        type: deployment
+        type: statefulset
         annotations:
           reloader.stakater.com/auto: 'true'
         labels: {}
@@ -67,6 +67,17 @@ spec:
           unavailable: 1
           surge: 1
 
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              storageClass: ceph-block
+              accessMode: ReadWriteOnce
+              size: 2Gi
+              advancedMounts:
+                init:
+                  - path: /final
+                pihole:
+                  - path: /etc/pihole
         initContainers:
           init:
             image:
@@ -219,19 +230,6 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     persistence:
-      config:
-        type: persistentVolumeClaim
-        storageClass: 'ceph-block'
-        accessMode: 'ReadWriteOnce'
-        size: 2Gi
-        advancedMounts:
-          pihole:
-            pihole:
-              - path: /etc/pihole
-                readOnly: false
-            init:
-              - path: /final
-                readOnly: false
       config-map:
         type: configMap
         name: pihole-configmap
@@ -248,3 +246,17 @@ spec:
               - path: /etc/dnsmasq.d/03-hosts.conf
                 subPath: 03-hosts.conf
                 readOnly: true
+  postRenderers:
+    - kustomize:
+        patches:
+          # allow ui to work with multiple deployments
+          - target:
+              kind: HTTPRoute
+              name: pihole
+            patch: |
+              - op: add
+                path: /spec/rules/0/sessionPersistence
+                value:
+                  sessionName: pihole-session
+                  type: Cookie
+                  absoluteTimeout: 35m
