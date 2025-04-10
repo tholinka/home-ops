@@ -111,6 +111,11 @@ spec:
             folder: 'Unifi'
             options:
               path: /var/lib/grafana/dashboards/unifi
+          - <<: *provider
+            name: envoy
+            folder: 'Envoy Gateway'
+            options:
+              path: /var/lib/grafana/dashboards/envoy
     dashboards:
       default:
         cert-manager:
@@ -275,6 +280,13 @@ spec:
           gnetId: 11312
           revision: 9
           datasource: Prometheus
+      envoy:
+        envoy-clusters:
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-clusters.json
+        envoy-gateway-global:
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
+        envoy-proxy-global:
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
     sidecar:
       image:
         registry: ghcr.io
@@ -308,7 +320,7 @@ spec:
           - '{{ .Release.Name }}.${SECRET_DOMAIN}'
         parentRefs:
           - name: internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
         annotations:
           gethomepage.dev/enabled: 'true'

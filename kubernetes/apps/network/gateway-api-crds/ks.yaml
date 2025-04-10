@@ -21,7 +21,7 @@ metadata:
   name: gateway-api-crds
   namespace: flux-system
 spec:
-  targetNamespace: networking
+  targetNamespace: network
   prune: true
   sourceRef:
     kind: GitRepository

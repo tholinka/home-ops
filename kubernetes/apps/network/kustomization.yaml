@@ -8,6 +8,8 @@ resources:
   - ./cloudflare-tunnel/ks.yaml
   - ./dnscrypt-proxy/ks.yaml
   - ./echo/ks.yaml
+  - ./envoy-gateway/ks.yaml
+  - ./gateway-api-crds/ks.yaml
   - ./pihole/ks.yaml
   - ./pihole-external-dns/ks.yaml
   - ./unifi/ks.yaml

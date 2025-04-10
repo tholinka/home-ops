@@ -15,7 +15,7 @@ spec:
     - blackbox-exporter.${SECRET_DOMAIN}
   parentRefs:
     - name: internal
-      namespace: kube-system
+      namespace: network
       sectionName: https
   rules:
     - backendRefs:

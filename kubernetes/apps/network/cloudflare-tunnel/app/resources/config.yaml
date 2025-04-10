@@ -1,10 +1,11 @@
 ---
 originRequest:
+  http2Origin: true
   originServerName: 'external.${SECRET_DOMAIN}'
 
 ingress:
   - hostname: '${SECRET_DOMAIN}'
-    service: &svc https://cilium-gateway-external.kube-system.svc.cluster.local
+    service: &svc https://envoy-network-external-b1d9befd.network.svc.cluster.local
   - hostname: '*.${SECRET_DOMAIN}'
     service: *svc
   - service: http_status:404
