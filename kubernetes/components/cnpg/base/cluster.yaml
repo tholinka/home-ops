@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ${APP}-db
+spec:
+  instances: ${CNPG_REPLICAS:=1}
+  imageName: ${CNPG_IMAGE:=ghcr.io/cloudnative-pg/postgresql}:${CNPG_VERSION}
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: ${CNPG_SIZE:=2Gi}
+    storageClass: ${CNPG_STORAGECLASS:=openebs-hostpath}
+  superuserSecret:
+    name: ${APP}-cnpg-secret
+  enableSuperuserAccess: true
+  resources:
+    requests:
+      cpu: ${CNPG_REQUESTS_CPU:=500m}
+    limits:
+      memory: ${CNPG_LIMITS_MEMORY:=2Gi}
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
+    nodeSelector:
+      kubernetes.io/arch: amd64
+  postgresql:
+    parameters:
+      max_connections: '${CNPG_MAX_CONNECTIONS:="600"}'
+      shared_buffers: ${CNPG_SHARED_BUFFERS:=512MB}
+  monitoring:
+    enablePodMonitor: true

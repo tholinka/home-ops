@@ -17,12 +17,12 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: grafana
+  name: &app grafana
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: grafana
+    name: *app
   driftDetection:
     mode: warn
   install:
@@ -34,27 +34,51 @@ spec:
       retries: 3
   values:
     deploymentStrategy:
-      type: Recreate
+      type: RollingUpdate
     admin:
-      existingSecret: grafana-admin-secret
+      existingSecret: grafana-secret
+      passwordKey: adminPass
+      userKey: adminUser
     env:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
+      GF_SECURITY_COOKIE_SAMESITE: *app
       GF_SERVER_ROOT_URL: https://grafana.${SECRET_DOMAIN}
+    envFromSecrets:
+      - name: grafana-secret
     grafana.ini:
       analytics:
         check_for_updates: false
         check_for_plugin_updates: false
         reporting_enabled: false
+      auth:
+        signout_redirect_url: https://auth.${SECRET_DOMAIN}/application/o/grafana/end-session/
+        oauth_auto_login: false
+        oauth_allow_insecure_email_lookup: true
       auth.anonymous:
         enabled: true
         org_id: 1
         org_name: Main Org.
         org_role: Viewer
+        hide_version: true
+      auth.generic_oauth:
+        name: authentik
+        enabled: true
+        scopes: openid email profile
+        auth_url: https://auth.${SECRET_DOMAIN}/application/o/authorize/
+        token_url: https://auth.${SECRET_DOMAIN}/application/o/token/
+        api_url: https://auth.${SECRET_DOMAIN}/application/o/userinfo/
+        # Optionally map user groups to Grafana roles
+        role_attribute_path: contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
       news:
         news_feed_enabled: false
+    resources:
+      requests:
+        cpu: 23m
+      limits:
+        memory: 219M
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -97,68 +121,28 @@ spec:
             options:
               path: /var/lib/grafana/dashboards/default
           - <<: *provider
-            name: grafana-dashboards-kubernetes
+            name: kubernetes
             folder: 'Kubernetes'
             options:
-              path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
+              path: /var/lib/grafana/dashboards/kubernetes
           - <<: *provider
             name: storage
             folder: 'Storage'
             options:
               path: /var/lib/grafana/dashboards/storage
           - <<: *provider
-            name: unifi
-            folder: 'Unifi'
+            name: network
+            folder: 'Network'
             options:
-              path: /var/lib/grafana/dashboards/unifi
+              path: /var/lib/grafana/dashboards/network
           - <<: *provider
-            name: envoy
-            folder: 'Envoy Gateway'
+            name: data
+            folder: 'Data'
             options:
-              path: /var/lib/grafana/dashboards/envoy
+              path: /var/lib/grafana/dashboards/data
     dashboards:
       default:
-        cert-manager:
-          # renovate: depName="Cert-manager-Kubernetes"
-          gnetId: 20842
-          revision: 3
-          datasource: Prometheus
-        cloudflared:
-          # renovate: depName="Cloudflare Tunnels (cloudflared)"
-          gnetId: 17457
-          revision: 6
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-        external-dns:
-          # renovate: depName="External-dns"
-          gnetId: 15038
-          revision: 3
-          datasource: Prometheus
-        external-secrets:
-          url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
-          datasource: Prometheus
-        prometheus:
-          # renovate: depName="Prometheus"
-          gnetId: 19105
-          revision: 7
-          datasource: Prometheus
-        pihole-exporter:
-          # renovate: depName="Pi-hole Exporter"
-          gnetId: 10176
-          revision: 3
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-        prometheus-nut-exporter:
-          # renovate: depName="Prometheus NUT Exporter"
-          gnetId: 14371
-          revision: 1
-          datasource: Prometheus
-        lokiforlogs:
-          # renovate: depName="LokiForLogs"
-          gnetId: 15587
-          revision: 1
-          datasource: Loki
-      grafana-dashboards-kubernetes:
+      kubernetes:
         k8s-addons-prometheus:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-addons-prometheus.json
@@ -228,8 +212,15 @@ spec:
           revision: 37
           datasource: Prometheus
         node-feature-discovery:
-          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
+          # renovate: datasource=github-releases depName=kubernetes-sigs/node-feature-discovery
+          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/v0.17.2/examples/grafana-dashboard.json
           datasource: Prometheus
+        spegel:
+          # renovate: depName="Spegel"
+          gnetId: 18089
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
       storage:
         smartctl-exporter:
           # renovate: depName="smartctl-exporter"
@@ -244,6 +235,12 @@ spec:
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
             - { name: VAR_REPLICATIONDESTNAME, value: .*-dst }
+        etcd-storage:
+          # renovate: depName="etcd"
+          gnetId: 22236
+          revision: 1
+          datasource:
+            - { name: DS_VICTORIAMETRICS, value: Prometheus }
         ceph-cluster:
           # renovate: depName="Ceph Cluster"
           gnetId: 2842
@@ -259,7 +256,38 @@ spec:
           gnetId: 5342
           revision: 9
           datasource: Prometheus
-      unifi:
+        host-overview:
+          # renovate: datasource=github-tags depName=envoyproxy/gateway
+          url: https://raw.githubusercontent.com/ceph/ceph/v19.2.2/monitoring/ceph-mixin/dashboards_out/hosts-overview.json
+          datasource: Prometheus
+      network:
+        blackbox-exporter:
+          # renovate: depName="Prometheus Blackbox Exporter"
+          gnetId: 7587
+          revision: 3
+          datasource: Prometheus
+        cert-manager:
+          # renovate: depName="Cert-manager-Kubernetes"
+          gnetId: 20842
+          revision: 3
+          datasource: Prometheus
+        cloudflared:
+          # renovate: depName="Cloudflare Tunnels (cloudflared)"
+          gnetId: 17457
+          revision: 6
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+        external-dns:
+          # renovate: depName="External-dns"
+          gnetId: 15038
+          revision: 3
+          datasource: Prometheus
+        pihole-exporter:
+          # renovate: depName="Pi-hole Exporter"
+          gnetId: 10176
+          revision: 3
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         unifi-insights:
           # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
           gnetId: 11315
@@ -280,13 +308,42 @@ spec:
           gnetId: 11312
           revision: 9
           datasource: Prometheus
-      envoy:
         envoy-clusters:
-          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-clusters.json
+          # renovate: datasource=github-releases depName=envoyproxy/gateway
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/v1.3.2/charts/gateway-addons-helm/dashboards/envoy-clusters.json
+          datasource: Prometheus
         envoy-gateway-global:
-          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
+          # renovate: datasource=github-releases depName=envoyproxy/gateway
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/v1.3.2/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
+          datasource: Prometheus
         envoy-proxy-global:
-          url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
+          # renovate: datasource=github-releases depName=envoyproxy/gateway
+          url: https://raw.githubusercontent.com/envoyproxy/gateway/v1.3.2/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
+          datasource: Prometheus
+      data:
+        dragonfly:
+          # renovate: datasource=github-releases depName=dragonflydb/dragonfly
+          url: https://raw.githubusercontent.com/dragonflydb/dragonfly/v1.28.1/tools/local/monitoring/grafana/provisioning/dashboards/dragonfly.json
+          datasource: Prometheus
+        external-secrets:
+          # renovate: datasource=github-releases depName=external-secrets/external-secrets
+          url: https://raw.githubusercontent.com/external-secrets/external-secrets/v0.15.1/docs/snippets/dashboard.json
+          datasource: Prometheus
+        prometheus:
+          # renovate: depName="Prometheus"
+          gnetId: 19105
+          revision: 7
+          datasource: Prometheus
+        prometheus-nut-exporter:
+          # renovate: depName="Prometheus NUT Exporter"
+          gnetId: 14371
+          revision: 1
+          datasource: Prometheus
+        lokiforlogs:
+          # renovate: depName="LokiForLogs"
+          gnetId: 15587
+          revision: 1
+          datasource: Loki
     sidecar:
       image:
         registry: ghcr.io

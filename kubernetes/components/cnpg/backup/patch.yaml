@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ${APP}-db
+spec:
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      data:
+        compression: bzip2
+      destinationPath: s3://postgres-${APP}/
+      endpointURL: ${R2_STORAGE}
+      # Note: serverName version needs to be incremented
+      # when recovering from an existing cnpg cluster
+      serverName: ${APP}-db-${CNPG_CLUSTER_CURRENT:=v1}
+      s3Credentials:
+        accessKeyId:
+          name: &secret ${APP}-cnpg-secret
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: *secret
+          key: AWS_SECRET_ACCESS_KEY
