@@ -3,7 +3,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: &app your-spotify-mongo
+  name: &app ${MONGO_APP}
 spec:
   endpoints:
     - basicAuth:
@@ -28,9 +28,9 @@ spec:
   # What namespace to watch
   namespaceSelector:
     matchNames:
-      - mongo
+      - database
 
   # Service labels to match
   selector:
     matchLabels:
-      app: your-spotify-mongo-svc
+      app: ${MONGO_APP}-svc

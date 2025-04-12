@@ -1,0 +1,134 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app mongo
+  namespace: &namespace database
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/apps/database/mongo/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app mongo-unifi
+  namespace: &namespace database
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/apps/database/mongo/cluster
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: storage-ready
+      namespace: flux-system
+    - name: mongo
+      namespace: *namespace
+  postBuild:
+    substitute:
+      APP: data-volume-mongo-unifi-0 # volsync creates the statefulset pvc
+      VOLSYNC_CAPACITY: 5Gi
+      MONGO_APP: *app
+      # renovate: datasource=docker depName=mongodb/mongodb-community-server
+      MONGO_VERSION: 8.0.5 # required
+      # this HAS to be upgraded before going to the next major version (e.g. can go from 7->8 with this set to 7, but can't go from 8->9 without changing this to 8)
+      MONGO_VERSION_COMPATIBILITY: '8.0'
+      MONGO_SECRET_FROM: unifi
+      MONGO_DB: unifi
+      MONGO_USER: unifi
+  healthChecks:
+    - apiVersion: mongodbcommunity.mongodb.com/v1
+      kind: MongoDBCommunity
+      name: *app
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: mongodbcommunity.mongodb.com/v1
+      kind: MongoDBCommunity
+      failed: status.phase == 'Failed'
+      current: status.phase == 'Running'
+  patches:
+    - patch: |-
+        - op: add
+          path: /spec/users/0/roles/1
+          value:
+            name: dbOwner
+            db: unifi_stat
+      target:
+        group: mongodbcommunity.mongodb.com
+        kind: MongoDBCommunity
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app mongo-your-spotify
+  namespace: &namespace database
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/apps/database/mongo/cluster
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: storage-ready
+      namespace: flux-system
+    - name: mongo
+      namespace: *namespace
+  postBuild:
+    substitute:
+      APP: data-volume-mongo-your-spotify-0 # volsync creates the statefulset pvc
+      VOLSYNC_CAPACITY: 5Gi
+      MONGO_APP: *app
+      # renovate: datasource=docker depName=mongodb/mongodb-community-server
+      MONGO_VERSION: 8.0.5 # required
+      # this HAS to be upgraded before going to the next major version (e.g. can go from 7->8 with this set to 7, but can't go from 8->9 without changing this to 8)
+      MONGO_VERSION_COMPATIBILITY: '8.0'
+      MONGO_SECRET_FROM: spotify
+      MONGO_DB: your-spotify
+      MONGO_USER: your-spotify
+  healthChecks:
+    - apiVersion: mongodbcommunity.mongodb.com/v1
+      kind: MongoDBCommunity
+      name: *app
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: mongodbcommunity.mongodb.com/v1
+      kind: MongoDBCommunity
+      failed: status.phase == 'Failed'
+      current: status.phase == 'Running'
