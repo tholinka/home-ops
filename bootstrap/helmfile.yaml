@@ -58,19 +58,39 @@ releases:
     needs: ['kube-system/coredns']
 
   - name: cert-manager
-    namespace: cert-manager
+    namespace: security
     atomic: true
     chart: oci://quay.io/jetstack/charts/cert-manager
     version: v1.17.1
     values:
-      - '{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml'
+      - '{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/security/cert-manager/app/helm/values.yaml'
+    hooks:
+      - # Wait for external-secrets CRDs to be available
+        events: ['postsync']
+        command: bash
+        args:
+          - -c
+          - until kubectl get crd clusterissuers.cert-manager.io &>/dev/null; do sleep 10; done
+        showlogs: true
+      - # Apply cluster secret store configuration
+        # technically we only really need this now for bitwarden, so we could just wait for flux to do it
+        # but it makes the bootstrap faster to just do it now
+        events: ['postsync']
+        command: kubectl
+        args:
+          - apply
+          - --namespace=security
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename={{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/security/cert-manager/app/clusterissuers.yaml
+        showlogs: true
     needs: ['system/spegel']
 
   - name: reflector
     namespace: system
     chart: oci://ghcr.io/home-operations/charts-mirror/reflector
     version: 9.0.322
-    needs: ['cert-manager/cert-manager']
+    needs: ['security/cert-manager']
 
   - name: external-secrets
     namespace: external-secrets

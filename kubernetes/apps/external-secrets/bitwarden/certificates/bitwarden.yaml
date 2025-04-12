@@ -21,7 +21,7 @@ spec:
   duration: 168h # 7d
   renewBefore: 24h # 1d
   issuerRef:
-    name: home-ca-issuer
+    name: cluster-signed-issuer
     kind: ClusterIssuer
     group: cert-manager.io
 ---
@@ -42,6 +42,6 @@ spec:
   usages:
     - client auth
   issuerRef:
-    name: home-ca-issuer
+    name: cluster-signed-issuer
     kind: ClusterIssuer
     group: cert-manager.io

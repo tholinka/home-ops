@@ -42,8 +42,8 @@ spec:
       certManager:
         enabled: true
         issuerRef:
-          name: k8tz-webhook-selfsign
-          kind: Issuer
+          name: cluster-signed-issuer
+          kind: ClusterIssuer
 
     affinity:
       podAntiAffinity:
