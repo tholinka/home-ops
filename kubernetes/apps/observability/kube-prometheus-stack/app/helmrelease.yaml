@@ -47,7 +47,7 @@ spec:
             - alertmanager.${SECRET_DOMAIN}
           parentRefs:
             - name: internal
-              namespace: network
+              namespace: kube-system
               sectionName: https
           annotations:
             gethomepage.dev/enabled: 'true'
@@ -82,7 +82,7 @@ spec:
             - 'prometheus.${SECRET_DOMAIN}'
           parentRefs:
             - name: internal
-              namespace: network
+              namespace: kube-system
               sectionName: https
           annotations:
             gethomepage.dev/enabled: 'true'

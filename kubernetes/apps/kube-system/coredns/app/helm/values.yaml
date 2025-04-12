@@ -26,9 +26,6 @@ servers:
           class error
       - name: prometheus
         parameters: 0.0.0.0:9153
-      - name: rewrite
-        # don't spam pihole with envoy-gateway requests
-        parameters: name exact envoy-gateway envoy-gateway.cluster.local
       - name: kubernetes
         parameters: cluster.local in-addr.arpa ip6.arpa
         configBlock: |-

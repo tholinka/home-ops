@@ -73,7 +73,7 @@ spec:
           - calibre.${SECRET_DOMAIN}
         parentRefs:
           - name: external
-            namespace: network
+            namespace: kube-system
             sectionName: https
         rules:
           - backendRefs:

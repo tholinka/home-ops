@@ -209,7 +209,7 @@ spec:
           - '{{ .Release.Name }}.${SECRET_DOMAIN}'
         parentRefs:
           - name: internal
-            namespace: network
+            namespace: kube-system
             sectionName: https
         rules:
           - backendRefs:

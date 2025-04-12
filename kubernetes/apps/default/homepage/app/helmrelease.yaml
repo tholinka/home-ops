@@ -127,10 +127,10 @@ spec:
           - '${SECRET_DOMAIN:=test}'
         parentRefs:
           - name: internal
-            namespace: network
+            namespace: kube-system
             sectionName: https
           - name: internal
-            namespace: network
+            namespace: kube-system
             sectionName: https-root
         rules:
           - backendRefs:

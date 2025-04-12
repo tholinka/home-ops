@@ -120,8 +120,8 @@ spec:
           - '{{ .Release.Name }}.${SECRET_DOMAIN}'
         parentRefs:
           - name: internal
-            namespace: network
-            sectionName: tls-unifi
+            namespace: kube-system
+            sectionName: tls
         rules:
           - backendRefs:
               - name: *app
