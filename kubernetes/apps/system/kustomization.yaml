@@ -13,6 +13,7 @@ resources:
   - ./reloader/ks.yaml
   - ./reflector/ks.yaml
   - ./spegel/ks.yaml
+  - ./volsync/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template
