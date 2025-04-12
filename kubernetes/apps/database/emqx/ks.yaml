@@ -4,14 +4,14 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app emqx
-  namespace: &namespace emqx
+  namespace: &namespace database
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/emqx/emqx/app
+  path: ./kubernetes/apps/database/emqx/app
   prune: true
   dependsOn:
     - name: crds-ready
@@ -29,17 +29,17 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app emqx-cluster
-  namespace: &namespace emqx
+  namespace: &namespace database
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: emqx
-      namespace: emqx
+      namespace: database
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/emqx/emqx/cluster
+  path: ./kubernetes/apps/database/emqx/cluster
   prune: true
   sourceRef:
     kind: GitRepository

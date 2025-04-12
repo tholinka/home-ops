@@ -11,7 +11,7 @@ data:
     endpoints:
       - name: emqx-mqtt
         group: infrastructure
-        url: tcp://emqx-listeners.emqx.svc.cluster.local:1883
+        url: tcp://emqx-listeners.database.svc.cluster.local:1883
         interval: 1m
         ui:
           hide-url: true

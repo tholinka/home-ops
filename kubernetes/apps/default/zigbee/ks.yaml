@@ -13,8 +13,6 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/volsync
   dependsOn:
-    - name: emqx-cluster
-      namespace: emqx
     - name: storage-ready
       namespace: flux-system
   interval: 1h
