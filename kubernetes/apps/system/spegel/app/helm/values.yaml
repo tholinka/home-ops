@@ -1,3 +1,4 @@
+---
 grafanaDashboard:
   enabled: true
 service:

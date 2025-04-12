@@ -1,3 +1,4 @@
+---
 # su
 # rw
 # curl -Lo /etc/kvmd/override.yaml https://raw.githubusercontent.com/tholinka/home-ops/refs/heads/main/pikvm.yaml

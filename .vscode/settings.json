@@ -4,7 +4,8 @@
 	},
 	"yaml.schemaStore.enable": true,
 	"yaml.schemas": {
-		"Kubernetes": "./kubernetes/**/*.yaml"
+		"Kubernetes": "./kubernetes/**/*.yaml",
+		"https://json.schemastore.org/github-workflow.json": "file://wsl.localhost/archlinux/home/tyler/git/home-ops/.github/workflows/image-pull.yaml"
 	},
 	"vs-kubernetes": {
 		"vs-kubernetes.kubeconfig": "./kubeconfig",

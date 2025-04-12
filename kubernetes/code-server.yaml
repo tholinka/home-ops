@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/pod-v1.json
 apiVersion: v1
 kind: Pod
 metadata:

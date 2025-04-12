@@ -1,10 +1,11 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/persistentvolumeclaim-v1.json
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: gatus
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes: ['ReadWriteOnce']
   resources:
     requests:
       storage: 5Gi

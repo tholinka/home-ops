@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/prometheus.rules.json
 groups:
   - name: qbittorrent
     rules:

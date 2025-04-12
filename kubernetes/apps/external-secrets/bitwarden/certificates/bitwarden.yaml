@@ -25,6 +25,7 @@ spec:
     kind: ClusterIssuer
     group: cert-manager.io
 ---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
