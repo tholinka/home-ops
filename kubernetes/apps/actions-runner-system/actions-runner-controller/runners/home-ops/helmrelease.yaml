@@ -38,7 +38,6 @@ spec:
     - name: openebs
       namespace: openebs-system
   values:
-    defaultPodOptions:
     githubConfigUrl: https://github.com/tholinka/home-ops
     githubConfigSecret: actions-runner-controller-secret
     minRunners: 1
