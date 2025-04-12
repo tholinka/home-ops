@@ -1,4 +1,4 @@
-{% for namespace in ["external-secrets", "flux-system"] %}
+{% for namespace in ["security", "flux-system"] %}
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/namespace-v1.json
 apiVersion: v1
@@ -12,7 +12,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: bitwarden
-  namespace: external-secrets
+  namespace: security
 stringData:
   # this can NOT end in a newline or it doesn't work
   token: {{ ENV['bitwarden-machine-key'] }}

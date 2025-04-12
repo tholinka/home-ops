@@ -58,6 +58,7 @@ spec:
       APP: *app
       GATUS_SUBDOMAIN: rook
   prune: true
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system

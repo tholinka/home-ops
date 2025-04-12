@@ -142,7 +142,7 @@ function apply_resources() {
 		return
 	fi
 
-	if response=$(echo "${output}" | kubectl apply --server-side --filename - &>/dev/null); then
+	if response=$(echo "${output}" | kubectl apply --server-side --filename - 2>&1); then
 		log info "Resources applied"
 	else
 		log error "Failed to apply resources" "response=${response}"

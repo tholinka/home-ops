@@ -16,6 +16,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  wait: true
   healthCheckExprs:
     - apiVersion: cert-manager.io/v1
       kind: ClusterIssuer

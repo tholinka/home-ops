@@ -3,15 +3,37 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app bitwarden-certificates
-  namespace: &namespace external-secrets
+  name: &app external-secrets
+  namespace: &namespace security
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/external-secrets/bitwarden/certificates
+  path: ./kubernetes/apps/security/external-secrets/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app external-secrets-store
+  namespace: &namespace security
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/security/external-secrets/store
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,32 +47,6 @@ spec:
       kind: Certificate
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app bitwarden-store
-  namespace: &namespace external-secrets
-spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  dependsOn:
-    - name: bitwarden-certificates
-      namespace: external-secrets
-  interval: 1h
-  retryInterval: 2m
-  path: ./kubernetes/apps/external-secrets/bitwarden/store
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  timeout: 5m
-  wait: true
-  healthCheckExprs:
     - apiVersion: external-secrets.io/v1beta1
       kind: ClusterSecretStore
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')

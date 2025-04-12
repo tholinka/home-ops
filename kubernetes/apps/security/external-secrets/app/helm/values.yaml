@@ -29,4 +29,4 @@ reportsController:
 bitwarden-sdk-server:
   enabled: true
   podAnnotations:
-    secret.reloader.stakater.com/reload: 'bitwarden-css-certs,bitwarden,bitwarden-tls-certs'
+    secret.reloader.stakater.com/reload: 'bitwarden,bitwarden-tls-certs'

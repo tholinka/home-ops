@@ -93,12 +93,12 @@ releases:
     needs: ['security/cert-manager']
 
   - name: external-secrets
-    namespace: external-secrets
+    namespace: security
     atomic: true
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
     version: 0.15.1
     values:
-      - '{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/external-secrets/external-secrets/app/helm/values.yaml'
+      - '{{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/security/external-secrets/app/helm/values.yaml'
     hooks:
       - # Wait for external-secrets CRDs to be available
         events: ['postsync']
@@ -112,10 +112,10 @@ releases:
         command: kubectl
         args:
           - apply
-          - --namespace=external-secrets
+          - --namespace=security
           - --server-side
           - --field-manager=kustomize-controller
-          - --filename={{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/external-secrets/external-secrets/app/clustersecretstore.yaml
+          - --kustomize={{ requiredEnv "ROOT_DIR" }}/kubernetes/apps/external-secrets/external-secrets/store/
         showlogs: true
     needs: ['system/reflector']
 
