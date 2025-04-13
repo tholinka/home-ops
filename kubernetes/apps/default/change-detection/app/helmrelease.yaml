@@ -1,0 +1,104 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app change-detection
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  driftDetection:
+    mode: warn
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/dgtlmoon/changedetection.io
+              tag: 0.49.13@sha256:2abff4e2a1275aee7dcf9ded08b1b323dddeaf3e36c9ac8470bf7376d4e84b2f
+            env:
+              PORT: &port 5000
+              USE_X_SETTINGS: 1
+              BASE_URL: &host 'https://{{ .Release.Name }}.${SECRET_DOMAIN}'
+              PLAYWRIGHT_DRIVER_URL: 'ws://localhost:3000/chrome?stealth=1&--disable-web-security=true'
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 250Mi
+          browserless:
+            image:
+              repository: ghcr.io/browserless/chrome
+              tag: v2.27.0@sha256:47567b7c552b5d9dc554b7e1c3179508cf384271fcc114e5e8024bfc256beade
+            env:
+              TIMEOUT: 60000
+            securityContext:
+              runAsUser: 999
+              runAsGroup: 999
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 1500Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: Change Detection
+          gethomepage.dev/group: Home
+          gethomepage.dev/icon: changedetection.svg
+    persistence:
+      datastore:
+        existingClaim: *app
+        advancedMounts:
+          *app :
+            app:
+              - path: /datastore
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
