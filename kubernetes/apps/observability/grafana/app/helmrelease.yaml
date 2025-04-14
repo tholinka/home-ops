@@ -327,7 +327,7 @@ spec:
           datasource: Prometheus
         external-secrets:
           # renovate: datasource=github-releases depName=external-secrets/external-secrets
-          url: https://raw.githubusercontent.com/external-secrets/external-secrets/v0.15.1/docs/snippets/dashboard.json
+          url: https://raw.githubusercontent.com/external-secrets/external-secrets/v0.16.0/docs/snippets/dashboard.json
           datasource: Prometheus
         prometheus:
           # renovate: depName="Prometheus"
