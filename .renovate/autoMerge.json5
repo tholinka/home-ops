@@ -4,33 +4,33 @@
 		{
 			description: "Auto-merge trusted container digests",
 			matchDatasources: [
-				"docker"
+				"docker",
 			],
 			automerge: true,
 			automergeType: "pr",
 			matchUpdateTypes: [
-				"digest"
+				"digest",
 			],
 			matchPackageNames: [
 				"/bjw-s-labs/", // gluetun-qb-port-sync
 				"/tholinka/",
-				"/home-operations/"
+				"/home-operations/",
 			],
 			ignoreTests: false,
 		},
 		{
-			description: "Auto-merge Chart Releases",
+			description: "Auto-merge OCI Charts",
 			matchDatasources: [
-				"docker"
+				"docker",
 			],
 			automerge: true,
 			automergeType: "pr",
 			matchUpdateTypes: [
 				"minor",
-				"patch"
+				"patch",
 			],
 			matchPackageNames: [
-				"/kube-prometheus-stack/"
+				"/kube-prometheus-stack/",
 			],
 			ignoreTests: false,
 		},
@@ -40,17 +40,17 @@
 				"github-releases"
 			],
 			automerge: true,
-			automergeType: "branch",
+			automergeType: "pr",
 			matchUpdateTypes: [
 				"minor",
-				"patch"
+				"patch",
 			],
 			matchPackageNames: [
 				"/external-dns/",
 				"/gateway-api/",
-				"/prometheus-operator/"
+				"/prometheus-operator/",
 			],
-			ignoreTests: true,
+			ignoreTests: false,
 		},
 	],
 }
