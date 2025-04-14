@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
-              tag: 20250413@sha256:ec82bd5add1c161b195d54f47b5cf0cbd3fc39b7056e9bee925431c1b8bc84c6
+              tag: 20250414@sha256:3a3860a8378d871be049b5359e347038548b9aaed28540866b537cefad433f4a
             env:
               FLASK_PORT: &port 80
               FLASK_DEBUG: false
