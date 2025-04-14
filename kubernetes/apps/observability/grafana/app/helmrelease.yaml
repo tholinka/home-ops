@@ -206,6 +206,12 @@ spec:
           gnetId: 11454
           revision: 14
           datasource: Prometheus
+        kubernetes-pvc:
+          # renovate: depName="Kubernetes PVC Stats"
+          gnetId: 23233
+          revision: 4
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
