@@ -42,7 +42,7 @@ data: {{ ENV['lets_encrypt_tls'] | safe}}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: cluster_secrets
+  name: cluster-secrets
   namespace: flux-system
   annotations:
     reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
