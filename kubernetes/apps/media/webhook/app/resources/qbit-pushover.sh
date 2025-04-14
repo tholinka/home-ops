@@ -16,8 +16,8 @@ notify() {
 			"$(numfmt --to iec --format "%8.2f" "${RELEASE_SIZE}")"
 	printf -v PUSHOVER_PRIORITY "%s" "low"
 
-	apprise -vv --title "${PUSHOVER_TITLE}" --body "${PUSHOVER_MESSAGE}" \
-		"${QBIT_PUSHOVER_URL}?priority=${PUSHOVER_PRIORITY}&format=markdown"
+	apprise -vv --title "${PUSHOVER_TITLE}" -i html --body "${PUSHOVER_MESSAGE}" \
+		"${QBIT_PUSHOVER_URL}?priority=${PUSHOVER_PRIORITY}&format=html"
 }
 
 main() {

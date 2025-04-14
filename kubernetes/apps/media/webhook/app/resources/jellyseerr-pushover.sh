@@ -23,8 +23,8 @@ function notify() {
 	printf -v PUSHOVER_URL "%s" "https://requests.${SECRET_DOMAIN}"
 	printf -v PUSHOVER_URL_TITLE "Open %s" "Jellyseerr"
 
-	apprise -vv --title "${PUSHOVER_TITLE}" --body "${PUSHOVER_MESSAGE}" \
-		"${JELLYSEERR_PUSHOVER_URL}?url=${PUSHOVER_URL}&url_title=${PUSHOVER_URL_TITLE}&priority=${PUSHOVER_PRIORITY}&format=markdown"
+	apprise -vv --title "${PUSHOVER_TITLE}" -i html --body "${PUSHOVER_MESSAGE}" \
+		"${JELLYSEERR_PUSHOVER_URL}?url=${PUSHOVER_URL}&url_title=${PUSHOVER_URL_TITLE}&priority=${PUSHOVER_PRIORITY}&format=html"
 }
 
 function main() {
