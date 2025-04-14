@@ -183,12 +183,6 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-      dnsConfig:
-        nameservers:
-          - 192.168.20.6
-        options:
-          - name: ndots
-            value: '1'
     service:
       app:
         controller: *app
