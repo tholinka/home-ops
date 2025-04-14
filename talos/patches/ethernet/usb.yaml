@@ -1,0 +1,7 @@
+machine:
+  udev: # rename to standardized name for multus
+    rules:
+      - |-
+        SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*",
+        ATTR{address}=="6c:*",ATTR{dev_id}=="0x0", ATTR{type}=="1",
+        KERNEL=="enp*", NAME="eth0"

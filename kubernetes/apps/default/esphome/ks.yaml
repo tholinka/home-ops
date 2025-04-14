@@ -24,6 +24,8 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
+    - name: multus-networks
+      namespace: network
     - name: storage-ready
       namespace: flux-system
   postBuild:

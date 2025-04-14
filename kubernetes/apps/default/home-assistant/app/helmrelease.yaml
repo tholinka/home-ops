@@ -23,6 +23,15 @@ spec:
       home-assistant:
         annotations:
           reloader.stakater.com/auto: 'true'
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name":"iot",
+                "namespace": "network",
+                "ips": ["192.168.30.11/24"],
+                "mac": "3e:59:e4:f7:43:08"
+              }]
         containers:
           app:
             image:

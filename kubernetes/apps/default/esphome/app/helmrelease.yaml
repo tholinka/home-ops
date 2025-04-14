@@ -19,6 +19,13 @@ spec:
 
         pod:
           annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name":"iot",
+                "namespace": "network",
+                "ips": ["192.168.30.12/24"],
+                "mac": "92:cf:d7:05:70:84"
+              }]
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000

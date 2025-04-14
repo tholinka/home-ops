@@ -13,6 +13,8 @@ spec:
     - ../../../../components/gatus/external
     - ../../../../components/volsync
   dependsOn:
+    - name: multus-networks
+      namespace: network
     - name: storage-ready
       namespace: flux-system
   interval: 1h
