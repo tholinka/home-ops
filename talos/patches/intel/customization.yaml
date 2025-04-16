@@ -1,0 +1,9 @@
+customization: # 54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6
+  extraKernelArgs:
+    - intel_iommu=on
+    - iommu=pt
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/i915
+      - siderolabs/intel-ucode
+      - siderolabs/mei

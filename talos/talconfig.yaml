@@ -79,7 +79,7 @@ nodes:
     installDisk: /dev/sda
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei
+    talosImageURL: factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # i915, intel-ucode, mei, intel_iommu=on iommu=pt
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -102,7 +102,7 @@ nodes:
     installDisk: /dev/sda
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei
+    talosImageURL: factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # i915, intel-ucode, mei, intel_iommu=on iommu=pt
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -125,7 +125,7 @@ nodes:
     installDisk: /dev/sda
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei
+    talosImageURL: factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # i915, intel-ucode, mei, intel_iommu=on iommu=pt
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -149,7 +149,7 @@ nodes:
       serial: 1922DD470802
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei
+    talosImageURL: factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # i915, intel-ucode, mei, intel_iommu=on iommu=pt
     controlPlane: false
     networkInterfaces:
       - deviceSelector: # 2.5GbE usb
@@ -185,7 +185,7 @@ nodes:
       serial: S4GNNF0N211290
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei
+    talosImageURL: factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # i915, intel-ucode, mei, intel_iommu=on iommu=pt
     controlPlane: false
     networkInterfaces:
       - deviceSelector: # 2.5GbE usb
@@ -220,7 +220,7 @@ nodes:
     installDisk: /dev/sda
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei
+    talosImageURL: factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # i915, intel-ucode, mei, intel_iommu=on iommu=pt
     controlPlane: false
     networkInterfaces:
       - deviceSelector: # 2.5GbE usb
@@ -256,7 +256,7 @@ nodes:
       serial: S4GNNF0N206772
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/ab86bd395e263b78e5f54c800e4d319dae786d9ae25ecb129462a9e0e9491615 # i915, intel-ucode, mei
+    talosImageURL: factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # i915, intel-ucode, mei, intel_iommu=on iommu=pt
     controlPlane: false
     networkInterfaces:
       - deviceSelector: # 2.5GbE usb
