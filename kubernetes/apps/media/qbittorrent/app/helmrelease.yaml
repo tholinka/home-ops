@@ -96,8 +96,11 @@ spec:
                   - NET_ADMIN
               allowPrivilegeEscalation: false
             resources:
+              requests:
+                cpu: 20m
               limits:
                 squat.ai/tun: 1
+                memory: 100Mi
           # TODO: Replace once gluetun supports socks5, nothing supports shadowsocks
           socks5:
             restartPolicy: Always
@@ -106,6 +109,17 @@ spec:
               tag: latest@sha256:aad36c623f16850d7cea0171d1aa79d706129191db9e270b6dfd7db6b552c734
             env:
               PROXY_PORT: &proxy-port 8388
+            resources:
+              requests:
+                cpu: 5m
+              limits:
+                memory: 32Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
         containers:
           app:
             image:
@@ -152,7 +166,7 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 25Mi
+                memory: 32Mi
           port-forward:
             image:
               repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
@@ -170,6 +184,11 @@ spec:
               CRON_ENABLED: true
               CRON_SCHEDULE: '*/5 * * * *'
               LOG_TIMESTAMP: false
+            resources:
+              requests:
+                cpu: 5m
+              limits:
+                memory: 32Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
