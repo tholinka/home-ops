@@ -7,16 +7,16 @@ set -euo pipefail
 
 # Function to send pushover notification
 notify() {
-	printf -v PUSHOVER_TITLE "%s" "Download Finished"
+	printf -v PUSHOVER_TITLE "Download Finished"
 	printf -v PUSHOVER_MESSAGE \
 		"<b>%s</b><small>\n<b>Category:</b> %s</small><small>\n<b>Indexer:</b> %s</small><small>\n<b>Size:</b> %s</small>" \
 			"${RELEASE_NAME%.*}" \
 			"${RELEASE_CAT}" \
 			"${RELEASE_INDEXER}" \
 			"$(numfmt --to iec --format "%8.2f" "${RELEASE_SIZE}")"
-	printf -v PUSHOVER_PRIORITY "%s" "low"
+	printf -v PUSHOVER_PRIORITY "low"
 
-	apprise -vv --title "${PUSHOVER_TITLE}" -i html --body "${PUSHOVER_MESSAGE}" \
+	apprise -vv --title "${PUSHOVER_TITLE}" --body "${PUSHOVER_MESSAGE}" --input-format html \
 		"${QBIT_PUSHOVER_URL}?priority=${PUSHOVER_PRIORITY}&format=html"
 }
 

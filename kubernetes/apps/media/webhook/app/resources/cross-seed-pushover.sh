@@ -6,8 +6,8 @@ PUSHOVER_URL=${1:?}
 function notify() {
 	if [[ "${EVENT_TYPE}" == "TEST" ]]; then
 		printf -v pushover_title "Test Notification"
-		printf -v pushover_msg "Howdy this is a test notification from <b>%s</b>" "cross-seed"
-		printf -v pushover_priority "%s" "low"
+		printf -v pushover_msg "Howdy this is a test notification"
+		printf -v pushover_priority "low"
 	fi
 
 	if [[ "${EVENT_TYPE}" == "RESULTS" && "${EVENT_RESULT}" == "INJECTED" ]]; then
@@ -20,14 +20,14 @@ function notify() {
 			"${EVENT_FROM_TRACKER}" \
 			"${EVENT_SOURCE}"
 
-		printf -v pushover_url "https://qb.${SECRET_DOMAIN}/#/torrent/%s" "${EVENT_HASH}"
+		printf -v pushover_url "https://qb.%s/#/torrent/%s" "${SECRET_DOMAIN}" "${EVENT_HASH}"
 		printf -v pushover_url_title "View in qbit"
 
 		printf -v pushover_priority "%s" \
 			"$([[ ${EVENT_PAUSED} == 'true' ]] && echo "emergency" || echo "low")"
 	fi
 
-	apprise -vv --title "${pushover_title}" -i html --body "${pushover_msg}" \
+	apprise -vv --title "${pushover_title}" --body "${pushover_msg}" --input-format html \
 		"${PUSHOVER_URL}?url=${pushover_url}&url_title=${pushover_url_title}&priority=${pushover_priority}&format=html"
 }
 
