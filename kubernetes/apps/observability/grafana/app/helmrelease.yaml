@@ -272,11 +272,6 @@ spec:
           gnetId: 7587
           revision: 3
           datasource: Prometheus
-        cert-manager:
-          # renovate: depName="Cert-manager-Kubernetes"
-          gnetId: 20842
-          revision: 3
-          datasource: Prometheus
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -326,6 +321,12 @@ spec:
           # renovate: datasource=github-releases depName=envoyproxy/gateway
           url: https://raw.githubusercontent.com/envoyproxy/gateway/v1.3.2/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
           datasource: Prometheus
+        envoy:
+          # renovate: depName="Envoy Proxy Monitoring gRPC"
+          gnetId: 23239
+          revision: 1
+          datasource:
+            - { name: DS_AFRANET_PROMETHEUS, value: Prometheus }
       data:
         dragonfly:
           # renovate: datasource=github-releases depName=dragonflydb/dragonfly
@@ -350,6 +351,11 @@ spec:
           gnetId: 15587
           revision: 1
           datasource: Loki
+        cert-manager:
+          # renovate: depName="Cert-manager-Kubernetes"
+          gnetId: 20842
+          revision: 3
+          datasource: Prometheus
     sidecar:
       image:
         registry: ghcr.io
