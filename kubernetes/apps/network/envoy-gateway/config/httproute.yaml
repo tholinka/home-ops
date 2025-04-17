@@ -9,13 +9,13 @@ metadata:
 spec:
   parentRefs:
     - name: internal
-      namespace: kube-system
+      namespace: network
       sectionName: http
     - name: internal
-      namespace: kube-system
+      namespace: network
       sectionName: http-root
     - name: external
-      namespace: kube-system
+      namespace: network
       sectionName: http
   rules:
     - filters:

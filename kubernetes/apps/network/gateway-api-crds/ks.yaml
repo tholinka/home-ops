@@ -4,7 +4,6 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: gateway-api-crds
-  namespace: kube-system
 spec:
   interval: 30m
   url: https://github.com/kubernetes-sigs/gateway-api.git
@@ -21,7 +20,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &name gateway-api-crds
-  namespace: &namespace kube-system
+  namespace: &namespace network
 spec:
   targetNamespace: *namespace
   prune: true

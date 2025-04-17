@@ -7,7 +7,7 @@ bpf:
   datapathMode: netkit
   masquerade: true
   preallocateMaps: true
-  #tproxy: true # breaks accessing cilium gateway ips from inside cluster
+  tproxy: true # breaks accessing cilium gateway ips from inside cluster
 bpfClockProbe: true
 bgpControlPlane:
   enabled: true
@@ -31,11 +31,12 @@ dashboards:
 endpointRoutes:
   enabled: true
 envoy:
-  rollOutPods: true
-gatewayAPI:
-  enabled: true
-  enableAlpn: true
-  xffNumTrustedHops: 1
+  enabled: false
+#   rollOutPods: true
+# gatewayAPI:
+#   enabled: true
+#   enableAlpn: true
+#   xffNumTrustedHops: 1
 hubble:
   enabled: false
 ipam:
