@@ -145,31 +145,31 @@ spec:
       kubernetes:
         k8s-addons-prometheus:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-addons-prometheus.json
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.4/dashboards/k8s-addons-prometheus.json
           token: ''
         k8s-system-api-server:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-system-api-server.json
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.4/dashboards/k8s-system-api-server.json
           token: ''
         k8s-system-coredns:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-system-coredns.json
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.4/dashboards/k8s-system-coredns.json
           token: ''
         k8s-views-global:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-views-global.json
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.4/dashboards/k8s-views-global.json
           token: ''
         k8s-views-namespaces:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-views-namespaces.json
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.4/dashboards/k8s-views-namespaces.json
           token: ''
         k8s-views-nodes:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-views-nodes.json
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.4/dashboards/k8s-views-nodes.json
           token: ''
         k8s-views-pods:
           # renovate: datasource=github-releases depName=dotdc/grafana-dashboards-kubernetes
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.3/dashboards/k8s-views-pods.json
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/v2.7.4/dashboards/k8s-views-pods.json
           token: ''
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"
