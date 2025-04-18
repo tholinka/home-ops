@@ -6,6 +6,7 @@ namespace: default
 resources:
   - ./change-detection/ks.yaml
   - ./esphome/ks.yaml
+  - ./go2rtc/ks.yaml
   - ./home-assistant/ks.yaml
   - ./homepage/ks.yaml
   - ./it-tools/ks.yaml

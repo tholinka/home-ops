@@ -1,0 +1,26 @@
+---
+api:
+  listen: :80
+rtsp:
+  listen: :554
+webrtc:
+  listen: :8555
+  candidates:
+    - 192.168.20.9:8555
+    - stun:8555
+  ice_servers:
+    - urls:
+        - stun:stun.cloudflare.com:3478
+log:
+  output: 'stdout'
+streams:
+  doorbell: rtsp://admin:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_main#audio=opus
+  doorbell_low: rtsp://admin:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_sub#audio=opus
+  front_north: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_main#audio=opus
+  front_north_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_sub#audio=opus
+  front_south: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_main#audio=opus
+  front_south_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_sub#audio=opus
+  alley: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_main#audio=opus
+  alley_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_sub#audio=opus
+  backyard: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_main#audio=opus
+  backyard_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_sub#audio=opus
