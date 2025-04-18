@@ -21,7 +21,6 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 15m
-  wait: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -45,4 +44,37 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 15m
-  wait: true
+  healthChecks:
+    - &healthCheck
+      apiVersion: &gatewayVersion gateway.networking.k8s.io/v1
+      kind: &gatewayKind Gateway
+      name: external
+      namespace: *namespace
+    - <<: *healthCheck
+      name: internal
+    - &healthCheck
+      apiVersion: &envoyVersion gateway.envoyproxy.io/v1alpha1
+      kind: &clientKind ClientTrafficPolicy
+      name: external
+      namespace: *namespace
+    - <<: *healthCheck
+      kind: *clientKind
+      name: internal
+    - <<: *healthCheck
+      kind: &backendKind BackendTrafficPolicy
+      name: internal
+    - <<: *healthCheck
+      kind: *backendKind
+      name: external
+  healthCheckExprs:
+    - apiVersion: *gatewayVersion
+      kind: *gatewayKind
+      current: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'True') && status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'True')
+      failed: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'False') || status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'False')
+    - &expr
+      apiVersion: *envoyVersion
+      kind: *clientKind
+      current: status.ancestors.all(e, e.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'True'))
+      failed: status.ancestors.all(e, e.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'False'))
+    - <<: *expr
+      kind: *backendKind

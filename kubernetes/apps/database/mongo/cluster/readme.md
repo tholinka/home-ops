@@ -53,15 +53,14 @@ If `replicas: 1`, the volsync component works. Otherwise, manually create the vo
 ### Healthecks
 
 ```yaml
-  wait: true
   healthChecks:
-    - apiVersion: mongodbcommunity.mongodb.com/v1
-      kind: MongoDBCommunity
+    - apiVersion: &apiVersion mongodbcommunity.mongodb.com/v1
+      kind: &kind MongoDBCommunity
       name: *app
       namespace: *namespace
   healthCheckExprs:
-    - apiVersion: mongodbcommunity.mongodb.com/v1
-      kind: MongoDBCommunity
+    - apiVersion: *apiVersion
+      kind: *kind
       failed: status.phase == 'Failed'
       current: status.phase == 'Running'
 ```

@@ -16,7 +16,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
   interval: 1h
   retryInterval: 2m
   timeout: 5m
@@ -38,7 +37,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
   interval: 1h
   retryInterval: 2m
   timeout: 5m
@@ -62,13 +60,13 @@ spec:
       MONGO_DB: unifi
       MONGO_USER: unifi
   healthChecks:
-    - apiVersion: mongodbcommunity.mongodb.com/v1
-      kind: MongoDBCommunity
+    - apiVersion: &apiVersion mongodbcommunity.mongodb.com/v1
+      kind: &kind MongoDBCommunity
       name: *app
       namespace: *namespace
   healthCheckExprs:
-    - apiVersion: mongodbcommunity.mongodb.com/v1
-      kind: MongoDBCommunity
+    - apiVersion: *apiVersion
+      kind: *kind
       failed: status.phase == 'Failed'
       current: status.phase == 'Running'
   patches:
@@ -99,7 +97,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
   interval: 1h
   retryInterval: 2m
   timeout: 5m
@@ -123,12 +120,12 @@ spec:
       MONGO_DB: your-spotify
       MONGO_USER: your-spotify
   healthChecks:
-    - apiVersion: mongodbcommunity.mongodb.com/v1
-      kind: MongoDBCommunity
+    - apiVersion: &apiVersion mongodbcommunity.mongodb.com/v1
+      kind: &kind MongoDBCommunity
       name: *app
       namespace: *namespace
   healthCheckExprs:
-    - apiVersion: mongodbcommunity.mongodb.com/v1
-      kind: MongoDBCommunity
+    - apiVersion: *apiVersion
+      kind: *kind
       failed: status.phase == 'Failed'
       current: status.phase == 'Running'

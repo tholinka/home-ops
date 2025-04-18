@@ -22,7 +22,6 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -47,9 +46,13 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: true
+  healthChecks:
+    - apiVersion: &apiVersion apps.emqx.io/v2beta1
+      kind: &kind EMQX
+      name: emqx
+      namespace: *namespace
   healthCheckExprs:
-    - apiVersion: apps.emqx.io/v2beta1
-      kind: EMQX
-      failed: status.conditions.filter(e, e.type == 'Available').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Available').all(e, e.status == 'True')
+    - apiVersion: *apiVersion
+      kind: *kind
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')

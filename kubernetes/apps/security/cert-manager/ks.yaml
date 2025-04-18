@@ -16,10 +16,23 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: cert-manager
+      namespace: *namespace
+    - apiVersion: &apiVersion cert-manager.io/v1
+      kind: &kind ClusterIssuer
+      name: letsencrypt
+    - apiVersion: *apiVersion
+      kind: *kind
+      name: cluster-selfsigned-issuer
+    - apiVersion: *apiVersion
+      kind: *kind
+      name: cluster-signed-issuer
   healthCheckExprs:
-    - apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
+    - apiVersion: *apiVersion
+      kind: *kind
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 1h

@@ -19,7 +19,6 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -41,13 +40,20 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: true
+  healthChecks:
+    - apiVersion: &certApiVersion cert-manager.io/v1
+      kind: &certKind Certificate
+      name: bitwarden-tls-certs
+      namespace: *namespace
+    - apiVersion: &secretApiVersion external-secrets.io/v1
+      kind: &secretKind ClusterSecretStore
+      name: bitwarden
   healthCheckExprs:
-    - apiVersion: cert-manager.io/v1
-      kind: Certificate
+    - apiVersion: *certApiVersion
+      kind: *certKind
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-    - apiVersion: external-secrets.io/v1
-      kind: ClusterSecretStore
+    - apiVersion: *secretApiVersion
+      kind: *secretKind
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')

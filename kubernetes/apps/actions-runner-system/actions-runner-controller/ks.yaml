@@ -19,7 +19,6 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -41,9 +40,17 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: &homerunner home-ops-runner
+      namespace: *namespace
+    - apiVersion: &apiVersion actions.github.com/v1alpha1
+      kind: &kind AutoscalingRunnerSet
+      namespace: *namespace
+      name: *homerunner
   healthCheckExprs:
-    - apiVersion: actions.github.com/v1alpha1
-      kind: EphemeralRunner
-      failed: status.phase == 'Failed'
-      current: status.phase == 'Running'
+    - apiVersion: *apiVersion
+      kind: *kind
+      failed: status.currentRunners == 0 && status.pendingEphemeralRunners == 0 && status.runningEphemeralRunners == 0
+      current: status.currentRunners > 0
