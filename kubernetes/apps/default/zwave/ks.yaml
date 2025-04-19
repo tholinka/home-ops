@@ -12,6 +12,7 @@ spec:
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/volsync
+    - ../../../../components/ext-auth
   dependsOn:
     - name: generic-device-plugin
       namespace: system

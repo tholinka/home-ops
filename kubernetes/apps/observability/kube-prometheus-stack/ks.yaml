@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/guarded
+    - ../../../../components/ext-auth
   dependsOn:
     - name: storage-ready
       namespace: flux-system
@@ -21,6 +22,8 @@ spec:
     substitute:
       APP: kube-prometheus-stack
       GATUS_SUBDOMAIN: prometheus
+      EXT_AUTH_TARGET: kube-prometheus-stack-prometheus
+      EXT_AUTH_TARGET_2: kube-prometheus-stack-alertmanager
   prune: true
   sourceRef:
     kind: GitRepository

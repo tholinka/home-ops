@@ -12,6 +12,7 @@ spec:
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/volsync
+    - ../../../../components/ext-auth
   dependsOn:
     - name: storage-ready
       namespace: flux-system

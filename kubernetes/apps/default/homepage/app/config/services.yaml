@@ -85,6 +85,15 @@
           type: prowlarr
           url: http://prowlarr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_PROWLARR_TOKEN}}'
+    - qBittorrent:
+        icon: qbittorrent.svg
+        href: https://qb.${SECRET_DOMAIN}
+        app: qbittorrent
+        namespace: media
+        widget:
+          type: qbittorrent
+          url: http://qbittorrent.media.svc.cluster.local.:80
+          enableLeechProgress: true # optional, defaults to false
     - Radarr:
         href: https://radarr.${SECRET_DOMAIN}
         icon: radarr.svg
@@ -144,17 +153,6 @@
         icon: maintainerr.svg
         app: maintainerr
         namespace: media
-    - qBittorrent:
-        icon: qbittorrent.svg
-        href: https://qb.${SECRET_DOMAIN}
-        app: qbittorrent
-        namespace: media
-        # widget: # doesn't properly escape the password it seems, so it fails
-        #   type: qbittorrent
-        #   url: http://qbittorrent.media.svc.cluster.local.:80
-        #   username: '{{HOMEPAGE_VAR_QBITTORRENT_USER}}'
-        #   password: '{{HOMEPAGE_VAR_QBITTORRENT_PASS}}'
-        #   enableLeechProgress: true # optional, defaults to false
     - Wizarr:
         icon: wizarr.svg
         href: https://join.${SECRET_DOMAIN}

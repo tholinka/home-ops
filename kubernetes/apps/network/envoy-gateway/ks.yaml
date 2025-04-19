@@ -10,8 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: crds-ready
-      namespace: flux-system
+    - name: gateway-api-crds
+      namespace: network
   interval: 1h
   path: ./kubernetes/apps/network/envoy-gateway/app
   prune: true

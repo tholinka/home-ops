@@ -40,6 +40,8 @@ spec:
       name: certificates.cert-manager.io
     - <<: *crds
       name: httproutes.gateway.networking.k8s.io
+    - <<: *crds
+      name: securitypolicies.gateway.envoyproxy.io
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1

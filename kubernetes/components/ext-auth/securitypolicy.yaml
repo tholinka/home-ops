@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+# adapted from https://docs.goauthentik.io/docs/add-secure-apps/providers/proxy/server_envoy and https://github.com/authelia/authelia/blob/master/docs/content/integration/proxies/envoy.md#secure-route
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: ${APP}
+spec:
+  extAuth:
+    failOpen: false
+    headersToExtAuth:
+      - cookie
+    http:
+      backendRefs:
+        - name: ak-outpost-authentik-embedded-outpost
+          namespace: security
+          port: 9000
+      path: /outpost.goauthentik.io/auth/envoy
+      headersToBackend:
+        - set-cookie
+        - x-authentik-*
+        - authorization
+  targetRefs:
+    - group: ${EXT_AUTH_GROUP:-gateway.networking.k8s.io}
+      kind: ${EXT_AUTH_KIND:-HTTPRoute}
+      name: ${EXT_AUTH_TARGET:-${APP}}
+    - group: ${EXT_AUTH_GROUP_2:-${EXT_AUTH_GROUP:-gateway.networking.k8s.io}}
+      kind: ${EXT_AUTH_KIND_2:-${EXT_AUTH_KIND:-HTTPRoute}}
+      name: ${EXT_AUTH_TARGET_2:-${EXT_AUTH_TARGET:-${APP}}}
