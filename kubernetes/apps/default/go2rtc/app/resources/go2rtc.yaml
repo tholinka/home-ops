@@ -14,13 +14,17 @@ webrtc:
 log:
   output: 'stdout'
 streams:
-  doorbell: rtsp://admin:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_main#audio=opus
-  doorbell_low: rtsp://admin:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_sub#audio=opus
-  front_north: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_main#audio=opus
-  front_north_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_sub#audio=opus
-  front_south: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_main#audio=opus
-  front_south_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_sub#audio=opus
-  alley: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_main#audio=opus
-  alley_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_sub#audio=opus
-  backyard: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_main#audio=opus
-  backyard_low: rtsp://admin:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_sub#audio=opus
+  doorbell:
+    - ffmpeg:https://doorbell.iot.internal/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=${NVR_USERNAME}&password=${NVR_PASSWORD}#video=copy#audio=copy#audio=opus # required for 2 way audio
+    - ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_main#video=copy#audio=copy#audio=opus
+  doorbell_low:
+    - ffmpeg:https://doorbell.iot.internal/flv?port=1935&app=bcs&stream=channel0_sub.bcs&user=${NVR_USERNAME}&password=${NVR_PASSWORD}#video=copy#audio=copy#audio=opus # required for 2 way audio
+    - ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_sub#video=copy#audio=copy#audio=opus
+  front_north: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_main#video=copy#audio=copy#audio=opus
+  front_north_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_sub#video=copy#audio=copy#audio=opus
+  front_south: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_main#video=copy#audio=copy#audio=opus
+  front_south_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_sub#video=copy#audio=copy#audio=opus
+  alley: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_main#video=copy#audio=copy#audio=opus
+  alley_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_sub#video=copy#audio=copy#audio=opus
+  backyard: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_main#video=copy#audio=copy#audio=opus
+  backyard_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_sub#video=copy#audio=copy#audio=opus
