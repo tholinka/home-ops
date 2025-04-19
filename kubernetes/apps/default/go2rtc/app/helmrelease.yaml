@@ -68,24 +68,29 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
 
     service:
-      app:
+      app: &streams
         controller: *app
-        type: LoadBalancer
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: go2rtc-streams.${SECRET_DOMAIN}
-          lbipam.cilium.io/ips: 192.168.20.9, ::ffff:192.168.20.9
         ports:
           http:
             primary: true
             port: *port
           rtsp:
             port: 554
-          webrtc-tcp:
+          webrtc-tcp: &webrtcTcp
             port: 8555
             protocol: TCP
-          webrtc-udp:
+          webrtc-udp: &webrtcUdp
             port: 8555
             protocol: UDP
+      streams:
+        <<: *streams
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: go2rtc-streams.${SECRET_DOMAIN}
+          lbipam.cilium.io/ips: 192.168.20.9, ::ffff:192.168.20.9
+        ports:
+          webrtc-tcp: *webrtcTcp
+          webrtc-udp: *webrtcUdp
 
     route:
       app:
@@ -97,7 +102,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - name: *app
+              - name: app
                 port: *port
         annotations:
           gethomepage.dev/enabled: 'true'

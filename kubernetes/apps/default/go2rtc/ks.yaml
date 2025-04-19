@@ -18,6 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      EXT_AUTH_TARGET: go2rtc-app
   prune: true
   sourceRef:
     kind: GitRepository
