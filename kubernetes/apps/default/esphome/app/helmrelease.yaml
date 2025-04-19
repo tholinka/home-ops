@@ -119,7 +119,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: ESPHome
-          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/group: Home
           gethomepage.dev/icon: esphome.svg
           gethomepage.dev/widget.type: esphome
           gethomepage.dev/widget.url: 'http://esphome.default.svc.cluster.local.:6052'

@@ -12,6 +12,7 @@ spec:
   components:
     - ../../../../components/gatus/external
     - ../../../../components/volsync
+    - ../../../../components/ext-auth
   dependsOn:
     - name: multus-networks
       namespace: network
@@ -25,6 +26,7 @@ spec:
       APP: *app
       GATUS_SUBDOMAIN: ha
       VOLSYNC_CAPACITY: 5Gi
+      EXT_AUTH_TARGET: home-assistant-code
   prune: true
   sourceRef:
     kind: GitRepository

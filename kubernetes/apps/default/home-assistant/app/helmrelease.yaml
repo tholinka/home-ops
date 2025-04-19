@@ -20,7 +20,7 @@ spec:
       retries: 3
   values:
     controllers:
-      home-assistant:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         pod:
@@ -60,17 +60,15 @@ spec:
               repository: ghcr.io/coder/code-server
               tag: 4.99.3@sha256:e822acb286dca144f1a10ef847bc8f905d92ea79998f4f021802064badcae5fe
             args:
-              [
-                '--auth',
-                'none',
-                '--user-data-dir',
-                '/config/.vscode',
-                '--extensions-dir',
-                '/config/.vscode',
-                '--port',
-                '12321',
-                '/config',
-              ]
+              - --auth
+              - none
+              - --user-data-dir
+              - /config/.vscode
+              - --extensions-dir
+              - /config/.vscode
+              - --port
+              - '12321'
+              - /config
             resources:
               requests:
                 cpu: 10m
@@ -85,7 +83,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: home-assistant
+        controller: *app
         ports:
           http:
             port: &http 8123
@@ -103,22 +101,26 @@ spec:
           - backendRefs:
               - name: *app
                 port: *http
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /code
-            backendRefs:
+      code: # split so it's not external, and we can ext-auth it as well
+        hostnames:
+          - ha-code.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
               - name: *app
                 port: *code
-            filters:
-              - type: URLRewrite
-                urlRewrite:
-                  path:
-                    type: ReplacePrefixMatch
-                    replacePrefixMatch: /
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: Home Assistant Code Server
+          gethomepage.dev/group: Dev Tools
+          gethomepage.dev/icon: code-server.webp
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=home-assistant
     serviceMonitor:
       app:
-        serviceName: home-assistant
+        serviceName: *app
         endpoints:
           - port: http
             scheme: http
@@ -131,7 +133,7 @@ spec:
                 key: HASS_LONG_LIVED_TOKEN
     persistence:
       config:
-        existingClaim: home-assistant
+        existingClaim: *app
         globalMounts:
           - path: /config
       config-venv:
