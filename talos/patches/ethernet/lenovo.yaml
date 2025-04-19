@@ -1,6 +1,6 @@
 machine:
   udev: # rename to standardized name for multus
-    rules:
+    rules: # 1gbps port for lenovo boxes is "00:*"
       - |-
         SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*",
         ATTR{address}=="c4:*",ATTR{dev_id}=="0x0", ATTR{type}=="1",
