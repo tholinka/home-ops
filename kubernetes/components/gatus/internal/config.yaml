@@ -1,11 +1,11 @@
 ---
 endpoints:
   - name: '${APP}'
-    group: external
+    group: internal
     url: 'https://${GATUS_SUBDOMAIN:=${APP}}.${SECRET_DOMAIN}${GATUS_PATH:=/}'
-    interval: 1m
-    client:
-      # dnscrypt-proxy
-      dns-resolver: tcp://10.96.0.11:53
+    interval: 5m
+    ui:
+      hide-hostname: true
+      hide-url: true
     conditions:
       - '[STATUS] == ${GATUS_STATUS:=200}'

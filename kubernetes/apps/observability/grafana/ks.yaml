@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/guarded
+    - ../../../../components/gatus/internal
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/observability/grafana/app
