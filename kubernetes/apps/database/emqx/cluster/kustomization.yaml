@@ -7,3 +7,4 @@ resources:
   - ./externalsecret.yaml
   - ./gatus.yaml
   - ./httproute.yaml
+  - ./podmonitor.yaml
