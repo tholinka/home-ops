@@ -18,6 +18,7 @@ spec:
     requests:
       cpu: ${CNPG_REQUESTS_CPU:=500m}
     limits:
+      hugepages-2Mi: ${CNPG_LIMITS_MEMORY_HUGEPAGES:=1Gi} # Requires sysctl set on the host
       memory: ${CNPG_LIMITS_MEMORY:=2Gi}
   affinity:
     enablePodAntiAffinity: true

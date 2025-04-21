@@ -24,6 +24,8 @@ spec:
       namespace: database
     - name: dragonfly-crds
       namespace: database
+    - name: openebs
+      namespace: openebs-system
   postBuild:
     substitute:
       APP: *app
@@ -33,6 +35,8 @@ spec:
       CNPG_VERSION: 17.4-bookworm
       CNPG_SIZE: 2Gi
       CNPG_CLUSTER_CURRENT: v0
+      CNPG_LIMITS_MEMORY_HUGEPAGES: 500Mi
+      CNPG_LIMITS_MEMORY: 1Gi
   components:
     - ../../../../components/cnpg/backup
     - ../../../../components/dragonfly
