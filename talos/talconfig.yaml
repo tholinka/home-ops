@@ -97,6 +97,7 @@ nodes:
       - '@./patches/intel/machine-sysfs.yaml'
       - '@./patches/intel/machine-udev.yaml'
       - '@./patches/ethernet/lenovo.yaml'
+      - '@./patches/large/machine-sysctls.yaml'
   - hostname: c2
     ipAddress: 192.168.20.62
     installDisk: /dev/sda
@@ -139,6 +140,7 @@ nodes:
       - '@./patches/intel/machine-sysfs.yaml'
       - '@./patches/intel/machine-udev.yaml'
       - '@./patches/ethernet/usb.yaml'
+      - '@./patches/large/machine-sysctls.yaml'
       - |-
         machine:
           sysfs:
@@ -193,6 +195,8 @@ nodes:
       - <<: *interface
         addresses:
           - 192.168.20.101/24
+    patches:
+      - '@./patches/large/machine-sysctls.yaml'
 
 # Global patches
 patches:
