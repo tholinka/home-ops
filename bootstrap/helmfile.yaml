@@ -89,7 +89,7 @@ releases:
   - name: reflector
     namespace: system
     chart: oci://ghcr.io/home-operations/charts-mirror/reflector
-    version: 9.0.322
+    version: 9.0.337
     needs: ['security/cert-manager']
 
   - name: external-secrets
