@@ -53,25 +53,3 @@ spec:
     - action: replace
       targetLabel: job
       replacement: *name
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
-  name: &name zigbee-controller
-spec:
-  basicAuth:
-    username:
-      name: scrape-target-zigbee-secret
-      key: USERNAME
-    password:
-      name: scrape-target-zigbee-secret
-      key: PASSWORD
-  staticConfigs:
-    - targets:
-        - zigbee.iot.internal
-  metricsPath: /metrics
-  relabelings:
-    - action: replace
-      targetLabel: job
-      replacement: *name
