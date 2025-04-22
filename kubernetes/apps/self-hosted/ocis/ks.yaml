@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app ocis
+  namespace: &namespace self-hosted
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/external
+    - ../../../../components/gatus/internal
+    - ../../../../components/volsync
+  dependsOn:
+    - name: storage-ready
+      namespace: flux-system
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/self-hosted/ocis/app
+  postBuild:
+    substitute:
+      APP: *app
+      GATUS_SUBDOMAIN: files
+      VOLSYNC_CAPACITY: 50Gi
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m

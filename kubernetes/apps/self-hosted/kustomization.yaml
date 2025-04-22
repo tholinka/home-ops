@@ -8,6 +8,7 @@ resources:
   - ./change-detection/ks.yaml
   - ./homepage/ks.yaml
   - ./it-tools/ks.yaml
+  - ./ocis/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template
