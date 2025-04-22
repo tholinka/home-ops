@@ -4,14 +4,14 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app atuin-db
-  namespace: &namespace default
+  namespace: &namespace self-hosted
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/default/atuin/db
+  path: ./kubernetes/apps/self-hosted/atuin/db
   prune: true
   sourceRef:
     kind: GitRepository
@@ -52,7 +52,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app atuin
-  namespace: &namespace default
+  namespace: &namespace self-hosted
 spec:
   commonMetadata:
     labels:
@@ -68,7 +68,7 @@ spec:
       namespace: *namespace
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/default/atuin/app
+  path: ./kubernetes/apps/self-hosted/atuin/app
   prune: true
   sourceRef:
     kind: GitRepository

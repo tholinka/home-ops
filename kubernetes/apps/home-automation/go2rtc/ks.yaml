@@ -3,30 +3,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app home-assistant
-  namespace: &namespace default
+  name: &app go2rtc
+  namespace: &namespace home-automation
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
-    - ../../../../components/volsync
-    - ../../../../components/ext-auth
-  dependsOn:
-    - name: multus-networks
-      namespace: network
-    - name: storage-ready
-      namespace: flux-system
+    - ../../../../components/gatus/guarded
+    - ../../../../components/gatus/internal
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/default/home-assistant/app
+  path: ./kubernetes/apps/home-automation/go2rtc/app
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: ha
-      VOLSYNC_CAPACITY: 5Gi
-      EXT_AUTH_TARGET: home-assistant-code
   prune: true
   sourceRef:
     kind: GitRepository

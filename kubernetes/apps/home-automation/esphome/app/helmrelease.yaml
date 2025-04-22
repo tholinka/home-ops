@@ -122,7 +122,7 @@ spec:
           gethomepage.dev/group: Home
           gethomepage.dev/icon: esphome.svg
           gethomepage.dev/widget.type: esphome
-          gethomepage.dev/widget.url: 'http://esphome.default.svc.cluster.local.:6052'
+          gethomepage.dev/widget.url: 'http://esphome.home-automation.svc.cluster.local.:6052'
     persistence:
       config:
         existingClaim: esphome

@@ -3,8 +3,8 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app zwave
-  namespace: &namespace default
+  name: &app change-detection
+  namespace: &namespace self-hosted
 spec:
   commonMetadata:
     labels:
@@ -14,17 +14,15 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   dependsOn:
-    - name: generic-device-plugin
-      namespace: system
     - name: storage-ready
       namespace: flux-system
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/default/zwave/app
+  path: ./kubernetes/apps/self-hosted/change-detection/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository

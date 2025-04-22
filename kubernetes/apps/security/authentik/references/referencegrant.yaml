@@ -4,12 +4,12 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
-  name: default-ref-authentik-svc
+  name: flux-system-ref-authentik-svc
 spec:
   from:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
-      namespace: default
+      namespace: flux-system
   to:
     - group: ''
       kind: Service
@@ -20,12 +20,12 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
-  name: flux-system-ref-authentik-svc
+  name: home-automation-ref-authentik-svc
 spec:
   from:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
-      namespace: flux-system
+      namespace: home-automation
   to:
     - group: ''
       kind: Service
@@ -58,6 +58,22 @@ spec:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
       namespace: observability
+  to:
+    - group: ''
+      kind: Service
+      name: ${AUTH_SVC}
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.networking.k8s.io/referencegrant_v1beta1.json
+# adapted from https://github.com/authelia/authelia/blob/master/docs/content/integration/proxies/envoy.md#secure-route
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: self-hosted-ref-authentik-svc
+spec:
+  from:
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: self-hosted
   to:
     - group: ''
       kind: Service
