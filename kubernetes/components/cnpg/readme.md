@@ -29,3 +29,36 @@
       # restore
       CNPG_CLUSTER_PREVIOUS: v0 # default. MUST increment when restoring cluster!
 ```
+
+
+### HealthChecks
+
+```yaml
+  postBuild:
+    substitute:
+      APP: postgres
+      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+      CNPG_REPLICAS: '2'
+      CNPG_VERSION: 17.4-bookworm
+      CNPG_SIZE: 2Gi
+      CNPG_CLUSTER_CURRENT: v0
+      CNPG_LIMITS_MEMORY_HUGEPAGES: 1Gi
+      CNPG_LIMITS_MEMORY: 2Gi
+  components:
+    - ../../../../components/cnpg/backup
+  dependsOn:
+    - name: cnpg-crds
+      namespace: *namespace
+    - name: openebs
+      namespace: openebs-system
+  healthChecks:
+    - apiVersion: &postgresVersion postgresql.cnpg.io/v1
+      kind: &postgresKind Cluster
+      name: APPNAME-db
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: *postgresVersion
+      kind: *postgresKind
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+```

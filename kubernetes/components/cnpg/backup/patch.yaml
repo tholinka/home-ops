@@ -13,7 +13,7 @@ spec:
         maxParallel: 8
       data:
         compression: bzip2
-      destinationPath: s3://postgres-${APP}/
+      destinationPath: s3://postgres/
       endpointURL: ${R2_STORAGE}
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster

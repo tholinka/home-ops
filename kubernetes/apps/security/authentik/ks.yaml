@@ -30,12 +30,12 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: auth
-      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
       CNPG_REPLICAS: '2'
+      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
       CNPG_VERSION: 17.4-bookworm
       CNPG_SIZE: 2Gi
       CNPG_CLUSTER_CURRENT: v0
-      CNPG_LIMITS_MEMORY_HUGEPAGES: 500Mi
+      CNPG_LIMITS_MEMORY_HUGEPAGES: 512Mi
       CNPG_LIMITS_MEMORY: 1Gi
   components:
     - ../../../../components/cnpg/backup
