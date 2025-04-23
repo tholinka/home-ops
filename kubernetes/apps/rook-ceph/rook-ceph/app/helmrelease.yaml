@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: v1.17.0
+    tag: v1.17.1
   url: oci://ghcr.io/rook/rook-ceph
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
@@ -90,9 +90,6 @@ spec:
             limits:
               memory: 256Mi # default
     enableDiscoveryDaemon: true
-    image:
-      repository: ghcr.io/rook/ceph
-      tag: v1.17.0 # TODO remove after next release: https://github.com/rook/rook/issues/15743
     monitoring:
       enabled: true
     resources:
