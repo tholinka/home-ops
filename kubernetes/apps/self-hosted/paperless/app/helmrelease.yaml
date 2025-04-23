@@ -1,0 +1,158 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app paperless
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  driftDetection:
+    mode: warn
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17
+            envFrom: &envFrom
+              - secretRef:
+                  name: paperless-secret
+        containers:
+          app:
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 2.15.3
+            env:
+              # Configure application
+              PAPERLESS_URL: https://{{ .Release.Name }}.${SECRET_DOMAIN}
+              PAPERLESS_PORT: &port 80
+              PAPERLESS_TIME_ZONE: ${TIMEZONE}
+              PAPERLESS_WEBSERVER_WORKERS: '2'
+              PAPERLESS_TASK_WORKERS: '2'
+              # Configure folders
+              PAPERLESS_CONSUMPTION_DIR: /data/nas/incoming
+              PAPERLESS_DATA_DIR: /data/local/data
+              PAPERLESS_EXPORT_DIR: /data/nas/export
+              PAPERLESS_MEDIA_ROOT: /data/local/media
+              # Configure folder importer
+              PAPERLESS_CONSUMER_POLLING: '60'
+              PAPERLESS_CONSUMER_RECURSIVE: 'true'
+              PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: 'true'
+              # Configure OCR
+              PAPERLESS_OCR_LANGUAGES: eng
+              PAPERLESS_OCR_LANGUAGE: eng
+              # Configure redis integration
+              PAPERLESS_REDIS: redis://cluster-dragonfly.database.svc.cluster.local:6379/1
+              # Configure user permissions
+              USERMAP_UID: '568'
+              USERMAP_GID: '568'
+              # optional integrations
+              PAPERLESS_TIKA_ENABLED: 1
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
+              PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
+              # Configure SSO
+              PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+              PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: 'false'
+              PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: 'false'
+              PAPERLESS_DISABLE_REGULAR_LOGIN: 'true'
+              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 2Gi
+          gotenberg:
+            image:
+              repository: gotenberg/gotenberg
+              tag: 8.20.1
+            ports:
+              - containerPort: 3000
+            command:
+              - 'gotenberg'
+              - '--chromium-disable-javascript=true'
+              - '--chromium-allow-list=file:///tmp/.*'
+            resources:
+              limits:
+                cpu: 500m
+                memory: 512Mi
+              requests:
+                cpu: 10m
+          tika:
+            image:
+              repository: ghcr.io/paperless-ngx/tika
+              tag: 2.9.1-minimal
+            ports:
+              - containerPort: 9998
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
+    service:
+      app:
+        primary: true
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      data:
+        existingClaim: *app
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/local
+      nas:
+        type: nfs
+        server: nas.servers.internal
+        path: /apps/paperless
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/nas
+
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Selfhosted
+          gethomepage.dev/name: Paperless
+          gethomepage.dev/icon: paperless-ngx.png
+          gethomepage.dev/widget.type: paperlessngx
+          gethomepage.dev/widget.url: http://{{ .Release.Name }}.self-hosted.svc.cluster.local:8000
+          gethomepage.dev/widget.key: '{{`{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}`}}'

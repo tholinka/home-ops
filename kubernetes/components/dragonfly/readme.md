@@ -4,7 +4,7 @@
 
 ```yaml
   components:
-    - ../../../../components/cnpg/backup
+    - ../../../../components/dragonfly/backup
   healthChecks:
     - apiVersion: &dragonflyVersion dragonflydb.io/v1alpha1
       kind: &dragonflyKind Dragonfly

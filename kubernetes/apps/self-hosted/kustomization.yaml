@@ -9,6 +9,7 @@ resources:
   - ./homepage/ks.yaml
   - ./it-tools/ks.yaml
   - ./ocis/ks.yaml
+  - ./paperless/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template
