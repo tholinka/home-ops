@@ -92,7 +92,7 @@ spec:
     enableDiscoveryDaemon: true
     image:
       repository: ghcr.io/rook/ceph
-      tag: v1.17.0 # TODO remove after next release: https://github.com/rook/rook/issues/15743
+      tag: v1.17.1 # TODO remove after next release: https://github.com/rook/rook/issues/15743
     monitoring:
       enabled: true
     resources:
