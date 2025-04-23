@@ -41,6 +41,7 @@ spec:
     operator:
       resources:
         requests:
-          cpu: 100m
+          cpu: 10m
+          memory: 50Mi
         limits:
-          memory: 200Mi
+          memory: 100Mi

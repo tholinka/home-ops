@@ -86,6 +86,7 @@ spec:
   postBuild:
     substitute:
       APP: cluster
+      DRAGONFLY_REQUESTS_MEMORY: 256Mi
   components:
     - ../../../../components/dragonfly
   healthChecks:

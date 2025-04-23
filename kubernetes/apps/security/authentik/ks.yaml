@@ -30,13 +30,14 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: auth
-      CNPG_REPLICAS: '2'
+      DRAGONFLY_REQUESTS_MEMORY: 256Mi
       # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
       CNPG_VERSION: 17.4-bookworm
+      CNPG_REPLICAS: '2'
       CNPG_SIZE: 2Gi
       CNPG_CLUSTER_CURRENT: v0
-      CNPG_LIMITS_MEMORY_HUGEPAGES: 512Mi
-      CNPG_LIMITS_MEMORY: 1Gi
+      CNPG_LIMITS_MEMORY_HUGEPAGES: 256Mi
+      CNPG_LIMITS_MEMORY: 512Mi
   components:
     - ../../../../components/cnpg/backup
     - ../../../../components/dragonfly

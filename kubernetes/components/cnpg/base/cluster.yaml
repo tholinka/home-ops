@@ -17,9 +17,10 @@ spec:
   resources:
     requests:
       cpu: ${CNPG_REQUESTS_CPU:=500m}
+      memory: ${CNPG_REQUESTS_MEMORY:=${CNPG_LIMITS_MEMORY:=1Gi}}
     limits:
       hugepages-2Mi: ${CNPG_LIMITS_MEMORY_HUGEPAGES:=1Gi} # Requires sysctl set on the host
-      memory: ${CNPG_LIMITS_MEMORY:=2Gi}
+      memory: ${CNPG_LIMITS_MEMORY:=1Gi}
   affinity:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname

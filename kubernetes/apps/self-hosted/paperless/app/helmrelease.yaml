@@ -83,6 +83,7 @@ spec:
             resources:
               requests:
                 cpu: 100m
+                memory: 768Mi
               limits:
                 memory: 2Gi
           gotenberg:
@@ -101,6 +102,7 @@ spec:
                 memory: 512Mi
               requests:
                 cpu: 10m
+                memory: 256Mi
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
@@ -112,6 +114,7 @@ spec:
                 memory: 512Mi
               requests:
                 cpu: 10m
+                memory: 256Mi
     service:
       app:
         primary: true

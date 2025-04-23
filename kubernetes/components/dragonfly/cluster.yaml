@@ -15,13 +15,14 @@ spec:
           divisor: 1Mi
   args:
     - --maxmemory=$(MAX_MEMORY)Mi
-    - --proactor_threads=2
+    - --proactor_threads=${DRAGONFLY_THREADS:=2} # REQUIRES 256Mi limits per thread
     - --cluster_mode=emulated
   resources:
     requests:
-      cpu: 100m
+      cpu: ${DRAGONFLY_REQUESTS_CPU:=100m}
+      memory: ${DRAGONFLY_REQUESTS_MEMORY:-${DRAGONFLY_LIMITS_MEMORY:=512Mi}}
     limits:
-      memory: 512Mi
+      memory: ${DRAGONFLY_LIMITS_MEMORY:=512Mi}
   topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: 'kubernetes.io/hostname'
