@@ -219,7 +219,7 @@ spec:
           datasource: Prometheus
         node-feature-discovery:
           # renovate: datasource=github-releases depName=kubernetes-sigs/node-feature-discovery
-          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/v0.17.2/examples/grafana-dashboard.json
+          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/v0.17.3/examples/grafana-dashboard.json
           datasource: Prometheus
         spegel:
           # renovate: depName="Spegel"
