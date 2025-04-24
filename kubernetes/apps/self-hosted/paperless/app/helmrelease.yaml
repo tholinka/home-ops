@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -153,9 +154,9 @@ spec:
                 port: *port
         annotations:
           gethomepage.dev/enabled: 'true'
-          gethomepage.dev/group: Selfhosted
+          gethomepage.dev/group: Home
           gethomepage.dev/name: Paperless
           gethomepage.dev/icon: paperless-ngx.png
           gethomepage.dev/widget.type: paperlessngx
-          gethomepage.dev/widget.url: http://{{ .Release.Name }}.self-hosted.svc.cluster.local:8000
+          gethomepage.dev/widget.url: http://{{ .Release.Name }}.self-hosted.svc.cluster.local:80
           gethomepage.dev/widget.key: '{{`{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}`}}'

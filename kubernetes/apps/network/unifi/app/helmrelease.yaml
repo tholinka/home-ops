@@ -127,7 +127,7 @@ spec:
               - name: *app
                 port: *port
             timeouts:
-              requests: 0s # websocket, never time out
+              request: 0s # websocket, never time out
               backendRequest: 0s # websocket, never time out
     persistence:
       config:

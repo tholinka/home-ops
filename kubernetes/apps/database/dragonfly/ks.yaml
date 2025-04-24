@@ -87,6 +87,8 @@ spec:
     substitute:
       APP: cluster
       DRAGONFLY_REQUESTS_MEMORY: 256Mi
+      # imich needs this for bullmq
+      DRAGONFLY_ARGS_DEFAULT_LUA_FLAGS: allow-undeclared-keys
   components:
     - ../../../../components/dragonfly
   healthChecks:

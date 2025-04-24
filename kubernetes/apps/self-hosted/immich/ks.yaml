@@ -1,0 +1,152 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app immich-init
+  namespace: &namespace self-hosted
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/self-hosted/immich/init
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  dependsOn:
+    - name: crds-ready
+      namespace: flux-system
+  healthChecks:
+    - apiVersion: &esVersion external-secrets.io/v1
+      kind: &esKind ExternalSecret
+      name: immich-postgres-user
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: *esVersion
+      kind: *esKind
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app immich-db
+  namespace: &namespace self-hosted
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/self-hosted/immich/db
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  dependsOn:
+    - name: cnpg-crds
+      namespace: database
+    - name: openebs
+      namespace: openebs-system
+    - name: immich-init
+      namespace: *namespace
+  postBuild:
+    substitute:
+      APP: immich
+      CNPG_REPLICAS: '2'
+      CNPG_IMAGE: ghcr.io/tensorchord/cloudnative-pgvecto.rs
+      # on upgrade, need to run ALTER EXTENSION vectors UPDATE; manually. See: https://immich.app/docs/administration/postgres-standalone#updating-pgvectors
+      # immich only suppots vecto.rs versions >=0.2 <0.4
+      # renovate: datasource=docker depName=ghcr.io/tensorchord/cloudnative-pgvecto.rs
+      CNPG_VERSION: 16.5-v0.3.0@sha256:be3f025d79aa1b747817f478e07e71be43236e14d00d8a9eb3914146245035ba
+      CNPG_SIZE: 5Gi
+      CNPG_CLUSTER_CURRENT: v0
+      CNPG_LIMITS_MEMORY_HUGEPAGES: 256Mi
+      CNPG_LIMITS_MEMORY: 512Mi
+  components:
+    - ../../../../components/cnpg/backup
+  healthChecks:
+    - apiVersion: &postgresVersion postgresql.cnpg.io/v1
+      kind: &postgresKind Cluster
+      name: immich-db
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: *postgresVersion
+      kind: *postgresKind
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+  patches:
+    # note: remove bootstrap when switching to restore. could probably also remove managed and the init step, since the user is already created?
+    - target:
+        kind: *postgresKind
+      patch: |-
+        kind: Cluster
+        metadata:
+          name: not-used
+        spec:
+          postgresql:
+            shared_preload_libraries:
+              - "vectors.so"
+            parameters:
+              search_path: '"$user", public, vectors'
+          managed:
+            roles:
+              - name: immich
+                superuser: true
+                login: true
+                passwordSecret:
+                  name: immich-postgres-user
+          bootstrap:
+            initdb:
+              database: immich
+              owner: immich
+              secret:
+                name: immich-postgres-user
+              dataChecksums: true
+              postInitSQL:
+                - CREATE EXTENSION IF NOT EXISTS "vectors";
+                - CREATE EXTENSION IF NOT EXISTS "cube" CASCADE;
+                - CREATE EXTENSION IF NOT EXISTS "earthdistance" CASCADE;
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app immich
+  namespace: &namespace self-hosted
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/guarded
+    - ../../../../components/gatus/internal
+  dependsOn:
+    - name: dragonfly-cluster
+      namespace: database
+    - name: immich-db
+      namespace: *namespace
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/self-hosted/immich/app
+  postBuild:
+    substitute:
+      APP: *app
+      GATUS_SUBDOMAIN: photos
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m

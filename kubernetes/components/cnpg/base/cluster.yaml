@@ -8,6 +8,9 @@ spec:
   instances: ${CNPG_REPLICAS:=1}
   imageName: ${CNPG_IMAGE:=ghcr.io/cloudnative-pg/postgresql}:${CNPG_VERSION}
   primaryUpdateStrategy: unsupervised
+  managed:
+    services:
+      disabledDefaultServices: ${CNPG_DISABLED_SERVICES:=['ro', 'r']}
   storage:
     size: ${CNPG_SIZE:=2Gi}
     storageClass: ${CNPG_STORAGECLASS:=openebs-hostpath}
