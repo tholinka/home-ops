@@ -59,7 +59,8 @@ spec:
               STORAGE_USERS_OCIS_ROOT: /data
               PROXY_CSP_CONFIG_FILE_LOCATION: /etc/ocis/csp.yaml
               PROXY_AUTOPROVISION_ACCOUNTS: true
-              PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: jwt
+              PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: none # https://github.com/owncloud/ocis/issues/6479
+              PROXY_OIDC_SKIP_USER_INFO: false # do NOT set this to true when having TOKEN_VERIFY_METHOD as none, or we have no security
               PROXY_OIDC_REWRITE_WELLKNOWN: true
               PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
               PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: groups
