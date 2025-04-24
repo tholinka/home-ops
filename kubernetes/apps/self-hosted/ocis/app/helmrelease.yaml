@@ -52,6 +52,7 @@ spec:
               tag: 7.1.2
             env:
               DEMO_USERS: false
+              NOTIFICATIONS_SMTP_PORT: 587
               OCIS_LOG_COLOR: true
               OCIS_LOG_LEVEL: info
               OCIS_LOG_PRETTY: true
