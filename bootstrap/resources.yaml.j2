@@ -22,7 +22,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: {{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}-tls
-  namespace: kube-system
+  namespace: network
   annotations:
     cert-manager.io/alt-names: "*.{{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }},{{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }}"
     cert-manager.io/certificate-name: {{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}
@@ -37,17 +37,3 @@ metadata:
 type: kubernetes.io/tls
 # this get saved as json, but yaml is a super-set of json so we can just directly import it :)
 data: {{ ENV['lets_encrypt_tls'] | safe}}
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cluster-secrets
-  namespace: flux-system
-  annotations:
-    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-    reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "" # all namespaces
-    reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "" # all namespaces
-stringData:
-  {{ ENV['cluster_secrets'] | indent(2) | safe }}
