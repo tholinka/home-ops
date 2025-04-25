@@ -134,8 +134,8 @@ spec:
     server:
       resources:
         requests:
-          cpu: 500m
-          memory: 1Gi
+          cpu: 300m
+          memory: 768Mi
         limits:
           gpu.intel.com/i915: 1
           cpu: 3000m
@@ -150,7 +150,7 @@ spec:
     machine-learning:
       resources:
         requests:
-          cpu: 500m
+          cpu: 300m
           memory: 1Gi
         limits:
           cpu: 3000m
