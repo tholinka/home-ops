@@ -21,13 +21,19 @@ kvmd:
         mac: c4:62:37:00:3b:d2
       wol_w1:
         type: wol
-        mac: 80:e8:2c:2f:b4:ad
+        mac: 6c:1f:f7:1a:c3:b7
       wol_w2:
         type: wol
-        mac: e8:d8:d1:56:8a:1a
+        mac: 6c:1f:f7:1b:98:c4
       wol_w3:
         type: wol
-        mac: e8:d8:d1:56:8b:4a
+        mac: 6c:1f:f7:1b:9f:bb
+      wol_w4:
+        type: wol
+        mac: 6c:1f:f7:1b:98:bd
+      wol_nas:
+        type: wol
+        mac: ae:98:0d:1e:a6:fe
     scheme:
       wol_c1:
         driver: wol_c1
@@ -59,6 +65,16 @@ kvmd:
         pin: 0
         mode: output
         switch: false
+      wol_w4:
+        driver: wol_w4
+        pin: 0
+        mode: output
+        switch: false
+      wol_nas:
+        driver: wol_nas
+        pin: 0
+        mode: output
+        switch: false
     view:
       table:
         - ['c1', 'wol_c1|Send Wake-on-LAN to c1']
@@ -67,3 +83,5 @@ kvmd:
         - ['w1', 'wol_w1|Send Wake-on-LAN to w1']
         - ['w2', 'wol_w2|Send Wake-on-LAN to w2']
         - ['w3', 'wol_w3|Send Wake-on-LAN to w3']
+        - ['w4', 'wol_w3|Send Wake-on-LAN to w4']
+        - ['nas', 'wol_w3|Send Wake-on-LAN to nas']
