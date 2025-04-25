@@ -115,13 +115,12 @@ spec:
             port: 5514
     route:
       app:
-        kind: TLSRoute
         hostnames:
           - '{{ .Release.Name }}.${SECRET_DOMAIN}'
         parentRefs:
           - name: internal
             namespace: network
-            sectionName: tls-unifi
+            sectionName: https
         rules:
           - backendRefs:
               - name: *app
