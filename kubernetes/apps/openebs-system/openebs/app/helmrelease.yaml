@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: openebs
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     disableHooks: true # fails with oci
     remediation:

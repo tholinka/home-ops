@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: mongodb-community-operator
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1

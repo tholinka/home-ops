@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: spegel
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1

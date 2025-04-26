@@ -24,7 +24,7 @@ spec:
     kind: OCIRepository
     name: blackbox-exporter
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1

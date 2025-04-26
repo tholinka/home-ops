@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: volsync
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1

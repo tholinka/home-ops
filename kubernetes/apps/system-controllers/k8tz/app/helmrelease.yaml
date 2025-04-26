@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: k8tz
   driftDetection:
-    mode: warn
+    mode: enabled
   values:
     namespace: system-controllers
 

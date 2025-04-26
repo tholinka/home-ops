@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: intel-device-plugins-gpu
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1

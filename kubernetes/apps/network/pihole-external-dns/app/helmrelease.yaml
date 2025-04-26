@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: *app
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
     remediation:

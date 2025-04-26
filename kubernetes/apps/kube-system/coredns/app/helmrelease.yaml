@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: coredns
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1

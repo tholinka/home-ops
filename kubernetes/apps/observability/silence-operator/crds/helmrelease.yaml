@@ -24,7 +24,7 @@ spec:
     kind: OCIRepository
     name: silence-operator-crds
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1

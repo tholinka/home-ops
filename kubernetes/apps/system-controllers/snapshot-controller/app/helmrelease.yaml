@@ -24,7 +24,7 @@ spec:
     kind: OCIRepository
     name: snapshot-controller
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     crds: CreateReplace
     remediation:

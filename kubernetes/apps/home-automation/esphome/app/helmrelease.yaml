@@ -10,7 +10,7 @@ spec:
     kind: OCIRepository
     name: app-template
   driftDetection:
-    mode: warn
+    mode: enabled
   values:
     controllers:
       esphome:

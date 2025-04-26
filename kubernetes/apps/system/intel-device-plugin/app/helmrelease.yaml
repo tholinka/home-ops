@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: intel-device-plugins-operator
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     crds: CreateReplace
     remediation:

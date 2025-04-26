@@ -29,7 +29,7 @@ spec:
     kind: OCIRepository
     name: node-feature-discovery
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     crds: CreateReplace
     remediation:

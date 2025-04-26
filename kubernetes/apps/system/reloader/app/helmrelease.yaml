@@ -24,7 +24,7 @@ spec:
     kind: OCIRepository
     name: reloader
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     remediation:
       retries: -1
