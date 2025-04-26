@@ -64,7 +64,7 @@ spec:
         minReplicas: 1
       resources:
         requests:
-          cpu: 200m
+          cpu: 300m
         limits:
           memory: 1Gi
       metrics:
@@ -77,7 +77,7 @@ spec:
         minReplicas: 1
       resources:
         requests:
-          cpu: 200m
+          cpu: 300m
         limits:
           memory: 1Gi
     prometheus:
