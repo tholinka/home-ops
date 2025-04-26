@@ -50,6 +50,7 @@ spec:
             resources:
               requests:
                 cpu: 10m
+                memory: 128Mi
               limits:
                 memory: 512Mi
                 squat.ai/gpio: 1
