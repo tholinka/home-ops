@@ -174,11 +174,8 @@ spec:
       pihole:
         controller: pihole
         type: LoadBalancer
-        internalTrafficPolicy: Cluster
-        externalTrafficPolicy: Cluster # Cilium's L2 announce doesn't support Local, since it announces on a different node than the pod is running on https://github.com/cilium/cilium/issues/27800
-        #ipFamilyPolicy: PreferDualStack
+        clusterIP: 10.96.0.12
         annotations:
-          #lbipam.cilium.io/ips: '192.168.20.6,fdaa:aaaa:aaaa:aa20::6
           lbipam.cilium.io/ips: '192.168.20.6'
         ports:
           dns-udp:
@@ -221,7 +218,7 @@ spec:
           gethomepage.dev/name: Pi-Hole
           gethomepage.dev/icon: pi-hole.svg
     serviceMonitor:
-      pihole:
+      app:
         serviceName: pihole
         endpoints:
           - port: prometheus # exporter-port's name

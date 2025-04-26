@@ -28,4 +28,4 @@ spec:
               cpu: 500m
               memory: 1Gi
       envoyService:
-        externalTrafficPolicy: Cluster # cilium l2 announce doesn't support externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster # Cilium's L2 announce doesn't support Local, since it announces on a different node than the pod is running on https://github.com/cilium/cilium/issues/27800

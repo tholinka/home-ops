@@ -133,25 +133,21 @@ graph TD
 | Default | 0  | 192.168.1.0/24  |
 | servers | 20 | 192.168.20.0/24 |
 | iot     | 30 | 192.168.30.0/24 |
+| guest   | 40 | 192.168.40.0/24 |
 
 ### 🌎 DNS
 
-In my cluster there are two instances of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. One for syncing private DNS records to my `UniFi Gatway Max` using [ExternalDNS webhook provider for UniFi](https://github.com/kashalls/external-dns-unifi-webhook), while another instance syncs public DNS to `Cloudflare`. This setup is managed by creating ingresses with two specific classes: `internal` for private DNS and `external` for public DNS. The `external-dns` instances then syncs the DNS records to their respective platforms accordingly.
+In my cluster there are three instances of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. One syncs the public DNS to `Cloudflare`. The second syncs to `Pi-Hole`, which is the primary internal dns. The third syncs to my `UniFi Gatway Max` using [ExternalDNS webhook provider for UniFi](https://github.com/kashalls/external-dns-unifi-webhook), as a fallback in case the cluster is down. This setup is managed by creating two gateways, `internal` and `external`. `internal` is only exposed internally, whereas `external` is exposed both internally and through `Cloudflare.`
 
 ### 🏠 Home DNS
 
-My Home DNS is fairly complicated, with several forwarding steps.
-
 ```mermaid
 graph TD
-  A>internal-external-dns] -->|Updates|B0
-  B0>Unifi Network Application] -->|Updates|B
-  B>Unifi Router DNS] -->|Cluster or Hostname request|C
+  A>internal-external-dns] -->|Updates|D
   C>Answers Request]
-  B>Unifi Router DNS] -->|Forwards other requests|D
-  D>PiHole] -->|Blocked or matches additional custom hosts|C
-  D>PiHole] -->|Forwards other requests|E[DNSCrypt-Proxy]
-  E>DNSCrypt-Proxy] -->|Forwards requests to DNSCrypt or DoH resolver|C
+  D[PiHole] -->|Blocked, Cluster, or custom hosts|C
+  D -->|Forwards other requests|E[DNSCrypt-Proxy]
+  E[DNSCrypt-Proxy] -->|Forwards requests to DNSCrypt or DoH resolver|C
 ```
 
 ## ☁️ Cloud Dependencies
@@ -163,25 +159,26 @@ Alternative solutions to the first two of these problems would be to host a Kube
 | Service                                            | Use                                                            | Cost           |
 |----------------------------------------------------|----------------------------------------------------------------|----------------|
 | [Bitwarden Secret Manager](https://1password.com/) | Secrets with [External Secrets](https://external-secrets.io/)  | Free           |
-| [Cloudflare](https://www.cloudflare.com/)          | Domain and S3                                                  | ~$30/yr        |
+| [Cloudflare](https://www.cloudflare.com/)          | Domain and S3                                                  | ~$50/yr        |
 | [GCP](https://cloud.google.com/)                   | Voice interactions with Home Assistant over Google Assistant   | Free           |
 | [GitHub](https://github.com/)                      | Hosting this repository and continuous integration/deployments | Free           |
 | [Gmail](https://gmail.com/)                        | Email hosting                                                  | Free           |
 | [Pushover](https://pushover.net/)                  | Kubernetes Alerts and application notifications                | $5 OTP         |
-|                                                    |                                                                | Total: ~$30/yo |
+| [Fastmail](https://fastmail.com)                   | E-Mail                                                         | ~$60/yr        |
+|                                                    |                                                                | Total: ~$90/yo |
 
 ## 🖥️ Hardware
 
 
-| Num | Device                           | CPU      | RAM           | OS Disk                        | Data Disks                                                                       | OS         | Function                                                         |
-|-----|----------------------------------|----------|---------------|--------------------------------|----------------------------------------------------------------------------------|------------|------------------------------------------------------------------|
-| 3   | Lenovo ThinkCentre M700 Tiny     | i5-6400T | 16GB of DDR4  | 512 Gb SSD                     | 512 Gb SATA NVMe                                                                 | Talos      | Kubernetes                                                       |
-| 1   | HP EliteDesk 800 G5 Desktop Mini | i5-9500T | 32 GB of DDR4 | 256 Gb PCIe 3                  | 512 Gb PCIe 3 NVMe                                                               | Talos      | Kubernetes                                                       |
-| 1   | HP ProDesk 400 G4 Desktop Mini   | i5-8500T | 16 GB of DDR4 | 256 Gb SSD                     | 512 Gb PCIe 3 NVMe                                                               | Talos      | Kubernetes                                                       |
-| 2   | HP ProDesk 400 G5 Desktop Mini   | i5-9500T | 16 GB of DDR4 | 256 Gb PCIe3 NVMe              | -                                                                                | Talos      | Kubernetes                                                       |
-| 1   | Raspberry Pi 4b                  | -        | 2Gb    | 256Gb SD card                  | -                                                                                | Talos      | Kubernetes<br>one of them has a ZAC93 GPIO module for Z-Wave 800 |
-| 1 | Raspberry Pi 4b with PiKVM Hat | - | 2Gb| 256Gb SD card | - | Arch Linux (PiKVM) | PiKVM
-| 1   | self built NAS                   | i7-6700k | 32GB of DDR4  | 250GB Samsung 840 EVO on BTRFS | BTRFS Raid 10:<br>- 3TB WD Black<br>- 2x 4TB WD Red<br>- 16 TB WD Gold Enterprise<br> - WD Ultrastar DC HC550 18 TB | Arch Linux | Large Files and Backups (+ Talos Worker in QEMU)             |
+| Num | Device                           | CPU      | RAM           | OS Disk                                            | Data Disks                                                                                                                                                           | OS                 | Function                                           |
+|-----|----------------------------------|----------|---------------|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------------------------------------|
+| 3   | Lenovo ThinkCentre M700 Tiny     | i5-6400T | 16GB of DDR4  | 512 GB SSD                                         | 512 GB SATA NVMe                                                                                                                                                     | Talos              | Kubernetes                                         |
+| 1   | HP EliteDesk 800 G5 Desktop Mini | i5-9500T | 32 GB of DDR4 | 256 GB PCIe 3 NVMe                                 | 512 GB PCIe 3 NVMe                                                                                                                                                   | Talos              | Kubernetes                                         |
+| 1   | HP ProDesk 400 G4 Desktop Mini   | i5-8500T | 16 GB of DDR4 | 256 GB SSD                                         | 512 GB PCIe 3 NVMe                                                                                                                                                   | Talos              | Kubernetes                                         |
+| 2   | HP ProDesk 400 G5 Desktop Mini   | i5-9500T | 16 GB of DDR4 | 256 GB PCIe3 NVMe                                  | -                                                                                                                                                                    | Talos              | Kubernetes                                         |
+| 1   | Raspberry Pi 4b                  | -        | 2GB           | 256GB SD card                                      | -                                                                                                                                                                    | Talos              | Kubernetes<br>+ a ZAC93 GPIO module for Z-Wave 800 |
+| 1   | Raspberry Pi 4b with PiKVM Hat   | -        | 2GB           | 256GB SD card                                      | -                                                                                                                                                                    | Arch Linux (PiKVM) | PiKVM                                              |
+| 1   | self built NAS                   | i7-6700k | 32GB of DDR4  | Raid 1: 250GB Samsung 840 EVO + 512 GB PCIe 3 NVMe | BTRFS Raid 1:<br>- 3TB WD Black<br>- 2x 4TB WD Red<br>- 16 TB WD Gold Enterprise<br> - WD Ultrastar DC HC550 18 TB<br> 512 GB PCIe 3 NVMe (PCIe passthrough to QEMU) | Arch Linux         | Large Files and Backups (+ Talos Worker in QEMU)   |
 
 ## 🙏 Thanks
 
@@ -191,3 +188,4 @@ The awesome [kubesearch.dev](kubesearch.dev), large parts of this are inspired b
 
 ### Extra Special Thanks
   - [onedr0p](https://github.com/onedr0p) for his awesome [cluster-template](https://github.com/onedr0p/cluster-template), which this was originally based on, and his [home-ops](https://github.com/onedr0p/home-ops), which large portions of this were inspired by.
+  - [bjw-s](https://github.com/bjw-s-labs/) for his amazing [app-template](https://github.com/bjw-s/helm-charts).

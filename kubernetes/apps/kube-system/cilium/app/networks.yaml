@@ -47,7 +47,7 @@ spec:
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPPeerConfig
 metadata:
-  name: cilium-bgp-peer-config-ipv4
+  name: cilium-bgp-peer-config
 spec:
   families:
     - afi: ipv4
@@ -55,6 +55,9 @@ spec:
       advertisements:
         matchLabels:
           advertise: bgp
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 15
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgpclusterconfig_v2alpha1.json
 apiVersion: cilium.io/v2alpha1
@@ -66,14 +69,14 @@ spec:
     matchLabels:
       kubernetes.io/os: linux
   bgpInstances:
-    - name: instance-64514
+    - name: cilium
       localASN: 64514
       peers:
-        - name: peer-64513-ipv4
+        - name: router
           peerASN: 64513
-          peerAddress: 192.168.1.1
+          peerAddress: 192.168.20.1
           peerConfigRef:
-            name: cilium-bgp-peer-config-ipv4
+            name: cilium-bgp-peer-config
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/service-v1.json
 apiVersion: v1
@@ -84,8 +87,6 @@ metadata:
     lbipam.cilium.io/ips: 192.168.20.2, ::ffff:192.168.20.2
 spec:
   type: LoadBalancer
-  internalTrafficPolicy: Cluster
-  externalTrafficPolicy: Cluster # Cilium's L2 announce doesn't support Local, since it announces on a different node than the pod is running on https://github.com/cilium/cilium/issues/27800
   selector:
     k8s-app: kube-apiserver
     tier: control-plane

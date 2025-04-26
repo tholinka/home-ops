@@ -72,10 +72,8 @@ spec:
       app:
         controller: app
         type: LoadBalancer
-        internalTrafficPolicy: Cluster
-        externalTrafficPolicy: Cluster # Cilium's L2 announce doesn't support Local, since it announces on a different node than the pod is running on https://github.com/cilium/cilium/issues/27800
         annotations:
-          lbipam.cilium.io/ips: '192.168.20.5'
+          lbipam.cilium.io/ips: 192.168.20.5
         ports:
           http:
             primary: true

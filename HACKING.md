@@ -3,19 +3,17 @@
 ### DNS
 
 > [!IMPORTANT]
-In the Unifi Network App, under Settings -> Internet -> WAN1 and WAN2. Set IPv4 dns to `192.168.20.6` and IPv6 to `fdaa:aaaa:aaaa:aa20::6`.
->
-> Although, [IPv6 doesn't work, because Cilium doesn't L2 announce IPv6 addresses currently](https://github.com/cilium/cilium/issues/28985)
+> In the Unifi Network App, under Settings -> Internet -> WAN1 and WAN2. Set IPv4 dns to `192.168.20.6` and IPv6 to `fdaa:aaaa:aaaa:aa20::6`.
 
 ### UniFi IPv6 ULA setup
 
 > [!NOTE]
-Consolidated from here: https://github.com/unifi-utilities/unifios-utilities/issues/104#issuecomment-2259534906
+> Consolidated from here: https://github.com/unifi-utilities/unifios-utilities/issues/104#issuecomment-2259534906
 
-ssh into Unifi gateway: `root@192.168.1.1`
+first, ssh into Unifi gateway: `root@192.168.1.1`
 
 > [!NOTE]
-Configure your ssh cert/password in the UniFi Network App
+> Configure your ssh cert/password in the UniFi Network App
 
 ```bash
 curl -fsL "https://raw.githubusercontent.com/unifi-utilities/unifios-utilities/HEAD/on-boot-script-2.x/remote_install.sh" | /bin/bash
@@ -93,7 +91,6 @@ log file stdout
 router bgp 64513
   bgp router-id 192.168.1.1
   no bgp ebgp-requires-policy
-  maximum-paths 1
 
   neighbor k8s peer-group
   neighbor k8s remote-as 64514
@@ -114,7 +111,7 @@ router bgp 64513
   address-family ipv4 unicast
     neighbor k8s next-hop-self
     neighbor k8s soft-reconfiguration inbound
-   exit-address-family
+  exit-address-family
   !
 route-map ALLOW-ALL permit 10
 !
@@ -217,6 +214,10 @@ task talos:apply-node IP=? MODE=?
 
 > [!IMPORTANT]
 > Ensure the `talosVersion` and `kubernetesVersion` in `talconfig.yaml` are up-to-date with the version you wish to upgrade to.
+
+The `system-upgrade-controller` should handle this now, just update the versions in its ks.yaml.
+
+It is however a good idea to manually run apply-cluster afterward so the in cluster config update.
 
 ```sh
 # Upgrade node to a newer Talos version
