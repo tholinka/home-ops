@@ -23,7 +23,7 @@ spec:
         AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_ACCESS_KEY }}'
   dataFrom:
     - extract:
-        key: volsync_r2_template
+        key: volsync_s3_template
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
