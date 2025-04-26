@@ -78,6 +78,10 @@ spec:
     redis:
       enabled: false
 
+    global:
+      annotations:
+        reloader.stakater.com/auto: 'true'
+
     immich:
       metrics:
         enabled: true
