@@ -32,7 +32,10 @@ spec:
               AA_BASE_URL: https://annas-archive.li
               INGEST_DIR: &ingest /cwa-book-ingest
               BOOK_LANGUAGE: en
-            command: ['python', '-m', 'app'] # don't run startup script, since it doesn't work on a read-only fs
+            command: # don't run startup script, since it doesn't work on a read-only fs
+              - bash
+              - -c
+              - touch /usr/local/lib/python3.10/site-packages/seleniumbase/drivers/__init__.py && python -m app
             probes:
               liveness: &probe
                 enabled: true
@@ -97,10 +100,18 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /var/log/cwa-book-downloader/
+      downloaded:
+        type: emptyDir
+        globalMounts:
+          - path: /app/downloaded_files
+      drivers:
+        type: emptyDir
+        globalMounts:
+          - path: /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
       media:
         type: nfs
         server: nas.servers.internal
         path: /media
         globalMounts:
-          - path: /cwa-book-ingest
+          - path: *ingest
             subPath: downloads/openbooks
