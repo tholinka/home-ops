@@ -7,6 +7,5 @@ service:
 serviceMonitor:
   enabled: true
 spegel:
-  appendMirrors: true
   containerdSock: /run/containerd/containerd.sock
   containerdRegistryConfigPath: /etc/cri/conf.d/hosts
