@@ -25,6 +25,23 @@ additionalMachineCertSans: *sans
 cniConfig:
   name: none
 
+_interfaceTemplate: &interface
+  interface: eth0
+  dhcp: false
+  addresses:
+    - 192.168.20.51/24
+  routes:
+    - network: 0.0.0.0/0
+      gateway: 192.168.20.1
+  mtu: 9000
+  vlans:
+    - &vlan
+      vlanId: 30
+      mtu: 9000
+      dhcp: false
+      dhcpOptions:
+        routeMetric: 4096
+
 nodes:
   - hostname: p1
     ipAddress: 192.168.20.51
@@ -54,21 +71,11 @@ nodes:
     talosImageURL: factory.talos.dev/installer/51db99629c625f3a8cb69725f97b43e9398bbf247ce9ddab5daf8e545bb0352e
     controlPlane: false
     networkInterfaces:
-      - &interface
-        interface: eth0
-        dhcp: false
-        addresses:
-          - 192.168.20.51/24
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 192.168.20.1
-        mtu: 1500
+      - <<: *interface
+        mtu: 1500 # error setting MTU for \"eth0\": netlink receive: invalid argument
         vlans:
-          - vlanId: 30
-            mtu: 1500
-            dhcp: false
-            dhcpOptions:
-              routeMetric: 4096
+          - <<: *vlan
+            mtu: 1500 # error setting MTU for \"eth0.30\": netlink receive: numerical result out of range
     patches:
       - |-
         ---
@@ -93,6 +100,7 @@ nodes:
           - 192.168.20.61/24
         vip: &vip
           ip: 192.168.20.2
+
     patches: &lenovoPatches
       - '@./patches/intel/machine-sysfs.yaml'
       - '@./patches/intel/machine-udev.yaml'
