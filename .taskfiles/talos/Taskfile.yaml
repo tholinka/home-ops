@@ -37,12 +37,12 @@ tasks:
     dir: '{{.TALHELPER_DIR}}'
     cmds:
       - task: down
-      - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}:{{.TALOS_VERSION}}' --timeout=10m" | bash
+      - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}:{{.TALOS_VERSION}}' --timeout=10m --stage" | bash
       - until talosctl --nodes 192.168.20.2 health; do sleep 5; done
       - task: up
     vars:
       TALOS_IMAGE:
-        sh: yq '.nodes[] | select(.ipAddress == "{{.IP}}") | .talosImageURL' {{.TALHELPER_DIR}}/talconfig.yaml
+        sh: yq 'explode(.) | .nodes[] | select(.ipAddress == "{{.IP}}") | .talosImageURL' {{.TALHELPER_DIR}}/talconfig.yaml
       TALOS_VERSION:
         sh: yq '.talosVersion' {{.TALHELPER_DIR}}/talconfig.yaml
     requires:
