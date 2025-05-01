@@ -16,7 +16,7 @@ instance:
     url: 'https://github.com/tholinka/home-ops.git'
     ref: 'refs/heads/main'
     path: kubernetes/flux/cluster
-    pullSecret: github-deploy-key
+    # pullSecret: github-deploy-key
   commonMetadata:
     labels:
       app.kubernetes.io/name: flux

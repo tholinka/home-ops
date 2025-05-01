@@ -59,63 +59,56 @@ nodes:
                 ATTR{address}=="dc:a6:32:ad:6e:81",ATTR{dev_id}=="0x0", ATTR{type}=="1",
                 KERNEL=="end*", NAME="eth0"
 
-  - hostname: c1
+  - hostname: lenovo-m700-1
     ipAddress: 192.168.20.61
     installDisk: /dev/sda
-    machineSpec:
-      secureboot: false
-    talosImageURL: &x64Image factory.talos.dev/installer/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # baremtal| i915, intel-ucode, mei| intel_iommu=on iommu=pt
-    controlPlane: true
+    talosImageURL: &x64Image factory.talos.dev/installer-secureboot/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # baremtal| i915, intel-ucode, mei| intel_iommu=on iommu=pt
+    controlPlane: false
     networkInterfaces:
       - <<: *interface
         addresses:
           - 192.168.20.61/24
-        vip: &vip
-          ip: 192.168.20.2
-    patches: &lenovoPatches
+    patches:
+      &lenovoPatches # - '@./patches/intel/machine-encryption.yaml' # block.VolumeManagerController panics with runtime error out of range [0] with length [0] -> TPM to old to work?
       - '@./patches/intel/machine-sysfs.yaml'
       - '@./patches/intel/machine-udev.yaml'
       - '@./patches/ethernet/lenovo.yaml'
       - '@./patches/large/machine-sysctls.yaml'
-  - hostname: c2
+  - hostname: lenovo-m700-2
     ipAddress: 192.168.20.62
     installDisk: /dev/sda
-    machineSpec:
-      secureboot: false
     talosImageURL: *x64Image
-    controlPlane: true
+    controlPlane: false
     networkInterfaces:
       - <<: *interface
         addresses:
           - 192.168.20.62/24
-        vip: *vip
     patches: *lenovoPatches
-  - hostname: c3
+  - hostname: lenovo-m700-3
     ipAddress: 192.168.20.63
     installDisk: /dev/sda
-    machineSpec:
-      secureboot: false
     talosImageURL: *x64Image
-    controlPlane: true
+    controlPlane: false
     networkInterfaces:
       - <<: *interface
         addresses:
           - 192.168.20.63/24
-        vip: *vip
     patches: *lenovoPatches
-  - hostname: w1
+
+  - hostname: hp-800-g5-1
     ipAddress: 192.168.20.71
     installDiskSelector:
       serial: 1922DD470802
-    machineSpec:
-      secureboot: false
     talosImageURL: *x64Image
-    controlPlane: false
+    controlPlane: true
     networkInterfaces: # backup 1GbE port: 80:e8:2c:2f:b4:ad
       - <<: *interface
         addresses:
           - 192.168.20.71/24
+        vip: &vip
+          ip: 192.168.20.2
     patches: &hpPatches
+      - '@./patches/intel/machine-encryption.yaml'
       - '@./patches/intel/machine-sysfs.yaml'
       - '@./patches/intel/machine-udev.yaml'
       - '@./patches/ethernet/usb.yaml'
@@ -125,50 +118,45 @@ nodes:
           sysfs:
             devices.system.cpu.cpu4.cpufreq.energy_performance_preference: balance_performance
             devices.system.cpu.cpu5.cpufreq.energy_performance_preference: balance_performance
-  - hostname: w2
+  - hostname: hp-400-g5-1
     ipAddress: 192.168.20.72
     installDiskSelector:
       serial: S4GNNF0N211290
-    machineSpec:
-      secureboot: false
     talosImageURL: *x64Image
-    controlPlane: false
+    controlPlane: true
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
         addresses:
           - 192.168.20.72/24
+        vip: *vip
     patches: *hpPatches
-  - hostname: w3
+  - hostname: hp-400-g5-2
     ipAddress: 192.168.20.73
     installDisk: /dev/sda
-    machineSpec:
-      secureboot: false
     talosImageURL: *x64Image
-    controlPlane: false
+    controlPlane: true
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
         addresses:
           - 192.168.20.73/24
+        vip: *vip
     patches: *hpPatches
-  - hostname: w4
+  - hostname: hp-400-g4-1
     ipAddress: 192.168.20.74
     installDiskSelector:
       serial: S4GNNF0N206772
-    machineSpec:
-      secureboot: false
     talosImageURL: *x64Image
     controlPlane: false
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
         addresses:
           - 192.168.20.74/24
+
     patches: *hpPatches
   - hostname: q1
     ipAddress: 192.168.20.101
     installDisk: /dev/sda
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515 # cloud server| nocloud| qemu-guest-agent
+    talosImageURL: factory.talos.dev/installer-secureboot/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515 # cloud server| nocloud| qemu-guest-agent
     controlPlane: false
     networkInterfaces:
       - <<: *interface

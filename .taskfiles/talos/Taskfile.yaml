@@ -37,7 +37,9 @@ tasks:
     dir: '{{.TALHELPER_DIR}}'
     cmds:
       - task: down
+      - kubectl drain {{.NODE_NAME}} --ignore-daemonsets --delete-emptydir-data --timeout=1m || drain w1 --ignore-daemonsets --delete-emptydir-data --disable-eviction
       - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}:{{.TALOS_VERSION}}' --timeout=10m --stage" | bash
+      - kubectl uncordon {{.NODE_NAME}}
       - until talosctl --nodes 192.168.20.2 health; do sleep 5; done
       - task: up
     vars:
@@ -45,6 +47,8 @@ tasks:
         sh: yq 'explode(.) | .nodes[] | select(.ipAddress == "{{.IP}}") | .talosImageURL' {{.TALHELPER_DIR}}/talconfig.yaml
       TALOS_VERSION:
         sh: yq '.talosVersion' {{.TALHELPER_DIR}}/talconfig.yaml
+      NODE_NAME:
+        sh: yq 'explode(.) | .nodes[] | select(.ipAddress == "{{.IP}}") | .hostname' {{.TALHELPER_DIR}}/talconfig.yaml
     requires:
       vars: [IP]
     preconditions:

@@ -17,26 +17,26 @@ releases:
     namespace: kube-system
     chart: oci://ghcr.io/coredns/charts/coredns
     version: 1.41.0
-    values: [../kubernetes/apps/kube-system/coredns/app/helm/values.yaml']
-    needs: ['kube-system/cilium']
+    values: [../kubernetes/apps/kube-system/coredns/app/helm/values.yaml]
+    needs: [kube-system/cilium]
 
   - name: spegel
     namespace: system
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
     version: 0.2.0
     values: [../kubernetes/apps/system/spegel/app/helm/values.yaml]
-    needs: ['kube-system/coredns']
+    needs: [kube-system/coredns]
 
   - name: cert-manager
     namespace: security
     chart: oci://quay.io/jetstack/charts/cert-manager
     version: v1.17.2
-    values: ['../kubernetes/apps/security/cert-manager/app/helm/values.yaml']
+    values: [../kubernetes/apps/security/cert-manager/app/helm/values.yaml]
     hooks:
       - # Apply cluster secret store configuration
         # We need this for bitwarden, which we need for the cluster-secrets to get populated
         # without those, flux fails to install anything
-        events: ['postsync']
+        events: [postsync]
         command: kubectl
         args:
           - apply
@@ -47,40 +47,37 @@ releases:
           - ../kubernetes/apps/security/cert-manager/app/clusterissuers.yaml
           - --wait=true
         showlogs: true
-    needs: ['system/spegel']
-
-  - name: external-secrets
-    namespace: security
-    chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 0.16.1
-    values: [../kubernetes/apps/security/external-secrets/app/helm/values.yaml]
-    hooks:
-      - # Apply cluster secret store configuration
-        events: ['postsync']
+      - # bitwarden needs its cert so it can come up, othewrise it just stays pending
+        events: [postsync]
         command: kubectl
         args:
           - apply
           - --namespace=security
           - --server-side
           - --field-manager=kustomize-controller
-          - --kustomize
-          - ../kubernetes/apps/external-secrets/external-secrets/store/
+          - --filename
+          - ../kubernetes/apps/security/external-secrets/store/certificate.yaml
           - --wait=true
-        showlogs: true
-    needs: ['system/reflector']
+    needs: [system/spegel]
+
+  - name: external-secrets
+    namespace: security
+    chart: oci://ghcr.io/external-secrets/charts/external-secrets
+    version: 0.16.1
+    values: [../kubernetes/apps/security/external-secrets/app/helm/values.yaml]
+    needs: [security/cert-manager]
 
   - name: flux-operator
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
     version: 0.19.0
     values: [../kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml]
-    needs: ['external-secrets/external-secrets']
+    needs: [security/external-secrets]
 
   - name: flux-instance
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
     version: 0.19.0
-    values:
-      [../kubernetes/apps/flux-system/flux-operator/instance/helm/values.yaml]
-    needs: ['flux-system/flux-operator']
+    values: [../kubernetes/apps/flux-system/flux-instance/app/helm/values.yaml]
+    # needs: [flux-system/flux-operator]
     wait: false

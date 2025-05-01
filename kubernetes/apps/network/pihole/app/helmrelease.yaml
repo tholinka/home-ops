@@ -50,7 +50,7 @@ spec:
       dnsPolicy: None
       dnsConfig:
         nameservers:
-          - 10.96.0.11
+          - 192.168.20.7
         options:
           - name: ndots
             value: '1'
@@ -103,7 +103,7 @@ spec:
             env:
               FTLCONF_dns_listeningMode: all
               FTLCONF_dns_dnssec: 'false'
-              FTLCONF_dns_upstreams: 10.96.0.11;10.96.0.11
+              FTLCONF_dns_upstreams: 192.168.20.7;192.168.20.7
               FTLCONF_webserver_interface_boxed: false
               FTLCONF_webserver_interface_theme: default-auto
               FTLCONF_webserver_port: &pihole-port 80
@@ -174,7 +174,7 @@ spec:
       pihole:
         controller: pihole
         type: LoadBalancer
-        clusterIP: 10.96.0.12
+        #clusterIP: 10.96.0.12
         annotations:
           lbipam.cilium.io/ips: '192.168.20.6'
         ports:
@@ -184,12 +184,12 @@ spec:
           dns-tcp:
             port: 53
             protocol: TCP
-          ntp-udp:
-            port: 123
-            protocol: UDP
-          ntp-tcp:
-            port: 123
-            protocol: TCP
+          # ntp-udp:
+          #   port: 123
+          #   protocol: UDP
+          # ntp-tcp:
+          #   port: 123
+          #   protocol: TCP
           http:
             primary: true
             port: *pihole-port

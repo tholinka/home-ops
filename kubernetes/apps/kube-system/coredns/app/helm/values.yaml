@@ -33,7 +33,7 @@ servers:
       - name: autopath
         parameters: '@kubernetes'
       - name: forward
-        parameters: . dns://192.168.20.6 dns://10.96.0.11 tls://1.1.1.1 tls://1.0.0.1
+        parameters: . dns://192.168.20.6 dns://192.168.20.7 tls://1.1.1.1 tls://1.0.0.1
         configBlock: |-
           tls_servername cloudflare-dns.com
           policy sequential

@@ -2,8 +2,8 @@
 
 set -Eeuo pipefail
 
-# use dnscrypt-proxy, and add 1.1.1.1 in case there's no dns container up
-printf "nameserver 10.96.0.11\nnameserver 1.1.1.1" > /etc/resolv.conf
+# use dnscrypt-proxy, and add coredns in case there's no dns container up
+printf "nameserver 192.168.20.7\nnameserver 10.96.0.10" > /etc/resolv.conf
 
 if [ -f "/final/gravity.db" ]; then
 	echo "using symbol link for /etc/pihole, as /final is already setup"
@@ -93,6 +93,9 @@ pihole-FTL --config dns.reply.blocking.IPv4 192.168.20.6
 pihole-FTL --config misc.nice -999
 pihole-FTL --config misc.check.load false
 pihole-FTL --config dns.ignoreLocalhost true
+pihole-FTL --config ntp.ipv4.active false
+pihole-FTL --config ntp.ipv6.active false
+pihole-FTL --config ntp.sync.active false
 
 echo;
 if [ -L /etc/pihole ]; then
@@ -103,4 +106,4 @@ else
 fi
 
 # use only dnscrypt-proxy
-echo 'nameserver 10.96.0.11' > /etc/resolv.conf
+echo 'nameserver 192.168.20.7' > /etc/resolv.conf

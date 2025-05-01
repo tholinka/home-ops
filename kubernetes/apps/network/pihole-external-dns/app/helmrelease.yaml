@@ -39,6 +39,9 @@ spec:
     disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
     remediation:
       retries: 3
+  dependsOn:
+    - name: pihole
+      namespace: network
   values:
     image:
       # TODO remove after pihole v6 support gets officially released: https://github.com/kubernetes-sigs/external-dns/pull/5253

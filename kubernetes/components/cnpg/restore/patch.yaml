@@ -26,10 +26,10 @@ spec:
         endpointURL: ${S3_STORAGE}
         # Note: serverName version needs to be inclemented
         # when recovering from an existing cnpg cluster
-        serverName: *previousCluster
+        #serverName: *previousCluster
         s3Credentials:
           accessKeyId:
-            name: &secret ${APP}-cnpg
+            name: &secret ${APP}-cnpg-secret
             key: AWS_ACCESS_KEY_ID
           secretAccessKey:
             name: *secret

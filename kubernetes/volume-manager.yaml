@@ -27,7 +27,7 @@ spec:
     #     path: /dev/disk
     - name: old
       nfs:
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /backups
         readOnly: true
     - name: new

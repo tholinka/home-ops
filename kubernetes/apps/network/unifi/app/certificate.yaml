@@ -9,7 +9,7 @@ spec:
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: '*.${SECRET_DOMAIN}'
+  commonName: 'unifi.${SECRET_DOMAIN}'
   dnsNames:
     - 'unifi.${SECRET_DOMAIN}'
   keystores:

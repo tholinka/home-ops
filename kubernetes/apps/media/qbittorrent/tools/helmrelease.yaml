@@ -141,7 +141,7 @@ spec:
             readOnly: true
       media:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media
         advancedMounts:
           orphaned:

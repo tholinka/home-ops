@@ -121,7 +121,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media
         globalMounts:
           - path: /media

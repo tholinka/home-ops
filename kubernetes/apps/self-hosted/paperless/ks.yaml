@@ -32,6 +32,7 @@ spec:
       CNPG_VERSION: 17.4-bookworm
       CNPG_SIZE: 10Gi
       CNPG_CLUSTER_CURRENT: v0
+      #CNPG_CLUSTER_PREVIOUS: v0
       CNPG_LIMITS_MEMORY_HUGEPAGES: 256Mi
       CNPG_LIMITS_MEMORY: 512Mi
   components:

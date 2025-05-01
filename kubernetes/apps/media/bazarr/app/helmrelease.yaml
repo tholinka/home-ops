@@ -106,13 +106,13 @@ spec:
           - path: /config/log
       media:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media
         globalMounts:
           - path: /media
       media-downloads:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media/downloads
         globalMounts:
           - path: /media/downloads

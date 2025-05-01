@@ -85,7 +85,7 @@ spec:
           - path: /config/cross-seeds
       media:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media
         globalMounts:
           - path: /media/downloads

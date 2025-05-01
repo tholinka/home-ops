@@ -13,7 +13,7 @@ ui:
 connectivity:
   checker:
     # dnscrypt-proxy
-    target: 10.96.0.11:53
+    target: 192.168.20.7:53
     interval: 1m
 endpoints:
   - name: flux-webhook
@@ -22,6 +22,6 @@ endpoints:
     interval: 1m
     client:
       # dnscrypt-proxy
-      dns-resolver: tcp://10.96.0.11:53
+      dns-resolver: tcp://192.168.20.7:53
     conditions:
       - '[STATUS] == 404'

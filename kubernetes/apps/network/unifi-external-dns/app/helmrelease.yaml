@@ -39,6 +39,9 @@ spec:
     disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
     remediation:
       retries: 3
+  dependsOn:
+    - name: unifi
+      namespace: network
   values:
     fullnameOverride: *app
     provider:

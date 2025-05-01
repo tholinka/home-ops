@@ -96,13 +96,13 @@ spec:
           - path: /config/MediaCover
       media:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media
         globalMounts:
           - path: /media
       media-qbit:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media/downloads/qbittorrent
         globalMounts:
           - path: /media/downloads/qbittorrent

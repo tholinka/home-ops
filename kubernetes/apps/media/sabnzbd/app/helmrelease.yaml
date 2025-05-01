@@ -94,7 +94,7 @@ spec:
         existingClaim: sabnzbd
       media:
         type: nfs
-        server: nfs.servers.internal
+        server: nas.servers.internal
         path: /media
         globalMounts:
           - path: /media/downloads/sabnzbd
