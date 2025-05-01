@@ -3,7 +3,7 @@
 apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
 metadata:
-  name: ${APP}-dragonfly
+  name: dragonfly-${APP}
 spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.29.0
   replicas: 2

@@ -55,14 +55,14 @@ spec:
       valuesKey: EMAIL_FROM
   values:
     env:
-      REDIS_HOSTNAME: cluster-dragonfly.database.svc.cluster.local
+      REDIS_HOSTNAME: dragonfly-cluster.database.svc.cluster.local
       REDIS_PORT: '6379'
       REDIS_DBINDEX: '2'
 
       LOG_LEVEL: verbose
 
       DB_DATABASE_NAME: *app
-      DB_HOSTNAME: immich-db-rw.self-hosted.svc.cluster.local
+      DB_HOSTNAME: postgres-immich-rw.self-hosted.svc.cluster.local
       DB_USERNAME:
         valueFrom:
           secretKeyRef:

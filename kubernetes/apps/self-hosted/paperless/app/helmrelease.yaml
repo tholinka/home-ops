@@ -56,7 +56,7 @@ spec:
               PAPERLESS_OCR_LANGUAGES: eng
               PAPERLESS_OCR_LANGUAGE: eng
               # Configure redis integration
-              PAPERLESS_REDIS: redis://cluster-dragonfly.database.svc.cluster.local:6379/1
+              PAPERLESS_REDIS: redis://dragonfly-cluster.database.svc.cluster.local:6379/1
               # Configure user permissions
               USERMAP_UID: '568'
               USERMAP_GID: '568'
@@ -67,7 +67,7 @@ spec:
               # Configure SSO
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
               PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: 'false'
-              PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: 'false'
+              PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: 'true'
               PAPERLESS_DISABLE_REGULAR_LOGIN: 'true'
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
             envFrom: *envFrom
@@ -79,7 +79,7 @@ spec:
               startup:
                 enabled: true
                 spec:
-                  failureThreshold: 30
+                  failureThreshold: 100
                   periodSeconds: 5
             resources:
               requests:

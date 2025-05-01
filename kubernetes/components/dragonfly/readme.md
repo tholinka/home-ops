@@ -8,7 +8,7 @@
   healthChecks:
     - apiVersion: &dragonflyVersion dragonflydb.io/v1alpha1
       kind: &dragonflyKind Dragonfly
-      name: APPNAME-dragonfly
+      name: dragonfly-APPNAME
       namespace: *namespace
   healthCheckExprs:
     - apiVersion: *dragonflyVersion

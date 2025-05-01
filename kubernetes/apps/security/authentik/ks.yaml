@@ -1,3 +1,42 @@
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app dragonfly-authentik
+  namespace: &namespace security
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/security/authentik/cluster
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  dependsOn:
+    - name: dragonfly
+      namespace: database
+  postBuild:
+    substitute:
+      APP: authentik
+      DRAGONFLY_REQUESTS_MEMORY: 256Mi
+  components:
+    - ../../../../components/dragonfly
+  healthChecks:
+    - apiVersion: &dragonflyVersion dragonflydb.io/v1alpha1
+      kind: &dragonflyKind Dragonfly
+      name: *app
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: *dragonflyVersion
+      kind: *dragonflyKind
+      failed: status.phase != 'ready'
+      current: status.phase == 'ready'
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -20,28 +59,17 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   dependsOn:
-    - name: cnpg-crds
+    - name: postgres-cluster
       namespace: database
-    - name: dragonfly-crds
-      namespace: database
+    - name: dragonfly-authentik
+      namespace: *namespace
     - name: openebs
       namespace: openebs-system
   postBuild:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: auth
-      DRAGONFLY_REQUESTS_MEMORY: 256Mi
-      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      CNPG_VERSION: 17.4-bookworm
-      CNPG_REPLICAS: '2'
-      CNPG_SIZE: 2Gi
-      CNPG_CLUSTER_CURRENT: v0
-      #CNPG_CLUSTER_PREVIOUS: v0
-      CNPG_LIMITS_MEMORY_HUGEPAGES: 256Mi
-      CNPG_LIMITS_MEMORY: 512Mi
   components:
-    - ../../../../components/cnpg/backup
-    - ../../../../components/dragonfly
     - ../../../../components/gatus/external
     - ../../../../components/gatus/internal
 ---

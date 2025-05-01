@@ -94,7 +94,7 @@ spec:
   healthChecks:
     - apiVersion: &dragonflyVersion dragonflydb.io/v1alpha1
       kind: &dragonflyKind Dragonfly
-      name: cluster-dragonfly
+      name: *app
       namespace: *namespace
   healthCheckExprs:
     - apiVersion: *dragonflyVersion

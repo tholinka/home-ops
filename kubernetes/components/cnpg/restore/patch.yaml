@@ -3,13 +3,13 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: ${APP}-db
+  name: postgres-${APP}
   annotations:
     cnpg.io/skipEmptyWalArchiveCheck: 'enabled'
 spec:
   bootstrap:
     recovery:
-      source: &previousCluster ${APP}-db-${CNPG_CLUSTER_PREVIOUS:=v0}
+      source: &previousCluster postgres-${APP}-${CNPG_CLUSTER_PREVIOUS:=v0}
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
   externalClusters:

@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: ${APP}-db
+  name: postgres-${APP}
 spec:
   backup:
     retentionPolicy: 30d
@@ -19,7 +19,7 @@ spec:
       endpointURL: ${S3_STORAGE}
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: ${APP}-db-${CNPG_CLUSTER_CURRENT:=v1}
+      serverName: postgres-${APP}-${CNPG_CLUSTER_CURRENT:=v1}
       s3Credentials:
         accessKeyId:
           name: &secret ${APP}-cnpg-secret

@@ -37,7 +37,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app immich-db
+  name: &app postgres-immich
   namespace: &namespace self-hosted
 spec:
   commonMetadata:
@@ -79,7 +79,7 @@ spec:
   healthChecks:
     - apiVersion: &postgresVersion postgresql.cnpg.io/v1
       kind: &postgresKind Cluster
-      name: immich-db
+      name: *app
       namespace: *namespace
   healthCheckExprs:
     - apiVersion: *postgresVersion
@@ -98,15 +98,6 @@ spec:
           postgresql:
             shared_preload_libraries:
               - "vectors.so"
-            parameters:
-              search_path: '"$user", public, vectors'
-          managed:
-            roles:
-              - name: immich
-                superuser: true
-                login: true
-                passwordSecret:
-                  name: immich-postgres-user
           bootstrap:
             initdb:
               database: immich
@@ -114,10 +105,11 @@ spec:
               secret:
                 name: immich-postgres-user
               dataChecksums: true
-              postInitSQL:
-                - CREATE EXTENSION IF NOT EXISTS "vectors";
-                - CREATE EXTENSION IF NOT EXISTS "cube" CASCADE;
-                - CREATE EXTENSION IF NOT EXISTS "earthdistance" CASCADE;
+              postInitApplicationSQL:
+                - CREATE EXTENSION vectors;
+                - CREATE EXTENSION earthdistance CASCADE;
+                - ALTER DATABASE immich SET search_path TO "$user", public, vectors;
+                - ALTER SCHEMA vectors OWNER TO immich;
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -135,7 +127,7 @@ spec:
   dependsOn:
     - name: dragonfly-cluster
       namespace: database
-    - name: immich-db
+    - name: postgres-immich
       namespace: *namespace
   interval: 1h
   retryInterval: 2m

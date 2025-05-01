@@ -3,10 +3,10 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: '${APP}-daily-backup'
+  name: 'postgres-${APP}-daily-backup'
   namespace: database
 spec:
   backupOwnerReference: self
   schedule: '@daily'
   cluster:
-    name: '${APP}-db'
+    name: 'postgres-${APP}'

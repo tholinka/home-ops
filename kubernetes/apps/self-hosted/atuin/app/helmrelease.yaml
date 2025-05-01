@@ -108,7 +108,7 @@ spec:
           gethomepage.dev/name: Atuin
           gethomepage.dev/group: Dev Tools
           gethomepage.dev/icon: atuin.svg
-          gethomepage.dev/href: sh.${SECRET_DOMAIN}
+          gethomepage.dev/href: https://sh.${SECRET_DOMAIN}
 
     serviceMonitor:
       app:

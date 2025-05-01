@@ -54,7 +54,7 @@
   healthChecks:
     - apiVersion: &postgresVersion postgresql.cnpg.io/v1
       kind: &postgresKind Cluster
-      name: APPNAME-db
+      name: postgres-APPNAME
       namespace: *namespace
   healthCheckExprs:
     - apiVersion: *postgresVersion

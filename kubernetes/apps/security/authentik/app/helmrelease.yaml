@@ -44,14 +44,14 @@ spec:
             name: *secret
     authentik:
       postgresql:
-        host: authentik-db-rw
+        host: postgres-cluster-rw.database.svc.cluster.local
         user: file:///postgres-creds/username
         password: file:///postgres-creds/password
       email:
         port: 587
         use_tls: true
       redis:
-        host: authentik-dragonfly
+        host: dragonfly-authentik
     server:
       initContainers:
         - name: init-db
