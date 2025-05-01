@@ -30,7 +30,19 @@ nodes:
     ipAddress: 192.168.20.51
     installDiskSelector:
       serial: '0x31f66767'
-    talosImageURL: factory.talos.dev/installer/ee21ef4a5ef808a9b7484cc0dda0f25075021691c8c09a276591eedb638ea1f9 # single board computer| raspberry pi series
+    machineSpec:
+      mode: metal
+      arch: arm64
+      secureboot: false
+      useUKI: false
+    schematic:
+      overlay:
+        image: siderolabs/sbc-raspberrypi
+        name: rpi_generic
+      customization:
+        extraKernelArgs: []
+        systemExtensions:
+          officialExtensions: []
     controlPlane: false
     networkInterfaces:
       - &interface
@@ -62,7 +74,21 @@ nodes:
   - hostname: lenovo-m700-1
     ipAddress: 192.168.20.61
     installDisk: /dev/sda
-    talosImageURL: &x64Image factory.talos.dev/installer-secureboot/54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6 # baremtal| i915, intel-ucode, mei| intel_iommu=on iommu=pt
+    machineSpec: &x64MachineSpec
+      mode: metal
+      arch: amd64
+      secureboot: true
+      useUKI: true
+    schematic: &x64schematic
+      customization:
+        extraKernelArgs:
+          - intel_iommu=on # PCI Passthrough
+          - iommu=pt # PCI Passthrough
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/i915
+            - siderolabs/intel-ucode
+            - siderolabs/mei
     controlPlane: false
     networkInterfaces:
       - <<: *interface
@@ -77,7 +103,8 @@ nodes:
   - hostname: lenovo-m700-2
     ipAddress: 192.168.20.62
     installDisk: /dev/sda
-    talosImageURL: *x64Image
+    machineSpec: *x64MachineSpec
+    schematic: *x64schematic
     controlPlane: false
     networkInterfaces:
       - <<: *interface
@@ -87,7 +114,8 @@ nodes:
   - hostname: lenovo-m700-3
     ipAddress: 192.168.20.63
     installDisk: /dev/sda
-    talosImageURL: *x64Image
+    machineSpec: *x64MachineSpec
+    schematic: *x64schematic
     controlPlane: false
     networkInterfaces:
       - <<: *interface
@@ -99,7 +127,8 @@ nodes:
     ipAddress: 192.168.20.71
     installDiskSelector:
       serial: 1922DD470802
-    talosImageURL: *x64Image
+    machineSpec: *x64MachineSpec
+    schematic: *x64schematic
     controlPlane: true
     networkInterfaces: # backup 1GbE port: 80:e8:2c:2f:b4:ad
       - <<: *interface
@@ -122,7 +151,8 @@ nodes:
     ipAddress: 192.168.20.72
     installDiskSelector:
       serial: S4GNNF0N211290
-    talosImageURL: *x64Image
+    machineSpec: *x64MachineSpec
+    schematic: *x64schematic
     controlPlane: true
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
@@ -133,7 +163,8 @@ nodes:
   - hostname: hp-400-g5-2
     ipAddress: 192.168.20.73
     installDisk: /dev/sda
-    talosImageURL: *x64Image
+    machineSpec: *x64MachineSpec
+    schematic: *x64schematic
     controlPlane: true
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
@@ -145,7 +176,8 @@ nodes:
     ipAddress: 192.168.20.74
     installDiskSelector:
       serial: S4GNNF0N206772
-    talosImageURL: *x64Image
+    machineSpec: *x64MachineSpec
+    schematic: *x64schematic
     controlPlane: false
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
@@ -156,7 +188,17 @@ nodes:
   - hostname: q1
     ipAddress: 192.168.20.101
     installDisk: /dev/sda
-    talosImageURL: factory.talos.dev/installer-secureboot/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515 # cloud server| nocloud| qemu-guest-agent
+    machineSpec:
+      mode: nocloud
+      arch: amd64
+      secureboot: true
+      useUKI: true
+    schematic:
+      customization:
+        extraKernelArgs: []
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/qemu-guest-agent
     controlPlane: false
     networkInterfaces:
       - <<: *interface
