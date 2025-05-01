@@ -1,8 +1,8 @@
 customization: # 54046bcea0721cbff72c10bfe1374c2bc07ce6cff32be745f447150e19af00a6
-  extraKernelArgs:
-    - intel_iommu=on
-    - iommu=pt
-  systemExtensions:
+  extraKernelArgs: # not used as it's part of the Talos image now, just here for documentation
+    - intel_iommu=on # PCI Passthrough
+    - iommu=pt # PCI Passthrough
+  systemExtensions: # not used as it's part of the Talos image, just here for documentation
     officialExtensions:
       - siderolabs/i915
       - siderolabs/intel-ucode
