@@ -191,8 +191,8 @@ nodes:
     machineSpec:
       mode: nocloud
       arch: amd64
-      secureboot: true
-      useUKI: true
+      secureboot: false
+      useUKI: false
     schematic:
       customization:
         extraKernelArgs: []
