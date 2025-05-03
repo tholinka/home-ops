@@ -123,9 +123,8 @@ spec:
         containers:
           app:
             image:
-              # TODO migrate to home-operations container when upgrading to 5.0.4 is viable
-              repository: ghcr.io/onedr0p/qbittorrent
-              tag: 5.0.3@sha256:0c0310d8266d62debd8c402a3183d646757e9bb982925a7c64be4beea57618f0
+              repository: ghcr.io/home-operations/qbittorrent
+              tag: 5.1.0@sha256:d28de21b80e231578b600ce47335733df55ca2058e75361becfb1b252569f0c8
             env:
               UMASK: '022'
               QBT_WEBUI_PORT: &port 80
