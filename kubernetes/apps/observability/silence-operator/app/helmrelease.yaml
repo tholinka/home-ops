@@ -34,7 +34,7 @@ spec:
       retries: 3
   dependsOn:
     - name: silence-operator-crds
-      namespace: observability
+      namespace: &namespace observability
   values:
     image:
       name: quay.io/giantswarm/silence-operator
@@ -46,11 +46,12 @@ spec:
     rbac:
       create: true
     extraDeploy:
-      - apiVersion: monitoring.giantswarm.io/v1alpha1
+      - &silence
+        apiVersion: monitoring.giantswarm.io/v1alpha1
         kind: Silence
         metadata:
           name: ceph-node-nfsmount-diskspace-warning
-          namespace: observability
+          namespace: *namespace
         spec:
           matchers:
             - name: alertname
@@ -59,12 +60,11 @@ spec:
             - name: mountpoint
               value: (/etc/nfsmount.conf|/var)
               isRegex: true
-      - apiVersion: monitoring.giantswarm.io/v1alpha1
-        kind: Silence
+      - <<: *silence
         metadata:
           # there are separate btrfs warnings setup, since the defaults aren't accurate for btrfs
           name: no-regular-filesystem-out-of-space-warning-on-btrfs
-          namespace: observability
+          namespace: *namespace
         spec:
           matchers:
             - name: alertname
@@ -76,8 +76,7 @@ spec:
             - name: fstype
               value: btrfs
               isRegex: false
-      - apiVersion: monitoring.giantswarm.io/v1alpha1
-        kind: Silence
+      - <<: *silence
         metadata:
           # this fires all the time, but CPU is fine on the nodes? not sure what it's actually suppose to be monitoring, and the rulebook link 404's
           name: no-node-system-saturaton
@@ -89,4 +88,19 @@ spec:
               isRegex: true
             - name: job
               value: node-exporter
+              isRegex: false
+      - <<: *silence
+        metadata:
+          name: no-disk-saturation-on-nas
+          namespace: *namespace
+        spec:
+          matchers:
+            - name: alertname
+              value: NodeDiskIOSaturation
+              isRegex: true
+            - name: job
+              value: node-exporter
+              isRegex: false
+            - name: instance
+              value: nas.servers.internal:9100
               isRegex: false
