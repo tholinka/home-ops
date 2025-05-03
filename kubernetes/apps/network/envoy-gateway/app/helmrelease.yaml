@@ -19,7 +19,7 @@ kind: HelmRelease
 metadata:
   name: &app envoy-gateway
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: *app
