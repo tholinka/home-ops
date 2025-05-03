@@ -123,15 +123,15 @@ spec:
     route:
       app:
         hostnames:
-          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+          # - '{{ .Release.Name }}.${SECRET_DOMAIN}'
           - '${SECRET_DOMAIN:=test}'
         parentRefs:
-          - name: internal
+          # - name: internal
+          #   namespace: network
+          #   sectionName: https
+          - name: internal-root
             namespace: network
             sectionName: https
-          - name: internal
-            namespace: network
-            sectionName: https-root
         rules:
           - backendRefs:
               - name: *app

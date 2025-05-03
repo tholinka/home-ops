@@ -11,5 +11,18 @@ spec:
     kind: ClusterIssuer
   commonName: '${SECRET_DOMAIN}'
   dnsNames:
-    - '${SECRET_DOMAIN}'
     - '*.${SECRET_DOMAIN}'
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: '${SECRET_DOMAIN/./-}-root'
+spec:
+  secretName: '${SECRET_DOMAIN/./-}-root-tls'
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  commonName: '${SECRET_DOMAIN}'
+  dnsNames:
+    - '${SECRET_DOMAIN}'
