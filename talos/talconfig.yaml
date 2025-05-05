@@ -16,7 +16,6 @@ clusterSvcNets:
   #- 2001:cafe:43::/112
 
 additionalApiServerCertSans: &sans
-  - 192.168.20.2
   - cluster.servers.internal
   - 127.0.0.1
 additionalMachineCertSans: *sans
@@ -30,11 +29,6 @@ nodes:
     ipAddress: 192.168.20.51
     installDiskSelector:
       serial: '0x31f66767'
-    machineSpec:
-      mode: metal
-      arch: arm64
-      secureboot: false
-      useUKI: false
     schematic:
       overlay:
         image: siderolabs/sbc-raspberrypi
@@ -134,8 +128,8 @@ nodes:
       - <<: *interface
         addresses:
           - 192.168.20.71/24
-        vip: &vip
-          ip: 192.168.20.2
+        # vip: &vip
+        #   ip: 192.168.20.2
     patches: &hpPatches
       - '@./patches/intel/machine-encryption.yaml'
       - '@./patches/intel/machine-sysfs.yaml'
@@ -158,7 +152,7 @@ nodes:
       - <<: *interface
         addresses:
           - 192.168.20.72/24
-        vip: *vip
+        # vip: *vip
     patches: *hpPatches
   - hostname: hp-400-g5-2
     ipAddress: 192.168.20.73
@@ -170,7 +164,7 @@ nodes:
       - <<: *interface
         addresses:
           - 192.168.20.73/24
-        vip: *vip
+        # vip: *vip
     patches: *hpPatches
   - hostname: hp-400-g4-1
     ipAddress: 192.168.20.74
