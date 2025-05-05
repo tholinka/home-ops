@@ -3,32 +3,16 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
-  name: internal
+  name: client
 spec:
   targetRefs:
-    - group: gateway.networking.k8s.io
+    - &target
+      group: gateway.networking.k8s.io
       kind: Gateway
+      name: internal-root
+    - <<: *target
       name: internal
-  clientIPDetection:
-    xForwardedFor:
-      numTrustedHops: 1
-  tls:
-    minVersion: '1.2'
-    alpnProtocols:
-      - h2
-      - http/1.1
-  # TODO unccoment after https://github.com/envoyproxy/gateway/pull/5671 is released - v1.4.0?
-  #http3: {} # currently causes all requests to 503: https://github.com/envoyproxy/gateway/issues/5660
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-helm/crds/generated/gateway.envoyproxy.io_clienttrafficpolicies.yaml
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: ClientTrafficPolicy
-metadata:
-  name: external
-spec:
-  targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
+    - <<: *target
       name: external
   clientIPDetection:
     xForwardedFor:
@@ -39,4 +23,4 @@ spec:
       - h2
       - http/1.1
   # TODO unccoment after https://github.com/envoyproxy/gateway/pull/5671 is released - v1.4.0?
-  #http3: {} # currently does nothing, but also doesn't cause any issues, unlike internal for some reason https://github.com/envoyproxy/gateway/issues/5005
+  #http3: {} # currently causes all requests to 503: https://github.com/envoyproxy/gateway/issues/5660

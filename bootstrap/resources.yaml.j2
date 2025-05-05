@@ -60,7 +60,6 @@ metadata:
 type: kubernetes.io/tls
 # this get saved as json, but yaml is a super-set of json so we can just directly import it :)
 data: {{ ENV['lets_encrypt_root_tls'] | safe}}
-{% for namespace in ['security', 'flux-system'] %}
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
 apiVersion: v1
