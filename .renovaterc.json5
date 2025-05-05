@@ -11,17 +11,17 @@
 		"**/resources/**",
 	],
 	flux: {
-		managerFilePatterns: [
+		fileMatch: [
 			"(^|/)kubernetes/.+\\.ya?ml$"
 		]
 	},
 	"helm-values": {
-		managerFilePatterns: [
+		fileMatch: [
 			"(^|/)kubernetes/.+\\.ya?ml$"
 		]
 	},
 	kubernetes: {
-		managerFilePatterns: [
+		fileMatch: [
 			"(^|/)kubernetes/.+\\.ya?ml$"
 		]
 	},

@@ -13,7 +13,7 @@
 		{
 			description: "Process Grafana dashboards",
 			customType: "regex",
-			managerFilePatterns: [
+			fileMatch: [
 				"(^|/)kubernetes/.+\\.ya?ml$"
 			],
 			matchStrings: [
