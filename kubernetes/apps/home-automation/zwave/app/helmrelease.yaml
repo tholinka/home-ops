@@ -36,12 +36,9 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /health
+                    path: /health/
                     port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-              startup: *probes # template has a default failureThreshold of 30
+              startup: *probes
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
