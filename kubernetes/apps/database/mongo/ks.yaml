@@ -76,6 +76,11 @@ spec:
           value:
             name: dbOwner
             db: unifi_stat
+        - op: add
+          path: /spec/users/0/roles/2
+          value:
+            name: dbOwner
+            db: unifi_audit
       target:
         group: mongodbcommunity.mongodb.com
         kind: MongoDBCommunity
