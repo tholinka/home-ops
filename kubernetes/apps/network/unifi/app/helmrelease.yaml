@@ -57,6 +57,8 @@ spec:
               liveness: &probes
                 enabled: true
                 custom: false
+                spec:
+                  failureThreshold: 10
               startup: *probes
               readiness: *probes
             securityContext:
