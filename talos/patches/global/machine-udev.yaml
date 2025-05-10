@@ -1,0 +1,10 @@
+---
+machine:
+  udev:
+    rules:
+      # save power
+      - SUBSYSTEM=="pci", ATTR{power/control}="auto"
+      - SUBSYSTEM=="ata_port", KERNEL=="ata*", ATTR{device/power/control}="auto"
+      - SUBSYSTEM=="block", KERNEL=="sd[a-z]", ATTR{device/power/control}="auto"
+      - SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_policy}="med_power_with_dipm"
+      - SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"

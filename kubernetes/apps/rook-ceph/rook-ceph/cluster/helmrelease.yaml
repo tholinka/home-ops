@@ -33,7 +33,7 @@ spec:
   install:
     remediation:
       retries: -1
-  upgrade:
+  upgrade: # on a new bootstrap need to do (default is 1 for both of these): k rook-ceph ceph config set global bluestore_slow_ops_warn_threshold 3 && k rook-ceph ceph config set global bdev_stalled_read_warn_threshold 2
     cleanupOnFail: true
     remediation:
       retries: 3
