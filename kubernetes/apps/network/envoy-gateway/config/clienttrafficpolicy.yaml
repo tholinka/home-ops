@@ -22,5 +22,4 @@ spec:
     alpnProtocols:
       - h2
       - http/1.1
-  # TODO unccoment after https://github.com/envoyproxy/gateway/pull/5671 is released - v1.4.0?
-  #http3: {} # currently causes all requests to 503: https://github.com/envoyproxy/gateway/issues/5660
+  http3: {}
