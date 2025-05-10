@@ -82,6 +82,7 @@ spec:
                   httpGet:
                     path: /misc/ping
                     port: *port
+                  failureThreshold: 10
               readiness: *probes
               startup: *probes
             resources:
