@@ -66,3 +66,15 @@ spec:
           for: 1m
           labels:
             severity: warning
+        - alert: DatabaseFailedBackup
+          annotations:
+            description: Last database backup failed
+            summary: Checks for failed backups
+          expr: |-
+            cnpg_collector_last_failed_backup_timestamp > 0
+        - alert: DatabaseNoBackup
+          annotations:
+            description: No database backup within the last 25 hours
+            summary: Checks for recent database backups
+          expr: |-
+            (cnpg_collector_last_available_backup_timestamp != 0) and (time() - cnpg_collector_last_available_backup_timestamp > 90000)
