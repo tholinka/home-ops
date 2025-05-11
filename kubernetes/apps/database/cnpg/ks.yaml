@@ -75,7 +75,7 @@ spec:
       APP: cluster
       # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
       CNPG_VERSION: 17.4-bookworm
-      CNPG_REPLICAS: '3'
+      CNPG_REPLICAS: '2'
       CNPG_SIZE: 5Gi
       CNPG_CLUSTER_CURRENT: v0
       #CNPG_CLUSTER_PREVIOUS: v0
