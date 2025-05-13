@@ -87,8 +87,6 @@ spec:
     substitute:
       APP: cluster
       DRAGONFLY_REQUESTS_MEMORY: 256Mi
-      # imich needs this for bullmq
-      DRAGONFLY_ARGS_DEFAULT_LUA_FLAGS: allow-undeclared-keys
   components:
     - ../../../../components/dragonfly
   healthChecks:
@@ -101,3 +99,11 @@ spec:
       kind: *dragonflyKind
       failed: status.phase != 'ready'
       current: status.phase == 'ready'
+  patches:
+    - target:
+        kind: *dragonflyKind
+      # immich needs this for bullmq, this has some pretty big performance implications though
+      patch: |-
+        - op: add
+          path: /spec/args/-
+          value: --default_lua_flags=allow-undeclared-keys
