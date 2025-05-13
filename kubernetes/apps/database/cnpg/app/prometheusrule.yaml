@@ -74,7 +74,7 @@ spec:
             cnpg_collector_last_failed_backup_timestamp > 0
         - alert: DatabaseNoBackup
           annotations:
-            description: No database backup within the last 25 hours
+            description: No database backup within the last 48 hours
             summary: Checks for recent database backups
           expr: |-
-            (cnpg_collector_last_available_backup_timestamp != 0) and (time() - cnpg_collector_last_available_backup_timestamp > 90000)
+            (cnpg_collector_last_available_backup_timestamp != 0) and (time() - cnpg_collector_last_available_backup_timestamp > 172800)
