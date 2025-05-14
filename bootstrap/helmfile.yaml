@@ -7,11 +7,18 @@ helmDefaults:
   waitForJobs: true
 
 releases:
+  - name: gateway-api-crds
+    namespace: network
+    chart: oci://docker.io/envoyproxy/gateway-crds-helm
+    version: 1.4.0
+    values: [../kubernetes/apps/network/envoy-gateway/crds/helm/values.yaml]
+
   - name: cilium
     namespace: kube-system
     chart: oci://ghcr.io/home-operations/charts-mirror/cilium
     version: 1.17.3
     values: [../kubernetes/apps/kube-system/cilium/app/helm/values.yaml]
+    needs: [network/gateway-api-crds]
 
   - name: coredns
     namespace: kube-system

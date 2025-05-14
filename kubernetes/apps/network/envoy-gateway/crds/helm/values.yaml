@@ -1,0 +1,6 @@
+---
+crds:
+  gatewayAPI:
+    enabled: true
+  # envoyGateway: # let the app chart handle envoy crds
+  #   enabled: true
