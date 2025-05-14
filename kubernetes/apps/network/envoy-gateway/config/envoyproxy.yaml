@@ -18,7 +18,6 @@ spec:
     type: Kubernetes
     kubernetes:
       envoyDeployment:
-        replicas: 2
         container:
           resources:
             requests:
@@ -27,5 +26,15 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+      envoyHpa:
+        minReplicas: 2
+        maxReplicas: 5
+        metrics:
+          - resource:
+              name: cpu
+              target:
+                averageUtilization: 50
+                type: Utilization
+            type: Resource
       envoyService:
         externalTrafficPolicy: Cluster # Cilium's L2 announce doesn't support Local, since it announces on a different node than the pod is running on https://github.com/cilium/cilium/issues/27800

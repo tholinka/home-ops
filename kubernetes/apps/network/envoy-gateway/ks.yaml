@@ -51,6 +51,9 @@ spec:
       name: external
       namespace: *namespace
     - <<: *healthCheck
+      kind: &gatewayClassKind GatewayClass
+      name: envoy
+    - <<: *healthCheck
       name: internal
     - <<: *healthCheck
       name: internal-root
@@ -63,10 +66,13 @@ spec:
       kind: &backendKind BackendTrafficPolicy
       name: backend
   healthCheckExprs:
-    - apiVersion: *gatewayVersion
+    - &expr
+      apiVersion: *gatewayVersion
       kind: *gatewayKind
       current: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'True') && status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'True')
       failed: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'False') || status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'False')
+    - <<: *expr
+      kind: *gatewayClassKind
     - &expr
       apiVersion: *envoyVersion
       kind: *clientKind
