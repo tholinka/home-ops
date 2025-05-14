@@ -6,3 +6,9 @@ resources:
   - ./helmrelease.yaml
   - ./podmonitor.yaml
   - ./servicemonitor.yaml
+configMapGenerator:
+  - name: envoy-gateway-values
+    files:
+      - values.yaml=./helm/values.yaml
+configurations:
+  - ./helm/kustomizeconfig.yaml

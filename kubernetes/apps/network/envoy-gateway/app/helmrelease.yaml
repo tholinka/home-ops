@@ -32,19 +32,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  values:
-    deployment:
-      envoyGateway:
-        rbac:
-          cluster: true
-    hpa:
-      enabled: true
-      minReplicas: 2
-      maxReplicas: 5
-      metrics:
-        - resource:
-            name: cpu
-            target:
-              averageUtilization: 50
-              type: Utilization
-          type: Resource
+  valuesFrom:
+    - kind: ConfigMap
+      name: envoy-gateway-values

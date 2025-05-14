@@ -9,9 +9,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: gateway-api-crds
-      namespace: network
   interval: 1h
   path: ./kubernetes/apps/network/envoy-gateway/app
   prune: true
@@ -51,9 +48,6 @@ spec:
       name: external
       namespace: *namespace
     - <<: *healthCheck
-      kind: &gatewayClassKind GatewayClass
-      name: envoy
-    - <<: *healthCheck
       name: internal
     - <<: *healthCheck
       name: internal-root
@@ -71,8 +65,6 @@ spec:
       kind: *gatewayKind
       current: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'True') && status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'True')
       failed: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'False') || status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'False')
-    - <<: *expr
-      kind: *gatewayClassKind
     - &expr
       apiVersion: *envoyVersion
       kind: *clientKind

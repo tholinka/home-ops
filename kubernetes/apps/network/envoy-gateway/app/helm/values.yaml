@@ -1,0 +1,15 @@
+deployment:
+  envoyGateway:
+    rbac:
+      cluster: true
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 50
+          type: Utilization
+      type: Resource

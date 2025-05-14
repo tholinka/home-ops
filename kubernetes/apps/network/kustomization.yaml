@@ -10,7 +10,6 @@ resources:
   - ./echo/ks.yaml
   - ./multus/ks.yaml
   - ./envoy-gateway/ks.yaml
-  - ./gateway-api-crds/ks.yaml
   - ./pihole/ks.yaml
   - ./pihole-external-dns/ks.yaml
   - ./unifi/ks.yaml
