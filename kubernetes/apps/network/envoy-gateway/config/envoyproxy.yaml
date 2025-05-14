@@ -27,14 +27,19 @@ spec:
               cpu: 500m
               memory: 1Gi
       envoyHpa:
-        minReplicas: 2
+        minReplicas: 1
         maxReplicas: 5
         metrics:
           - resource:
               name: cpu
               target:
-                averageUtilization: 50
+                averageUtilization: 60
                 type: Utilization
             type: Resource
+        behavior:
+          scaleUp:
+            stabilizationWindowSeconds: 300
+          scaleDown:
+            stabilizationWindowSeconds: 300
       envoyService:
         externalTrafficPolicy: Cluster # Cilium's L2 announce doesn't support Local, since it announces on a different node than the pod is running on https://github.com/cilium/cilium/issues/27800

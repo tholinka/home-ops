@@ -5,7 +5,7 @@ metadata:
   name: immich-server
 spec:
   minReplicas: 1
-  maxReplicas: 2
+  maxReplicas: 5
   behavior:
     scaleUp:
       stabilizationWindowSeconds: 300
@@ -15,7 +15,7 @@ spec:
     - resource:
         name: cpu
         target:
-          averageUtilization: 50
+          averageUtilization: 60
           type: Utilization
       type: Resource
   scaleTargetRef:

@@ -59,9 +59,16 @@ spec:
           envFrom:
             - secretRef:
                 name: *secret
-      autoscaling:
+      autoscaling: &autoscaling
         enabled: true
         minReplicas: 1
+        maxReplicas: 5
+        targetCPUUtilizationPercentage: 60
+        behavior:
+          scaleUp:
+            stabilizationWindowSeconds: 300
+          scaleDown:
+            stabilizationWindowSeconds: 300
       resources:
         requests:
           cpu: 300m
@@ -72,9 +79,7 @@ spec:
         serviceMonitor:
           enabled: true
     worker:
-      autoscaling:
-        enabled: true
-        minReplicas: 1
+      autoscaling: *autoscaling
       resources:
         requests:
           cpu: 300m

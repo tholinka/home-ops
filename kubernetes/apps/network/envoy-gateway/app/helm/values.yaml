@@ -4,12 +4,17 @@ deployment:
       cluster: true
 hpa:
   enabled: true
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 5
   metrics:
     - resource:
         name: cpu
         target:
-          averageUtilization: 50
+          averageUtilization: 60
           type: Utilization
       type: Resource
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 300
+    scaleDown:
+      stabilizationWindowSeconds: 300
