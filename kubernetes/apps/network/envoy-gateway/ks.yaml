@@ -60,15 +60,22 @@ spec:
       kind: &backendKind BackendTrafficPolicy
       name: backend
   healthCheckExprs:
-    - &expr
-      apiVersion: *gatewayVersion
+    - apiVersion: *gatewayVersion
       kind: *gatewayKind
-      current: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'True') && status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'True')
-      failed: status.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'False') || status.conditions.filter(e, e.type == 'Programmed').all(e, e.status == 'False')
+      current: |-
+        status.listeners.exists(l,
+          l.conditions.filter(e, e.type == 'Accepted').exists(e, e.status == 'True') &&
+          l.conditions.filter(e, e.type == 'Programmed').exists(e, e.status == 'True') &&
+          l.conditions.filter(e, e.type == 'OverlappingCertificates').all(e, e.status == 'False'))
+      failed: |-
+        status.listeners.exists(l,
+          l.conditions.filter(e, e.type == 'Accepted').exists(e, e.status == 'False') ||
+          l.conditions.filter(e, e.type == 'Programmed').exists(e, e.status == 'False') ||
+          l.conditions.filter(e, e.type == 'OverlappingCertificates').exists(e, e.status == 'True'))
     - &expr
       apiVersion: *envoyVersion
       kind: *clientKind
-      current: status.ancestors.all(e, e.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'True'))
-      failed: status.ancestors.all(e, e.conditions.filter(e, e.type == 'Accepted').all(e, e.status == 'False'))
+      current: status.ancestors.exists(e, e.conditions.filter(e, e.type == 'Accepted').exists(e, e.status == 'True'))
+      failed: status.ancestors.exists(e, e.conditions.filter(e, e.type == 'Accepted').exists(e, e.status == 'False'))
     - <<: *expr
       kind: *backendKind

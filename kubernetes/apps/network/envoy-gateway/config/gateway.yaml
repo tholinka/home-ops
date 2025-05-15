@@ -46,7 +46,7 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${SECRET_DOMAIN/./-}-root-tls
+            name: ${SECRET_DOMAIN/./-}-tls
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
