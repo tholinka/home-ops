@@ -63,3 +63,9 @@ tasks:
       - flux -n actions-runner-system reconcile hr home-ops-runner
     preconditions:
       - which flux helm
+
+  restart-daemonsets:
+    desc: Restart daemonsets to fix mis-scheduled daemonsets
+    cmd: kubectl get daemonset --all-namespaces --no-headers -o=custom-columns='namespace:.metadata.namespace,name:metadata.name' | xargs -P 999 -n2 kubectl rollout restart daemonset -n
+    preconditions:
+      - which kubectl xargs
