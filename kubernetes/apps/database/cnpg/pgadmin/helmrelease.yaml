@@ -115,7 +115,7 @@ spec:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/name: pgAdmin
-          gethomepage.dev/icon: pgadmin.svc
+          gethomepage.dev/icon: pgadmin.svg
           gethomepage.dev/siteMonitor: http://pgadmin.database.svc.cluster.local
 
     persistence:
