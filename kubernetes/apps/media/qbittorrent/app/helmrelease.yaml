@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -204,17 +204,16 @@ spec:
     service:
       app:
         controller: *app
-        nameOverride: *app
+        forceRename: *app
         ports:
           http:
             primary: true
             port: *port
       gluetun:
         controller: *app
-        nameOverride: gluetun
+        suffix: gluetun
         ports:
           socks-proxy:
-            enabled: true
             port: *proxy-port
     route:
       app:
@@ -231,7 +230,6 @@ spec:
 
     persistence:
       config:
-        enabled: true
         existingClaim: *app
         advancedMounts:
           qbittorrent:
