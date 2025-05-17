@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -73,6 +73,7 @@ spec:
       server:
         controller: server
         primary: true
+        forceRename: *app
         ports:
           http:
             port: *port
@@ -102,12 +103,12 @@ spec:
                     type: ReplacePrefixMatch
                     replacePrefixMatch: '/'
             backendRefs:
-              - name: server
+              - identifier: server
                 port: *port
           - matches:
               - path:
                   type: PathPrefix
                   value: '/'
             backendRefs:
-              - name: web
+              - identifier: web
                 port: *webport
