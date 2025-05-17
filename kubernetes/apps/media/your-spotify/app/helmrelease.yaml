@@ -73,7 +73,6 @@ spec:
       server:
         controller: server
         primary: true
-        forceRename: *app
         ports:
           http:
             port: *port
