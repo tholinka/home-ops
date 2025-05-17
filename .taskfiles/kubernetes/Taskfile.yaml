@@ -64,8 +64,10 @@ tasks:
     preconditions:
       - which flux helm
 
-  restart-daemonsets:
-    desc: Restart daemonsets to fix mis-scheduled daemonsets
-    cmd: kubectl get daemonset --all-namespaces --no-headers -o=custom-columns='namespace:.metadata.namespace,name:metadata.name' | xargs -P 999 -n2 kubectl rollout restart daemonset -n
+  delete-daemonset:
+    desc: Restart daemonset pods to fix mis-scheduled daemonsets
+    cmd: kubectl describe daemonsets.apps -A | grep '^Selector:.*{{.SET}}' | awk {'print $2'} | xargs -n1 -P999 kubectl delete pods -A -l
+    requires:
+      vars: [SET]
     preconditions:
       - which kubectl xargs
