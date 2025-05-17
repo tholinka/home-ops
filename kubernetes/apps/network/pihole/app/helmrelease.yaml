@@ -212,6 +212,10 @@ spec:
           - backendRefs:
               - name: *app
                 port: *pihole-port
+            sessionPersistence:
+              sessionName: *app
+              type: Cookie
+              absoluteTimeout: 35m
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Infrastructure
@@ -243,17 +247,3 @@ spec:
               - path: /etc/dnsmasq.d/03-hosts.conf
                 subPath: 03-hosts.conf
                 readOnly: true
-  postRenderers:
-    - kustomize:
-        patches:
-          # allow ui to work with multiple deployments
-          - target:
-              kind: HTTPRoute
-              name: pihole
-            patch: |
-              - op: add
-                path: /spec/rules/0/sessionPersistence
-                value:
-                  sessionName: pihole-session
-                  type: Cookie
-                  absoluteTimeout: 35m
