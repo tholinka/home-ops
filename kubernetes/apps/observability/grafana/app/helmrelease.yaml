@@ -350,12 +350,6 @@ spec:
           gnetId: 20842
           revision: 3
           datasource: Prometheus
-        emqx:
-          # renovate: depName="EMQX"
-          gnetId: 17446
-          revision: 2
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
     sidecar:
       image:
         registry: ghcr.io
