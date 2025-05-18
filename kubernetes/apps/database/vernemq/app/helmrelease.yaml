@@ -86,13 +86,15 @@ spec:
             port: 1883
           ws:
             port: 8080
-          http:
-            port: &http 8888
       headless:
         forceRename: '{{ .Release.Name }}' # TODO: Fix this when app-template 4.1.0 is released
         publishNotReadyAddresses: true
         clusterIP: None
         ports: *ports
+      http:
+        ports:
+          http:
+            port: &http 8888
 
     route:
       app:
@@ -107,7 +109,7 @@ spec:
               - path:
                   value: /status.json
             backendRefs: &backendRefs
-              - identifier: app
+              - identifier: http
                 port: *http
           - matches:
               - path:
@@ -148,7 +150,7 @@ spec:
 
     serviceMonitor:
       app:
-        serviceName: '{{ .Release.Name }}-app'
+        serviceName: '{{ .Release.Name }}-http'
         endpoints:
           - port: http
             scheme: http
