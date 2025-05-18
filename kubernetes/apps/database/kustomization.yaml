@@ -10,3 +10,4 @@ resources:
   - ./cnpg/ks.yaml
   - ./dragonfly/ks.yaml
   - ./mongo/ks.yaml
+  - ./vernemq/ks.yaml

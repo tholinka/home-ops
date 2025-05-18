@@ -1,0 +1,186 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app vernemq
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  driftDetection:
+    mode: enabled
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      *app :
+        type: statefulset
+        strategy: RollingUpdate
+        replicas: 2
+
+        annotations:
+          secret.reloader.stakater.com/reload: vernemq-auth-secret
+
+        pod:
+          securityContext:
+            runAsUser: 10000
+            runAsNonRoot: true
+
+        containers:
+          app:
+            image:
+              repository: docker.io/vernemq/vernemq
+              tag: 2.0.1-alpine
+            env:
+              MY_POD_NAME:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+              DOCKER_VERNEMQ_ACCEPT_EULA: 'yes'
+              DOCKER_VERNEMQ_DISCOVERY_KUBERNETES: 1
+              DOCKER_VERNEMQ_KUBERNETES_LABEL_SELECTOR: 'app.kubernetes.io/name=vernemq'
+            envFrom:
+              - secretRef:
+                  name: vernemq-auth-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health/ping
+                    port: 8888
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+
+        serviceAccount:
+          identifier: *app
+
+    service:
+      app:
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: 'mqtt.${SECRET_DOMAIN}.'
+          lbipam.cilium.io/ips: 192.168.20.8, ::ffff:192.168.20.8
+        ports: &ports
+          mqtt:
+            port: 1883
+          ws:
+            port: 8080
+          http:
+            port: &http 8888
+      headless:
+        forceRename: '{{ .Release.Name }}' # TODO: Fix this when app-template 4.1.0 is released
+        publishNotReadyAddresses: true
+        clusterIP: None
+        ports: *ports
+
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  value: /status.json
+            backendRefs: &backendRefs
+              - identifier: app
+                port: *http
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /status
+            backendRefs: *backendRefs
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs: *backendRefs
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplacePrefixMatch
+                    replacePrefixMatch: /status
+
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: VerneMQ
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/icon: mqtt.svg
+
+    persistence:
+      data:
+        type: emptyDir
+        globalMounts:
+          - path: /vernemq/data
+      log:
+        type: emptyDir
+        globalMounts:
+          - path: /vernemq/log
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+
+    serviceMonitor:
+      app:
+        serviceName: '{{ .Release.Name }}-app'
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 10s
+            scrapeTimeout: 1s
+
+    serviceAccount:
+      *app : {}
+
+    rbac:
+      roles:
+        *app :
+          type: Role
+          rules:
+            - apiGroups:
+                - ''
+              resources:
+                - pods
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - apps
+              resources:
+                - statefulsets
+              verbs:
+                - get
+      bindings:
+        *app :
+          type: RoleBinding
+          roleRef:
+            identifier: *app
+          subjects:
+            - identifier: *app

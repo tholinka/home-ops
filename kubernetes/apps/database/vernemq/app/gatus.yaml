@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vernemq-mqtt-gatus-ep
+  labels:
+    gatus.io/enabled: 'true'
+data:
+  config.yaml: |
+    endpoints:
+      - name: vernemq-mqtt
+        group: infrastructure
+        url: tcp://vernemq.database.svc.cluster.local:1883
+        interval: 1m
+        ui:
+          hide-url: true
+          hide-hostname: true
+        conditions:
+          - "[CONNECTED] == true"
