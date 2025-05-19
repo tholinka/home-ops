@@ -44,8 +44,9 @@ spec:
                   fieldRef:
                     fieldPath: metadata.name
               DOCKER_VERNEMQ_ACCEPT_EULA: 'yes'
-              DOCKER_VERNEMQ_DISCOVERY_KUBERNETES: 1
+              DOCKER_VERNEMQ_DISCOVERY_KUBERNETES: '1'
               DOCKER_VERNEMQ_KUBERNETES_LABEL_SELECTOR: 'app.kubernetes.io/name=vernemq'
+              DOCKER_VERNEMQ_LEVELDB__MAXIMUM_MEMORY: '200000000' # in bytes, defaults to 70% of available memory (aka 22.Gb on a 32Gb node...) (use __PERCENT version to specify percent)
             envFrom:
               - secretRef:
                   name: vernemq-auth-secret
@@ -62,7 +63,7 @@ spec:
               readiness: *probes
             resources:
               requests:
-                cpu: 10m
+                cpu: 20m
                 memory: 128Mi
               limits:
                 memory: 256Mi
