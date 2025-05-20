@@ -38,7 +38,7 @@ tasks:
     dir: '{{.TALHELPER_DIR}}'
     cmds:
       - task: down
-      - kubectl drain {{.NODE_NAME}} --ignore-daemonsets --delete-emptydir-data --timeout=1m || drain w1 --ignore-daemonsets --delete-emptydir-data --disable-eviction
+      - kubectl drain {{.NODE_NAME}} --ignore-daemonsets --delete-emptydir-data --timeout=1m
       - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}' --timeout=10m --stage" | bash
       - kubectl uncordon {{.NODE_NAME}}
       # shuffle a random ip, that way if the node being upgraded is the one picked we eventually pick one that's up
