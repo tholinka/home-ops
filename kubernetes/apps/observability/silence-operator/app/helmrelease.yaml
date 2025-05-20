@@ -10,8 +10,13 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.0.8
-  url: oci://ghcr.io/wiremind/wiremind-helm-charts/silence-operator
+    tag: 0.16.1
+  url: oci://ghcr.io/home-operations/charts-mirror/silence-operator
+  verify:
+    provider: cosign
+    matchOIDCIdentity:
+      - issuer: ^https://token.actions.githubusercontent.com$
+        subject: ^https://github.com/home-operations/charts-mirror/.*$
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -32,75 +37,11 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  dependsOn:
-    - name: silence-operator-crds
-      namespace: &namespace observability
   values:
+    alertmanagerAddress: http://kube-prometheus-stack-alertmanager:9093
     image:
-      name: quay.io/giantswarm/silence-operator
-    operator:
-      config:
-        alertmanager:
-          service:
-            address: http://kube-prometheus-stack-alertmanager:9093
-    rbac:
-      create: true
-    extraDeploy:
-      - &silence
-        apiVersion: monitoring.giantswarm.io/v1alpha1
-        kind: Silence
-        metadata:
-          name: ceph-node-nfsmount-diskspace-warning
-          namespace: *namespace
-        spec:
-          matchers:
-            - name: alertname
-              value: CephNodeDiskspaceWarning
-              isRegex: false
-            - name: mountpoint
-              value: (/etc/nfsmount.conf|/var)
-              isRegex: true
-      - <<: *silence
-        metadata:
-          # there are separate btrfs warnings setup, since the defaults aren't accurate for btrfs
-          name: no-regular-filesystem-out-of-space-warning-on-btrfs
-          namespace: *namespace
-        spec:
-          matchers:
-            - name: alertname
-              value: (NodeFilesystemAlmostOutOfSpace|NodeFilesystemSpaceFillingUp)
-              isRegex: true
-            - name: job
-              value: node-exporter
-              isRegex: false
-            - name: fstype
-              value: btrfs
-              isRegex: false
-      - <<: *silence
-        metadata:
-          # this fires all the time, but CPU is fine on the nodes? not sure what it's actually suppose to be monitoring, and the rulebook link 404's
-          name: no-node-system-saturaton
-          namespace: observability
-        spec:
-          matchers:
-            - name: alertname
-              value: NodeSystemSaturation
-              isRegex: true
-            - name: job
-              value: node-exporter
-              isRegex: false
-      - <<: *silence
-        metadata:
-          name: no-disk-saturation-on-nas
-          namespace: *namespace
-        spec:
-          matchers:
-            - name: alertname
-              value: NodeDiskIOSaturation
-              isRegex: true
-            - name: job
-              value: node-exporter
-              isRegex: false
-            - name: instance
-              value: nas.servers.internal:9100
-              isRegex: false
+      registry: quay.io
+      name: giantswarm/silence-operator
+      tag: 0.16.1
+    networkPolicy:
+      enabled: false
