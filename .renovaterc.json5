@@ -1,28 +1,28 @@
 {
-	$schema: "https://docs.renovatebot.com/renovate-schema.json",
+	$schema: 'https://docs.renovatebot.com/renovate-schema.json',
 	extends: [
-		"github>tholinka/renovate-config",
-		"github>tholinka/home-ops//.renovate/autoMerge.json5",
-		"github>tholinka/home-ops//.renovate/grafanaDashboards.json5",
-		"github>tholinka/home-ops//.renovate/groups.json5",
+		'github>tholinka/renovate-config',
+		'github>tholinka/home-ops//.renovate/autoMerge.json5',
+		'github>tholinka/home-ops//.renovate/grafanaDashboards.json5',
+		'github>tholinka/home-ops//.renovate/groups.json5',
 	],
 	ignorePaths: [
-		"**/*.sops.*",
-		"**/resources/**",
+		'**/*.sops.*',
+		'**/resources/**',
 	],
 	flux: {
-		fileMatch: [
-			"(^|/)kubernetes/.+\\.ya?ml$"
-		]
+		managerFilePatterns: [
+			'/(^|/)kubernetes/.+\\.ya?ml$/',
+		],
 	},
-	"helm-values": {
-		fileMatch: [
-			"(^|/)kubernetes/.+\\.ya?ml$"
-		]
+	'helm-values': {
+		managerFilePatterns: [
+			'/(^|/)kubernetes/.+\\.ya?ml$/',
+		],
 	},
 	kubernetes: {
-		fileMatch: [
-			"(^|/)kubernetes/.+\\.ya?ml$"
-		]
+		managerFilePatterns: [
+			'/(^|/)kubernetes/.+\\.ya?ml$/',
+		],
 	},
 }
