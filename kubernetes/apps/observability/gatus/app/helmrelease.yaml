@@ -125,3 +125,18 @@ spec:
           - path: /config/config.yaml
             subPath: config.yaml
             readOnly: true
+    rbac:
+      roles:
+        gatus:
+          type: Role
+          rules:
+            - apiGroups: ['']
+              resources: ['configmaps', 'secrets']
+              verbs: ['get', 'watch', 'list']
+      bindings:
+        gatus:
+          type: RoleBinding
+          roleRef:
+            identifier: gatus
+          subjects:
+            - identifier: gatus
