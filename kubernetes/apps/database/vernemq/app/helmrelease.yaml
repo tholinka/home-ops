@@ -56,7 +56,7 @@ spec:
               liveness: &probes
                 enabled: true
                 custom: true
-                spec: &probesSpec
+                spec:
                   httpGet:
                     path: /health/ping
                     port: &http 8888
@@ -66,10 +66,18 @@ spec:
               startup:
                 <<: *probes
                 spec:
-                  <<: *probesSpec
-                  httpGet:
-                    path: /status.json
-                    port: *http
+                  exec:
+                    command:
+                      # vernemq immediately reports healthy, even before retained messages are replicated
+                      # so we need to make sure all nodes have the same num_replicated on startup
+                      # see https://github.com/vernemq/docker-vernemq/issues/255
+                      - /bin/sh
+                      - -c
+                      - >-
+                        curl -s localhost:8888/status.json |
+                        jq -e '.[0] | [to_entries.[].value.num_retained] | .[0] as $x | all(.[]; . == $x)'
+                  periodSeconds: 10
+                  timeoutSeconds: 5
             resources:
               requests:
                 cpu: 20m
