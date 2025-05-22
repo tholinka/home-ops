@@ -53,6 +53,13 @@ spec:
         runAsGroup: 1000
     serviceAccount:
       *app : {}
+    rawResources:
+      talosServiceAccount:
+        apiVersion: talos.dev/v1alpha1
+        kind: ServiceAccount
+        spec:
+          spec:
+            roles: [os:admin]
     rbac:
       bindings:
         system-upgrade-controller:
