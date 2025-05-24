@@ -4,6 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 resources:
   - ../base
+  - ./objectstore.yaml
   - ./scheduledbackup.yaml
 patches:
   - path: patch.yaml

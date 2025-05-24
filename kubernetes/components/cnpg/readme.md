@@ -23,11 +23,6 @@
       CNPG_MAX_CONNECTIONS: '600' # default
       CNPG_SHARED_BUFFERS: 512MB # default
       CNPG_DISABLED_SERVICES: ['ro', 'r'] # default
-      # backup and restore
-      CNPG_CLUSTER_CURRENT: v1 # default. MUST increment when restoring cluster!
-
-      # restore
-      CNPG_CLUSTER_PREVIOUS: v0 # default. MUST increment when restoring cluster!
 ```
 
 
