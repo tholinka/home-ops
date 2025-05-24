@@ -79,7 +79,7 @@ spec:
               startup:
                 enabled: true
                 spec:
-                  failureThreshold: 100
+                  failureThreshold: 10
                   periodSeconds: 5
             resources:
               requests:
