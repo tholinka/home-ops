@@ -67,7 +67,7 @@ spec:
       CNPG_IMAGE: ghcr.io/tensorchord/cloudnative-vectorchord
       # on upgrade of vectorchord, run: ALTER EXTENSION vchord UPDATE;
       # renovate: datasource=docker depName=ghcr.io/tensorchord/cloudnative-vectorchord
-      CNPG_VERSION: 16.9-0.4.0
+      CNPG_VERSION: 17.5-0.4.0
       CNPG_SIZE: 5Gi
       CNPG_CLUSTER_CURRENT: v1
       CNPG_CLUSTER_PREVIOUS: v0
