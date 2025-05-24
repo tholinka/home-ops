@@ -15,7 +15,7 @@
       CNPG_REPLICAS: '1 '# default
       CNPG_IMAGE: ghcr.io/cloudnative-pg/postgresql # default
        # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      POSTGRES_VERSION: 17.4-bookworm # required
+      POSTGRES_VERSION: 17.4-bookworm # required, note: renovate doesn't support sha hashes here
       CNPG_SIZE: 2Gi # default
       CNPG_STORAGECLASS: openebs-hostpath # default
       CNPG_REQUESTS_CPU: 500m # default
