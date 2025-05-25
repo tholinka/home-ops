@@ -33,6 +33,16 @@ servers:
       - name: autopath
         parameters: '@kubernetes'
       - name: forward
+        parameters: internal. dns://192.168.20.6
+        configBlock: |-
+          policy sequential
+          health_check 5s
+      - name: forward
+        parameters: ${SECRET_DOMAIN}. dns://192.168.20.6 dns://192.168.20.1
+        configBlock: |-
+          policy sequential
+          health_check 5s
+      - name: forward
         parameters: . dns://192.168.20.6 dns://192.168.20.7 tls://1.1.1.1 tls://1.0.0.1
         configBlock: |-
           tls_servername cloudflare-dns.com
