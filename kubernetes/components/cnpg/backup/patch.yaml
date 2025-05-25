@@ -4,10 +4,12 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: &name postgres-${APP}
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: 'enabled'
 spec:
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
         barmanObjectName: *name
-        serverName: postgres-${APP}-${CNPG_CLUSTER_CURRENT:=v1}
+        serverName: *name

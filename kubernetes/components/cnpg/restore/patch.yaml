@@ -4,8 +4,6 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: &name postgres-${APP}
-  annotations:
-    cnpg.io/skipEmptyWalArchiveCheck: 'enabled'
 spec:
   bootstrap:
     recovery:
@@ -16,4 +14,4 @@ spec:
         name: barman-cloud.cloudnative-pg.io
         parameters:
           barmanObjectName: *name
-          serverName: postgres-${APP}-${CNPG_CLUSTER_PREVIOUS:=v0}
+          serverName: *name

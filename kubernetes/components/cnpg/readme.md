@@ -36,7 +36,6 @@
       CNPG_REPLICAS: '2'
       CNPG_VERSION: 17.4-bookworm
       CNPG_SIZE: 2Gi
-      CNPG_CLUSTER_CURRENT: v0
       CNPG_LIMITS_MEMORY_HUGEPAGES: 1Gi
       CNPG_LIMITS_MEMORY: 2Gi
   components:
