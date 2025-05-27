@@ -172,18 +172,15 @@ spec:
           gethomepage.dev/icon: mqtt.svg
 
     persistence:
-      data:
+      tmpfs:
         type: emptyDir
         globalMounts:
           - path: /vernemq/data
-      log:
-        type: emptyDir
-        globalMounts:
+            subPath: data
           - path: /vernemq/log
-      tmp:
-        type: emptyDir
-        globalMounts:
+            subPath: log
           - path: /tmp
+            subPath: tmp
 
     serviceMonitor:
       app:

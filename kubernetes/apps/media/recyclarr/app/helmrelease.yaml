@@ -66,13 +66,12 @@ spec:
           - path: /config/recyclarr.yml
             subPath: recyclarr.yml
             readOnly: true
-      config-logs:
+      tmpfs:
         type: emptyDir
         globalMounts:
           - path: /config/logs
-      config-repositories:
-        type: emptyDir
-        globalMounts:
+            subPath: logs
           - path: /config/repositories
-      tmp:
-        type: emptyDir
+            subPath: repos
+          - path: /tmp
+            subPath: tmp

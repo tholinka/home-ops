@@ -76,14 +76,15 @@ spec:
     persistence:
       config:
         existingClaim: bazarr
-      config-cache:
+      tmpfs:
         type: emptyDir
         globalMounts:
           - path: /config/cache
-      config-log:
-        type: emptyDir
-        globalMounts:
+            subPath: cache
           - path: /config/log
+            subPath: log
+          - path: /tmp
+            subPath: tmp
       media:
         type: nfs
         server: nas.servers.internal
@@ -97,5 +98,3 @@ spec:
         globalMounts:
           - path: /media/downloads
             readOnly: true
-      tmp:
-        type: emptyDir

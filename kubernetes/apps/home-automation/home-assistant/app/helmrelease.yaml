@@ -141,19 +141,14 @@ spec:
         existingClaim: home-assistant-cache
         globalMounts:
           - path: /config/.venv
-      config-cache:
+      tmpfs:
         type: emptyDir
         globalMounts:
           - path: /config/.cache
-      config-logs:
-        type: emptyDir
-        globalMounts:
+            subPath: cache
           - path: /config/logs
-      config-tts:
-        type: emptyDir
-        globalMounts:
+            subPath: logs
           - path: /config/tts
-      tmp:
-        type: emptyDir
-        globalMounts:
+            subPath: tts
           - path: /tmp
+            subPath: tmp

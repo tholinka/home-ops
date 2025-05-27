@@ -95,12 +95,13 @@ spec:
         existingClaim: zwave-cache
         globalMounts:
           - path: /usr/src/app/store/.config-db
-      logs:
+      tmpfs:
         type: emptyDir
         globalMounts:
           - path: /usr/src/app/store/logs
-      tmp:
-        type: emptyDir
+            subPath: logs
+          - path: /tmp
+            subPath: tmp
     serviceMonitor:
       app:
         serviceName: zwave

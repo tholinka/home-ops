@@ -235,12 +235,19 @@ spec:
           qbittorrent:
             app:
               - path: /config
-      empty-config:
+      tmpfs:
         type: emptyDir
         advancedMounts:
           qbittorrent:
             port-forward:
               - path: /config
+                subPath: config
+            app:
+              - path: /addons
+                subPath: addons
+            vuetorrent:
+              - path: /addons
+                subPath: addons
 
       gluetun-auth:
         type: secret
@@ -257,7 +264,3 @@ spec:
         globalMounts:
           - path: /media/downloads/qbittorrent
             subPath: downloads/qbittorrent
-      addons:
-        type: emptyDir
-        globalMounts:
-          - path: /addons

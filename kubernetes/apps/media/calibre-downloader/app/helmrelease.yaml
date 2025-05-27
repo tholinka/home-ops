@@ -88,26 +88,21 @@ spec:
                 port: *port
 
     persistence:
-      # chromium needs the XDG_CONFIG_HOME created
-      config:
+      tmpfs:
         type: emptyDir
         globalMounts:
+          # chromium needs the XDG_CONFIG_HOME created
           # because user 1000 doesn't exist, ~ = /
           - path: /.config
-      tmp:
-        type: emptyDir
-      log:
-        type: emptyDir
-        globalMounts:
+            subPath: config
+          - path: /tmp
+            subPath: tmp
           - path: /var/log/cwa-book-downloader/
-      downloaded:
-        type: emptyDir
-        globalMounts:
+            subPath: log
           - path: /app/downloaded_files
-      drivers:
-        type: emptyDir
-        globalMounts:
+            subPath: download
           - path: /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
+            subPath: drivers
       media:
         type: nfs
         server: nas.servers.internal
