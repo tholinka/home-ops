@@ -122,5 +122,19 @@
 				commitMessageTopic: "{{{groupName}}} group",
 			},
 		},
+		{
+			description: "Plugin Barman Cloud Group",
+			groupName: "Barman",
+			matchDatasources: [
+				"docker",
+				"github-tags"
+			],
+			matchPackageNames: [
+				"/plugin-barman-cloud/",
+			],
+			group: {
+				commitMessageTopic: "{{{groupName}}} group",
+			},
+		},
 	],
 }
