@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: vernemq
+  namespace: monitoring
+spec:
+  groups:
+    - name: vernemq.rules
+      rules:
+        - alert: VerneMQComponentAbsent
+          annotations:
+            summary: VerneMQ component has disappeared from Prometheus target discovery.
+          expr: |
+            absent(up{job="vernemq-http"})
+          for: 2m
+          labels:
+            severity: critical
+        - alert: VerneMQNoConnectedClients
+          annotations:
+            summary: No connected clients to VerneMQ.
+            description: |
+              This alert indicates that there are no active connections to the VerneMQ broker.
+              It may suggest that the broker is not functioning correctly or that all clients have disconnected.
+          expr: |
+            sum(vernemq_total_active_connections) == 0
+          for: 5m
+          labels:
+            severity: warning
+        - alert: VerneMQNoMessagesReceived
+          annotations:
+            summary: No client messages received by VerneMQ.
+            description: |
+              This alert indicates that no messages have been received by the VerneMQ broker from clients.
+              It may suggest that clients are not publishing messages or that there is a connectivity issue.
+          expr: |
+            sum(rate(vernemq_queue_message_in[5m])) == 0
+          for: 5m
+          labels:
+            severity: warning
+        - alert: VerneMQHighSystemUtilization
+          annotations:
+            summary: VerneMQ system utilization is high.
+            description: |
+              This alert indicates that the system utilization of VerneMQ is above 70% for an extended period.
+              It may suggest that the broker is under heavy load or experiencing performance issues.
+          expr: |
+            avg by(job, pod) (sum_over_time(vernemq_system_utilization[1m]) / count_over_time(vernemq_system_utilization[1m])) > 70
+          for: 5m
+          labels:
+            severity: warning
