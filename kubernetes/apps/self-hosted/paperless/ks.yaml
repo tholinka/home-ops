@@ -13,6 +13,7 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/gatus/internal
     - ../../../../components/volsync
+    - ../../../../components/scaler
   dependsOn:
     - name: storage-ready
       namespace: flux-system

@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/keda.sh/scaledobject_v1alpha1.json
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: ${APP}-scaler
+spec:
+  scaleTargetRef:
+    apiVersion: ${SCALER_API_VERSION:=apps/v1}
+    kind: ${SCALER_TYPE:=Deployment}
+    name: ${SCALER_NAME:=${APP}}
+  cooldownPeriod: 0
+  minReplicaCount: 0
+  maxReplicaCount: ${SCALER_MAX_REPLICAS:=1}
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.observability.svc.cluster.local:9090
+        query: up{instance="${SCALER_TARGET:=nas.servers.internal:9100}"}
+        threshold: '1'
+        ignoreNullValues: '0'

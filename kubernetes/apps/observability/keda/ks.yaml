@@ -3,27 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app radarr
-  namespace: &namespace media
+  name: &app keda
+  namespace: &namespace observability
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/volsync
-    - ../../../../components/ext-auth
-    - ../../../../components/scaler
-  dependsOn:
-    - name: storage-ready
-      namespace: flux-system
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/media/radarr/app
-  postBuild:
-    substitute:
-      APP: *app
-      VOLSYNC_CAPACITY: 5Gi
+  path: ./kubernetes/apps/observability/keda/app
   prune: true
   sourceRef:
     kind: GitRepository

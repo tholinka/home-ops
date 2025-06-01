@@ -122,6 +122,7 @@ spec:
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/gatus/internal
+    - ../../../../components/scaler
   dependsOn:
     - name: dragonfly-cluster
       namespace: database
@@ -134,6 +135,7 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: photos
+      SCALER_NAME: immich-server
   prune: true
   sourceRef:
     kind: GitRepository
