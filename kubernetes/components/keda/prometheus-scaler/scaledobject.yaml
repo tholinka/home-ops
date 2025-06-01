@@ -5,6 +5,8 @@ kind: ScaledObject
 metadata:
   name: ${APP}-scaler
 spec:
+  advanced:
+    restoreToOriginalReplicaCount: true
   scaleTargetRef:
     apiVersion: ${SCALER_API_VERSION:=apps/v1}
     kind: ${SCALER_TYPE:=Deployment}
@@ -15,7 +17,7 @@ spec:
   triggers:
     - type: prometheus
       metadata:
-        serverAddress: http://prometheus-operated.observability.svc.cluster.local:9090
-        query: up{instance="${SCALER_TARGET:=nas.servers.internal:9100}"}
-        threshold: '1'
-        ignoreNullValues: '0'
+        serverAddress: http://prometheus-operated.observability.svc.cluster.local.:9090
+        query: ${SCALER_QUERY}
+        threshold: '${SCALER_THRESHOLD:="1"}'
+        ignoreNullValues: '${SCALER_IGNORE_NULL:="0"}'

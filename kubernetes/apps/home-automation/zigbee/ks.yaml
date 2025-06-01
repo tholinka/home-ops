@@ -13,6 +13,7 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/volsync
     - ../../../../components/ext-auth
+    - ../../../../components/keda/prometheus-scaler
   dependsOn:
     - name: storage-ready
       namespace: flux-system
@@ -23,6 +24,7 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
+      SCALER_QUERY: probe_success{instance=~"zigbee.iot.internal"}
   prune: true
   sourceRef:
     kind: GitRepository

@@ -12,7 +12,7 @@ spec:
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/ext-auth
-    - ../../../../components/scaler
+    - ../../../../components/keda/nfs-scaler
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/media/calibre-downloader/app

@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../prometheus-scaler
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/triggers/0/metadata/query
+        value: probe_success{instance="nas.servers.internal:2049"}
+    target:
+      group: keda.sh
+      kind: ScaledObject

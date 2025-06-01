@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/scaler
+    - ../../../../components/keda/nfs-scaler
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/media/unpackerr/app

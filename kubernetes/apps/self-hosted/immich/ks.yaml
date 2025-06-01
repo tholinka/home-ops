@@ -122,7 +122,9 @@ spec:
   components:
     - ../../../../components/gatus/guarded
     - ../../../../components/gatus/internal
-    - ../../../../components/scaler
+    # also cpu scales the api, which is fine, but theoretically only really need to scale the microservices
+    # needs https://github.com/immich-app/immich-charts/issues/94
+    - ../../../../components/keda/nfs-cpu-scaler
   dependsOn:
     - name: dragonfly-cluster
       namespace: database
@@ -136,6 +138,7 @@ spec:
       APP: *app
       GATUS_SUBDOMAIN: photos
       SCALER_NAME: immich-server
+      SCALER_MAX_REPLICAS: '5'
   prune: true
   sourceRef:
     kind: GitRepository

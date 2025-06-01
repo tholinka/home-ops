@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/volsync
-    - ../../../../components/scaler
+    - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: storage-ready
       namespace: flux-system
