@@ -10,8 +10,15 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/keda/prometheus-scaler
   path: ./kubernetes/apps/network/pihole-external-dns/app
   prune: true
+  postBuild:
+    substitute:
+      APP: *app
+      SCALER_QUERY: kube_statefulset_status_replicas_ready{statefulset="pihole"}
+      SCALER_SILENT: -silent
   sourceRef:
     kind: GitRepository
     name: flux-system
