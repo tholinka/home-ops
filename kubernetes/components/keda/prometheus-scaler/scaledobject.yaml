@@ -3,7 +3,7 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: ${APP}-scaler
+  name: ${APP}${SCALER_SILENT}-scaler
 spec:
   advanced:
     restoreToOriginalReplicaCount: true
@@ -12,7 +12,7 @@ spec:
     kind: ${SCALER_TYPE:=Deployment}
     name: ${SCALER_NAME:=${APP}}
   cooldownPeriod: 0
-  minReplicaCount: 0
+  minReplicaCount: ${SCALER_MIN_REPLICAS:=0}
   maxReplicaCount: ${SCALER_MAX_REPLICAS:=1}
   triggers:
     - type: prometheus

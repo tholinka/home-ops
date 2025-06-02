@@ -13,6 +13,12 @@ patches:
           metricType: Utilization
           metadata:
             value: '${SCALER_CPU_TARGET:="60"}'
-    target:
+    target: &target
       group: keda.sh
       kind: ScaledObject
+  - patch: |-
+      # undo the nfs-scaler patch
+      - op: replace
+        path: /metadata/name
+        value: ${APP}${SCALER_SILENT}-scaler
+    target: *target

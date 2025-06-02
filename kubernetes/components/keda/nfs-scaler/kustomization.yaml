@@ -9,6 +9,11 @@ patches:
       - op: replace
         path: /spec/triggers/0/metadata/query
         value: probe_success{instance="nas.servers.internal:2049"}
-    target:
+    target: &target
       group: keda.sh
       kind: ScaledObject
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: ${APP}-silent-scaler
+    target: *target

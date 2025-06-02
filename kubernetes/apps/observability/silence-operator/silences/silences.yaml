@@ -75,5 +75,5 @@ spec:
       value: KubeHpaMaxedOut
       isRegex: false
     - name: horizontalpodautoscaler
-      value: keda-hpa-.*
+      value: keda-hpa-.*-silent-scaler
       isRegex: true
