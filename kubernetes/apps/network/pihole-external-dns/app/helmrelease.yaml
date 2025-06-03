@@ -45,8 +45,8 @@ spec:
   values:
     image:
       # TODO remove after pihole v6 support gets officially released: https://github.com/kubernetes-sigs/external-dns/pull/5253
-      repository: ghcr.io/tholinka/external-dns
-      tag: 51dfd033
+      repository: ghcr.io/tholinka/external-dns/external-dns
+      tag: v0.13.5-1874-gcff69ffb
     fullnameOverride: *app
     provider:
       name: pihole
