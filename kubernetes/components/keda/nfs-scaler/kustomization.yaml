@@ -15,5 +15,5 @@ patches:
   - patch: |-
       - op: replace
         path: /metadata/name
-        value: ${APP}-silent-scaler
+        value: silent-${APP}
     target: *target

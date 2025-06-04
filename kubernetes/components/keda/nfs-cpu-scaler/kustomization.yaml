@@ -20,5 +20,5 @@ patches:
       # undo the nfs-scaler patch
       - op: replace
         path: /metadata/name
-        value: ${APP}${SCALER_SILENT}-scaler
+        value: ${SCALER_SILENT}${APP}
     target: *target

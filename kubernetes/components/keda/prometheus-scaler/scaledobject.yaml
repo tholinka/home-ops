@@ -3,7 +3,7 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: ${APP}${SCALER_SILENT}-scaler
+  name: ${SCALER_SILENT}${APP}
 spec:
   advanced:
     restoreToOriginalReplicaCount: true
