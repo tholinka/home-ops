@@ -16,7 +16,7 @@ spec:
       compression: bzip2
       encryption: AES256
     destinationPath: s3://${S3_POSTGRES_BUCKET}/
-    endpointURL: ${S3_STORAGE}
+    endpointURL: ${S3_POSTGRES_STORAGE}
     s3Credentials:
       accessKeyId:
         name: &secret ${APP}-cnpg-secret
