@@ -14,3 +14,7 @@ machine:
     net.ipv4.tcp_window_scaling: 1 # 10Gb/s
     vm.dirty_writeback_centisecs: 3000 # aggregate more writes together, don't wake up drives as often. default is 500 (aka 5s)
     user.max_user_namespaces: 11255 # User Namespaces requires this
+
+    # Enable IPv6 Privacy Extensions
+    net.ipv6.conf.all.use_tempaddr: 2
+    net.ipv6.conf.default.use_tempaddr: 2

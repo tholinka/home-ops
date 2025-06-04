@@ -2,9 +2,19 @@
 machine:
   udev:
     rules:
-      # save power
+      ## save power
       - SUBSYSTEM=="pci", ATTR{power/control}="auto"
       - SUBSYSTEM=="ata_port", KERNEL=="ata*", ATTR{device/power/control}="auto"
       - SUBSYSTEM=="block", KERNEL=="sd[a-z]", ATTR{device/power/control}="auto"
       - SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_policy}="med_power_with_dipm"
       - SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
+
+      ## IO scheduler
+      # BFQ is recommended for slow storage such as rotational block devices and SD cards.
+      - ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+      - ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="mmcblk?", ATTR{queue/scheduler}="bfq"
+
+      # None is recommended for NVMe
+      - ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/rotational}=="0", KERNEL=="nvme?n?", ATTR{queue/scheduler}="none"
+      # Kyber is recommended for SATA SSDs.
+      - ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/rotational}=="0", KERNEL=="sd?", ATTR{queue/scheduler}="kyber"
