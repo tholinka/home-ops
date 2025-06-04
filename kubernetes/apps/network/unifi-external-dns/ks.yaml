@@ -19,7 +19,7 @@ spec:
     substitute:
       APP: *app
       SCALER_QUERY: kube_deployment_status_replicas_ready{deployment="unifi"}
-      SCALER_SILENT: -silent
+      SCALER_SILENT: silent-
   sourceRef:
     kind: GitRepository
     name: flux-system

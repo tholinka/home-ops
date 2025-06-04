@@ -25,7 +25,7 @@ spec:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
       SCALER_QUERY: probe_success{instance=~"zigbee.iot.internal"}
-      SCALER_SILENT: -silent
+      SCALER_SILENT: silent-
   prune: true
   sourceRef:
     kind: GitRepository

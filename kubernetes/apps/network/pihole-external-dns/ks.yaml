@@ -18,7 +18,7 @@ spec:
     substitute:
       APP: *app
       SCALER_QUERY: kube_statefulset_status_replicas_ready{statefulset="pihole"}
-      SCALER_SILENT: -silent
+      SCALER_SILENT: silent-
   sourceRef:
     kind: GitRepository
     name: flux-system
