@@ -44,9 +44,10 @@ spec:
                     - key: app.kubernetes.io/name
                       operator: In
                       values:
-                        - pihole
+                        - *app
                 topologyKey: kubernetes.io/hostname
       priorityClassName: system-cluster-critical
+      hostUsers: false
       dnsPolicy: None
       dnsConfig:
         nameservers:
@@ -55,29 +56,29 @@ spec:
           - name: ndots
             value: '1'
     controllers:
-      pihole:
+      *app :
         enabled: true
         type: statefulset
         annotations:
           reloader.stakater.com/auto: 'true'
         labels: {}
-        replicas: 1
+        replicas: 3
         strategy: RollingUpdate
         rollingUpdate:
           unavailable: 1
           surge: 1
 
-        statefulset:
-          volumeClaimTemplates:
-            - name: config
-              storageClass: ceph-block
-              accessMode: ReadWriteOnce
-              size: 2Gi
-              advancedMounts:
-                init:
-                  - path: /final
-                pihole:
-                  - path: /etc/pihole
+        # statefulset:
+        #   volumeClaimTemplates:
+        #     - name: config
+        #       storageClass: ceph-block
+        #       accessMode: ReadWriteOnce
+        #       size: 2Gi
+        #       advancedMounts:
+        #         init:
+        #           - path: /final
+        #         *app :
+        #           - path: /etc/pihole
         initContainers:
           init:
             image:
@@ -96,7 +97,7 @@ spec:
               limits:
                 memory: 256Mi
         containers:
-          pihole:
+          *app :
             image:
               repository: ghcr.io/pi-hole/pihole
               tag: 2025.05.1@sha256:db38df3e050606bd014c801c2cbb0b13f263d3122d3d817a8cbcee807688af24
@@ -171,8 +172,8 @@ spec:
               fsGroup: 1000
               fsGroupChangePolicy: OnRootMismatch
     service:
-      pihole:
-        controller: pihole
+      *app :
+        controller: *app
         type: LoadBalancer
         #clusterIP: 10.96.0.12
         annotations:
@@ -223,7 +224,7 @@ spec:
           gethomepage.dev/icon: pi-hole.svg
     serviceMonitor:
       app:
-        serviceName: pihole
+        serviceName: *app
         endpoints:
           - port: prometheus # exporter-port's name
             scheme: http
@@ -231,16 +232,26 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     persistence:
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          *app :
+            init:
+              - path: /final
+                subPath: config
+            *app :
+              - path: /etc/pihole
+                subPath: config
       config-map:
         type: configMap
         name: pihole-configmap
         advancedMounts:
-          pihole:
+          *app :
             init:
               - path: /config/update.sh
                 subPath: update.sh
                 readOnly: true
-            pihole:
+            *app :
               - path: /etc/dnsmasq.d/02-custom.conf
                 subPath: 02-custom.conf
                 readOnly: true

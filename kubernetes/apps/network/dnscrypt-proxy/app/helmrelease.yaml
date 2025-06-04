@@ -27,7 +27,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
         labels: {}
-        replicas: 2
+        replicas: 3
         strategy: RollingUpdate
         rollingUpdate:
           unavailable: 1
@@ -82,6 +82,7 @@ spec:
                       values:
                         - dnscrypt-proxy
                 topologyKey: kubernetes.io/hostname
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

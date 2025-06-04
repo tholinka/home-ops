@@ -1,0 +1,58 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app pihole-nebula-sync
+  namespace: network
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  driftDetection:
+    mode: enabled
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    defaultPodOptions:
+      priorityClassName: system-cluster-critical
+      hostUsers: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          *app :
+            image:
+              repository: ghcr.io/lovelaze/nebula-sync
+              tag: v0.11.0@sha256:17177eb65637d73eee7169a789e69eda8395d4d4398cc0cd08e2cbeb7c2910f1
+            env:
+              FULL_SYNC: false
+              CRON: '0/1 * * * *' # doesn't hurt to sync every minute, since we're only syncing external-dns entries
+              RUN_GRAVITY: false
+
+              SYNC_CONFIG_DNS: true # sync external dns
+            envFrom:
+              - secretRef:
+                  name: *app
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFileSystem: true
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 64Mi
