@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: nut-exporter
+  name: &app nut-exporter
 spec:
   interval: 1h
   chartRef:
@@ -16,46 +16,75 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      *app :
         strategy: RollingUpdate
         containers:
           app:
             image:
-              repository: docker.io/hon95/prometheus-nut-exporter
-              tag: '1.2.1'
-            env:
-              HTTP_PATH: &metrics /metrics
-              RUST_LOG: debug
+              repository: ghcr.io/druggeri/nut_exporter
+              tag: 3.2.0
+            args:
+              # the first time I set this, the first and last entries were ignored, so I have doubled them.
+              - --nut.vars_enable="battery.charge,battery.charge,battery.runtime,battery.type,battery.voltage,battery.voltage.nominal,device.mfr,device.model,device.type,driver.debug,driver.flag.allow_killpower,driver.name,driver.parameter.pollfreq,driver.parameter.pollinterval,driver.parameter.port,driver.parameter.synchronous,driver.state,driver.version,driver.version.data,driver.version.internal,driver.version.usb,input.frequency,input.voltage,input.voltage.nominal,output.frequency.nominal,output.voltage,output.voltage.nominal,ups.beeper.status,ups.delay.shutdown,ups.load,ups.mfr,ups.model,ups.power,ups.power.nominal,ups.productid,ups.status,ups.timer.reboot,ups.timer.shutdown,ups.vendorid,ups.watchdog.status,ups.watchdog.status"
             probes:
               liveness:
                 enabled: true
               readiness:
                 enabled: true
-                custom: false
               startup:
                 enabled: true
-                custom: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
             resources:
               requests:
                 cpu: 10m
               limits:
                 memory: 10Mi
+    defaultPodOptions:
+      hostUsers: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
-        controller: main
+        controller: *app
         ports:
-          http:
-            port: 9995
+          metrics:
+            port: 9199
     serviceMonitor:
       app:
-        serviceName: nut-exporter
+        serviceName: *app
         endpoints:
-          - port: http
+          - interval: 30s
+            path: /ups_metrics
+            port: metrics
             scheme: http
-            path: *metrics
-            scrapeTimeout: 10s
+            scrapeTimeout: 30s
+            metricRelabelings:
+              - action: replace
+                replacement: server
+                sourceLabels:
+                  - instance
+                targetLabel: instance
+              - action: replace
+                replacement: server
+                sourceLabels:
+                  - server
+                targetLabel: server
+              - action: labeldrop
+                regex: (pod)
+              - action: replace
+                targetLabel: ups
+                replacement: &cluster cluster
             params:
-              target: ['nas.servers.internal:3493']
-            relabelings:
-              - sourceLabels: [__param_target]
-                targetLabel: target
+              ups: [*cluster]
+              server: [nas.servers.internal]
+          - interval: 30s
+            path: /metrics
+            port: metrics
+            scheme: http
+            scrapeTimeout: 30s

@@ -39,16 +39,18 @@ tasks:
     cmds:
       - task: down
       - kubectl drain {{.NODE_NAME}} --ignore-daemonsets --delete-emptydir-data --timeout=1m
-      - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}' --timeout=10m --stage" | bash
+      - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}' --timeout=10m" | bash
       - kubectl uncordon {{.NODE_NAME}}
       # shuffle a random ip, that way if the node being upgraded is the one picked we eventually pick one that's up
-      - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | shuf -n 1)) health; do sleep 5; done
+      - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | shuf -n 1) health; do sleep 5; done
       - task: up
     vars:
       NODE_NAME:
         sh: yq 'explode(.) | .nodes[] | select(.ipAddress == "{{.IP}}") | .hostname' {{.TALHELPER_DIR}}/talconfig.yaml
       TALOS_IMAGE:
-        sh: yq '.machine.install.image' {{.TALHELPER_DIR}}/clusterconfig/kubernetes-{{.NODE_NAME}}.yaml
+        sh: yq '.machine.install.image | select(. != null)' {{.TALHELPER_DIR}}/clusterconfig/kubernetes-{{.NODE_NAME}}.yaml
+    status:
+      - echo $TALOS_IMAGE | grep "$(kubectl get nodes {{.NODE_NODE}} -ojsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}')"
     requires:
       vars: [IP]
     preconditions:
@@ -77,7 +79,8 @@ tasks:
     cmds:
       - task: down
       - talosctl --nodes {{.IP}} reboot --mode={{.MODE}}
-      #- talosctl --nodes {{.IP}} health # waiting for etcd to be healthy: rpc error: code = PermissionDenied desc = no request forwarding on non-control nodes
+      # shuffle a random ip, that way if the node being upgraded is the one picked we eventually pick one that's up
+      - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | shuf -n 1) health; do sleep 5; done
       - task: up
     vars:
       MODE: '{{.MODE | default "default"}}'

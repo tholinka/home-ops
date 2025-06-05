@@ -335,10 +335,8 @@ spec:
           gnetId: 19105
           revision: 7
           datasource: Prometheus
-        prometheus-nut-exporter:
-          # renovate: depName="Prometheus NUT Exporter"
-          gnetId: 14371
-          revision: 1
+        nut-exporter:
+          url: https://raw.githubusercontent.com/DRuggeri/nut_exporter/refs/heads/master/dashboard/dashboard.json
           datasource: Prometheus
         lokiforlogs:
           # renovate: depName="LokiForLogs"
