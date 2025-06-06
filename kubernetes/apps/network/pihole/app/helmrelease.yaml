@@ -68,17 +68,17 @@ spec:
           unavailable: 1
           surge: 1
 
-        # statefulset:
-        #   volumeClaimTemplates:
-        #     - name: config
-        #       storageClass: ceph-block
-        #       accessMode: ReadWriteOnce
-        #       size: 2Gi
-        #       advancedMounts:
-        #         init:
-        #           - path: /final
-        #         *app :
-        #           - path: /etc/pihole
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              storageClass: ceph-block
+              accessMode: ReadWriteOnce
+              size: 2Gi
+              advancedMounts:
+                init:
+                  - path: /final
+                *app :
+                  - path: /etc/pihole
         initContainers:
           init:
             image:
@@ -232,16 +232,16 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     persistence:
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          *app :
-            init:
-              - path: /final
-                subPath: config
-            *app :
-              - path: /etc/pihole
-                subPath: config
+      #tmpfs:
+      #  type: emptyDir
+      #  advancedMounts:
+      #    *app :
+      #      init:
+      #        - path: /final
+      #          subPath: config
+      #      *app :
+      #        - path: /etc/pihole
+      #          subPath: config
       config-map:
         type: configMap
         name: pihole-configmap
