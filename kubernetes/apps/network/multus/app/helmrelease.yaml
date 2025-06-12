@@ -22,7 +22,6 @@ spec:
     controllers:
       *app :
         type: daemonset
-        serviceAccount: { identifier: *app }
         pod:
           hostNetwork: true
 

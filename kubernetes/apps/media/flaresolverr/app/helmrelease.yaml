@@ -42,7 +42,6 @@ spec:
                 memory: 800M
     service:
       flaresolverr:
-        controller: flaresolverr
         ports:
           http:
             port: 8191

@@ -21,7 +21,6 @@ spec:
   values:
     controllers:
       system-upgrade-controller:
-        serviceAccount: { identifier: *app }
         strategy: RollingUpdate
         replicas: 2
         containers:

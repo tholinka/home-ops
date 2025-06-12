@@ -94,10 +94,9 @@ spec:
 
     service:
       app:
-        controller: *app
         ports:
           http:
-            port: &port 9200
+            port: 9200
 
     persistence:
       config:
@@ -131,9 +130,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Home

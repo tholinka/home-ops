@@ -83,7 +83,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: zigbee
         ports:
           http:
             port: *port
@@ -96,9 +95,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: Zigbee

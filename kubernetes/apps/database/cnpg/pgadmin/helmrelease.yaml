@@ -94,7 +94,6 @@ spec:
 
     service:
       main:
-        controller: *app
         ports:
           http:
             port: *port
@@ -108,9 +107,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Infrastructure

@@ -72,7 +72,6 @@ spec:
                 cpu: 512m
     service:
       app:
-        controller: app
         type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: 192.168.20.5
@@ -82,35 +81,27 @@ spec:
             port: 8080
             protocol: HTTP
           stun:
-            primary: false
             port: 3478
             protocol: UDP
           https:
-            primary: false
             port: &port 8443
             protocol: HTTPS
           secure-redirect:
-            primary: false
             port: 8843
             protocol: HTTPS
           http-redirect:
-            primary: false
             port: 8880
             protocol: HTTP
           speedtest:
-            primary: false
             port: 6789
             protocol: TCP
           unifi-disc:
-            primary: false
             port: 10001
             protocol: UDP
           unifi-disc-12:
-            primary: false
             port: 1900
             protocol: UDP
           syslog:
-            primary: false
             protocol: UDP
             port: 5514
     route:

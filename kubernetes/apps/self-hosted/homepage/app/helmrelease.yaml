@@ -21,7 +21,6 @@ spec:
   values:
     controllers:
       homepage:
-        serviceAccount: { identifier: *app }
         replicas: 1
         strategy: RollingUpdate
         annotations:
@@ -49,10 +48,9 @@ spec:
                 memory: 1G
     service:
       app:
-        controller: *app
         ports:
           http:
-            port: &port 3000
+            port: 3000
     serviceAccount:
       *app : {}
     rbac:
@@ -133,9 +131,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
     persistence:
       config:
         type: configMap

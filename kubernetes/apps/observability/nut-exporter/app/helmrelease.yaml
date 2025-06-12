@@ -51,13 +51,11 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
-        controller: *app
         ports:
           metrics:
             port: 9199
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - interval: 30s
             path: /ups_metrics

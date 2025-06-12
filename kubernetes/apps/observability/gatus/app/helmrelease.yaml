@@ -21,7 +21,6 @@ spec:
   values:
     controllers:
       gatus:
-        serviceAccount: { identifier: *app }
         annotations:
           reloader.stakater.com/auto: 'true'
         initContainers:
@@ -84,13 +83,11 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: http
 
@@ -103,9 +100,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Observability

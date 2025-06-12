@@ -63,7 +63,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: readarr
         ports:
           http:
             port: *port
@@ -76,9 +75,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
     persistence:
       config:
         existingClaim: *app

@@ -84,10 +84,10 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
         ports:
           http:
-            port: &http 8123
+            primary: true
+            port: 8123
           code-server:
             port: &code 12321
     route:
@@ -99,9 +99,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *http
+          - backendRefs: [{}]
       code: # split so it's not external, and we can ext-auth it as well
         hostnames:
           - ha-code.${SECRET_DOMAIN}
@@ -121,7 +119,6 @@ spec:
           gethomepage.dev/pod-selector: app.kubernetes.io/name=home-assistant
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: http
             scheme: http

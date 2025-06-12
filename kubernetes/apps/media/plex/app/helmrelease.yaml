@@ -75,7 +75,6 @@ spec:
         intel.feature.node.kubernetes.io/gpu: 'true'
     service:
       app:
-        controller: plex
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
@@ -92,9 +91,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
@@ -103,9 +100,7 @@ spec:
               - path:
                   type: PathPrefix
                   value: /library/streams
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
     persistence:
       config:
         existingClaim: plex

@@ -72,13 +72,11 @@ spec:
         runAsGroup: 65534
     service:
       app:
-        controller: cloudflared
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: cloudflared
         endpoints:
           - port: http
             scheme: http

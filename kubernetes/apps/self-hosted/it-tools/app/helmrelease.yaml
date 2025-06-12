@@ -48,10 +48,9 @@ spec:
 
     service:
       app:
-        controller: it-tools
         ports:
           http:
-            port: &port 8080
+            port: 8080
 
     route:
       app:
@@ -62,9 +61,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: IT Tools

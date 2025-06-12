@@ -173,7 +173,6 @@ spec:
               fsGroupChangePolicy: OnRootMismatch
     service:
       *app :
-        controller: *app
         type: LoadBalancer
         #clusterIP: 10.96.0.12
         annotations:
@@ -210,9 +209,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *pihole-port
+          - backendRefs: [{}]
             sessionPersistence:
               sessionName: *app
               type: Cookie
@@ -224,7 +221,6 @@ spec:
           gethomepage.dev/icon: pi-hole.svg
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: prometheus # exporter-port's name
             scheme: http

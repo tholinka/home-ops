@@ -63,7 +63,6 @@ spec:
         runAsGroup: 1000
     service:
       app:
-        controller: kromgo
         ports:
           http:
             primary: true
@@ -79,9 +78,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *serverPort
+          - backendRefs: [{}]
     persistence:
       config-file:
         type: configMap

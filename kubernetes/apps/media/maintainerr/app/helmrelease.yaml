@@ -56,10 +56,9 @@ spec:
 
     service:
       app:
-        controller: *app
         ports:
           http:
-            port: &port 6246
+            port: 6246
 
     route:
       app:
@@ -70,9 +69,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
 
     persistence:
       data:

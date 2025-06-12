@@ -99,7 +99,6 @@ spec:
             value: '1'
     service:
       *app :
-        controller: *app
         type: LoadBalancer
         #clusterIP: 10.96.0.11
         annotations:

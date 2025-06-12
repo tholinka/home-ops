@@ -65,7 +65,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: cross-seed
         ports:
           http:
             port: *port

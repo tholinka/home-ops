@@ -21,7 +21,6 @@ spec:
   values:
     controllers:
       barman-cloud:
-        serviceAccount: { identifier: plugin-barman-cloud }
         containers:
           barman-cloud:
             image:
@@ -69,7 +68,6 @@ spec:
           cnpg.io/pluginServerSecret: barman-cloud-server-tls
         labels:
           cnpg.io/pluginName: barman-cloud.cloudnative-pg.io
-        controller: barman-cloud
         ports:
           tcp:
             port: *port

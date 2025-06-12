@@ -63,7 +63,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: zwave
         ports:
           http:
             port: *port
@@ -78,9 +77,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: Z-Wave
@@ -104,7 +101,6 @@ spec:
             subPath: tmp
     serviceMonitor:
       app:
-        serviceName: zwave
         endpoints:
           - port: http
             scheme: http

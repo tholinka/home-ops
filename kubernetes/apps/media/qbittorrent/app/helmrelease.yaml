@@ -203,14 +203,13 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
+        primary: true
         forceRename: *app
         ports:
           http:
             primary: true
             port: *port
       gluetun:
-        controller: *app
         suffix: gluetun
         ports:
           socks-proxy:

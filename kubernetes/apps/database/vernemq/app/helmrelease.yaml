@@ -33,6 +33,10 @@ spec:
             runAsUser: 10000
             runAsNonRoot: true
 
+        statefulset:
+          serviceName:
+            identifier: headless
+
         containers:
           app:
             image:
@@ -95,9 +99,6 @@ spec:
                 drop:
                   - ALL
 
-        serviceAccount:
-          identifier: *app
-
     defaultPodOptions:
       affinity:
         podAntiAffinity:
@@ -114,6 +115,7 @@ spec:
 
     service:
       app:
+        primary: true
         type: LoadBalancer
         sessionAffinity: ClientIP # vernemq docs note that hopping between pods causes a significate data replication/sync cost
         annotations:
@@ -125,7 +127,6 @@ spec:
           ws:
             port: 8080
       headless:
-        forceRename: '{{ .Release.Name }}' # TODO: Fix this when app-template 4.1.0 is released
         publishNotReadyAddresses: true
         clusterIP: None
         ports: *ports

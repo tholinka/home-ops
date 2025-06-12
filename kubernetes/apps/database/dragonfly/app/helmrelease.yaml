@@ -21,7 +21,6 @@ spec:
   values:
     controllers:
       *app :
-        serviceAccount: { identifier: *app }
         strategy: RollingUpdate
         containers:
           app:
@@ -79,7 +78,6 @@ spec:
               app.kubernetes.io/name: *app
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port

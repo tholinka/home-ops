@@ -51,10 +51,9 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
         ports:
           http:
-            port: &port 5000
+            port: 5000
     route:
       app:
         hostnames:
@@ -64,9 +63,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{}]
     persistence:
       config:
         existingClaim: *app
