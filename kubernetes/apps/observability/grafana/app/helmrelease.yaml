@@ -349,9 +349,12 @@ spec:
           revision: 3
           datasource: Prometheus
         vernemq:
-          url: https://gist.githubusercontent.com/tholinka/ad9bca90ee905b06f9063c7b4fdc55fe/raw/
+          # renovate: depName="VerneMQ Cluster"
+          gnetId: 23485
+          revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
     sidecar:
       image:
         registry: ghcr.io
