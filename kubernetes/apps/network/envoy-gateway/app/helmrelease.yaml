@@ -34,6 +34,20 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: envoy-gateway-values
+  values:
+    hpa:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 5
+      metrics:
+        - resource:
+            name: cpu
+            target:
+              averageUtilization: 60
+              type: Utilization
+          type: Resource
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 300
+        scaleDown:
+          stabilizationWindowSeconds: 300
