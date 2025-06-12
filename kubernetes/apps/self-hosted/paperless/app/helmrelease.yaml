@@ -11,6 +11,8 @@ spec:
     name: app-template
   driftDetection:
     mode: enabled
+    ignore:
+      - paths: [/spec/replicas]
   install:
     remediation:
       retries: -1
