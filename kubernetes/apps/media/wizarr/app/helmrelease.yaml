@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/wizarrrr/wizarr
-              tag: 2025.5.1
+              tag: 2025.6.3
             probes:
               liveness:
                 enabled: true
@@ -48,13 +48,13 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 512Mi
-    # defaultPodOptions:
-    #   securityContext:
-    #     runAsNonRoot: true
-    #     runAsUser: 1000
-    #     runAsGroup: 1000
-    #     fsGroup: 1000
-    #     fsGroupChangePolicy: 'OnRootMismatch'
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: 'OnRootMismatch'
 
     service:
       app:
@@ -65,7 +65,7 @@ spec:
     route:
       app:
         hostnames:
-          - join.${SECRET_DOMAIN}
+          - ${GATUS_SUBDOMAIN}.${SECRET_DOMAIN}
         parentRefs:
           - name: external
             namespace: network
@@ -74,6 +74,11 @@ spec:
           - backendRefs: [{}]
 
     persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /.cache
+            subPath: cache
       data:
         existingClaim: *app
         globalMounts:
