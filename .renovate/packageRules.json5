@@ -1,0 +1,17 @@
+{
+	$schema: 'https://docs.renovatebot.com/renovate-schema.json',
+	packageRules: [
+		{
+			description: [
+				'Loose versioning for non-semver containers',
+			],
+			matchDatasources: [
+				'docker',
+			],
+			matchPackagePatterns: [
+				'searxng',
+			],
+			versioning: 'loose'
+		},
+	],
+}

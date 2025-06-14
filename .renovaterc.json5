@@ -5,6 +5,7 @@
 		'github>tholinka/home-ops//.renovate/autoMerge.json5',
 		'github>tholinka/home-ops//.renovate/grafanaDashboards.json5',
 		'github>tholinka/home-ops//.renovate/groups.json5',
+		'github>tholinka/home-ops//.renovate/packageRules.json5',
 	],
 	ignorePaths: [
 		'**/*.sops.*',
