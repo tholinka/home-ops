@@ -92,7 +92,7 @@ spec:
           gotenberg:
             image:
               repository: gotenberg/gotenberg
-              tag: 8.21.0
+              tag: 8.21.1
             ports:
               - containerPort: 3000
             command:
