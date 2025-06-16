@@ -80,5 +80,3 @@ hostnames:
     - (.*\.)?askubuntu.com$
     - (.*\.)?superuser.com$
     - (.*\.)?wiki.*\..*$
-  low_priority:
-    - (.*\.)?fandom(\..*)?$
