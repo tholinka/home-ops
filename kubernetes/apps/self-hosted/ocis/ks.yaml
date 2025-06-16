@@ -25,6 +25,7 @@ spec:
       GATUS_SUBDOMAIN: files
       VOLSYNC_CAPACITY: 100Gi
       VOLSYNC_CACHE_CAPACITY: 15Gi
+      VOLSYNC_GROUP_CHANGE_POLICY: OnRootMismatch
   prune: true
   sourceRef:
     kind: GitRepository
