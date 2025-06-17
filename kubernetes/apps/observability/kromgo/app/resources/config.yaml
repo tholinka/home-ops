@@ -55,9 +55,18 @@ metrics:
     title: Power
     suffix: 'w'
     colors:
-      - { color: 'green', min: 0, max: 400 }
-      - { color: 'orange', min: 401, max: 750 }
-      - { color: 'red', min: 751, max: 9999 }
+      - { color: 'green', min: 0, max: 300 }
+      - { color: 'orange', min: 301, max: 500 }
+      - { color: 'red', min: 501, max: 9999 }
+
+  - name: internet_power_usage
+    query: round(ha_sensor_power_w{entity="sensor.internet_outlet_current_consumption"}, 0.1)
+    title: Power
+    suffix: 'w'
+    colors:
+      - { color: 'green', min: 0, max: 80 }
+      - { color: 'orange', min: 81, max: 100 }
+      - { color: 'red', min: 101, max: 9999 }
 
   - name: cluster_age_days
     query: round((time() - min(kube_node_created) ) / 86400)
