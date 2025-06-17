@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.16.1
+    tag: 1.17.0
   url: oci://ghcr.io/home-operations/charts-mirror/external-dns
   verify:
     provider: cosign
@@ -45,10 +45,6 @@ spec:
     - name: pihole
       namespace: network
   values:
-    image:
-      # TODO remove after pihole v6 support gets officially released: https://github.com/kubernetes-sigs/external-dns/pull/5253
-      repository: ghcr.io/tholinka/external-dns/external-dns
-      tag: v0.13.5-1874-gcff69ffb
     fullnameOverride: *app
     provider:
       name: pihole
