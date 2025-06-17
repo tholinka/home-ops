@@ -51,14 +51,7 @@ metrics:
       - { color: red, min: 76, max: 9999 }
 
   - name: cluster_power_usage
-    # nut_power_watts is always 0 on this UPS...
-    # this doesn't at all match what is shown on the LCD (about half, unless it's only battery power, then it matches)
-    # and it also doesn't match what a smart plug shows (which is in between the two values)
-    # I'm assuming it's because of how it's trying to calculate the wattage @ 12volts for the battery vs wattage @ 120v for the wall power or something
-    # either way, divide by 1.4 or subtracting 400 seems about right to make the numbers at least somewhat correct according to a smart plug
-    # which results in nut_power_nominal_watts * nut_load / 1.4
-    # or we can just directly use the smart plug, if we pull it from HA
-    query: round(ha_sensor_power_w{entity="sensor.cluster_outlet_current_consumption"}, 0.1)
+    query: round(unpoller_device_outlet_ac_power_consumption, 0.1)
     title: Power
     suffix: 'w'
     colors:
