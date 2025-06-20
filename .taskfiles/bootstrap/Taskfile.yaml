@@ -6,9 +6,6 @@ tasks:
   default:
     desc: Bootstrap Talos nodes, and Cluster apps
     cmd: bash "{{.SCRIPTS_DIR}}/bootstrap-cluster.sh"
-    env:
-      ROOK_DISK_0: SPCC M.2 PCIe SSD
-      ROOK_DISK_1: SPCC M.2 SSD
     preconditions:
       - talosctl config info
       - test -f {{.TALHELPER_DIR}}/talconfig.yaml
