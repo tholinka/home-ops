@@ -11,6 +11,9 @@ server:
   method: GET # https://github.com/searxng/searxng/pull/3619
   public_instance: true
 
+redis:
+  url: redis://dragonfly-cluster.database.svc.cluster.local/3
+
 search:
   autocomplete: duckduckgo
   favicon_resolver: duckduckgo
@@ -29,7 +32,7 @@ ui:
   default_theme: simple
   infinite_scroll: true
   query_in_title: true
-  results_on_new_tab: true
+  results_on_new_tab: false
   static_use_hash: true
   theme_args:
     simple_style: auto
