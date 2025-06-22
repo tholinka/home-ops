@@ -4,8 +4,6 @@ use_default_settings: true
 engine:
   - name: bing
     disabled: false
-  - name: startpage
-    disabled: true # incredibly slow response
 
 server:
   limiter: true
