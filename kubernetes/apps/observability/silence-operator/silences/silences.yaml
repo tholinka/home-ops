@@ -17,6 +17,17 @@ spec:
 apiVersion: monitoring.giantswarm.io/v1alpha1
 kind: Silence
 metadata:
+  name: ceph-pg-imbalance
+spec:
+  matchers:
+    - name: alertname
+      value: CephPGImbalance
+      isRegex: false
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
+apiVersion: monitoring.giantswarm.io/v1alpha1
+kind: Silence
+metadata:
   # there are separate btrfs warnings setup, since the defaults aren't accurate for btrfs
   name: no-regular-filesystem-out-of-space-warning-on-btrfs
 spec:
