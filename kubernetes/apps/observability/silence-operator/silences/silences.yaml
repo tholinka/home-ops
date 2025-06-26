@@ -9,8 +9,8 @@ spec:
     - name: alertname
       value: CephNodeDiskspaceWarning
       isRegex: false
-    - name: mountpoint
-      value: (/etc/nfsmount.conf|/var)
+    - name: fstype
+      value: (btrfs|xfs)
       isRegex: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
