@@ -104,15 +104,6 @@
           type: radarr
           url: http://radarr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_RADARR_TOKEN}}'
-    - Readarr:
-        href: https://readarr.${SECRET_DOMAIN}
-        icon: readarr.svg
-        app: readarr
-        namespace: media
-        widget:
-          type: readarr
-          url: http://readarr.media.svc.cluster.local.:80
-          key: '{{HOMEPAGE_VAR_READARR_TOKEN}}'
     - SABnzbd:
         icon: sabnzbd.svg
         href: https://sab.${SECRET_DOMAIN}
