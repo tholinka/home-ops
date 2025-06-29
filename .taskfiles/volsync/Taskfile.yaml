@@ -24,18 +24,6 @@ tasks:
       - which flux kubectl
       - test -f {{.KUBECONFIG}}
 
-  unlock:
-    desc: Unlock all restic source repos
-    cmds:
-      - for: { var: SOURCES, split: "\n" }
-        cmd: kubectl --namespace {{splitList "," .ITEM | first}} patch --field-manager=flux-client-side-apply replicationsources {{splitList "," .ITEM | last}} --type merge --patch "{\"spec\":{\"restic\":{\"unlock\":\"{{now | unixEpoch}}\"}}}"
-    vars:
-      SOURCES:
-        sh: kubectl get replicationsources --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
-    preconditions:
-      - which kubectl
-      - test -f {{.KUBECONFIG}}
-
   snapshot:
     desc: Snapshot an app [NS=default] [APP=required]
     cmds:
@@ -95,10 +83,10 @@ tasks:
       - which flux kubectl minijinja-cli
       - test -f {{.KUBECONFIG}}
 
-  unlock-local:
+  unlock:
     desc: Unlock a restic source repo from local machine [NS=default] [APP=required]
     cmds:
-      - minijinja-cli --env --autoescape none {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2 | kubectl apply --server-side --filename -
+      - minijinja-cli --env {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2 | kubectl apply --server-side --filename -
       - until kubectl --namespace {{.NS}} get job/volsync-unlock-{{.APP}} &>/dev/null; do sleep 5; done
       - kubectl --namespace {{.NS}} wait job/volsync-unlock-{{.APP}} --for condition=complete --timeout=5m
       - stern --namespace {{.NS}} job/volsync-unlock-{{.APP}} --no-follow

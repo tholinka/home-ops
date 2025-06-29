@@ -9,7 +9,7 @@ spec:
     kind: ClusterSecretStore
     name: bitwarden
   target:
-    name: immich-backup-secret
+    name: immich-volsync-secret
     creationPolicy: Owner
     template:
       engineVersion: v2
@@ -36,7 +36,7 @@ spec:
     schedule: 0 23 * * *
   restic:
     pruneIntervalDays: 14
-    repository: immich-backup-secret
+    repository: immich-volsync-secret
     retain:
       daily: 2
       weekly: 1

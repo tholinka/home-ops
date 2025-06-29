@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: volsync-unlock-{{ ENV.APP }}
+  name: volsync-unlock-{{ ENV.APP | safe }}
   namespace: {{ ENV.NS }}
 spec:
   ttlSecondsAfterFinished: 3600
@@ -17,7 +17,7 @@ spec:
           args: ["unlock", "--remove-all"]
           envFrom:
             - secretRef:
-                name: {{ ENV.APP }}-volsync-secret
+                name: {{ ENV.APP | safe }}-volsync-secret
           volumeMounts:
             - name: repository
               mountPath: /repository
@@ -27,7 +27,7 @@ spec:
           args: ["unlock", "--remove-all"]
           envFrom:
             - secretRef:
-                name: {{ ENV.APP }}-volsync-s3-secret
+                name: {{ ENV.APP | safe }}-volsync-s3-secret
           resources: {}
       volumes:
         - name: repository
