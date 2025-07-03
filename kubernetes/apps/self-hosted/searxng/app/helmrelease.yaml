@@ -29,7 +29,7 @@ spec:
             image:
               repository: ghcr.io/searxng/searxng
               # very annoying version scheme, so we'll just use the latest tag + pin digest
-              tag: latest@sha256:5a9a87decb510d2bc922dbe62ce5a35226b51ec5760746ae251b7f0ff39aee71
+              tag: latest@sha256:22c02f36d22c98a9c145bf0ecdb2c46cefcc3db0c77d0f033d9fcb09308369fa
             command:
               - /usr/local/searxng/venv/bin/uwsgi
               - --master
