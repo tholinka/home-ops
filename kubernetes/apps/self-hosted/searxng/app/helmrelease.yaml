@@ -31,12 +31,12 @@ spec:
               # very annoying version scheme, so we'll just use the latest tag + pin digest
               tag: latest@sha256:943a2c535c076e77d529303f6512a9a346f5f5ecf59268164e38b7f2fcd93bb9
             command:
-              - /usr/local/searxng/venv/bin/uwsgi
-              - --master
-              - /usr/local/searxng/.template/uwsgi.ini
+              - /usr/local/searxng/venv/bin/granian
+              - searx.webapp:app
             env:
               SEARXNG_BASE_URL: https://${GATUS_SUBDOMAIN}.${SECRET_DOMAIN}
-              UWSGI_WORKERS: '1'
+              GRANIAN_PORT: &port 8080
+              GRANIAN_BLOCKING_THREADS: '1'
             envFrom:
               - secretRef:
                   name: *app
@@ -47,7 +47,7 @@ spec:
                 spec:
                   httpGet:
                     path: /stats
-                    port: &port 8080
+                    port: *port
                   initialDelaySeconds: 5
                   periodSeconds: 10
                   timeoutSeconds: 1
