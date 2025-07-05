@@ -11,7 +11,7 @@ data:
     endpoints:
       - name: vernemq-mqtt
         group: infrastructure
-        url: tcp://vernemq.database.svc.cluster.local:1883
+        url: tcp://vernemq-app.database.svc.cluster.local:1883
         interval: 1m
         ui:
           hide-url: true
