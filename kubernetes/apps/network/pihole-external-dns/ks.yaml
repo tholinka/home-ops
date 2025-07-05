@@ -12,6 +12,9 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/keda/prometheus-scaler
+  dependsOn:
+    - name: keda
+      namespace: observability
   path: ./kubernetes/apps/network/pihole-external-dns/app
   prune: true
   postBuild:

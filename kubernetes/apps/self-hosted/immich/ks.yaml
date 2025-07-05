@@ -126,6 +126,8 @@ spec:
     # needs https://github.com/immich-app/immich-charts/issues/94
     - ../../../../components/keda/nfs-cpu-scaler
   dependsOn:
+    - name: keda
+      namespace: observability
     - name: dragonfly-cluster
       namespace: database
     - name: postgres-immich

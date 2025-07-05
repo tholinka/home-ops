@@ -11,6 +11,9 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/keda/nfs-scaler
+  dependsOn:
+    - name: keda
+      namespace: observability
   interval: 1h
   retryInterval: 2m
   path: ./kubernetes/apps/media/unpackerr/app
