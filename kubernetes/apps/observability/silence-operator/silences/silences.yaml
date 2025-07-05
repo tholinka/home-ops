@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: ceph-node-nfsmount-diskspace-warning
@@ -8,13 +8,12 @@ spec:
   matchers:
     - name: alertname
       value: CephNodeDiskspaceWarning
-      isRegex: false
     - name: fstype
       value: (btrfs|xfs)
-      isRegex: true
+      matchType: '=~'
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: ceph-pg-imbalance
@@ -22,10 +21,9 @@ spec:
   matchers:
     - name: alertname
       value: CephPGImbalance
-      isRegex: false
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   # there are separate btrfs warnings setup, since the defaults aren't accurate for btrfs
@@ -34,16 +32,14 @@ spec:
   matchers:
     - name: alertname
       value: (NodeFilesystemAlmostOutOfSpace|NodeFilesystemSpaceFillingUp)
-      isRegex: true
+      matchType: '=~'
     - name: job
       value: node-exporter
-      isRegex: false
     - name: fstype
       value: btrfs
-      isRegex: false
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   # this fires all the time, but CPU is fine on the nodes? not sure what it's actually suppose to be monitoring, and the rulebook link 404's
@@ -52,13 +48,12 @@ spec:
   matchers:
     - name: alertname
       value: NodeSystemSaturation
-      isRegex: true
+      matchType: '=~'
     - name: job
       value: node-exporter
-      isRegex: false
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: no-disk-saturation-on-nas
@@ -66,17 +61,15 @@ spec:
   matchers:
     - name: alertname
       value: NodeDiskIOSaturation
-      isRegex: true
+      matchType: '=~'
     - name: job
       value: node-exporter
-      isRegex: false
     - name: instance
       value: nas.servers.internal:9100
-      isRegex: false
 
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
   name: keda-hpa-maxed-out
@@ -84,7 +77,6 @@ spec:
   matchers:
     - name: alertname
       value: KubeHpaMaxedOut
-      isRegex: false
     - name: horizontalpodautoscaler
       value: keda-hpa-silent-.*
-      isRegex: true
+      matchType: '=~'
