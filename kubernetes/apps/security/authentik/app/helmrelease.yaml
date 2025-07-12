@@ -57,10 +57,12 @@ spec:
     server:
       initContainers:
         - name: init-db
-          image: ghcr.io/home-operations/postgres-init:17.5
+          image: ghcr.io/home-operations/postgres-init:17
           envFrom:
             - secretRef:
                 name: *secret
+            - secretRef:
+                name: authentik-initdb
       autoscaling: &autoscaling
         enabled: true
         minReplicas: 1
