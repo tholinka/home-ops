@@ -1,10 +1,6 @@
 ---
 use_default_settings: true
 
-engine:
-  - name: bing
-    disabled: false
-
 server:
   limiter: true
   image_proxy: true
