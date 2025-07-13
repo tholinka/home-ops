@@ -138,6 +138,11 @@ spec:
         existingClaim: home-assistant-cache
         globalMounts:
           - path: /config/.venv
+            subPath: ha-venv
+          - path: /config/.cache
+            subPath: ha-cache
+          - path: /config/.vscode/User/caches
+            subPath: vscode-caches
       tmpfs:
         type: emptyDir
         globalMounts:
@@ -149,3 +154,5 @@ spec:
             subPath: tts
           - path: /tmp
             subPath: tmp
+          - path: /config/.vscode/logs
+            subPath: vscode-logs
