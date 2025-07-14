@@ -88,6 +88,13 @@ spec:
             sectionName: https
         rules:
           - backendRefs: [{}]
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: Spoolman
+          gethomepage.dev/group: Home
+          gethomepage.dev/icon: spoolman.svg
+          gethomepage.dev/widget.type: spoolman
+          gethomepage.dev/widget.url: http://spoolman.home-automation.svc.cluster.local.:8000
 
     persistence:
       tmpfs:
