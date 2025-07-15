@@ -1,0 +1,101 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app ${APP}
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  driftDetection:
+    mode: enabled
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/linuxserver/orcaslicer
+              tag: 2.3.0@sha256:b5f8785643ed966e7d01cc681d13336d1d6f41a42b2a9e252a871c42d8e38b04
+            env:
+              DRINODE: /dev/dri/renderD128
+              GTK_THEME: Adwaita:dark # segfaults if no theme is set
+              S6_READ_ONLY_ROOT: '1'
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: false
+                spec:
+                  failureThreshold: 10
+              startup: *probes
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFileSystem: true
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+              limits:
+                cpu: 2
+                memory: 3Gi
+                gpu.intel.com/i915: 1
+
+    defaultPodOptions:
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: 'true'
+        kubernetes.io/arch: amd64
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 3000
+
+    route:
+      *app :
+        hostnames:
+          - '${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}'
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs: [{}]
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/name: Orcaslicer
+          gethomepage.dev/group: Home
+          gethomepage.dev/icon: orcaslicer.webp
+
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /config/.config/OrcaSlicer
+
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /run
+            subPath: run
+          - path: /tmp
+            subPath: tmp
+          - path: /config
+            subPath: config
+          - path: /config/.config/OrcaSlicer/log
+            subPath: log
+          - path: /config/.config/OrcaSlicer/cache
+            subPath: cache

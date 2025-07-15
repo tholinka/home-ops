@@ -139,10 +139,6 @@ spec:
         globalMounts:
           - path: /config/.venv
             subPath: ha-venv
-          - path: /config/.cache
-            subPath: ha-cache
-          - path: /config/.vscode/User/caches
-            subPath: vscode-caches
       tmpfs:
         type: emptyDir
         globalMounts:
@@ -156,3 +152,5 @@ spec:
             subPath: tmp
           - path: /config/.vscode/logs
             subPath: vscode-logs
+          - path: /config/.vscode/User/caches
+            subPath: vscode-caches

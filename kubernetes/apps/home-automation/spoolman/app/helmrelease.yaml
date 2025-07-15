@@ -81,7 +81,7 @@ spec:
     route:
       *app :
         hostnames:
-          - '${APP_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}'
+          - '${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}'
         parentRefs:
           - name: internal
             namespace: network

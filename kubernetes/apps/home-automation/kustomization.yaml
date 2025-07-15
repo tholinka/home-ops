@@ -8,6 +8,7 @@ resources:
   - ./go2rtc/ks.yaml
   - ./home-assistant/ks.yaml
   - ./octoeverywhere-connect-cc/ks.yaml
+  - ./orcaslicer/ks.yaml
   - ./spoolman/ks.yaml
   - ./zigbee/ks.yaml
   - ./zwave/ks.yaml
