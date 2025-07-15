@@ -32,6 +32,8 @@ spec:
               DRINODE: /dev/dri/renderD128
               GTK_THEME: Adwaita:dark # segfaults if no theme is set
               S6_READ_ONLY_ROOT: '1'
+              PGID: '911' # default for this image
+              PUID: '911' # default for this image
             probes:
               liveness: &probes
                 enabled: true
@@ -85,6 +87,9 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /config/.config/OrcaSlicer
+            subPath: orcaslicer
+          - path: /config/models
+            subPath: models
 
       tmpfs:
         type: emptyDir
