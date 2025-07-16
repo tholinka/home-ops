@@ -101,7 +101,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: Zigbee
-          gethomepage.dev/group: Home
+          gethomepage.dev/group: Infrastructure
           gethomepage.dev/icon: zigbee2mqtt.svg
     persistence:
       config:

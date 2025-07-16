@@ -81,7 +81,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: Z-Wave
-          gethomepage.dev/group: Home
+          gethomepage.dev/group: Infrastructure
           gethomepage.dev/icon: z-wave-js-ui.svg
     persistence:
       config:
