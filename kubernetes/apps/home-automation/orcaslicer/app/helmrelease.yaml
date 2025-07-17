@@ -50,7 +50,7 @@ spec:
                 cpu: 100m
                 memory: 1Gi
               limits:
-                cpu: 2
+                cpu: 4
                 memory: 3Gi
                 gpu.intel.com/i915: 1
 
