@@ -54,7 +54,7 @@ sudo virt-install \
 	--disk pool=devel,size=80,format=qcow2,bus=scsi,discard=unmap,cache=writeback,io=threads \
 	-w network=bridged \
 	--graphics none --console pty,target_type=serial \
-	--host-device 05:00.0
+	--host-device 06:00.0
 
 
 ## UEFI install doesn't respect the IP and VLAN settings :(
