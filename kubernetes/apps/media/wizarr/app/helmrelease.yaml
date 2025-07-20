@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/wizarrrr/wizarr
-              tag: 2025.7.4
+              tag: 2025.7.6
             probes:
               liveness:
                 enabled: true
