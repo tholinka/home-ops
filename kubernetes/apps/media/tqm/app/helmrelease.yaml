@@ -50,7 +50,6 @@ spec:
             args:
               - clean
               - qb
-              - --dry-run
         pod: &pod
           restartPolicy: Never
       orphaned:
