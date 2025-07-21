@@ -21,6 +21,7 @@ resources:
   - ./sabnzbd/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
+  - ./tqm/ks.yaml
   - ./unpackerr/ks.yaml
   - ./webhook/ks.yaml
   - ./wizarr/ks.yaml
