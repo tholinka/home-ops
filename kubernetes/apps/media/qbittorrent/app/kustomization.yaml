@@ -12,6 +12,12 @@ configMapGenerator:
     options:
       labels:
         loki_rule: 'true'
+  - name: qbittorrent-scripts
+    files:
+      - on-torrent-add.sh=./resources/on-torrent-add.sh
+  - name: qbittorrent-cli-config
+    files:
+      - .qbt.toml=./resources/qbt.toml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

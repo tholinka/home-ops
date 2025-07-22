@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app qbittorrent
+  name: &app ${APP}
 spec:
   interval: 1h
   chartRef:
@@ -22,7 +22,7 @@ spec:
       retries: 3
   values:
     controllers:
-      qbittorrent:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         initContainers:
@@ -46,12 +46,12 @@ spec:
               UPDATER_PERIOD: 24h
             envFrom:
               - secretRef:
-                  name: wireguard-secret
+                  name: wireguard
             probes:
               liveness:
                 enabled: true
                 custom: true
-                spec:
+                spec: &probe
                   exec:
                     command:
                       - /bin/sh
@@ -67,26 +67,21 @@ spec:
                 enabled: true
                 custom: true
                 spec:
+                  <<: *probe
                   exec:
                     command:
                       - /bin/sh
                       - -c
                       - >-
                         wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/publicip/ip
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  successThreshold: 1
-                  timeoutSeconds: 1
-                  failureThreshold: 30
             lifecycle:
               postStart:
                 exec:
                   command:
-                    [
-                      '/bin/sh',
-                      '-c',
-                      '(ip rule del table 51820; ip -6 rule del table 51820) || true',
-                    ]
+                    - /bin/sh
+                    - -c
+                    - >-
+                      (ip rule del table 51820; ip -6 rule del table 51820) || true
             restartPolicy: Always
             securityContext:
               # can't be non-root, or it has no access to tunnel
@@ -133,7 +128,7 @@ spec:
               PUSHOVER_ENABLED: true
             envFrom:
               - secretRef:
-                  name: qbittorrent-secret
+                  name: qbittorrent
             probes:
               liveness:
                 enabled: true
@@ -178,7 +173,7 @@ spec:
               GLUETUN_CONTROL_SERVER_API_KEY:
                 valueFrom:
                   secretKeyRef:
-                    name: qbittorrent-secret
+                    name: qbittorrent
                     key: GLUETUN_CONTROL_SERVER_API_KEY
               QBITTORRENT_HOST: localhost
               QBITTORRENT_WEBUI_PORT: *port
@@ -233,13 +228,31 @@ spec:
       config:
         existingClaim: *app
         advancedMounts:
-          qbittorrent:
+          *app :
             app:
               - path: /config
+      config-file:
+        type: configMap
+        name: qbittorrent-cli-config
+        advancedMounts:
+          *app :
+            app:
+              - path: /config/.qbt.toml
+                subPath: .qbt.toml
+                readOnly: true
+      scripts:
+        type: configMap
+        name: qbittorrent-scripts
+        defaultMode: 0775
+        advancedMounts:
+          *app :
+            app:
+              - path: /scripts
+                readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:
-          qbittorrent:
+          *app :
             port-forward:
               - path: /config
                 subPath: config
@@ -252,9 +265,9 @@ spec:
 
       gluetun-auth:
         type: secret
-        name: qbittorrent-gluetun-secret
+        name: qbittorrent-gluetun
         advancedMounts:
-          qbittorrent:
+          *app :
             gluetun:
               - path: *gluetunAuthPath
                 subPath: auth.toml
