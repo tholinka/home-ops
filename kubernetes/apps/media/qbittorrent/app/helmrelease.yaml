@@ -224,6 +224,13 @@ spec:
               - name: *app
                 port: *port
 
+    configMaps:
+      config:
+        data:
+          .qbt.toml: |
+            [qbittorrent]
+            addr = "http://localhost:80"
+
     persistence:
       config:
         existingClaim: *app
@@ -233,22 +240,14 @@ spec:
               - path: /config
       config-file:
         type: configMap
-        name: qbittorrent-cli-config
+        name: *app
         advancedMounts:
-          *app :
+          *app : # in qbit config, set "on torrent add" to "/config/qbrr --hash "%I" && qbt tag delete "cross-seed""
             app:
               - path: /config/.qbt.toml
                 subPath: .qbt.toml
                 readOnly: true
-      scripts:
-        type: configMap
-        name: qbittorrent-scripts
-        defaultMode: 0775
-        advancedMounts:
-          *app :
-            app:
-              - path: /scripts
-                readOnly: true
+
       tmpfs:
         type: emptyDir
         advancedMounts:
