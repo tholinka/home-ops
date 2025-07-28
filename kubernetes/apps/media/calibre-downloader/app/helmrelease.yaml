@@ -23,21 +23,30 @@ spec:
   values:
     controllers:
       *app :
-        containers:
-          app:
-            image:
+        initContainers:
+          init:
+            image: &image
               repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
               tag: 20250714@sha256:518908641a2260249513f349eef9f30e580f8f428d1adfa830096b43a818e97b
+            command:
+              - cp
+              - -r
+              - /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
+              - /mnt
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
+
+        containers:
+          app:
+            image: *image
             env:
               FLASK_PORT: &port 80
               FLASK_DEBUG: false
               AA_BASE_URL: https://annas-archive.li
               INGEST_DIR: &ingest /cwa-book-ingest
               BOOK_LANGUAGE: en
-            command: # don't run startup script, since it doesn't work on a read-only fs
-              - bash
-              - -c
-              - touch /usr/local/lib/python3.10/site-packages/seleniumbase/drivers/__init__.py && python -m app
             probes:
               liveness: &probe
                 enabled: true
@@ -48,10 +57,7 @@ spec:
                     port: *port
               readiness: *probe
               startup: *probe
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
+            securityContext: *securityContext
             resources:
               requests:
                 cpu: 5m
@@ -89,23 +95,30 @@ spec:
     persistence:
       tmpfs:
         type: emptyDir
-        globalMounts:
-          # chromium needs the XDG_CONFIG_HOME created
-          # because user 1000 doesn't exist, ~ = /
-          - path: /.config
-            subPath: config
-          - path: /tmp
-            subPath: tmp
-          - path: /var/log/cwa-book-downloader/
-            subPath: log
-          - path: /app/downloaded_files
-            subPath: download
-          - path: /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
-            subPath: drivers
+        advancedMounts:
+          *app :
+            app:
+              # chromium needs the XDG_CONFIG_HOME created
+              # because user 1000 doesn't exist, ~ = /
+              - path: /.config
+                subPath: config
+              - path: /tmp
+                subPath: tmp
+              - path: /var/log/cwa-book-downloader/
+                subPath: log
+              - path: /app/downloaded_files
+                subPath: download
+              - path: /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
+                subPath: drivers
+            init:
+              - path: /mnt
+                subPath: drivers
       media:
         type: nfs
         server: nas.servers.internal
         path: /media
-        globalMounts:
-          - path: *ingest
-            subPath: downloads/openbooks
+        advancedMounts:
+          *app :
+            app:
+              - path: *ingest
+                subPath: downloads/openbooks
