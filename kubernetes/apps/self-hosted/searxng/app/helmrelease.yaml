@@ -29,7 +29,7 @@ spec:
             image:
               repository: ghcr.io/searxng/searxng
               # very annoying version scheme, so we'll just use the latest tag + pin digest
-              tag: latest@sha256:d09426cc58ed8eacc47232578f2795509b904bfc4dda13b58f467a2e6252c0b0
+              tag: latest@sha256:d9078a33f77ef10daa381de557bb1d43703dbc7bace93bc7a4d4a9db80c9dee5
             command:
               - /usr/local/searxng/venv/bin/granian
               - searx.webapp:app
