@@ -19,7 +19,6 @@ spec:
 
         - bedroom.air.iot.internal
         - outdoor.air.iot.internal
-        - living.air.iot.internal
 
         - fridge.plugs.iot.internal
         - dehumidifier.plugs.iot.internal
