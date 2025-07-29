@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/linuxserver/unifi-network-application
-              tag: 9.2.87@sha256:0a757b41978541ff9274a311b71437b9c65009f1887d53608011dd3f9a60f02a
+              tag: 9.2.87@sha256:cf5a275ebb2f3e57d51bb850dc27157e8083aedc830b82fe2394fc78ef8ce5eb
             env:
               MEM_LIMIT: '1024'
               MEM_STARTUP: '1024'
