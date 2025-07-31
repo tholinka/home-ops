@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumloadbalancerippool_v2alpha1.json
-apiVersion: cilium.io/v2alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumloadbalancerippool_v2.json
+apiVersion: cilium.io/v2
 kind: CiliumLoadBalancerIPPool
 metadata:
   name: pool
@@ -23,8 +23,8 @@ spec:
     matchLabels:
       kubernetes.io/os: linux
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgpadvertisement_v2alpha1.json
-apiVersion: cilium.io/v2alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgpadvertisement_v2.json
+apiVersion: cilium.io/v2
 kind: CiliumBGPAdvertisement
 metadata:
   name: cilium-bgp-advertisement
@@ -43,8 +43,8 @@ spec:
             values:
               - never-used-value
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgppeerconfig_v2alpha1.json
-apiVersion: cilium.io/v2alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgppeerconfig_v2.json
+apiVersion: cilium.io/v2
 kind: CiliumBGPPeerConfig
 metadata:
   name: cilium-bgp-peer-config
@@ -59,8 +59,8 @@ spec:
     enabled: true
     restartTimeSeconds: 15
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgpclusterconfig_v2alpha1.json
-apiVersion: cilium.io/v2alpha1
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgpclusterconfig_v2.json
+apiVersion: cilium.io/v2
 kind: CiliumBGPClusterConfig
 metadata:
   name: cilium-bgp-cluster-config
