@@ -20,7 +20,7 @@ spec:
       retries: 3
   values:
     controllers:
-      zwave:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -85,11 +85,11 @@ spec:
           gethomepage.dev/icon: z-wave-js-ui.svg
     persistence:
       config:
-        existingClaim: zwave
+        existingClaim: *app
         globalMounts:
           - path: /usr/src/app/store
       config-cache:
-        existingClaim: zwave-cache
+        existingClaim: '{{ .Release.Name }}-cache'
         globalMounts:
           - path: /usr/src/app/store/.config-db
       tmpfs:

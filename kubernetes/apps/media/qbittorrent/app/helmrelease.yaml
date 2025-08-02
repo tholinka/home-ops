@@ -88,10 +88,10 @@ spec:
               runAsNonRoot: false
               runAsUser: 0
               runAsGroup: 0
-              capabilities:
-                add:
-                  - NET_ADMIN
               allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false # wants to create a user, etc
+              capabilities:
+                add: [NET_ADMIN]
             resources:
               requests:
                 cpu: 20m
@@ -111,12 +111,10 @@ spec:
                 cpu: 5m
               limits:
                 memory: 32Mi
-            securityContext:
+            securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: { drop: [ALL] }
         containers:
           app:
             image:
@@ -128,7 +126,7 @@ spec:
               PUSHOVER_ENABLED: true
             envFrom:
               - secretRef:
-                  name: qbittorrent
+                  name: *app
             probes:
               liveness:
                 enabled: true
@@ -139,10 +137,7 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
+            securityContext: *securityContext
             resources:
               requests:
                 cpu: 100m
@@ -185,12 +180,7 @@ spec:
                 cpu: 5m
               limits:
                 memory: 32Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+            securityContext: *securityContext
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -264,7 +254,7 @@ spec:
 
       gluetun-auth:
         type: secret
-        name: qbittorrent-gluetun
+        name: '{{ .Release.Name }}-gluetun'
         advancedMounts:
           *app :
             gluetun:
