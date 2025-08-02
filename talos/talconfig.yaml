@@ -103,7 +103,6 @@ nodes:
       #
       #- '@./patches/intel/machine-encryption.yaml' # block.VolumeManagerController panics with runtime error out of range [0] with length [0] -> TPM to old to work?
       - &intelMachineSysfs '@./patches/intel/machine-sysfs.yaml'
-      - &intelMachineUdev '@./patches/intel/machine-udev.yaml'
       - '@./patches/ethernet/lenovo.yaml'
       - &largeMachineSysctls '@./patches/large/machine-sysctls.yaml'
   - hostname: lenovo-m700-2
@@ -148,7 +147,6 @@ nodes:
     patches: &hpPatches
       - '@./patches/intel/machine-encryption.yaml'
       - *intelMachineSysfs
-      - *intelMachineUdev
       - '@./patches/ethernet/usb.yaml'
       - *largeMachineSysctls
       - |-

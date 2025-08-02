@@ -20,7 +20,7 @@ spec:
       retries: 3
   values:
     controllers:
-      zwave:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -55,11 +55,10 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: p1 # only p1 has the zwave ZAC93-800 GPIO
       securityContext:
-        # needs to be root to access /dev/ttyAMA0
-        # runAsNonRoot: true
-        # runAsUser: 1000
-        # runAsGroup: 1000
-        # fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
@@ -85,11 +84,11 @@ spec:
           gethomepage.dev/icon: z-wave-js-ui.svg
     persistence:
       config:
-        existingClaim: zwave
+        existingClaim: *app
         globalMounts:
           - path: /usr/src/app/store
       config-cache:
-        existingClaim: zwave-cache
+        existingClaim: '{{ .Release.Name }}-cache'
         globalMounts:
           - path: /usr/src/app/store/.config-db
       tmpfs:
