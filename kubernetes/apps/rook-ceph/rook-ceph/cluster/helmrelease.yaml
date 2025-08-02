@@ -43,6 +43,21 @@ spec:
       createPrometheusRules: true
     toolbox:
       enabled: true
+    route:
+      dashboard:
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/name: Rook Ceph
+          gethomepage.dev/icon: rook.svg
+        host:
+          name: rook.${SECRET_DOMAIN}
+          path: /
+          pathType: PathPrefix
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     cephClusterSpec:
       cephConfig:
         global: # all values must be string
