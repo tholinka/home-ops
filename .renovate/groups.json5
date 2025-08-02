@@ -136,5 +136,18 @@
 				commitMessageTopic: "{{{groupName}}} group",
 			},
 		},
+		{
+			description: "Your Spotify Group",
+			groupName: "Your-Spotify",
+			matchDatasources: [
+				"docker",
+			],
+			matchPackageNames: [
+				"/your_spotify/",
+			],
+			group: {
+				commitMessageTopic: "{{{groupName}}} group",
+			},
+		},
 	],
 }
