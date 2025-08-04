@@ -1,20 +1,34 @@
 ---
 web:
-  port: ${WEB_PORT}
+  port: ${GATUS_WEB_PORT}
+
 storage:
   type: sqlite
   path: /config/sqlite.db
   caching: true
+
 metrics: true
 debug: false
+
 ui:
   title: Status | Gatus
   header: Status
+  logo: https://avatars.githubusercontent.com/u/1685504
+  link: https://github.com/onedr0p
+  buttons:
+    - name: Github
+      link: https://github.com/tholinka
+    - name: Homelab
+      link: https://github.com/tholinka/home-ops
+    - name: Personal
+      link: https://tylerholinka.com/
+
 connectivity:
   checker:
     # dnscrypt-proxy
     target: 192.168.20.7:53
     interval: 1m
+
 endpoints:
   - name: flux-webhook
     group: external

@@ -49,7 +49,7 @@ spec:
             env:
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
-              WEB_PORT: &port 80
+              GATUS_WEB_PORT: &port 80
               # flux webhook doesn't get replaced in the config file unless we SECRET_DOMAIN as an environment variable
               SECRET_DOMAIN: ${SECRET_DOMAIN}
             probes:
