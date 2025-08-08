@@ -7,7 +7,7 @@ server:
   method: GET # https://github.com/searxng/searxng/pull/3619
   public_instance: true
 
-redis:
+valkey:
   url: redis://dragonfly-cluster.database.svc.cluster.local/3
 
 search:

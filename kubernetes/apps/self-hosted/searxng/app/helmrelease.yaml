@@ -30,9 +30,7 @@ spec:
               repository: ghcr.io/searxng/searxng
               # very annoying version scheme, so we'll just use the latest tag + pin digest
               tag: latest@sha256:b421cdc85f5a0b21a7ec956f110a82b7fb3d49a7665a1112f6a25f188c9775ec
-            command:
-              - /usr/local/searxng/venv/bin/granian
-              - searx.webapp:app
+            command: [/usr/local/searxng/.venv/bin/granian, searx.webapp:app]
             env:
               SEARXNG_BASE_URL: https://${GATUS_SUBDOMAIN}.${SECRET_DOMAIN}
               GRANIAN_PORT: &port 8080
