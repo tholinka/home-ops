@@ -15,17 +15,18 @@ spec:
     remediation:
       retries: -1
   upgrade:
-    cleanupOnFail: true
     remediation:
-      retries: 3
+      strategy: uninstall
   values:
     controllers:
       barman-cloud:
+        serviceAccount:
+          identifier: *app
         containers:
           barman-cloud:
             image:
               repository: ghcr.io/cloudnative-pg/plugin-barman-cloud
-              tag: v0.4.0
+              tag: v0.5.0@sha256:d84794c09178e8a39944dce04ca234a14e1551f914af90f1768c1222733438a6
             args:
               - operator
               - --server-cert=/server/tls.crt
@@ -35,7 +36,7 @@ spec:
               - --leader-elect
               - --log-level=debug
             env:
-              SIDECAR_IMAGE: ghcr.io/cloudnative-pg/plugin-barman-cloud-sidecar:v0.4.0
+              SIDECAR_IMAGE: ghcr.io/cloudnative-pg/plugin-barman-cloud-sidecar:v0.5.0@sha256:24207d32fdbf8e5795311fb0a3086670d6df00971ef0b89739700bda2204cbe2
             probes:
               readiness:
                 enabled: true
@@ -63,11 +64,12 @@ spec:
       barman-cloud:
         forceRename: barman-cloud
         annotations:
-          cnpg.io/pluginClientSecret: barman-cloud-client-tls
+          cnpg.io/pluginClientSecret: &clientCert barman-cloud-client-tls
           cnpg.io/pluginPort: '9090'
-          cnpg.io/pluginServerSecret: barman-cloud-server-tls
+          cnpg.io/pluginServerSecret: &serverCert barman-cloud-server-tls
         labels:
           cnpg.io/pluginName: barman-cloud.cloudnative-pg.io
+        controller: barman-cloud
         ports:
           tcp:
             port: *port
@@ -75,18 +77,18 @@ spec:
     persistence:
       server:
         type: secret
-        name: &serverCert barman-cloud-server-tls
+        name: *serverCert
         globalMounts:
           - path: /server
       client:
         type: secret
-        name: &clientCert barman-cloud-client-tls
+        name: *clientCert
         globalMounts:
           - path: /client
 
     serviceAccount:
-      plugin-barman-cloud:
-        forceRename: plugin-barman-cloud
+      *app :
+        forceRename: *app
 
     rbac:
       roles:
@@ -184,7 +186,7 @@ spec:
                 - objectstores/status
               verbs:
                 - get
-        plugin-barman-cloud:
+        *app :
           type: ClusterRole
           rules:
             - apiGroups:
@@ -252,7 +254,7 @@ spec:
             identifier: leader-election-role
           subjects: &subject
             - kind: ServiceAccount
-              identifier: plugin-barman-cloud
+              identifier: *app
               namespace: database
         metrics-auth-rolebinding:
           type: ClusterRoleBinding
@@ -261,11 +263,11 @@ spec:
             kind: ClusterRole
             identifier: metrics-auth-role
           subjects: *subject
-        plugin-barman-cloud-binding:
+        cnpg-barman-cloud-binding:
           type: ClusterRoleBinding
           roleRef:
             <<: *roleRef
-            identifier: plugin-barman-cloud
+            identifier: *app
           subjects: *subject
     rawResources:
       client: &cert
