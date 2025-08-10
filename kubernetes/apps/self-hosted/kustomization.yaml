@@ -10,6 +10,8 @@ resources:
   - ./immich/ks.yaml
   - ./it-tools/ks.yaml
   - ./ocis/ks.yaml
+  - ./octoeverywhere-connect-cc/ks.yaml
+  - ./orcaslicer/ks.yaml
   - ./paperless/ks.yaml
   - ./searxng/ks.yaml
 components:

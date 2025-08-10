@@ -7,8 +7,6 @@ resources:
   - ./esphome/ks.yaml
   - ./go2rtc/ks.yaml
   - ./home-assistant/ks.yaml
-  - ./octoeverywhere-connect-cc/ks.yaml
-  - ./orcaslicer/ks.yaml
   - ./zigbee/ks.yaml
   - ./zwave/ks.yaml
 components:
