@@ -80,7 +80,7 @@ spec:
           mongodb:
             port: 27017
           metrics:
-            port: 4318
+            port: *port
     serviceAccount:
       *app : {}
 
@@ -90,6 +90,6 @@ spec:
         endpoints:
           - port: metrics
             scheme: http
-            path: /v1/traces
+            path: /debug/metrics
             interval: 1m
             scrapeTimeout: 10s
