@@ -18,7 +18,7 @@ spec:
       namespace: flux-system
   interval: 1h
   retryInterval: 2m
-  path: ./kubernetes/apps/home-automation/orcaslicer/app
+  path: ./kubernetes/apps/self-hosted/orcaslicer/app
   postBuild:
     substitute:
       APP: *app
