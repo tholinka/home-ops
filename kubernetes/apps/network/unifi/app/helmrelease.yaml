@@ -42,7 +42,7 @@ spec:
               MEM_LIMIT: '1024'
               MEM_STARTUP: '1024'
               MONGO_DBNAME: unifi
-              MONGO_HOST: mongo-unifi-0.mongo-unifi-svc.database.svc.cluster.local
+              MONGO_HOST: ferretdb.database.svc.cluster.local
               MONGO_PASS:
                 valueFrom:
                   secretKeyRef:

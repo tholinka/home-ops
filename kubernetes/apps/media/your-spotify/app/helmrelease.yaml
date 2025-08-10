@@ -32,7 +32,7 @@ spec:
               # Caveat if it includes Spotify in name: https://github.com/Yooooomi/your_spotify/pull/254
               API_ENDPOINT: &api_endpoint https://ys.${SECRET_DOMAIN}/api
               CLIENT_ENDPOINT: https://ys.${SECRET_DOMAIN}
-              MONGO_ENDPOINT: mongodb://your-spotify:$(DB_PASSWORD)@mongo-your-spotify-0.mongo-your-spotify-svc.database.svc.cluster.local/your-spotify
+              MONGO_ENDPOINT: mongodb://your_spotify:$(DB_PASSWORD)@ferretdb.database.svc.cluster.local/your-spotify
               PORT: &port 8080
               MONGO_NO_ADMIN_RIGHTS: 'true'
             envFrom:
