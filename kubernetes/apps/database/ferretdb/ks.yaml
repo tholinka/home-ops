@@ -1,0 +1,104 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app postgres-ferretdb
+  namespace: &namespace database
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/database/ferretdb/db
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  dependsOn:
+    - name: cnpg-crds
+      namespace: database
+    - name: openebs
+      namespace: openebs-system
+  postBuild:
+    substitute:
+      APP: ferretdb
+      CNPG_IMAGE: ghcr.io/ferretdb/postgres-documentdb
+      # renovate: datasource=docker depName=ghcr.io/ferretdb/postgres-documentdb
+      CNPG_VERSION: 17@sha256:a9e097a7c3a5bf592e988d8f0ee36b19d309436be56a1342effda3fc804117f4
+      CNPG_REPLICAS: '2'
+      CNPG_SIZE: 5Gi
+      CNPG_LIMITS_MEMORY_HUGEPAGES: 1Gi
+      CNPG_LIMITS_MEMORY: 2Gi
+  components:
+    - ../../../../components/cnpg/backup
+  healthChecks:
+    - apiVersion: &postgresVersion postgresql.cnpg.io/v1
+      kind: &postgresKind Cluster
+      name: *app
+      namespace: *namespace
+  healthCheckExprs:
+    - apiVersion: *postgresVersion
+      kind: *postgresKind
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+  patches:
+    # note: remove bootstrap when switching to restore. could probably also remove managed and the init step?
+    - target:
+        kind: *postgresKind
+      patch: |-
+        kind: Cluster
+        metadata:
+          name: not-used
+        spec:
+          postgresUID: 999
+          postgresGID: 999
+          postgresql:
+            shared_preload_libraries:
+              - pg_cron
+              - pg_documentdb_core
+              - pg_documentdb
+            parameters:
+              cron.database_name: 'postgres'
+            pg_hba: # https://github.com/FerretDB/FerretDB/issues/5284
+              - host postgres postgres 127.0.0.1/32 trust
+              - host postgres postgres ::1/128 trust
+          superuserSecret:
+            name: ferretdb-initdb
+          # bootstrap: # manually create users in postgres with `k exec -n database postgres-ferretdb-1 -- psql -c "CREATE USER newuser WITH PASSWORD 'newpassword';"`, and then create dbs in mongo.. could theoretically make a postgres-init style container for it? meh
+          #  initdb:
+          #    postInitApplicationSQL:
+          #      - CREATE EXTENSION documentdb CASCADE; # throwing "can only create extension in database postgres" -> manually create with `k exec -n database postgres-ferretdb-1 -- psql -d postgres -c "CREATE EXTENSION IF NOT EXISTS documentdb CASCADE;"`
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app ferretdb
+  namespace: &namespace database
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/guarded
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/database/ferretdb/app
+  prune: true
+  dependsOn:
+    - name: postgres-ferretdb
+      namespace: database
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  postBuild:
+    substitute:
+      APP: *app

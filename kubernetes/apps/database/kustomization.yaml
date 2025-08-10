@@ -10,4 +10,5 @@ resources:
   - ./cnpg/ks.yaml
   - ./dragonfly/ks.yaml
   - ./mongo/ks.yaml
+  - ./ferretdb/ks.yaml
   - ./vernemq/ks.yaml
