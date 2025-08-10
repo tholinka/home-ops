@@ -29,7 +29,7 @@ spec:
             image:
               repository: ghcr.io/searxng/searxng
               # very annoying version scheme, so we'll just use the latest tag + pin digest
-              tag: latest@sha256:ca32325c7038ea2a3982f6cefa5941e50506323e35f3f47d8f0ad14d43e4f4d2
+              tag: latest@sha256:284e14c17c146a7621f592f6818484511010d521cd8e0da82ce0115f0924208f
             command: [/usr/local/searxng/.venv/bin/granian, searx.webapp:app]
             env:
               SEARXNG_BASE_URL: https://${GATUS_SUBDOMAIN}.${SECRET_DOMAIN}
