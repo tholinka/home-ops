@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: self-hosted
 resources:
   - ./atuin/ks.yaml
-  - ./change-detection/ks.yaml
   - ./homepage/ks.yaml
   - ./immich/ks.yaml
   - ./it-tools/ks.yaml
