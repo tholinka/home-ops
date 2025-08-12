@@ -13,17 +13,17 @@ spec:
     creationPolicy: Owner
     template:
       engineVersion: v2
-      metadata:
-        labels:
-          cnpg.io/reload: 'true'
       data:
-        RESTIC_REPOSITORY: '{{ .REPOSITORY_TEMPLATE }}/immich-photos'
-        RESTIC_PASSWORD: '{{ .RESTIC_PASSWORD }}'
+        AWS_S3_ENDPOINT: '{{ .AWS_S3_ENDPOINT }}'
+        KOPIA_REPOSITORY: '{{ .REPOSITORY_TEMPLATE }}'
+        KOPIA_PASSWORD: '{{ .KOPIA_PASSWORD }}'
         AWS_ACCESS_KEY_ID: '{{ .AWS_ACCESS_KEY_ID }}'
         AWS_SECRET_ACCESS_KEY: '{{ .AWS_SECRET_ACCESS_KEY }}'
   dataFrom:
     - extract:
         key: volsync_s3_template
+    - extract:
+        key: volsync_template
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
@@ -34,20 +34,17 @@ spec:
   sourcePVC: immich-photos
   trigger:
     schedule: 0 23 * * *
-  restic:
-    pruneIntervalDays: 14
+  kopia:
+    accessModes: [ReadWriteOnce]
+    copyMethod: Direct
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
     repository: immich-volsync-secret
     retain:
       daily: 2
       weekly: 1
       monthly: 2
-    copyMethod: Direct
-    cacheCapacity: 64Gi
-    cacheStorageClassName: ceph-block
-    cacheAccessModes: [ReadWriteOnce]
     storageClassName: ceph-block
-    accessModes: [ReadWriteOnce]
-    moverSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
+    volumeSnapshotClassName: '${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}'
