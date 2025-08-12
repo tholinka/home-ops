@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/ferretdb/ferretdb
-              tag: 2.4.0@sha256:9c2bea550e58e4a2048a1b2980c8469e204f04006da04a7044ce48d4ff21954b
+              tag: 2.5.0@sha256:7449f6ce1e75b187c328c9ce65ec4e8963767b34b4d604f9b9b6605c6d8d3ee7
             envFrom:
               - secretRef:
                   name: *app
