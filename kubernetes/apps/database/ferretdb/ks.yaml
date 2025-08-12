@@ -30,7 +30,7 @@ spec:
       CNPG_IMAGE: ghcr.io/ferretdb/postgres-documentdb
       # the last part of this version needs to match the ferretdb version
       # renovate: datasource=docker depName=ghcr.io/ferretdb/postgres-documentdb
-      CNPG_VERSION: 17-0.105.0-ferretdb-2.4.0@sha256:a9e097a7c3a5bf592e988d8f0ee36b19d309436be56a1342effda3fc804117f4
+      CNPG_VERSION: 17-0.106.0-ferretdb-2.5.0@sha256:4a2364db8c91fd82855a4eab326202e247aa9ed6a6e8a85c76c1693a5a9ab408
       CNPG_REPLICAS: '2'
       CNPG_SIZE: 5Gi
       CNPG_LIMITS_MEMORY_HUGEPAGES: 1Gi
