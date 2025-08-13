@@ -4,6 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: volsync
+  namespace: system
 spec:
   interval: 1h
   url: https://perfectra1n.github.io/volsync/charts/
@@ -13,6 +14,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: volsync
+  namespace: system
 spec:
   interval: 1h
   chart:
