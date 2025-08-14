@@ -45,6 +45,7 @@ spec:
       runAsGroup: 1000
       fsGroup: 1000
     repository: immich-volsync-secret
+    compression: 'zstd'
     retain:
       daily: 2
       weekly: 1

@@ -20,6 +20,7 @@ spec:
       fsGroup: ${VOLSYNC_PGID:=1000}
       fsGroupChangePolicy: ${VOLSYNC_GROUP_CHANGE_POLICY:=Always}
     repository: '${APP}-volsync-secret'
+    compression: 'zstd'
     retain:
       hourly: 12
       daily: 7
