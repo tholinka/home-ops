@@ -43,11 +43,6 @@ sonarr:
           - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
           - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
           - 06d66ab109d4d2eddb2794d21526d140 # Retags
-        assign_scores_to:
-          - name: WEB-1080p
-          - name: WEB-2160p
-
-      - trash_ids:
           - 1b3994c551cbb92a2c781af061f4ab44 # Scene
         assign_scores_to:
           - name: WEB-1080p
@@ -86,14 +81,9 @@ radarr:
     delete_old_custom_formats: true
     replace_existing_custom_formats: true
 
-    quality_definition:
-      type: movie
-
     include:
       # SQP
       - template: radarr-quality-definition-sqp-streaming
-      - template: radarr-quality-profile-sqp-1-1080p
-      - template: radarr-custom-formats-sqp-1-1080p
       - template: radarr-custom-formats-sqp-1-2160p
       - template: radarr-quality-profile-sqp-1-2160p-default
       # anime
@@ -102,13 +92,11 @@ radarr:
       - template: radarr-custom-formats-anime
 
     quality_profiles:
-      - name: SQP-1 (1080p)
       - name: SQP-1 (2160p)
       - name: Remux-1080p - Anime
 
     custom_formats:
       - trash_ids:
-          - 7a0d1ad358fee9f5b074af3ef3f9d9ef # HALLOWED
           - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
           - cc444569854e9de0b084ab2b8b1532b2 # Black and White Editions
           - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
@@ -116,12 +104,11 @@ radarr:
           - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
           - f537cf427b64c38c8e36298f657e4828 # Scene
         assign_scores_to:
-          - name: SQP-1 (1080p)
           - name: SQP-1 (2160p)
 
       - trash_ids:
           # Comment out the next line if you and all of your users' setups are fully DV compatible
-          #- 923b6abef9b17f937fab56cfcf89e1f1 # DV (WEBDL)
+          - 923b6abef9b17f937fab56cfcf89e1f1 # DV (WEBDL)
 
           # HDR10+ Boost - Uncomment the next two lines if any of your devices DO support HDR10+
           - b17886cb4158d9fea189859409975758 # HDR10Plus Boost
@@ -132,7 +119,6 @@ radarr:
       - trash_ids:
           - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
         assign_scores_to:
-          - name: SQP-1 (1080p)
           - name: SQP-1 (2160p)
             score: 0
 
