@@ -28,7 +28,6 @@ spec:
     # on new repository run:
     # kopia maintenance set --extend-object-locks true
     # kopia repo set-parameters --retention-mode COMPLIANCE --retention-period 5d
-    # kopia policy set --global --log-dir-snapshotted=0 --log-dir-ignored=0 --log-entry-snapshotted=0 --log-entry-ignored=0 --log-entry-cache-hit=0 --log-entry-cache-miss=0
     # equivalent to the following snippet (doesn't work because there's no connection info present):
     # policyConfig:
     #   repositoryConfig: |
@@ -36,20 +35,6 @@ spec:
     #       "blobRetention": {
     #         "retentionMode": "COMPLIANCE",
     #         "retentionPeriod": 432000000000000
-    #       },
-    #       "policies": {
-    #         "logging": {
-    #           "directories": {
-    #             "snapshotted": 0,
-    #             "ignored": 0
-    #           },
-    #           "entries": {
-    #             "snapshotted": 0,
-    #             "ignored": 0,
-    #             "cacheHit": 0,
-    #             "cacheMiss": 0
-    #           }
-    #         }
     #       },
     #       "maintenance": {
     #         "extendObjectLocks": true
