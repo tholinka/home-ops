@@ -32,6 +32,9 @@ spec:
               - bash
               - -c
               - 'exec cp -r /usr/local/lib/python3.10/site-packages/seleniumbase/drivers/* /mnt'
+            envFrom:
+              - secretRef:
+                  name: *app
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -83,8 +86,7 @@ spec:
 
     route:
       app:
-        hostnames:
-          - calibre-downloader.${SECRET_DOMAIN}
+        hostnames: ['{{ .Release.Name }}.${SECRET_DOMAIN}']
         parentRefs:
           - name: internal
             namespace: network
