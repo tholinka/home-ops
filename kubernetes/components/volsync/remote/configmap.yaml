@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: '${APP}-s3-policies'
+data:
+  global-policy.json: |
+    {
+      "logging": {
+        "directories": {
+          "snapshotted": 0,
+          "ignored": 0
+        },
+        "entries": {
+          "snapshotted": 0,
+          "ignored": 0,
+          "cacheHit": 0,
+          "cacheMiss": 0
+        }
+      }
+    }
+  repository.config: |
+    {
+      "extendObjectLocks": true,
+      "retentionMode": "COMPLIANCE",
+      "retentionPeriod": 864000000000000
+    }

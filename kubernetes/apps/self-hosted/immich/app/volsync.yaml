@@ -34,9 +34,9 @@ spec:
     schedule: 0 23 * * *
   kopia:
     accessModes: [ReadWriteOnce]
-    cacheAccessModes: ['${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}']
-    cacheCapacity: '${VOLSYNC_CACHE_CAPACITY:=5Gi}'
-    cacheStorageClassName: '${VOLSYNC_CACHE_SNAPSHOTCLASS:=ceph-block}'
+    cacheAccessModes: [ReadWriteOnce]
+    cacheCapacity: 5Gi
+    cacheStorageClassName: ceph-block
     copyMethod: Direct
     moverSecurityContext:
       runAsUser: 1000
@@ -49,4 +49,29 @@ spec:
       weekly: 1
       monthly: 2
     storageClassName: ceph-block
-    volumeSnapshotClassName: '${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}'
+    volumeSnapshotClassName: csi-ceph-blockpool
+    policyConfig:
+      repositoryConfig: |
+        {
+          "blobRetention": {
+            "retentionMode": "COMPLIANCE",
+            "retentionPeriod": 864000000000000
+          },
+          "policies": {
+            "logging": {
+              "directories": {
+                "snapshotted": 0,
+                "ignored": 0
+              },
+              "entries": {
+                "snapshotted": 0,
+                "ignored": 0,
+                "cacheHit": 0,
+                "cacheMiss": 0
+              }
+            }
+          },
+          "maintenance": {
+            "extendObjectLocks": true
+          }
+        }

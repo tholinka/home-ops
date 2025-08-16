@@ -25,3 +25,5 @@ spec:
       daily: 4
     storageClassName: '${VOLSYNC_STORAGECLASS:=ceph-block}'
     volumeSnapshotClassName: '${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}'
+    policyConfig:
+      configMapName: '${APP}-s3-policies'
