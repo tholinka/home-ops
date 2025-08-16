@@ -50,28 +50,3 @@ spec:
       monthly: 2
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
-    policyConfig:
-      repositoryConfig: |
-        {
-          "blobRetention": {
-            "retentionMode": "COMPLIANCE",
-            "retentionPeriod": 864000000000000
-          },
-          "policies": {
-            "logging": {
-              "directories": {
-                "snapshotted": 0,
-                "ignored": 0
-              },
-              "entries": {
-                "snapshotted": 0,
-                "ignored": 0,
-                "cacheHit": 0,
-                "cacheMiss": 0
-              }
-            }
-          },
-          "maintenance": {
-            "extendObjectLocks": true
-          }
-        }
