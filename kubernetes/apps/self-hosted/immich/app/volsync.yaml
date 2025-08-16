@@ -22,8 +22,6 @@ spec:
   dataFrom:
     - extract:
         key: volsync_s3_template
-    - extract:
-        key: volsync_template
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
@@ -45,7 +43,7 @@ spec:
       runAsGroup: 1000
       fsGroup: 1000
     repository: immich-volsync-secret
-    compression: 'zstd'
+    compression: zstd-best-compression
     retain:
       daily: 2
       weekly: 1

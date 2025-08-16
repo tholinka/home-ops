@@ -3,7 +3,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: '${APP}-r2'
+  name: '${APP}-s3'
 spec:
   sourcePVC: '${APP}'
   trigger:
@@ -20,7 +20,7 @@ spec:
       fsGroup: ${VOLSYNC_PGID:=1000}
       fsGroupChangePolicy: ${VOLSYNC_GROUP_CHANGE_POLICY:=Always}
     repository: '${APP}-volsync-s3-secret'
-    compression: 'zstd-best-compression'
+    compression: zstd-best-compression
     retain:
       daily: 4
     storageClassName: '${VOLSYNC_STORAGECLASS:=ceph-block}'
