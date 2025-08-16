@@ -20,8 +20,8 @@ spec:
       fsGroup: ${VOLSYNC_PGID:=1000}
       fsGroupChangePolicy: ${VOLSYNC_GROUP_CHANGE_POLICY:=Always}
     repository: '${APP}-volsync-s3-secret'
-    compression: 'zstd'
+    compression: 'zstd-best-compression'
     retain:
-      daily: 7
+      daily: 4
     storageClassName: '${VOLSYNC_STORAGECLASS:=ceph-block}'
     volumeSnapshotClassName: '${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}'
