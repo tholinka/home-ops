@@ -163,10 +163,9 @@ Alternative solutions to the first two of these problems would be to host a Kube
 | [Cloudflare](https://www.cloudflare.com/)          | Domain and S3                                                  | ~$50/yr        |
 | [GCP](https://cloud.google.com/)                   | Voice interactions with Home Assistant over Google Assistant   | Free           |
 | [GitHub](https://github.com/)                      | Hosting this repository and continuous integration/deployments | Free           |
-| [Gmail](https://gmail.com/)                        | Email hosting                                                  | Free           |
 | [Pushover](https://pushover.net/)                  | Kubernetes Alerts and application notifications                | $5 OTP         |
-| [Fastmail](https://fastmail.com)                   | E-Mail                                                         | ~$60/yr        |
-|                                                    |                                                                | Total: ~$90/yo |
+| [Fastmail](https://fastmail.com)                   | E-Mail                                                         | ~$56/yr        |
+|                                                    |                                                                | Total: ~$110/yo |
 
 ## 🖥️ Hardware
 
@@ -190,3 +189,4 @@ The awesome [kubesearch.dev](kubesearch.dev), large parts of this are inspired b
 ### Extra Special Thanks
   - [onedr0p](https://github.com/onedr0p) for his awesome [cluster-template](https://github.com/onedr0p/cluster-template), which this was originally based on, and his [home-ops](https://github.com/onedr0p/home-ops), which large portions of this were inspired by.
   - [bjw-s](https://github.com/bjw-s-labs/) for his amazing [app-template](https://github.com/bjw-s/helm-charts).
+  - The home-operations community, [github](https://github.com/home-operations) and [discord](https://discord.gg/home-operations).
