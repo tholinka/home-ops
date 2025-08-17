@@ -14,6 +14,7 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
+			minimumGroupSize: 2,
 		},
 		{
 			description: "Cert-Manager Group",
@@ -80,6 +81,7 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
+			minimumGroupSize: 4
 		},
 		{
 			description: "Intel Device Plugins Group",
