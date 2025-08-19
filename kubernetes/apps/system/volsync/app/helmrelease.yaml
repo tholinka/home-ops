@@ -47,9 +47,7 @@ spec:
     rsync: *image
     rsync-tls: *image
     syncthing: *image
-
     manageCRDs: true
-    replicaCount: 1
     metrics:
       disableAuth: true
     podSecurityContext:
