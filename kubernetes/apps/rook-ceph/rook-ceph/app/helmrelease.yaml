@@ -42,6 +42,13 @@ spec:
       enableLiveness: true
       serviceMonitor:
         enabled: true
+      csiRBDProvisionerResource: |
+        - name : csi-rbdplugin
+          resource:
+            requests:
+              memory: 128Mi # 512Mi is default
+            limits:
+              memory: 1Gi # Default
       csiRBDPluginResource: |
         - name : driver-registrar
           resource:
@@ -64,6 +71,14 @@ spec:
               cpu: 50m # default
             limits:
               memory: 256Mi # default
+      csiCephFSProvisionerResource: |
+        - name : csi-cephfsplugin
+            resource:
+              requests:
+                memory: 128Mi # 512Mi is default
+                cpu: 250m # default
+              limits:
+                memory: 1Gi # default
       csiCephFSPluginResource: |
         - name : driver-registrar
           resource:
