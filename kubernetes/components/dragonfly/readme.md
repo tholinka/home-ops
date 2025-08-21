@@ -13,6 +13,6 @@
   healthCheckExprs:
     - apiVersion: *dragonflyVersion
       kind: *dragonflyKind
-      failed: status.phase != 'ready'
-      current: status.phase == 'ready'
+      failed: status.phase != 'ready' && status.phase != 'Ready'
+      current: status.phase == 'ready' || status.phase == 'Ready'
 ```

@@ -35,8 +35,8 @@ spec:
   healthCheckExprs:
     - apiVersion: *dragonflyVersion
       kind: *dragonflyKind
-      failed: status.phase != 'ready'
-      current: status.phase == 'ready'
+      failed: status.phase != 'ready' && status.phase != 'Ready'
+      current: status.phase == 'ready' || status.phase == 'Ready'
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
