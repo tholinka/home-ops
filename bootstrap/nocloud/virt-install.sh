@@ -53,8 +53,8 @@ sudo virt-install \
 	--controller=scsi,model=virtio-scsi \
 	--disk pool=devel,size=80,format=qcow2,bus=scsi,discard=unmap,cache=writeback,io=threads \
 	-w network=bridged \
-	--graphics none --console pty,target_type=serial \
-	--host-device 06:00.0
+	--graphics none --console pty,target_type=serial #\
+	#--host-device 06:00.0
 
 
 ## UEFI install doesn't respect the IP and VLAN settings :(
