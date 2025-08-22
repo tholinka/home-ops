@@ -32,8 +32,8 @@ spec:
         containers:
           app:
             image:
-              repository: 21hsmw/flaresolverr
-              tag: nodriver@sha256:dca8cda5852b04e6142752fc044c9845eb536353ea6f8b7bb58b4ff9419538fa
+              repository: ghcr.io/thephaseless/byparr
+              tag: 1.2.1@sha256:2f444712578eae74508dc1e100900114b08e4421e708cb13b07f3dce76a7d956
             resources:
               requests:
                 cpu: 15m
