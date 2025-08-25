@@ -128,15 +128,21 @@ spec:
               - secretRef:
                   name: *app
             probes:
-              liveness:
+              liveness: &probe
                 enabled: true
-              readiness:
-                enabled: true
+                spec: &probeSpec
+                  httpGet:
+                    path: /api/v2/app/version
+                    port: *port
+                  timeoutSeconds: 5
+              readiness: *probe
               startup:
-                enabled: true
+                <<: *probe
                 spec:
+                  <<: *probeSpec
                   failureThreshold: 30
                   periodSeconds: 10
+                  timeoutSeconds: 5
             securityContext: *securityContext
             resources:
               requests:
