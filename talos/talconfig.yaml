@@ -63,6 +63,8 @@ nodes:
               MONITOR cluster@nas.servers.internal 1 secondaryuser "${nut_password:=default_password}" secondary
               SHUTDOWNCMD "/sbin/poweroff"
             mountPath: /usr/local/etc/nut/upsmon.conf
+    extraManifests: &extraManifests
+      - ./manifests/watchdogtimerconfig.yaml
     patches:
       - |-
         ---
@@ -99,12 +101,14 @@ nodes:
         addresses:
           - 192.168.20.61/24
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches: &lenovoPatches
       #
       #- '@./patches/intel/machine-encryption.yaml' # block.VolumeManagerController panics with runtime error out of range [0] with length [0] -> TPM to old to work?
       - &intelMachineSysfs '@./patches/intel/machine-sysfs.yaml'
       - '@./patches/ethernet/lenovo.yaml'
       - &largeMachineSysctls '@./patches/large/machine-sysctls.yaml'
+
   - hostname: lenovo-m700-2
     ipAddress: 192.168.20.62
     installDisk: /dev/sda
@@ -116,7 +120,9 @@ nodes:
         addresses:
           - 192.168.20.62/24
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches: *lenovoPatches
+
   - hostname: lenovo-m700-3
     ipAddress: 192.168.20.63
     installDisk: /dev/sda
@@ -128,6 +134,7 @@ nodes:
         addresses:
           - 192.168.20.63/24
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches: *lenovoPatches
 
   - hostname: hp-800-g5-1
@@ -144,6 +151,7 @@ nodes:
         # vip: &vip
         #   ip: 192.168.20.2
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches: &hpPatches
       - '@./patches/intel/machine-encryption.yaml'
       - *intelMachineSysfs
@@ -154,6 +162,7 @@ nodes:
           sysfs:
             devices.system.cpu.cpu4.cpufreq.energy_performance_preference: balance_performance
             devices.system.cpu.cpu5.cpufreq.energy_performance_preference: balance_performance
+
   - hostname: hp-400-g5-1
     ipAddress: 192.168.20.72
     installDiskSelector:
@@ -167,7 +176,9 @@ nodes:
           - 192.168.20.72/24
         # vip: *vip
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches: *hpPatches
+
   - hostname: hp-400-g5-2
     ipAddress: 192.168.20.73
     installDisk: /dev/sda
@@ -180,7 +191,9 @@ nodes:
           - 192.168.20.73/24
         # vip: *vip
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches: *hpPatches
+
   - hostname: hp-400-g4-1
     ipAddress: 192.168.20.74
     installDiskSelector:
@@ -193,6 +206,7 @@ nodes:
         addresses:
           - 192.168.20.74/24
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches: *hpPatches
 
   - hostname: q1
@@ -216,6 +230,7 @@ nodes:
         addresses:
           - 192.168.20.101/24
     extensionServices: *extensionServices
+    extraManifests: *extraManifests
     patches:
       - '@./patches/large/machine-sysctls.yaml'
 
