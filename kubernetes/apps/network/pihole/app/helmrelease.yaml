@@ -21,53 +21,52 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
-      annotations:
-        kubectl.kubernetes.io/default-container: pihole
-      affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app.kubernetes.io/name
-                      operator: In
-                      values:
-                        - dnscrypt-proxy
-                topologyKey: kubernetes.io/hostname
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app.kubernetes.io/name
-                      operator: In
-                      values:
-                        - *app
-                topologyKey: kubernetes.io/hostname
-      priorityClassName: system-cluster-critical
       hostUsers: false
-      dnsPolicy: None
-      dnsConfig:
-        nameservers:
-          - 192.168.20.7
-        options:
-          - name: ndots
-            value: '1'
+
     controllers:
       *app :
-        enabled: true
         type: statefulset
         annotations:
           reloader.stakater.com/auto: 'true'
-        labels: {}
         replicas: 3
         strategy: RollingUpdate
         rollingUpdate:
           unavailable: 1
           surge: 1
-
+        pod:
+          annotations:
+            kubectl.kubernetes.io/default-container: pihole
+          affinity:
+            podAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app.kubernetes.io/name
+                          operator: In
+                          values:
+                            - dnscrypt-proxy
+                    topologyKey: kubernetes.io/hostname
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: app.kubernetes.io/name
+                          operator: In
+                          values:
+                            - *app
+                    topologyKey: kubernetes.io/hostname
+          priorityClassName: system-cluster-critical
+          dnsPolicy: None
+          dnsConfig:
+            nameservers:
+              - 192.168.20.7
+            options:
+              - name: ndots
+                value: '1'
         statefulset:
           volumeClaimTemplates:
             - name: config
@@ -133,11 +132,11 @@ spec:
               limits:
                 # looking at the query log can spike the memory usage very high
                 memory: 512Mi
-          exporter:
+          exporter: &exporter
             image:
               repository: ekofr/pihole-exporter
               tag: v1.2.0
-            env:
+            env: &exporterEnv
               PIHOLE_HOSTNAME:
                 valueFrom:
                   fieldRef:
@@ -171,8 +170,18 @@ spec:
               runAsGroup: 1000
               fsGroup: 1000
               fsGroupChangePolicy: OnRootMismatch
+
+      nas-exporter: # also setup exporter for nas' pihole instance
+        containers:
+          exporter:
+            <<: *exporter
+            env:
+              <<: *exporterEnv
+              PIHOLE_HOSTNAME: nas.servers.internal.
+
     service:
       *app :
+        controller: *app
         type: LoadBalancer
         #clusterIP: 10.96.0.12
         annotations:
@@ -200,6 +209,14 @@ spec:
           prometheus:
             port: *exporter-port
             protocol: HTTP
+
+      nas-exporter:
+        controller: &nasExporter nas-exporter
+        ports:
+          prometheus:
+            port: *exporter-port
+            protocol: HTTP
+
     route:
       app:
         hostnames:
@@ -209,7 +226,7 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - backendRefs: [{}]
+          - backendRefs: [identifier: *app]
             sessionPersistence:
               sessionName: *app
               type: Cookie
@@ -219,14 +236,23 @@ spec:
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/name: Pi-Hole
           gethomepage.dev/icon: pi-hole.svg
+
     serviceMonitor:
-      app:
+      nas-exporter: &serviceMonitor
+        service:
+          identifier: *nasExporter
         endpoints:
           - port: prometheus # exporter-port's name
             scheme: http
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
+      app:
+        <<: *serviceMonitor
+        forceRename: *app
+        service:
+          identifier: *app
+
     persistence:
       #tmpfs:
       #  type: emptyDir

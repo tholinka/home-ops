@@ -45,6 +45,8 @@ spec:
 
               SYNC_CONFIG_DNS: true # sync external dns
               SYNC_GRAVITY_DOMAIN_LIST: true # sync manual allow/deny list (lost on restart because of emptyDir)
+
+              SYNC_CONFIG_DNS_EXCLUDE: upstreams # nas has a different set of upstreams
             envFrom:
               - secretRef:
                   name: *app
