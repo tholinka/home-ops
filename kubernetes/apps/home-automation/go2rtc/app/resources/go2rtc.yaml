@@ -1,8 +1,11 @@
 ---
 api:
   listen: :80
+  origin: '*'
+
 rtsp:
   listen: :554
+
 webrtc:
   listen: :8555
   candidates:
@@ -11,8 +14,10 @@ webrtc:
   ice_servers:
     - urls:
         - stun:stun.cloudflare.com:3478
+
 log:
   output: 'stdout'
+
 streams:
   doorbell:
     - ffmpeg:https://doorbell.iot.internal/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=${NVR_USERNAME}&password=${NVR_PASSWORD}#video=copy#audio=copy#audio=opus # required for 2 way audio

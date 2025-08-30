@@ -87,6 +87,7 @@ spec:
         ports:
           http:
             primary: true
+            appProtocol: kubernetes.io/ws
             port: 8123
           code-server:
             port: &code 12321
