@@ -46,9 +46,9 @@ spec:
               AA_BASE_URL: https://annas-archive.li
               INGEST_DIR: &ingest /cwa-book-ingest
               BOOK_LANGUAGE: en
-            envFrom:
-              - secretRef:
-                  name: *app
+            # envFrom:
+            #   - secretRef:
+            #       name: *app
             command: [python, -m, app] # don't run annoying init script
             probes:
               liveness: &probe
@@ -65,8 +65,9 @@ spec:
               requests:
                 cpu: 5m
                 memory: 128Mi
-              limits:
-                memory: 512Mi
+              limits: # some of the cloudflare attempts can really spike usage
+                cpu: 1
+                memory: 1Gi
     defaultPodOptions:
       automountServiceAccountToken: false
       enableServiceLinks: false
