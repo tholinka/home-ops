@@ -232,11 +232,17 @@ spec:
         type: configMap
         name: *app
         advancedMounts:
-          *app : # in qbit config, set "on torrent add" to "/config/qbrr --hash "%I" && qbt tag delete "cross-seed""
+          *app :
             app:
               - path: /config/.qbt.toml
                 subPath: .qbt.toml
                 readOnly: true
+
+      qbrr:
+        # in qbit config, set "on torrent add" to "/qbrr/qbrr --hash "%I" && qbt tag delete "cross-seed""
+        # "on torrent finished" set to "curl -v http://webhook.media.svc.cluster.local/hooks/qbit-pushover --header 'Content-Type: application/json' --data-raw '{"name": "%N", "cat": "%L", "size": "%Z", "indexer": "%T"}'"
+        type: image
+        image: ghcr.io/buroa/qbrr:0.0.28@sha256:4c86e047a3da5b18a1b5af840d38c11a820d2e07a4155f63865ea3225a222553
 
       tmpfs:
         type: emptyDir
