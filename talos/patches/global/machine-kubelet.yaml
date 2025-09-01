@@ -13,4 +13,6 @@ machine:
       validSubnets:
         - 192.168.20.0/24
     extraConfig:
+      featureGates:
+        ImageVolume: true
       serializeImagePulls: false
