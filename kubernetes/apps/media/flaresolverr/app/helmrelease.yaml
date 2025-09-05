@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: ghcr.io/thephaseless/byparr
-              tag: 1.2.1@sha256:2f444712578eae74508dc1e100900114b08e4421e708cb13b07f3dce76a7d956
+              tag: 2.0.0@sha256:453ddd73debc110f42290d6d3b2bbe9b53c3ca7fed03beedd34538efdab46ea0
             resources:
               requests:
                 cpu: 15m
