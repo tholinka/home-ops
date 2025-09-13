@@ -37,6 +37,8 @@ spec:
     remediation:
       retries: 3
   values:
+    global:
+      imageRegistry: mirror.gcr.io
     hpa:
       enabled: true
       minReplicas: 1

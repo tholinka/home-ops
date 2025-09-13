@@ -62,6 +62,8 @@ operator:
       enabled: true
   dashboards:
     enabled: true
+pmtuDiscovery:
+  enabled: true
 prometheus:
   enabled: true
   serviceMonitor:

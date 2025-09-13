@@ -3,6 +3,7 @@
 	extends: [
 		'github>tholinka/renovate-config',
 		'github>tholinka/home-ops//.renovate/autoMerge.json5',
+		'github>tholinka/home-ops//.renovate/changelogs.json5',
 		'github>tholinka/home-ops//.renovate/grafanaDashboards.json5',
 		'github>tholinka/home-ops//.renovate/groups.json5',
 	],

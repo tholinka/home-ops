@@ -8,7 +8,9 @@ spec:
   #ipFamily: DualStack
   telemetry:
     metrics:
-      prometheus: {}
+      prometheus:
+        compression:
+          type: Gzip
   shutdown:
     drainTimeout: 300s
   logging:
@@ -19,6 +21,7 @@ spec:
     kubernetes:
       envoyDeployment:
         container:
+          image: mirror.gcr.io/envoyproxy/envoy:v1.35.2
           resources:
             requests:
               cpu: 150m
