@@ -49,8 +49,12 @@ tasks:
         sh: yq 'explode(.) | .nodes[] | select(.ipAddress == "{{.IP}}") | .hostname' {{.TALHELPER_DIR}}/talconfig.yaml
       TALOS_IMAGE:
         sh: yq '.machine.install.image | select(. != null)' {{.TALHELPER_DIR}}/clusterconfig/kubernetes-{{.NODE_NAME}}.yaml
-    status:
-      - echo $TALOS_IMAGE | grep "$(kubectl get nodes {{.NODE_NODE}} -ojsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}')"
+      CURRENT_IMAGE:
+        sh: kubectl get nodes {{.NODE_NAME}} -ojsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}'
+      CURRENT_VERSION:
+        sh: kubectl get nodes {{.NODE_NAME}} -ojsonpath='{.metadata.labels.feature\.node\.kubernetes\.io/system-os_release\.VERSION_ID}'
+    status: # use --force to override this
+      - echo {{.TALOS_IMAGE}} | grep "{{.CURRENT_IMAGE}}:{{.CURRENT_VERSION}}"
     requires:
       vars: [IP]
     preconditions:
