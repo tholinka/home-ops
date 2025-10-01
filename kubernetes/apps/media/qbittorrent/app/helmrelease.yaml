@@ -59,9 +59,9 @@ spec:
                       - >-
                         [ $(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/openvpn/portforwarded) != '{"port":0}' ]
                   initialDelaySeconds: 10
-                  periodSeconds: 10
+                  periodSeconds: 60
                   successThreshold: 1
-                  timeoutSeconds: 5
+                  timeoutSeconds: 30
                   failureThreshold: 30
               startup:
                 enabled: true
