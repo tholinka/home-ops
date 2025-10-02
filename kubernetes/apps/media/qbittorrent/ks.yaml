@@ -22,7 +22,6 @@ spec:
     - name: generic-device-plugin
       namespace: system
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/media/qbittorrent/app
   postBuild:
     substitute:
@@ -35,4 +34,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m

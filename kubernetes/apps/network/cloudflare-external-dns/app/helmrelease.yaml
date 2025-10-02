@@ -28,17 +28,10 @@ spec:
   chartRef:
     kind: OCIRepository
     name: *app
-  driftDetection:
-    mode: enabled
   install:
     disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
-    remediation:
-      retries: -1
   upgrade:
-    cleanupOnFail: true
     disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
-    remediation:
-      retries: 3
   values:
     fullnameOverride: *app
     provider:

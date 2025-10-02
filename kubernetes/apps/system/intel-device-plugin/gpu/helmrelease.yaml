@@ -28,15 +28,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: intel-device-plugins-gpu
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   dependsOn:
     - name: intel-device-plugin-operator
       namespace: system

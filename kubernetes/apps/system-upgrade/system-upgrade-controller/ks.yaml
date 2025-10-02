@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/app
   prune: true
   sourceRef:
@@ -18,7 +17,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -34,7 +32,6 @@ spec:
     - name: system-upgrade-controller
       namespace: system-upgrade
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/plans
   postBuild:
     substitute:
@@ -48,4 +45,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m

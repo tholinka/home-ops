@@ -15,8 +15,6 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
   path: './kubernetes/apps/home-automation/esphome/app'
   prune: true
   sourceRef:

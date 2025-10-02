@@ -13,13 +13,6 @@ spec:
     mode: enabled
     ignore:
       - paths: [/spec/replicas]
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     controllers:
       sabnzbd:

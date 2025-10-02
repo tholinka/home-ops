@@ -6,21 +6,9 @@ metadata:
   name: flaresolverr
 spec:
   interval: 1h
-  install:
-    timeout: 5m
-    remediation:
-      retries: 5
-  upgrade:
-    timeout: 5m
-    remediation:
-      retries: 5
-      remediateLastFailure: true
-    cleanupOnFail: true
   chartRef:
     kind: OCIRepository
     name: app-template
-  driftDetection:
-    mode: enabled
   values:
     controllers:
       flaresolverr:

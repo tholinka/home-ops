@@ -29,15 +29,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: volsync
-  driftDetection:
-    mode: enabled
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   dependsOn:
     - name: snapshot-controller
       namespace: system-controllers

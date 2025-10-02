@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/database/ferretdb/db
   prune: true
   sourceRef:
@@ -18,7 +17,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   dependsOn:
     - name: cnpg-crds
       namespace: database
@@ -106,7 +104,6 @@ spec:
   components:
     - ../../../../components/gatus/guarded
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/database/ferretdb/app
   prune: true
   dependsOn:
@@ -117,7 +114,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   postBuild:
     substitute:
       APP: *app

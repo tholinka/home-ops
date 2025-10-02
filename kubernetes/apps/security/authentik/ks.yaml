@@ -9,7 +9,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/security/authentik/cluster
   prune: true
   sourceRef:
@@ -17,7 +16,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   dependsOn:
     - name: dragonfly
       namespace: database
@@ -49,7 +47,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/security/authentik/app
   prune: true
   sourceRef:
@@ -57,7 +54,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   dependsOn:
     - name: postgres-cluster
       namespace: database
@@ -84,7 +80,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/security/authentik/references
   prune: true
   sourceRef:
@@ -92,7 +87,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   postBuild:
     substitute:
       AUTH_SVC: ak-outpost-authentik-embedded-outpost

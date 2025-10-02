@@ -28,8 +28,6 @@ spec:
     kind: GitRepository
     name: *name
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
   healthChecks:
     - &crds
       apiVersion: apiextensions.k8s.io/v1
@@ -51,8 +49,6 @@ spec:
     namespace: flux-system
   path: ./kubernetes/apps/database/cnpg/crds
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
   healthChecks:
     - &crds
       apiVersion: apiextensions.k8s.io/v1
@@ -73,7 +69,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/database/cnpg/app
   prune: true
   sourceRef:
@@ -81,7 +76,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -94,7 +88,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/database/cnpg/barman-cloud
   prune: true
   sourceRef:
@@ -102,7 +95,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   dependsOn:
     - name: cnpg-crds
       namespace: *namespace
@@ -118,7 +110,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/database/cnpg/cluster
   prune: true
   sourceRef:
@@ -126,7 +117,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   dependsOn:
     - name: cnpg-crds
       namespace: database
@@ -178,7 +168,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/database/cnpg/pgadmin
   prune: true
   sourceRef:
@@ -186,7 +175,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   postBuild:
     substitute:
       APP: *app

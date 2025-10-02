@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/observability/blackbox-exporter/app
   components:
     - ../../../../components/gatus/guarded
@@ -25,4 +24,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 15m

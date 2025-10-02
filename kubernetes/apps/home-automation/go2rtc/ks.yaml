@@ -13,7 +13,6 @@ spec:
     - ../../../../components/gatus/guarded
     - ../../../../components/gatus/internal
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/home-automation/go2rtc/app
   postBuild:
     substitute:
@@ -24,4 +23,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m

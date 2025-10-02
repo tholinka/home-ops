@@ -15,7 +15,6 @@ spec:
     - name: storage-ready
       namespace: flux-system
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/self-hosted/octoeverywhere-connect-cc/app
   postBuild:
     substitute:
@@ -26,4 +25,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
