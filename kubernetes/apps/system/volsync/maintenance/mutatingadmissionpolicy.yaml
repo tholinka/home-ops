@@ -37,6 +37,10 @@ spec:
   mutations:
     - patchType: JSONPatch
       jsonPatch:
+        # patches in order:
+        # - don't run on rpi, as its very slow :)
+        # - runAsUser: 0, as this is what the mover pods run as, so it's required to not have perm errors
+        # - mount nfs as /repository
         expression: >-
           [
             JSONPatch{
@@ -46,6 +50,10 @@ spec:
             JSONPatch{
               op: "add", path: "/spec/template/spec/nodeSelector/kubernetes.io~1arch",
               value: "amd64"
+            },
+            JSONPatch{
+              op: "replace", path: "/spec/containers/0/securityContext/runAsUser",
+              value: 0
             },
             JSONPatch{
               op: "add", path: "/spec/template/spec/volumes/-",
