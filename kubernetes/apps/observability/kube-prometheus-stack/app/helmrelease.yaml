@@ -93,6 +93,7 @@ spec:
             gethomepage.dev/widget.type: prometheus
             gethomepage.dev/widget.url: 'http://kube-prometheus-stack-prometheus.observability.svc.cluster.local.:9090'
       prometheusSpec:
+        externalUrl: https://prometheus.${SECRET_DOMAIN}
         image:
           registry: docker.io
           repository: prompp/prompp
