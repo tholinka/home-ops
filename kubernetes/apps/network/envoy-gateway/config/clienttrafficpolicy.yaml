@@ -5,21 +5,24 @@ kind: ClientTrafficPolicy
 metadata:
   name: client
 spec:
-  targetRefs:
-    - &target
-      group: gateway.networking.k8s.io
-      kind: Gateway
-      name: internal-root
-    - <<: *target
-      name: internal
-    - <<: *target
-      name: external
   clientIPDetection:
     xForwardedFor:
       numTrustedHops: 1
+  connection:
+    bufferLimit: 64Mi
+    maxAcceptPerSocketEvent: 0
+  http2:
+    onInvalidMessage: TerminateStream
+  http3: {}
+  targetSelectors:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+  tcpKeepalive: {}
+  timeout:
+    http:
+      requestReceivedTimeout: 0s
   tls:
     minVersion: '1.2'
     alpnProtocols:
       - h2
       - http/1.1
-  #http3: {}
