@@ -9,8 +9,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: keda
       namespace: observability
@@ -42,6 +40,9 @@ spec:
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/gatus/guarded
     - ../../../../components/ext-auth
+  dependsOn:
+    - name: keda
+      namespace: observability
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
