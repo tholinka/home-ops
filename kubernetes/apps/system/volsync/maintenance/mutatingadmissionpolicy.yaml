@@ -40,6 +40,14 @@ spec:
         expression: >-
           [
             JSONPatch{
+              op: "add", path: "/spec/template/spec/nodeSelector",
+              value: Object.spec.template.spec.nodeSelector{}
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/nodeSelector/kubernetes.io~1arch",
+              value: "amd64"
+            },
+            JSONPatch{
               op: "add", path: "/spec/template/spec/volumes/-",
               value: Object.spec.template.spec.volumes{
                 name: "repository",
