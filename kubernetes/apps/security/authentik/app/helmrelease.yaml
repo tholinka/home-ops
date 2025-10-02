@@ -24,16 +24,18 @@ spec:
     kind: OCIRepository
     name: *app
   driftDetection:
-    mode: enabled
     ignore:
       - paths: [/spec/replicas]
   install:
-    remediation:
-      retries: -1
+    strategy:
+      name: RetryOnFailure
   upgrade:
     cleanupOnFail: true
+    strategy:
+      name: RemediateOnFailure
     remediation:
-      retries: 3
+      remediateLastFailure: true
+      retries: 2
   values:
     # if I ever lose the db, my setup is based heavily on https://github.com/joryirving/home-ops/tree/77478606352bfb43e6c1c5fcf0b5fa134d007095/terraform/authentik
     global:

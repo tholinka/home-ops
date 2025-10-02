@@ -28,17 +28,18 @@ spec:
   chartRef:
     kind: OCIRepository
     name: openebs
-  driftDetection:
-    mode: enabled
   install:
     disableHooks: true # fails with oci
-    remediation:
-      retries: -1
+    strategy:
+      name: RetryOnFailure
   upgrade:
     disableHooks: true # fails with oci
     cleanupOnFail: true
+    strategy:
+      name: RemediateOnFailure
     remediation:
-      retries: 3
+      remediateLastFailure: true
+      retries: 2
   values:
     engines:
       local:

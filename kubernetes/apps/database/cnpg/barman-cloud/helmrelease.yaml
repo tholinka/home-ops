@@ -12,8 +12,8 @@ spec:
   driftDetection:
     mode: enabled
   install:
-    remediation:
-      retries: -1
+    strategy:
+      name: RetryOnFailure
   upgrade:
     remediation:
       strategy: uninstall

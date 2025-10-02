@@ -9,11 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
-  driftDetection:
-    mode: enabled
-  maxHistory: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       *app :

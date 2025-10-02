@@ -27,13 +27,16 @@ spec:
     mode: enabled
   install:
     crds: CreateReplace
-    remediation:
-      retries: -1
+    strategy:
+      name: RetryOnFailure
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
+    strategy:
+      name: RemediateOnFailure
     remediation:
-      retries: 3
+      remediateLastFailure: true
+      retries: 2
   values:
     controller:
       replicaCount: 2

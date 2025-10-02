@@ -10,16 +10,18 @@ spec:
     kind: OCIRepository
     name: app-template
   driftDetection:
-    mode: enabled
     ignore:
       - paths: [/spec/replicas]
   install:
-    remediation:
-      retries: -1
+    strategy:
+      name: RetryOnFailure
   upgrade:
     cleanupOnFail: true
+    strategy:
+      name: RemediateOnFailure
     remediation:
-      retries: 3
+      remediateLastFailure: true
+      retries: 2
   values:
     controllers:
       sonarr:

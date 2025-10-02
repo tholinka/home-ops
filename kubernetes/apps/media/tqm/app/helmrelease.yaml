@@ -9,8 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
-  driftDetection:
-    mode: enabled
   dependsOn:
     - name: qbittorrent
       namespace: media

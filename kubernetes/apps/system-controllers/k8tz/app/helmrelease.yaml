@@ -28,8 +28,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: k8tz
-  driftDetection:
-    mode: enabled
   values:
     namespace: system-controllers
 

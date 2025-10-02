@@ -24,18 +24,20 @@ spec:
     kind: OCIRepository
     name: *app
   driftDetection:
-    mode: enabled
     ignore:
       - paths: [/spec/replicas]
   install:
     crds: CreateReplace
-    remediation:
-      retries: -1
+    strategy:
+      name: RetryOnFailure
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
+    strategy:
+      name: RemediateOnFailure
     remediation:
-      retries: 3
+      remediateLastFailure: true
+      retries: 2
   values:
     global:
       imageRegistry: mirror.gcr.io

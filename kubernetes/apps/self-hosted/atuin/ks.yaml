@@ -19,7 +19,6 @@ spec:
     - name: postgres-cluster
       namespace: database
   interval: 1h
-  retryInterval: 2m
   path: ./kubernetes/apps/self-hosted/atuin/app
   prune: true
   sourceRef:
@@ -27,4 +26,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m

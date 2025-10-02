@@ -13,8 +13,6 @@ spec:
   # components:
   #   - ../../../../components/gatus/guarded
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
   path: './kubernetes/apps/media/webhook/app'
   postBuild:
     substitute:
