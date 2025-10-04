@@ -13,7 +13,6 @@ resources:
   - ./pihole/ks.yaml
   - ./pihole-external-dns/ks.yaml
   - ./pihole-nebula-sync/ks.yaml
-  - ./unifi/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template
