@@ -5,81 +5,10 @@
 > [!IMPORTANT]
 > In the Unifi Network App, under Settings -> Internet -> WAN1 and WAN2. Set IPv4 dns to `192.168.20.6` and IPv6 to `fdaa:aaaa:aaaa:aa20::6`.
 
-### UniFi IPv6 ULA setup
-
-> [!NOTE]
-> Consolidated from here: https://github.com/unifi-utilities/unifios-utilities/issues/104#issuecomment-2259534906
-
-first, ssh into Unifi gateway: `root@192.168.1.1`
-
-> [!NOTE]
-> Configure your ssh cert/password in the UniFi Network App
-
-```bash
-curl -fsL "https://raw.githubusercontent.com/unifi-utilities/unifios-utilities/HEAD/on-boot-script-2.x/remote_install.sh" | /bin/bash
-chmod -x /data/onboot.d0/5-install-cni-plugins.sh /data/onboot.d0/6-cni-bridge.sh
-
-mkdir /data/ipv6-ula
-
-tee /data/ipv6-ula/ensure-ula.sh << '_EOF'
-#!/bin/bash
-
-ULA_PREFIX="fdaa:aaaa:aaaa"
-
-add_ula () {
-  if [ -z "`ip address show dev $1 to $ULA_PREFIX:$2::/64`" ]
-  then
-    ip address add $ULA_PREFIX:$2::1/64 dev $1
-  fi
-}
-
-add_ula br0 aa00
-add_ula br20 aa20
-add_ula br30 aa30
-
-ADDEDDNSMASQ=0
-
-# only add entry to dnsmasq config if it does not exist
-add_dnsmasq () {
-  conf=$(find /run/dnsmasq.conf.d/ -type f -name "*$1*IPV6.conf")
-  if [ -z "`grep ra-names $conf`" ]
-  then
-    sed -i 's/ra-only/ra-names/g' $conf
-    echo "Changed to ra-names"
-    ADDEDDNSMASQ=1
-  fi
-}
-
-#add_dnsmasq br0
-#add_dnsmasq br20
-#add_dnsmasq br30
-
-# Use single brackets for compatibility
-if [ "$ADDEDDNSMASQ" = "1" ]; then
-  pkill dnsmasq
-fi
-_EOF
-
-chmod a+x /data/ipv6-ula/ensure-ula.sh
-
-tee /data/on_boot.d/17-ula.sh << '_EOF'
-#!/bin/sh
-
-echo "* * * * * root /bin/bash -c 'sh /data/ipv6-ula/ensure-ula.sh'" > /etc/cron.d/ula
-_EOF
-
-chmod a+x /data/on_boot.d/17-ula.sh
-```
-
 ### UniFi BGP Setup
-
-The Gateway Max doesn't support BGP... but we can work around that by using a FRR onboot script.
-
-Guide followed from here, after already setting up the onboot utilities from the ULA setup: https://www.map59.com/ubiquiti-udm-running-bgp/.
 
 Verify it's working with `vtysh -c 'show ip bgp'`.
 
-`/etc/frr/bgpd.conf`
 ```conf
 ! -*- bgp -*-
 !
@@ -89,7 +18,7 @@ frr defaults traditional
 log file stdout
 !
 router bgp 64513
-  bgp router-id 192.168.1.1
+  bgp router-id 192.168.5.1
   no bgp ebgp-requires-policy
 
   neighbor k8s peer-group
@@ -117,19 +46,6 @@ route-map ALLOW-ALL permit 10
 !
 line vty
 !
-```
-
-### Healthchecks.io ping
-
-```sh
-UUID=test
-cat > /data/on_boot.d/20-healthchecksio.sh << EOF
-#!/bin/sh
-
-echo '* * * * * root curl -X POST https://hc-ping.com/${UUID}' > /etc/cron.d/healthchecksio
-EOF
-chmod a+x /data/on_boot.d/20-healthchecksio.sh
-/data/on_boot.d/20-healthchecksio.sh
 ```
 
 ## 💥 Cluster Blew Up?

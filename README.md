@@ -107,19 +107,21 @@ graph TD
 ```mermaid
 graph TD
   A>AT&T Fiber]
-  A --> |😭|A1([Only gives a /64 per request, so no IPv6 on VLANs on UniFi])
+  A --> |ONT is WAS-110 with 8311 Community Firmware| A1([This allows IPv6 on all VLANs])
   A --> |1Gb/1Gb on a 2.5GbE link| R
   B>T-Mobile Home Internet - Wireless] --> |Failover, 300ish down| R
   B --> |😭|B1([No IPv6 at all on UniFi])
-  R>UniFi Gateway Max <br> 2 WAN ports, 3 LAN ports <br> @ 2.5 GbE]
-  R --> |2.5GbE| S1
-  R --> |2.5GbE<br>VLAN servers| S2
-  S1>UniFi Switch Flex <br> 8x 2.5G PoE ports, 1x 10 GbE uplink]
-  S2>USW Pro HD 24 <br> 22x 2.5GbE ports, 2x 10GbE port, 4 10G SFP+ ports]
+  R>UniFi Cloud Gateway Fiber]
+  R --> |2.5GbE or 1GbE| DESK([Desktop, NVR, etc])
+  S2 --> |2.5GbE| S1
+  R --> |10GbE| S2
+  S1>UniFi Switch Flex]
+  S2>USW Pro HD 24]
   S1 --> |2.5GbE| W
   W>UniFi U7 Pro]
   W --> |WiFi|W1([ssid])
   W --> |IoT WiFi<br>VLAN iot|W2([ssid iot])
+    W --> |Guest WiFi<br>VLAN guest|W3([ssid guest])
   S1 --> D([Devices])
   S2 -->|2.5GbE| K([7 Kubernetes nodes])
   S2 -->|1GbE| P([Raspberry Pi 4b with Z-Wave GPIO Hat])
@@ -129,22 +131,25 @@ graph TD
 
 ### 🏘️ VLANs
 
-| Name    | ID | CIDR            |
-|---------|----|-----------------|
-| Default | 0  | 192.168.1.0/24  |
-| servers | 20 | 192.168.20.0/24 |
-| iot     | 30 | 192.168.30.0/24 |
-| guest   | 40 | 192.168.40.0/24 |
+| Name             | ID | CIDR            |
+|------------------|----|-----------------|
+| WAS-110          | -  | 192.168.11.0/24 |
+| T-Mobile Gateway | -  | 192.168.12.0/24 |
+| Default          | 0  | 192.168.5.0/24  |
+| servers          | 20 | 192.168.20.0/24 |
+| iot              | 30 | 192.168.30.0/24 |
+| guest            | 40 | 192.168.40.0/24 |
 
 ### 🌎 DNS
 
-In my cluster there are three instances of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. One syncs the public DNS to `Cloudflare`. The second syncs to `Pi-Hole`, which is the primary internal dns. The third syncs to my `UniFi Gatway Max` using [ExternalDNS webhook provider for UniFi](https://github.com/kashalls/external-dns-unifi-webhook), as a fallback in case the cluster is down. This setup is managed by creating two gateways, `internal` and `external`. `internal` is only exposed internally, whereas `external` is exposed both internally and through `Cloudflare.`
+In my cluster there are three instances of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. One syncs the public DNS to `Cloudflare`. The second syncs to `Pi-Hole`, which is the primary internal dns. This setup is managed by creating two gateways, `internal` and `external`. `internal` is only exposed internally, whereas `external` is exposed both internally and through `Cloudflare.` There is an extra instance of PiHole running on my NAS in docker to handle cluster bootstrapping.
 
 ### 🏠 Home DNS
 
 ```mermaid
 graph TD
-  A>internal-external-dns] -->|Updates|D
+  A>internal-external-dns] -->|Updates Primary Instance|D
+  N>nebula-sync] --> |Updates Secondary Instances based on Primary|D
   C>Answers Request]
   D[PiHole] -->|Blocked, Cluster, or custom hosts|C
   D -->|Forwards other requests|E[DNSCrypt-Proxy]
