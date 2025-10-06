@@ -42,9 +42,6 @@ spec:
     remediation:
       remediateLastFailure: true
       retries: 2
-  dependsOn:
-    - name: node-feature-discovery
-      namespace: system
   values:
     manager:
       devices:

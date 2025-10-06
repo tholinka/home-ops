@@ -59,7 +59,6 @@ spec:
 
     defaultPodOptions:
       nodeSelector:
-        intel.feature.node.kubernetes.io/gpu: 'true'
         kubernetes.io/arch: amd64
 
     service:
