@@ -53,7 +53,7 @@ sonarr:
           - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
         assign_scores_to:
           - name: Remux-1080p - Anime
-            score: 0 # Adjust scoring as desired
+            score: 1000 # Adjust scoring as desired
       - trash_ids:
           - b2550eb333d27b75833e25b8c2557b38 # 10bit
         assign_scores_to:
@@ -63,7 +63,7 @@ sonarr:
           - 418f50b10f1907201b6cfdf881f467b7 # Anime Dual Audio
         assign_scores_to:
           - name: Remux-1080p - Anime
-            score: 0 # Adjust scoring as desired
+            score: 600 # Adjust scoring as desired
     media_naming:
       series: plex-tvdb
       season: default
@@ -127,7 +127,7 @@ radarr:
           - 064af5f084a0a24458cc8ecd3220f93f # Uncensored
         assign_scores_to:
           - name: Remux-1080p - Anime
-            score: 0 # Adjust scoring as desired
+            score: 1000 # Adjust scoring as desired
       - trash_ids:
           - a5d148168c4506b55cf53984107c396e # 10bit
         assign_scores_to:
@@ -137,7 +137,7 @@ radarr:
           - 4a3b087eea2ce012fcc1ce319259a3be # Anime Dual Audio
         assign_scores_to:
           - name: Remux-1080p - Anime
-            score: 0 # Adjust scoring as desired
+            score: 600 # Adjust scoring as desired
 
     media_naming:
       folder: plex-tmdb
