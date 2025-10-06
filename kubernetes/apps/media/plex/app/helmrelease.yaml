@@ -76,6 +76,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: 'true'
+        cpu: i5-9500T
     service:
       app:
         type: LoadBalancer

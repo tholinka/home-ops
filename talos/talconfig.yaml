@@ -102,6 +102,8 @@ nodes:
           - 192.168.20.61/24
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels: &lenovoLabels
+      cpu: i5-6400T
     patches: &lenovoPatches
       #
       #- '@./patches/intel/machine-encryption.yaml' # block.VolumeManagerController panics with runtime error out of range [0] with length [0] -> TPM to old to work?
@@ -121,6 +123,7 @@ nodes:
           - 192.168.20.62/24
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels: *lenovoLabels
     patches: *lenovoPatches
 
   - hostname: lenovo-m700-3
@@ -135,6 +138,7 @@ nodes:
           - 192.168.20.63/24
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels: *lenovoLabels
     patches: *lenovoPatches
 
   - hostname: hp-800-g5-1
@@ -152,6 +156,8 @@ nodes:
         #   ip: 192.168.20.2
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels: &hpLabels
+      cpu: i5-9500T
     patches: &hpPatches
       - '@./patches/intel/machine-encryption.yaml'
       - *intelMachineSysfs
@@ -177,6 +183,7 @@ nodes:
         # vip: *vip
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels: *hpLabels
     patches: *hpPatches
 
   - hostname: hp-400-g5-2
@@ -192,6 +199,7 @@ nodes:
         # vip: *vip
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels: *hpLabels
     patches: *hpPatches
 
   - hostname: hp-400-g4-1
@@ -207,6 +215,8 @@ nodes:
           - 192.168.20.74/24
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels:
+      cpu: i5-8500T
     patches: *hpPatches
 
   - hostname: q1
@@ -231,6 +241,8 @@ nodes:
           - 192.168.20.101/24
     extensionServices: *extensionServices
     extraManifests: *extraManifests
+    nodeLabels:
+      cpu: qemu
     patches:
       - '@./patches/large/machine-sysctls.yaml'
 
