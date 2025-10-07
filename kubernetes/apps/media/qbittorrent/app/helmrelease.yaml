@@ -105,7 +105,7 @@ spec:
             restartPolicy: Always
             image:
               repository: serjs/go-socks5-proxy
-              tag: latest@sha256:99e8232915b7791a17a2067350f4380527fc082a4d792a0181ecb2e027ac088e
+              tag: latest@sha256:0860123875caf65a6e367c08b5829f08aa1c99bdcbf2a7a27b7aeb5580522239
             env:
               PROXY_PORT: &proxy-port 8388
               REQUIRE_AUTH: 'false'
