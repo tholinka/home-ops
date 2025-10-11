@@ -9,8 +9,11 @@ spec:
     - type: Brotli
     - type: Gzip
   connection:
-    bufferLimit: 64Mi
+    bufferLimit: 8Mi
   targetSelectors:
     - group: gateway.networking.k8s.io
       kind: Gateway
   tcpKeepalive: {}
+  timeout:
+    http:
+      requestTimeout: 0s
