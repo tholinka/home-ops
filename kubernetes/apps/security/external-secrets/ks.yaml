@@ -6,9 +6,6 @@ metadata:
   name: &app external-secrets
   namespace: &namespace security
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/security/external-secrets/app
   prune: true
@@ -25,9 +22,6 @@ metadata:
   name: &app external-secrets-store
   namespace: &namespace security
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/security/external-secrets/store
   prune: true

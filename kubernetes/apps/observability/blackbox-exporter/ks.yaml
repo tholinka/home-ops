@@ -6,18 +6,13 @@ metadata:
   name: &app blackbox-exporter
   namespace: &namespace observability
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/observability/blackbox-exporter/app
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/ext-auth
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: blackbox-exporter
   prune: true
   sourceRef:
     kind: GitRepository

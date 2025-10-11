@@ -7,9 +7,6 @@ metadata:
   namespace: &namespace system
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   path: ./kubernetes/apps/system/reloader/app
   prune: true
   sourceRef:

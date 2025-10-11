@@ -6,9 +6,6 @@ metadata:
   name: &app unpoller
   namespace: &namespace observability
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
     - ../../../../components/keda/prometheus-scaler
   dependsOn:

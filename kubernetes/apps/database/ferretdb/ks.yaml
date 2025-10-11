@@ -6,9 +6,6 @@ metadata:
   name: &app postgres-ferretdb
   namespace: &namespace database
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/database/ferretdb/db
   prune: true
@@ -98,11 +95,6 @@ metadata:
   name: &app ferretdb
   namespace: &namespace database
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gatus/guarded
   interval: 1h
   path: ./kubernetes/apps/database/ferretdb/app
   prune: true
@@ -114,6 +106,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  postBuild:
-    substitute:
-      APP: *app

@@ -7,9 +7,6 @@ metadata:
   namespace: &namespace kube-system
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   path: ./kubernetes/apps/kube-system/metrics-server/app
   prune: true
   sourceRef:

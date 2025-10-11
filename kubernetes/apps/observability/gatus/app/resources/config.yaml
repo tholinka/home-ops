@@ -4,7 +4,7 @@ web:
 
 storage:
   type: sqlite
-  path: /config/sqlite.db
+  path: ${GATUS_CONFIG_PATH}/sqlite.db
   caching: true
 
 metrics: true
@@ -30,12 +30,12 @@ connectivity:
     interval: 1m
 
 endpoints:
-  - name: flux-webhook
-    group: external
-    url: https://flux-webhook.${SECRET_DOMAIN}
+  - name: mqtt
+    group: infrastructure
+    url: tcp://vernemq-app.database.svc.cluster.local:1883
     interval: 1m
-    client:
-      # dnscrypt-proxy
-      dns-resolver: tcp://192.168.20.7:53
+    ui:
+      hide-url: true
+      hide-hostname: true
     conditions:
-      - '[STATUS] == 404'
+      - '[CONNECTED] == true'

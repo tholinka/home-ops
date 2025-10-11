@@ -7,9 +7,6 @@ metadata:
   namespace: &namespace network
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
     - name: cloudflare-external-dns
   path: ./kubernetes/apps/network/cloudflare-tunnel/app

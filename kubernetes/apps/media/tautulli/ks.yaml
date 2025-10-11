@@ -6,11 +6,7 @@ metadata:
   name: &app tautulli
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   dependsOn:
@@ -22,7 +18,6 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 5Gi
-      GATUS_PATH: /status
   prune: true
   sourceRef:
     kind: GitRepository

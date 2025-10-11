@@ -21,7 +21,6 @@ spec:
     - name: storage-ready
       namespace: flux-system
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   postBuild:

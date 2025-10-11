@@ -7,9 +7,6 @@ metadata:
   namespace: &namespace flux-system
 spec:
   targetNamespace: flux-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
     - name: flux-operator
       namespace: *namespace

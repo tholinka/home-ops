@@ -23,27 +23,24 @@ spec:
       retries: 2
   values:
     controllers:
-      gatus:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         initContainers:
-          init-config:
+          sidecar:
             image:
-              repository: ghcr.io/home-operations/k8s-sidecar
-              tag: 1.30.10@sha256:dd3b1f0c4e6b4512b2deb50c58acf65fd0f0927120a59a95eec854d32a6c9ce3
-            env:
-              FOLDER: /config
-              LABEL: gatus.io/enabled
-              NAMESPACE: ALL
-              RESOURCE: both
-              UNIQUE_FILENAMES: true
-              METHOD: WATCH
-            restartPolicy: Always
+              repository: ghcr.io/home-operations/gatus-sidecar
+              tag: 0.0.9@sha256:31a52dd0e579c1f865b2580a4bb715d2a893deb1351fedeaba73598e9a578cbe
+            args:
+              - --auto-httproute
+              - --enable-httproute
+              - --enable-service
             resources:
               requests:
                 cpu: 10m
               limits:
-                memory: 128Mi
+                memory: 64Mi
+            restartPolicy: Always
         containers:
           app:
             image:
@@ -53,8 +50,6 @@ spec:
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
               GATUS_WEB_PORT: &port 80
-              # flux webhook doesn't get replaced in the config file unless we SECRET_DOMAIN as an environment variable
-              SECRET_DOMAIN: ${SECRET_DOMAIN}
             probes:
               liveness: &probes
                 enabled: true
@@ -77,6 +72,7 @@ spec:
                 cpu: 100m
               limits:
                 memory: 256Mi
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -84,11 +80,13 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     serviceMonitor:
       app:
         endpoints:
@@ -102,39 +100,43 @@ spec:
           - name: external
             namespace: network
             sectionName: https
-        rules:
-          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Observability
           gethomepage.dev/name: Gatus
           gethomepage.dev/icon: gatus.svg
-          gethomepage.dev/widget.type: gatus
-          gethomepage.dev/widget.url: 'http://gatus.observability.svc.cluster.local.:80'
+          gethomepage.dev/widget.type: *app
+          gethomepage.dev/widget.url: 'http://{{ .Release.Name }}.observability.svc.cluster.local.:80'
     serviceAccount:
       *app : {}
+
     persistence:
       config:
         existingClaim: *app
+
       config-file:
         type: configMap
-        name: gatus-configmap
+        name: '{{ .Release.Name }}-configmap'
         globalMounts:
           - path: /config/config.yaml
             subPath: config.yaml
             readOnly: true
+
     rbac:
       roles:
-        gatus:
+        *app :
           type: ClusterRole
           rules:
             - apiGroups: ['']
-              resources: [configmaps, secrets]
+              resources: [services]
+              verbs: [get, watch, list]
+            - apiGroups: [gateway.networking.k8s.io]
+              resources: [gateways, httproutes]
               verbs: [get, watch, list]
       bindings:
-        gatus:
+        *app :
           type: ClusterRoleBinding
           roleRef:
-            identifier: gatus
+            identifier: *app
           subjects:
-            - identifier: gatus
+            - identifier: *app

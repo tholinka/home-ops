@@ -41,9 +41,6 @@ metadata:
   namespace: &namespace network
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   path: './kubernetes/apps/network/multus/app'
   prune: true
   sourceRef:
@@ -63,9 +60,6 @@ metadata:
   namespace: &namespace network
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   path: './kubernetes/apps/network/multus/networks'
   prune: true
   sourceRef:

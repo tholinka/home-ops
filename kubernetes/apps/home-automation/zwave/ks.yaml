@@ -6,11 +6,7 @@ metadata:
   name: &app zwave
   namespace: &namespace home-automation
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   dependsOn:

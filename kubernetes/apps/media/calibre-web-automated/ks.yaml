@@ -6,12 +6,7 @@ metadata:
   name: &app calibre-web-automated
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
-    - ../../../../components/gatus/internal
     - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
   dependsOn:
@@ -25,7 +20,6 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 5Gi
-      GATUS_SUBDOMAIN: calibre
   prune: true
   sourceRef:
     kind: GitRepository

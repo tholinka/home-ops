@@ -6,15 +6,6 @@ metadata:
   name: &app atuin
   namespace: &namespace self-hosted
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/gatus/internal
-  postBuild:
-    substitute:
-      APP: *app
   dependsOn:
     - name: postgres-cluster
       namespace: database

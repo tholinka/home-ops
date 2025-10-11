@@ -6,12 +6,6 @@ metadata:
   name: &app go2rtc
   namespace: &namespace home-automation
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/gatus/internal
   interval: 1h
   path: ./kubernetes/apps/home-automation/go2rtc/app
   postBuild:

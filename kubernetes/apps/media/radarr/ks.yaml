@@ -6,11 +6,7 @@ metadata:
   name: &app radarr
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/volsync
     - ../../../../components/ext-auth
     - ../../../../components/keda/nfs-scaler

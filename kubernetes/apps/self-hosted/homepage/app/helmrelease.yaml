@@ -123,6 +123,9 @@ spec:
 
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            group: internal
         hostnames:
           # - '{{ .Release.Name }}.${SECRET_DOMAIN}'
           - '${SECRET_DOMAIN:=test}'

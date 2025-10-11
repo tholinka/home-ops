@@ -24,6 +24,12 @@ spec:
   infrastructure:
     annotations:
       lbipam.cilium.io/ips: 192.168.20.10,::ffff:192.168.20.10
+      gatus.home-operations.com/endpoint: |-
+        group: internal
+        guarded: true
+        ui:
+          hide-hostname: true
+          hide-url: true
   listeners:
     # sharing certs between root and wildcard domains,
     # and sharing gateway's between root and wildcard domains
@@ -57,6 +63,12 @@ metadata:
     type: internal
   annotations:
     external-dns.alpha.kubernetes.io/target: &hostname internal.${SECRET_DOMAIN}
+    gatus.home-operations.com/endpoint: |-
+      group: internal
+      guarded: true
+      ui:
+        hide-hostname: true
+        hide-url: true
 spec:
   gatewayClassName: envoy
   infrastructure:
@@ -92,6 +104,10 @@ metadata:
     type: external
   annotations:
     external-dns.alpha.kubernetes.io/target: &hostname external.${SECRET_DOMAIN}
+    gatus.home-operations.com/endpoint: |-
+      client:
+        dns-resolver: tcp://192.168.20.7:53
+      group: external
 spec:
   gatewayClassName: envoy
   infrastructure:

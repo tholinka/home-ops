@@ -6,11 +6,7 @@ metadata:
   name: &app orcaslicer
   namespace: &namespace home-automation
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/ext-auth
     - ../../../../components/volsync
   dependsOn:
@@ -21,7 +17,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: orca
   prune: true
   sourceRef:
     kind: GitRepository

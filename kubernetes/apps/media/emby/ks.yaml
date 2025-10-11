@@ -6,12 +6,7 @@ metadata:
   name: &app emby
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/gatus/internal
     - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
   dependsOn:

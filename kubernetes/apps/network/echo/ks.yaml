@@ -7,16 +7,7 @@ metadata:
   namespace: &namespace network
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gatus/external
-    - ../../../../components/gatus/internal
   path: ./kubernetes/apps/network/echo/app
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

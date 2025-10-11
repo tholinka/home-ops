@@ -6,9 +6,6 @@ metadata:
   name: &app silence-operator
   namespace: &namespace observability
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/observability/silence-operator/app
   prune: true
@@ -25,9 +22,6 @@ metadata:
   name: &app silence-operator-silences
   namespace: &namespace observability
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/observability/silence-operator/silences
   prune: true

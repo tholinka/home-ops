@@ -7,17 +7,8 @@ metadata:
   namespace: &namespace network
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/gatus/internal
   path: ./kubernetes/apps/network/pihole/app
   prune: true
-  postBuild:
-    substitute:
-      APP: *app
   sourceRef:
     kind: GitRepository
     name: flux-system

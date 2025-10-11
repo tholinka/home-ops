@@ -7,13 +7,8 @@ metadata:
   namespace: &namespace media
 spec:
   targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  # components:
-  #   - ../../../../components/gatus/guarded
   interval: 1h
-  path: './kubernetes/apps/media/webhook/app'
+  path: ./kubernetes/apps/media/webhook/app
   postBuild:
     substitute:
       APP: *app

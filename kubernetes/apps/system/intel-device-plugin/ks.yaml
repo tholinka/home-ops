@@ -6,9 +6,6 @@ metadata:
   name: &app intel-device-plugin
   namespace: &namespace system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/system/intel-device-plugin/app
   prune: true
@@ -25,9 +22,6 @@ metadata:
   name: &app intel-device-plugin-gpu
   namespace: &namespace system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/system/intel-device-plugin/gpu
   prune: true

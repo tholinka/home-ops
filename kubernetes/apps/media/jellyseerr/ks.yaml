@@ -6,12 +6,7 @@ metadata:
   name: &app jellyseerr
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
-    - ../../../../components/gatus/internal
     - ../../../../components/volsync
   dependsOn:
     - name: storage-ready
@@ -21,8 +16,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_PATH: /api/v1/status
-      GATUS_SUBDOMAIN: requests
       VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:

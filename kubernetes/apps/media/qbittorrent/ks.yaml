@@ -6,11 +6,7 @@ metadata:
   name: &app qbittorrent
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/volsync
     - ../../../../components/ext-auth
     - ../../../../components/keda/nfs-scaler
@@ -26,7 +22,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: qb
       VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:

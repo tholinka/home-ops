@@ -6,9 +6,6 @@ metadata:
   name: &app unpackerr
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
     - ../../../../components/keda/nfs-scaler
   dependsOn:

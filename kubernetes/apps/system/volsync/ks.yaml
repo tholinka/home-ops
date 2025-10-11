@@ -6,9 +6,6 @@ metadata:
   name: &app volsync
   namespace: &namespace system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
     - name: keda
       namespace: observability
@@ -31,12 +28,8 @@ metadata:
   name: &app kopia
   namespace: &namespace system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
     - ../../../../components/keda/nfs-scaler
-    - ../../../../components/gatus/guarded
     - ../../../../components/ext-auth
   dependsOn:
     - name: keda
@@ -65,9 +58,6 @@ metadata:
   name: &app kopia-maintenance
   namespace: &namespace system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
     - name: volsync
       namespace: system

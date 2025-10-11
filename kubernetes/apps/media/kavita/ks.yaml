@@ -6,12 +6,7 @@ metadata:
   name: &app kavita
   namespace: &namespace media
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
-    - ../../../../components/gatus/internal
     - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
   dependsOn:

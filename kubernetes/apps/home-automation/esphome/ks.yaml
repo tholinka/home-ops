@@ -11,7 +11,6 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   components:
-    - ../../../../components/gatus/guarded
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   interval: 1h

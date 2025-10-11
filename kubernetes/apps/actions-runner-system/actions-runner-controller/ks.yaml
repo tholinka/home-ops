@@ -6,9 +6,6 @@ metadata:
   name: &app actions-runner-controller
   namespace: &namespace actions-runner-system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/app
   prune: true
@@ -25,9 +22,6 @@ metadata:
   name: &app actions-runner-controller-runners
   namespace: &namespace actions-runner-system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/runners
   prune: true

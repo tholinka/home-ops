@@ -71,7 +71,7 @@ spec:
     route:
       *app :
         hostnames:
-          - '${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}'
+          - 'orca.${SECRET_DOMAIN}'
         parentRefs:
           - name: internal
             namespace: network

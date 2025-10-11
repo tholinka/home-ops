@@ -5,9 +5,6 @@ metadata:
   name: &app dragonfly-authentik
   namespace: &namespace security
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/security/authentik/cluster
   prune: true
@@ -43,9 +40,6 @@ metadata:
   name: &app authentik
   namespace: &namespace security
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/security/authentik/app
   prune: true
@@ -61,13 +55,6 @@ spec:
       namespace: *namespace
     - name: openebs
       namespace: openebs-system
-  postBuild:
-    substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: auth
-  components:
-    - ../../../../components/gatus/external
-    - ../../../../components/gatus/internal
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -76,9 +63,6 @@ metadata:
   name: &app authentik-references
   namespace: &namespace security
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/security/authentik/references
   prune: true

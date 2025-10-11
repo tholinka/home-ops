@@ -6,9 +6,6 @@ metadata:
   name: &app immich-init
   namespace: &namespace self-hosted
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/self-hosted/immich/init
   prune: true
@@ -38,9 +35,6 @@ metadata:
   name: &app postgres-immich
   namespace: &namespace self-hosted
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/self-hosted/immich/db
   prune: true
@@ -112,12 +106,7 @@ metadata:
   name: &app immich
   namespace: &namespace self-hosted
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/gatus/internal
     # also cpu scales the api, which is fine, but theoretically only really need to scale the microservices
     # needs https://github.com/immich-app/immich-charts/issues/94
     - ../../../../components/keda/nfs-cpu-scaler
@@ -133,7 +122,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: photos
       SCALER_NAME: immich-server
       SCALER_MAX_REPLICAS: '5'
   prune: true

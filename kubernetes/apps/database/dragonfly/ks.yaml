@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
-  name: dragonfly-crds
+  name: &app dragonfly-crds
 spec:
   interval: 30m
   url: https://github.com/dragonflydb/dragonfly-operator.git
@@ -19,14 +19,14 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &name dragonfly-crds
+  name: &app dragonfly-crds
   namespace: &namespace database
 spec:
   targetNamespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository
-    name: *name
+    name: *app
   interval: 1h
   healthChecks:
     - &crds
@@ -41,9 +41,6 @@ metadata:
   name: &app dragonfly
   namespace: &namespace database
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/app
   prune: true
@@ -63,9 +60,6 @@ metadata:
   name: &app dragonfly-cluster
   namespace: &namespace database
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
   prune: true

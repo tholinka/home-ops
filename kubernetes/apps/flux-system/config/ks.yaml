@@ -7,9 +7,6 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: flux-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   path: ./kubernetes/apps/flux-system/config/app
   prune: true
   sourceRef:

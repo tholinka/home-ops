@@ -6,17 +6,8 @@ metadata:
   name: &app grafana
   namespace: &namespace observability
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/gatus/internal
   interval: 1h
   path: ./kubernetes/apps/observability/grafana/app
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

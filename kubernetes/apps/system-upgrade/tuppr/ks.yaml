@@ -6,9 +6,6 @@ metadata:
   name: &app tuppr
   namespace: &namespace system-upgrade
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/system-upgrade/tuppr/app
   prune: true
@@ -25,9 +22,6 @@ metadata:
   name: &app tuppr-upgrades
   namespace: &namespace system-upgrade
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   interval: 1h
   path: ./kubernetes/apps/system-upgrade/tuppr/upgrades
   prune: true

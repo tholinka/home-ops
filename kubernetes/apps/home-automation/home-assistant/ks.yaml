@@ -6,12 +6,7 @@ metadata:
   name: &app home-assistant
   namespace: &namespace home-automation
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/external
-    - ../../../../components/gatus/internal
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   dependsOn:
@@ -24,7 +19,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: ha
       VOLSYNC_CAPACITY: 10Gi
       EXT_AUTH_TARGET: home-assistant-code
   prune: true

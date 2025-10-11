@@ -6,12 +6,7 @@ metadata:
   name: &app ocis
   namespace: &namespace self-hosted
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
-    - ../../../../components/gatus/internal
     - ../../../../components/volsync
   dependsOn:
     - name: storage-ready
@@ -21,7 +16,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: files
       VOLSYNC_CAPACITY: 100Gi
       VOLSYNC_CACHE_CAPACITY: 30Gi
       VOLSYNC_GROUP_CHANGE_POLICY: OnRootMismatch
