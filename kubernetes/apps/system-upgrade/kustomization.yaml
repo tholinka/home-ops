@@ -8,4 +8,3 @@ components:
   - ../../components/repos/app-template
 resources:
   - ./tuppr/ks.yaml
-  - ./system-upgrade-controller/ks.yaml
