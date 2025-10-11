@@ -35,6 +35,24 @@ spec:
               tag: 4.9.1.80@sha256:28462287162b7daa3ff91ee1810e6cc26331e35f7b7c3955b303d4864f32ec6a
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: 'true'
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /web/index.html
+                    port: &port 8096
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -67,8 +85,6 @@ spec:
         ports:
           http:
             port: 8096
-          https:
-            port: 8920
 
     route:
       app:
