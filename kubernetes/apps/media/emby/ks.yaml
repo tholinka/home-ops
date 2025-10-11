@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app emby
+  namespace: &namespace media
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/external
+    - ../../../../components/gatus/internal
+    - ../../../../components/volsync
+    - ../../../../components/keda/nfs-scaler
+  dependsOn:
+    - name: keda
+      namespace: observability
+    - name: storage-ready
+      namespace: flux-system
+  interval: 1h
+  path: ./kubernetes/apps/media/emby/app
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 50Gi
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
