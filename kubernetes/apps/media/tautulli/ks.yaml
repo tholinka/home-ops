@@ -8,7 +8,6 @@ metadata:
 spec:
   components:
     - ../../../../components/volsync
-    - ../../../../components/ext-auth
   dependsOn:
     - name: storage-ready
       namespace: flux-system
