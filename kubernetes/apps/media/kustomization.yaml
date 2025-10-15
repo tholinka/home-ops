@@ -9,7 +9,6 @@ resources:
   - ./calibre-downloader/ks.yaml
   - ./calibre-web-automated/ks.yaml
   - ./cross-seed/ks.yaml
-  - ./emby/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./kavita/ks.yaml
