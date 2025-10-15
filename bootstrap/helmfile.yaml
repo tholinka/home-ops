@@ -30,7 +30,7 @@ releases:
   - name: cert-manager
     namespace: security
     chart: oci://quay.io/jetstack/charts/cert-manager
-    version: v1.19.0
+    version: v1.19.1
     values: [../kubernetes/apps/security/cert-manager/app/helm/values.yaml]
     hooks:
       - # Apply cluster secret store configuration
