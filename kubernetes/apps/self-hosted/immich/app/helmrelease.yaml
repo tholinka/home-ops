@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.9.3
+    tag: 0.10.0
   url: oci://ghcr.io/immich-app/immich-charts/immich
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
@@ -58,33 +58,39 @@ spec:
       targetPath: immich.configuration.notifications.smtp.from
       valuesKey: EMAIL_FROM
   values:
-    env:
-      REDIS_HOSTNAME: dragonfly-cluster.database.svc.cluster.local
-      REDIS_PORT: '6379'
-      REDIS_DBINDEX: '2'
-
-      LOG_LEVEL: verbose
-
-      DB_DATABASE_NAME: *app
-      DB_HOSTNAME: postgres-immich-rw.self-hosted.svc.cluster.local
-      DB_USERNAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-postgres-user
-            key: username
-      DB_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: immich-postgres-user
-            key: password
-    postgres:
-      enabled: false
-    redis:
+    valkey:
       enabled: false
 
     global:
       annotations:
         reloader.stakater.com/auto: 'true'
+
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              # renovate: datasource=github-releases depName=immich-app/immich
+              tag: v2.0.1
+            env:
+              REDIS_HOSTNAME: dragonfly-cluster.database.svc.cluster.local
+              REDIS_PORT: '6379'
+              REDIS_DBINDEX: '2'
+
+              LOG_LEVEL: verbose
+
+              DB_DATABASE_NAME: *app
+              DB_HOSTNAME: postgres-immich-rw.self-hosted.svc.cluster.local
+              DB_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-postgres-user
+                    key: username
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-postgres-user
+                    key: password
 
     immich:
       metrics:
@@ -136,34 +142,39 @@ spec:
           hashVerificationEnabled: true
           template: '{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}'
 
-    image:
-      # renovate: datasource=github-releases depName=immich-app/immich
-      tag: v2.0.1
     server:
-      resources:
-        requests:
-          cpu: 300m
-          memory: 768Mi
-        limits:
-          gpu.intel.com/i915: 1
-          cpu: 3000m
-          memory: 3Gi
-      probes:
-        # nas is a bit slow sometimes when doing a large import, which causes the app to hang
-        liveness: &probes
-          spec:
-            failureThreshold: 10
-        readiness: *probes
+      controllers:
+        main:
+          containers:
+            main:
+              resources:
+                requests:
+                  cpu: 300m
+                  memory: 768Mi
+                limits:
+                  gpu.intel.com/i915: 1
+                  cpu: 3000m
+                  memory: 3Gi
+              probes:
+                # nas is a bit slow sometimes when doing a large import, which causes the app to hang
+                liveness: &probes
+                  spec:
+                    failureThreshold: 10
+                readiness: *probes
 
     machine-learning:
-      resources:
-        requests:
-          cpu: 300m
-          memory: 1Gi
-        limits:
-          cpu: 3000m
-          memory: 3Gi
+      controllers:
+        main:
+          containers:
+            main:
+              resources:
+                requests:
+                  cpu: 300m
+                  memory: 1Gi
+                limits:
+                  cpu: 3000m
+                  memory: 3Gi
       persistence:
         cache:
-          type: pvc
+          type: persistentVolumeClaim
           existingClaim: immich-ml-cache
