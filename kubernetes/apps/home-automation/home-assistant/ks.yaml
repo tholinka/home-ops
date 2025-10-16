@@ -19,7 +19,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_CAPACITY: 50Gi
       EXT_AUTH_TARGET: home-assistant-code
   prune: true
   sourceRef:
