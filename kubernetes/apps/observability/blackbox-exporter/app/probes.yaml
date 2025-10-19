@@ -11,9 +11,6 @@ spec:
   targets:
     staticConfig:
       static:
-        - nas.servers.internal
-        - pikvm.servers.internal
-
         - zigbee.iot.internal
         - garage.iot.internal
 
