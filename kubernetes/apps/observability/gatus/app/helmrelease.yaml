@@ -122,6 +122,13 @@ spec:
             subPath: config.yaml
             readOnly: true
 
+      secret:
+        type: secret
+        name: '{{ .Release.Name }}-secret'
+        globalMounts:
+          - path: /config/secret.yaml
+            subPath: config.yaml
+
     rbac:
       roles:
         *app :

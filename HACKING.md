@@ -48,6 +48,28 @@ line vty
 !
 ```
 
+### Healthchecks.io ping
+
+SSH into router, then run:
+
+>[!NOTE]
+> This installs the on boot script, and then sets up the healthchecks.io ping.
+>
+> You can leave the `05-` and `06-` scripts that are installed by default if you use them, I don't.
+
+```sh
+curl -fsL "https://raw.githubusercontent.com/unifi-utilities/unifios-utilities/HEAD/on-boot-script-2.x/remote_install.sh" | /bin/bash
+rm /data/on_boot.d/05-install-cni-plugins.sh
+rm /data/on_boot.d/06-cni-bridge.sh
+URL=https://hc-ping.com/example-uuid
+cat > /data/on_boot.d/20-healthchecksio.sh << EOF
+#!/bin/sh
+echo '* * * * * root curl -X POST $URL' > /etc/cron.d/healthchecksio
+EOF
+chmod a+x /data/on_boot.d/20-healthchecksio.sh
+/data/on_boot.d/20-healthchecksio.sh
+```
+
 ## 💥 Cluster Blew Up?
 
 ### 💣 Reset
