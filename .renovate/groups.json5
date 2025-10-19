@@ -96,6 +96,7 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
+			minimumGroupSize: 2,
 		},
 		{
 			description: "Rook-Ceph Group",
@@ -110,6 +111,7 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
+			minimumGroupSize: 2,
 		},
 		{
 			description: "Spegel Group",
@@ -123,6 +125,7 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
+			minimumGroupSize: 2,
 		},
 		{
 			description: "Plugin Barman Cloud Group",
@@ -137,6 +140,7 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
+			minimumGroupSize: 2,
 		},
 		{
 			description: "Your Spotify Group",
@@ -150,6 +154,22 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
+			minimumGroupSize: 2,
+		},
+		{
+			description: "Dragonfly Group",
+			groupName: "Dragonfly",
+			matchDatasources: [
+				"docker",
+				"github-tags"
+			],
+			matchPackageNames: [
+				"/dragonfly/",
+			],
+			group: {
+				commitMessageTopic: "{{{groupName}}} group",
+			},
+			minimumGroupSize: 2,
 		},
 	],
 }
