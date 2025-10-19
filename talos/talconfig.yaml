@@ -41,7 +41,12 @@ nodes:
     controlPlane: false
     networkInterfaces:
       - &interface
-        interface: eth0
+        interface: bond0
+        bond: &bond
+          deviceSelectors:
+            - hardwareAddr: dc:a6:32:ad:6e:81
+              driver: bcmgenet
+          mode: active-backup
         dhcp: false
         addresses:
           - 192.168.20.51/24
@@ -65,16 +70,6 @@ nodes:
             mountPath: /usr/local/etc/nut/upsmon.conf
     extraManifests: &extraManifests
       - ./manifests/watchdogtimerconfig.yaml
-    patches:
-      - |-
-        ---
-        machine:
-          udev: # rename to standardized name for multus
-            rules:
-              - |-
-                SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*",
-                ATTR{address}=="dc:a6:32:ad:6e:81",ATTR{dev_id}=="0x0", ATTR{type}=="1",
-                KERNEL=="end*", NAME="eth0"
 
   - hostname: lenovo-m700-1
     ipAddress: 192.168.20.61
@@ -98,6 +93,11 @@ nodes:
     controlPlane: false
     networkInterfaces:
       - <<: *interface
+        bond: &lenovoBond
+          <<: *bond
+          deviceSelectors:
+            - hardwareAddr: c4:*
+              driver: r8169
         addresses:
           - 192.168.20.61/24
     extensionServices: *extensionServices
@@ -109,7 +109,6 @@ nodes:
       #
       #- '@./patches/intel/machine-encryption.yaml' # block.VolumeManagerController panics with runtime error out of range [0] with length [0] -> TPM to old to work?
       - &intelMachineSysfs '@./patches/intel/machine-sysfs.yaml'
-      - '@./patches/ethernet/lenovo.yaml'
       - &largeMachineSysctls '@./patches/large/machine-sysctls.yaml'
 
   - hostname: lenovo-m700-2
@@ -120,6 +119,7 @@ nodes:
     controlPlane: false
     networkInterfaces:
       - <<: *interface
+        bond: *lenovoBond
         addresses:
           - 192.168.20.62/24
     extensionServices: *extensionServices
@@ -135,6 +135,7 @@ nodes:
     controlPlane: false
     networkInterfaces:
       - <<: *interface
+        bond: *lenovoBond
         addresses:
           - 192.168.20.63/24
     extensionServices: *extensionServices
@@ -151,6 +152,11 @@ nodes:
     controlPlane: true
     networkInterfaces: # backup 1GbE port: 80:e8:2c:2f:b4:ad
       - <<: *interface
+        bond: &hpBond
+          <<: *bond
+          deviceSelectors:
+            - hardwareAddr: 6c:*
+              driver: r8152
         addresses:
           - 192.168.20.71/24
         # vip: &vip
@@ -163,7 +169,6 @@ nodes:
     patches: &hpPatches
       - '@./patches/intel/machine-encryption.yaml'
       - *intelMachineSysfs
-      - '@./patches/ethernet/usb.yaml'
       - *largeMachineSysctls
       - |-
         machine:
@@ -180,6 +185,7 @@ nodes:
     controlPlane: true
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
+        bond: *hpBond
         addresses:
           - 192.168.20.72/24
         # vip: *vip
@@ -196,6 +202,7 @@ nodes:
     controlPlane: true
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
+        bond: *hpBond
         addresses:
           - 192.168.20.73/24
         # vip: *vip
@@ -213,6 +220,7 @@ nodes:
     controlPlane: false
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
+        bond: *hpBond
         addresses:
           - 192.168.20.74/24
     extensionServices: *extensionServices
@@ -240,6 +248,10 @@ nodes:
     controlPlane: false
     networkInterfaces:
       - <<: *interface
+        bond:
+          <<: *bond
+          deviceSelectors:
+            - driver: virtio_net
         addresses:
           - 192.168.20.101/24
     extensionServices: *extensionServices
