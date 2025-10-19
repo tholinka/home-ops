@@ -40,6 +40,6 @@ spec:
     remediation:
       remediateLastFailure: true
       retries: 2
-  valuesFrom:
-    - kind: ConfigMap
-      name: flux-operator-helm-values
+  values:
+    serviceMonitor:
+      create: true
