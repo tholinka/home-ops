@@ -1,47 +1,29 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: multus-crds
-spec:
-  interval: 30m
-  url: https://github.com/k8snetworkplumbingwg/network-attachment-definition-client
-  ref:
-    tag: v1.7.7
-  ignore: |
-    # exclude
-    /*
-    # include
-    !artifacts/networks-crd.yaml
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app multus-crds
-  namespace: &namespace network
-spec:
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: *app
-  interval: 30m
-  healthChecks:
-    - &crds
-      apiVersion: apiextensions.k8s.io/v1
-      kind: CustomResourceDefinition
-      name: network-attachment-definitions.k8s.cni.cncf.io
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app multus
+  name: multus
   namespace: &namespace network
 spec:
   targetNamespace: *namespace
-  path: './kubernetes/apps/network/multus/app'
+  path: ./kubernetes/apps/network/multus/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  interval: 1h
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: multus-networks
+  namespace: &namespace network
+spec:
+  targetNamespace: *namespace
+  path: ./kubernetes/apps/network/multus/networks
   prune: true
   sourceRef:
     kind: GitRepository
@@ -49,24 +31,5 @@ spec:
     namespace: flux-system
   interval: 1h
   dependsOn:
-    - name: multus-crds
-      namespace: network
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app multus-networks
-  namespace: &namespace network
-spec:
-  targetNamespace: *namespace
-  path: './kubernetes/apps/network/multus/networks'
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  interval: 1h
-  dependsOn:
-    - name: multus-crds
+    - name: multus
       namespace: network
