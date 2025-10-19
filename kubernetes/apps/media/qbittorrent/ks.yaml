@@ -6,6 +6,7 @@ metadata:
   name: &app qbittorrent
   namespace: &namespace media
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
@@ -17,7 +18,6 @@ spec:
       namespace: flux-system
     - name: generic-device-plugin
       namespace: system
-  interval: 1h
   path: ./kubernetes/apps/media/qbittorrent/app
   postBuild:
     substitute:

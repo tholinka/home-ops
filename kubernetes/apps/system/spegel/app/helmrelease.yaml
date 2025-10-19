@@ -28,18 +28,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: spegel
-  driftDetection:
-    mode: enabled
-  install:
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    cleanupOnFail: true
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   values:
     grafanaDashboard:
       enabled: true

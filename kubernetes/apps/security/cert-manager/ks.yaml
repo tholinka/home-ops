@@ -6,6 +6,7 @@ metadata:
   name: cert-manager
   namespace: &namespace security
 spec:
+  interval: 1h
   targetNamespace: *namespace
   path: ./kubernetes/apps/security/cert-manager/app
   prune: true
@@ -32,4 +33,3 @@ spec:
       kind: *kind
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  interval: 1h

@@ -6,6 +6,7 @@ metadata:
   name: multus
   namespace: &namespace network
 spec:
+  interval: 1h
   targetNamespace: *namespace
   path: ./kubernetes/apps/network/multus/app
   prune: true
@@ -13,7 +14,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h
   wait: true
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -23,6 +23,7 @@ metadata:
   name: multus-networks
   namespace: &namespace network
 spec:
+  interval: 1h
   targetNamespace: *namespace
   path: ./kubernetes/apps/network/multus/networks
   prune: true
@@ -30,7 +31,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h
   dependsOn:
     - name: multus
       namespace: network

@@ -5,7 +5,7 @@ kind: GitRepository
 metadata:
   name: cnpg-barman-cloud-crds
 spec:
-  interval: 30m
+  interval: 1h
   url: https://github.com/cloudnative-pg/plugin-barman-cloud.git
   ref:
     tag: v0.7.0
@@ -22,12 +22,12 @@ metadata:
   name: &app cnpg-barman-cloud-crds
   namespace: &namespace database
 spec:
+  interval: 1h
   targetNamespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository
     name: *app
-  interval: 1h
   healthChecks:
     - apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
@@ -40,6 +40,7 @@ metadata:
   name: cnpg-crds
   namespace: &namespace database
 spec:
+  interval: 1h
   targetNamespace: *namespace
   prune: true
   sourceRef:
@@ -47,7 +48,6 @@ spec:
     name: flux-system
     namespace: flux-system
   path: ./kubernetes/apps/database/cnpg/crds
-  interval: 1h
   healthChecks:
     - &crds
       apiVersion: apiextensions.k8s.io/v1

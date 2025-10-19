@@ -19,10 +19,10 @@ kind: HelmRelease
 metadata:
   name: grafana-operator
 spec:
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: grafana-operator
-  interval: 1h
   values:
     dashboard:
       enabled: true

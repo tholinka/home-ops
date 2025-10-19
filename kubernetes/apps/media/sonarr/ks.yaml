@@ -6,6 +6,7 @@ metadata:
   name: &app sonarr
   namespace: &namespace media
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
@@ -15,7 +16,6 @@ spec:
       namespace: observability
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/media/sonarr/app
   postBuild:
     substitute:

@@ -6,6 +6,7 @@ metadata:
   name: &app pihole-external-dns
   namespace: &namespace network
 spec:
+  interval: 1h
   targetNamespace: *namespace
   components:
     - ../../../../components/keda/prometheus-scaler
@@ -23,4 +24,3 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h

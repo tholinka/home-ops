@@ -28,18 +28,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: openebs
-  install:
-    disableHooks: true # fails with oci
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    disableHooks: true # fails with oci
-    cleanupOnFail: true
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   values:
     engines:
       local:

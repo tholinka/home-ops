@@ -6,6 +6,7 @@ metadata:
   name: metrics-server
   namespace: &namespace kube-system
 spec:
+  interval: 1h
   targetNamespace: *namespace
   path: ./kubernetes/apps/kube-system/metrics-server/app
   prune: true
@@ -13,4 +14,3 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h

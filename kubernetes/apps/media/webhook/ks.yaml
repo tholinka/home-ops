@@ -6,8 +6,8 @@ metadata:
   name: webhook
   namespace: &namespace media
 spec:
-  targetNamespace: *namespace
   interval: 1h
+  targetNamespace: *namespace
   path: ./kubernetes/apps/media/webhook/app
   prune: true
   sourceRef:

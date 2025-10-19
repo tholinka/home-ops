@@ -5,7 +5,7 @@ kind: OCIRepository
 metadata:
   name: volsync
 spec:
-  interval: 5m
+  interval: 1h
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
@@ -29,18 +29,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: volsync
-  driftDetection:
-    mode: enabled
-  install:
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    cleanupOnFail: true
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   dependsOn:
     - name: snapshot-controller
       namespace: system-controllers

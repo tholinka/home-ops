@@ -6,12 +6,12 @@ metadata:
   name: &app ocis
   namespace: &namespace self-hosted
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
   dependsOn:
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/self-hosted/ocis/app
   postBuild:
     substitute:

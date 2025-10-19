@@ -6,6 +6,7 @@ metadata:
   name: &app paperless
   namespace: &namespace self-hosted
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
@@ -18,7 +19,6 @@ spec:
       namespace: database
     - name: postgres-cluster
       namespace: database
-  interval: 1h
   path: ./kubernetes/apps/self-hosted/paperless/app
   postBuild:
     substitute:

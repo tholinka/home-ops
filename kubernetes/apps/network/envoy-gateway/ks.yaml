@@ -23,10 +23,10 @@ metadata:
   name: envoy-gateway-config
   namespace: &namespace network
 spec:
+  interval: 1h
   dependsOn:
     - name: envoy-gateway
       namespace: network
-  interval: 1h
   path: ./kubernetes/apps/network/envoy-gateway/config
   prune: true
   sourceRef:

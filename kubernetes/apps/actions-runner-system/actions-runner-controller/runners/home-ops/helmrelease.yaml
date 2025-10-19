@@ -23,18 +23,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: gha-runner-scale-set
-  driftDetection:
-    mode: enabled
-  install:
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    cleanupOnFail: true
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   dependsOn:
     - name: actions-runner-controller
       namespace: actions-runner-system

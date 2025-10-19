@@ -6,10 +6,10 @@ metadata:
   name: gatus
   namespace: &namespace observability
 spec:
+  interval: 1h
   dependsOn:
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/observability/gatus/app
   prune: true
   sourceRef:

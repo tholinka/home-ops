@@ -6,12 +6,12 @@ metadata:
   name: &app jellyseerr
   namespace: &namespace media
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
   dependsOn:
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/media/jellyseerr/app
   postBuild:
     substitute:

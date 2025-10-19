@@ -5,7 +5,7 @@ kind: OCIRepository
 metadata:
   name: tuppr
 spec:
-  interval: 15m
+  interval: 1h
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
@@ -23,16 +23,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: *app
-  install:
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    cleanupOnFail: true
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   values:
     replicaCount: 2
     monitoring:

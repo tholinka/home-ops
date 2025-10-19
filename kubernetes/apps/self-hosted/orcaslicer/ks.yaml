@@ -6,13 +6,13 @@ metadata:
   name: &app orcaslicer
   namespace: &namespace home-automation
 spec:
+  interval: 1h
   components:
     - ../../../../components/ext-auth
     - ../../../../components/volsync
   dependsOn:
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/self-hosted/orcaslicer/app
   postBuild:
     substitute:

@@ -6,6 +6,7 @@ metadata:
   name: pihole
   namespace: &namespace network
 spec:
+  interval: 1h
   targetNamespace: *namespace
   path: ./kubernetes/apps/network/pihole/app
   prune: true
@@ -13,7 +14,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h
   dependsOn:
     - name: storage-ready
       namespace: flux-system

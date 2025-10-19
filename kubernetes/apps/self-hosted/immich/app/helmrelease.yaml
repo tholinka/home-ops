@@ -26,16 +26,6 @@ spec:
   driftDetection:
     ignore:
       - paths: [/spec/replicas]
-  install:
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    cleanupOnFail: true
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   valuesFrom:
     - &valuesFrom
       targetPath: immich.configuration.oauth.clientId

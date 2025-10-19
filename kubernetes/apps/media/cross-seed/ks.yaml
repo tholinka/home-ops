@@ -6,6 +6,7 @@ metadata:
   name: &app cross-seed
   namespace: &namespace media
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
@@ -14,7 +15,6 @@ spec:
       namespace: observability
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/media/cross-seed/app
   postBuild:
     substitute:

@@ -6,6 +6,7 @@ metadata:
   name: openebs
   namespace: &namespace openebs-system
 spec:
+  interval: 1h
   targetNamespace: *namespace
   path: ./kubernetes/apps/openebs-system/openebs/app
   prune: true
@@ -13,5 +14,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h
   wait: true

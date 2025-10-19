@@ -6,9 +6,9 @@ metadata:
   name: &app vernemq
   namespace: &namespace database
 spec:
+  interval: 1h
   components:
     - ../../../../components/ext-auth
-  interval: 1h
   path: ./kubernetes/apps/database/vernemq/app
   prune: true
   dependsOn:

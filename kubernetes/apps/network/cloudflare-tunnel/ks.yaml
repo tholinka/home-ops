@@ -6,6 +6,7 @@ metadata:
   name: cloudflare-tunnel
   namespace: &namespace network
 spec:
+  interval: 1h
   targetNamespace: *namespace
   dependsOn:
     - name: cloudflare-external-dns
@@ -15,4 +16,3 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h

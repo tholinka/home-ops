@@ -6,13 +6,13 @@ metadata:
   name: &app calibre-downloader
   namespace: &namespace media
 spec:
+  interval: 1h
   components:
     - ../../../../components/ext-auth
     - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: keda
       namespace: observability
-  interval: 1h
   path: ./kubernetes/apps/media/calibre-downloader/app
   postBuild:
     substitute:

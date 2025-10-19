@@ -6,10 +6,10 @@ metadata:
   name: atuin
   namespace: &namespace self-hosted
 spec:
+  interval: 1h
   dependsOn:
     - name: postgres-cluster
       namespace: database
-  interval: 1h
   path: ./kubernetes/apps/self-hosted/atuin/app
   prune: true
   sourceRef:

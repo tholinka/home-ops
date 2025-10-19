@@ -81,6 +81,7 @@ metadata:
   name: &app immich
   namespace: &namespace self-hosted
 spec:
+  interval: 1h
   components:
     # also cpu scales the api, which is fine, but theoretically only really need to scale the microservices
     # needs https://github.com/immich-app/immich-charts/issues/94
@@ -92,7 +93,6 @@ spec:
       namespace: database
     - name: postgres-immich
       namespace: *namespace
-  interval: 1h
   path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:
     substitute:

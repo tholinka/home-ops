@@ -6,8 +6,8 @@ metadata:
   name: &app prowlarr
   namespace: &namespace media
 spec:
-  targetNamespace: *namespace
   interval: 1h
+  targetNamespace: *namespace
   path: ./kubernetes/apps/media/prowlarr/app
   prune: true
   sourceRef:

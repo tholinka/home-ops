@@ -6,10 +6,10 @@ metadata:
   name: volsync
   namespace: &namespace system
 spec:
+  interval: 1h
   dependsOn:
     - name: keda
       namespace: observability
-  interval: 1h
   path: ./kubernetes/apps/system/volsync/app
   prune: true
   sourceRef:
@@ -26,6 +26,7 @@ metadata:
   name: &app kopia
   namespace: &namespace system
 spec:
+  interval: 1h
   components:
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/ext-auth
@@ -37,7 +38,6 @@ spec:
       kind: HelmRelease
       name: *app
       namespace: *namespace
-  interval: 1h
   path: ./kubernetes/apps/system/volsync/kopia
   postBuild:
     substitute:
@@ -56,10 +56,10 @@ metadata:
   name: kopia-maintenance
   namespace: &namespace system
 spec:
+  interval: 1h
   dependsOn:
     - name: volsync
       namespace: system
-  interval: 1h
   path: ./kubernetes/apps/system/volsync/maintenance
   prune: true
   sourceRef:

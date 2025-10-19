@@ -6,13 +6,13 @@ metadata:
   name: &app maintainerr
   namespace: &namespace media
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
   dependsOn:
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/media/maintainerr/app
   postBuild:
     substitute:

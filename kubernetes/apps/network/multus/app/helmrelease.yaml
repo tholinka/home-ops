@@ -5,7 +5,7 @@ kind: OCIRepository
 metadata:
   name: multus
 spec:
-  interval: 10m
+  interval: 1h
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
@@ -23,18 +23,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: *app
-  driftDetection:
-    mode: enabled
-  install:
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    cleanupOnFail: true
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   values:
     cni:
       netPath: /etc/cni/net.d

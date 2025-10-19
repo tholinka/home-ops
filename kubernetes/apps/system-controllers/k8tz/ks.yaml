@@ -6,8 +6,8 @@ metadata:
   name: k8tz
   namespace: &namespace system-controllers
 spec:
-  targetNamespace: *namespace
   interval: 1h
+  targetNamespace: *namespace
   path: ./kubernetes/apps/system-controllers/k8tz/app
   prune: true
   sourceRef:

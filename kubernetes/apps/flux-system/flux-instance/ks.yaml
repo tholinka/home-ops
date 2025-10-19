@@ -6,6 +6,7 @@ metadata:
   name: flux-instance
   namespace: &namespace flux-system
 spec:
+  interval: 1h
   targetNamespace: flux-system
   dependsOn:
     - name: flux-operator
@@ -16,4 +17,3 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 1h

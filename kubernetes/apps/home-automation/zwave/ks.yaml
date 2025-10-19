@@ -6,6 +6,7 @@ metadata:
   name: &app zwave
   namespace: &namespace home-automation
 spec:
+  interval: 1h
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
@@ -14,7 +15,6 @@ spec:
       namespace: system
     - name: storage-ready
       namespace: flux-system
-  interval: 1h
   path: ./kubernetes/apps/home-automation/zwave/app
   postBuild:
     substitute:

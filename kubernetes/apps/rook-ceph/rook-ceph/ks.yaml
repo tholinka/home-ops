@@ -23,6 +23,7 @@ metadata:
   name: rook-ceph-cluster
   namespace: &namespace rook-ceph
 spec:
+  interval: 1h
   dependsOn:
     - name: rook-ceph
       namespace: *namespace
@@ -40,7 +41,6 @@ spec:
       kind: *cephKind
       failed: status.ceph.health == 'HEALTH_ERR'
       current: status.ceph.health in ['HEALTH_OK','HEALTH_WARN']
-  interval: 1h
   path: ./kubernetes/apps/rook-ceph/rook-ceph/cluster
   prune: true
   sourceRef:

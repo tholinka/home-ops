@@ -6,9 +6,9 @@ metadata:
   name: &app homepage
   namespace: &namespace self-hosted
 spec:
+  interval: 1h
   components:
     - ../../../../components/ext-auth
-  interval: 1h
   path: ./kubernetes/apps/self-hosted/homepage/app
   postBuild:
     substitute:
