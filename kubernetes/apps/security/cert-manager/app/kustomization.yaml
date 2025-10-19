@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./clusterissuers.yaml
   - ./externalsecret.yaml
+  - ./grafanadashboard.yaml
   - ./helmrelease.yaml
 configMapGenerator:
   - name: cert-manager-helm-values
