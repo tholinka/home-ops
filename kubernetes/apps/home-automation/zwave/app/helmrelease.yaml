@@ -33,6 +33,7 @@ spec:
               tag: 11.5.2@sha256:0fc5d18604b43eb75227e16ce108f7297b905d6095113890318c3fcd37b0284a
             env:
               PORT: &port 80
+              TRUST_PROXY: true
             probes:
               liveness: &probes
                 enabled: true
@@ -102,11 +103,3 @@ spec:
             subPath: logs
           - path: /tmp
             subPath: tmp
-    serviceMonitor:
-      app:
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
