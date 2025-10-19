@@ -151,11 +151,10 @@
         namespace: media
 
 - Infrastructure:
-    - Unifi: # homepage doesn't support TLSRoute. Container doesn't have tls stuff installed, so it can't connect over https to unifi
+    - Unifi:
         icon: unifi.svg
-        href: https://unifi.${SECRET_DOMAIN}
+        href: https://router.internal
         #description: Unifi Network Application
-        app: unifi
         namespace: network
 
 - Calendar:
