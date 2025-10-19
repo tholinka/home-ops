@@ -37,7 +37,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app authentik
+  name: authentik
   namespace: &namespace security
 spec:
   interval: 1h
@@ -60,7 +60,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app authentik-references
+  name: authentik-references
   namespace: &namespace security
 spec:
   interval: 1h

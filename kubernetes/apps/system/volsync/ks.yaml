@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app volsync
+  name: volsync
   namespace: &namespace system
 spec:
   dependsOn:
@@ -11,15 +11,13 @@ spec:
       namespace: observability
   interval: 1h
   path: ./kubernetes/apps/system/volsync/app
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
+  wait: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -55,7 +53,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app kopia-maintenance
+  name: kopia-maintenance
   namespace: &namespace system
 spec:
   dependsOn:
@@ -63,9 +61,6 @@ spec:
       namespace: system
   interval: 1h
   path: ./kubernetes/apps/system/volsync/maintenance
-  postBuild:
-    substitute:
-      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

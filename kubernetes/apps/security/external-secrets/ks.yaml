@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app external-secrets
+  name: external-secrets
   namespace: &namespace security
 spec:
   interval: 1h
@@ -14,12 +14,13 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
+  wait: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app external-secrets-store
+  name: external-secrets-store
   namespace: &namespace security
 spec:
   interval: 1h

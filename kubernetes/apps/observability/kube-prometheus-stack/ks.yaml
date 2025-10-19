@@ -16,7 +16,7 @@ spec:
   path: ./kubernetes/apps/observability/kube-prometheus-stack/app
   postBuild:
     substitute:
-      APP: kube-prometheus-stack
+      APP: *app
       EXT_AUTH_TARGET: kube-prometheus-stack-prometheus
       EXT_AUTH_TARGET_2: kube-prometheus-stack-alertmanager
   prune: true

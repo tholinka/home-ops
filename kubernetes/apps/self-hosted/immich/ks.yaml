@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app immich-init
+  name: immich-init
   namespace: &namespace self-hosted
 spec:
   interval: 1h
