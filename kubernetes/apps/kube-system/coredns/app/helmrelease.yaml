@@ -40,6 +40,104 @@ spec:
     remediation:
       remediateLastFailure: true
       retries: 2
-  valuesFrom:
-    - kind: ConfigMap
-      name: coredns-helm-values
+  values:
+    fullnameOverride: coredns
+    image:
+      repository: mirror.gcr.io/coredns/coredns
+    k8sAppLabelOverride: kube-dns
+    serviceAccount:
+      create: true
+    service:
+      name: kube-dns
+      clusterIP: '10.96.0.10'
+    replicaCount: 2
+    servers:
+      - zones:
+          - zone: .
+            scheme: dns://
+            use_tcp: true
+        port: 53
+        plugins:
+          - name: errors
+          - name: health
+            configBlock: |-
+              lameduck 10s
+          - name: ready
+          - name: rewrite
+            # don't spam pihole with envoy-gateway requests
+            parameters: name exact envoy-gateway envoy-gateway.cluster.local
+          - name: kubernetes
+            parameters: cluster.local in-addr.arpa ip6.arpa
+            configBlock: |-
+              pods verified
+              fallthrough in-addr.arpa ip6.arpa
+              ttl 30
+          - name: autopath
+            parameters: '@kubernetes'
+          - name: forward
+            parameters: internal. dns://192.168.20.6 dns://192.168.20.100
+            configBlock: |-
+              policy sequential
+              health_check 5s
+          - name: forward
+            parameters: ${SECRET_DOMAIN}. dns://192.168.20.6 dns://192.168.20.100 dns://192.168.20.1
+            configBlock: |-
+              policy sequential
+              health_check 5s
+          - name: forward
+            parameters: . dns://192.168.20.6 dns://192.168.20.100 #dns://192.168.20.7 tls://1.1.1.1 tls://1.0.0.1
+            configBlock: |-
+              tls_servername cloudflare-dns.com
+              policy sequential
+              health_check 5s
+          - name: cache
+            configBlock: |-
+              prefetch 20
+              serve_stale
+          - name: loop
+          - name: reload
+          - name: loadbalance
+          - name: prometheus
+            parameters: 0.0.0.0:9153
+          - name: log
+            configBlock: |-
+              class error
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: Exists
+      podAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - pihole
+                      - dnscrypt-proxy
+              topologyKey: kubernetes.io/hostname
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - coredns
+              topologyKey: kubernetes.io/hostname
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+    deployment:
+      annotations:
+        reloader.stakater.com/auto: 'true'

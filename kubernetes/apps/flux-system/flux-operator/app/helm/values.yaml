@@ -1,4 +1,0 @@
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/controlplaneio-fluxcd/charts/refs/heads/main/charts/flux-operator/values.schema.json
-serviceMonitor:
-  create: true
