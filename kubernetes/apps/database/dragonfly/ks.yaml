@@ -87,11 +87,3 @@ spec:
       kind: *dragonflyKind
       failed: status.phase != 'ready' && status.phase != 'Ready'
       current: status.phase == 'ready' || status.phase == 'Ready'
-  patches:
-    - target:
-        kind: *dragonflyKind
-      # immich needs this for bullmq, this has some pretty big performance implications though
-      patch: |-
-        - op: add
-          path: /spec/args/-
-          value: --default_lua_flags=allow-undeclared-keys

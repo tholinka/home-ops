@@ -42,51 +42,6 @@ spec:
       kind: *postgresKind
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  patches:
-    # note: remove bootstrap when switching to restore. could probably also remove managed and the init step?
-    - target:
-        kind: *postgresKind
-      patch: |-
-        kind: Cluster
-        metadata:
-          name: not-used
-        spec:
-          # Needed to make postgres-documentdb run at all, thanks to this comment for figuring this out:
-          # https://github.com/FerretDB/FerretDB/issues/4765#issuecomment-2701765707
-          postgresUID: 999
-          postgresGID: 999
-
-          postgresql:
-            shared_preload_libraries:
-              - pg_cron
-              - pg_documentdb_core
-              - pg_documentdb
-            parameters: # when I bootstrapped this, I bootstrapped it where ferretdb just uses the postgres user... if I ever re-bootstrap it, change to the ferret user - see https://github.com/fhoekstra/home-ops/commit/301d25a3f61db3f2c4383981a18ee635f380e702
-              # re-bootstrapped version is from the pg_cron docs
-              cron.database_name: postgres # if I re-bootstrap, make this ferretDB
-              # Copied from https://github.com/FerretDB/documentdb/blob/ferretdb/packaging/10-preload.sh
-              documentdb.enableCompact: "true"
-              documentdb.enableLetAndCollationForQueryMatch: "true"
-              documentdb.enableNowSystemVariable: "true"
-              documentdb.enableSortbyIdPushDownToPrimaryKey: "true"
-              documentdb.enableSchemaValidation: "true"
-              documentdb.enableBypassDocumentValidation: "true"
-              documentdb.enableUserCrud: "true"
-              documentdb.maxUserLimit: "100"
-            pg_hba: # https://github.com/FerretDB/FerretDB/issues/5284
-              # Fix for pg_cron, seems like it always runs from postgres user
-              - host postgres postgres localhost trust # change first postgres to ferretDB on re-bootstrap
-              # Fix FerretDB fe_sendauth error
-              #- host ferretDB ferret localhost trust # uncomment on re-bootstrap
-          superuserSecret:
-            name: ferretdb-initdb
-          # bootstrap: # manually create users in postgres with `k exec -n database postgres-ferretdb-1 -- psql -c "CREATE USER newuser WITH PASSWORD 'newpassword';"`, and then create dbs in mongo.. could theoretically make a postgres-init style container for it? meh
-          #   initdb:
-          #     postInitApplicationSQL:
-          #       - create extension if not exists pg_cron;
-          #       - create extension if not exists documentdb cascade;
-          #       # Instead of doing a bunch of grants on different schemas you can just grant an included role
-          #       - grant documentdb_admin_role to ferret;
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1

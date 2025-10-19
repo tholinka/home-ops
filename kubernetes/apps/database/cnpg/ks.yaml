@@ -135,18 +135,6 @@ spec:
       kind: *postgresKind
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  # patches:
-  #   - target:
-  #       kind: *postgresKind
-  #     patch: |-
-  #       kind: Cluster
-  #       metadata:
-  #         name: not-used
-  #       spec:
-  #         bootstrap:
-  #           recovery:
-  #             recoveryTarget:
-  #               targetTime: "2025-05-23 19:00:00.000000-05:00"
 
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json

@@ -73,31 +73,6 @@ spec:
       kind: *postgresKind
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  patches:
-    # note: remove bootstrap when switching to restore. could probably also remove managed and the init step, since the user is already created?
-    - target:
-        kind: *postgresKind
-      patch: |-
-        kind: Cluster
-        metadata:
-          name: not-used
-        spec:
-          postgresql:
-            shared_preload_libraries:
-              - "vchord.so"
-          bootstrap:
-            initdb:
-              database: immich
-              owner: immich
-              secret:
-                name: immich-postgres-user
-              dataChecksums: true
-              postInitApplicationSQL:
-                - CREATE EXTENSION vchord CASCADE;
-                - CREATE EXTENSION earthdistance CASCADE;
-                # still need these?
-                - ALTER DATABASE immich SET search_path TO "$user", public, vectors;
-                - ALTER SCHEMA vectors OWNER TO immich;
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
