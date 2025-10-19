@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/group: Observability
     gethomepage.dev/name: Grafana
     gethomepage.dev/icon: grafana.svg
+    gethomepage.dev/pod-selector: app=grafana
 spec:
   hostnames:
     - grafana.${SECRET_DOMAIN}

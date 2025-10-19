@@ -144,11 +144,6 @@
         icon: maintainerr.svg
         app: maintainerr
         namespace: media
-    - Wizarr:
-        icon: wizarr.svg
-        href: https://join.${SECRET_DOMAIN}
-        app: wizarr
-        namespace: media
     - Your Spotify:
         icon: your-spotify.svg
         href: https://ys.${SECRET_DOMAIN}
