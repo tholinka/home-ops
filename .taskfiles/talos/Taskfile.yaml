@@ -27,6 +27,8 @@ tasks:
       MODE: '{{.MODE | default "auto"}}'
     requires:
       vars: [IP]
+    env:
+      ipv6_prefix: fd00
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info
@@ -57,6 +59,8 @@ tasks:
       - echo {{.TALOS_IMAGE}} | grep "{{.CURRENT_IMAGE}}:{{.CURRENT_VERSION}}"
     requires:
       vars: [IP]
+    env:
+      ipv6_prefix: fd00
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info

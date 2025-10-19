@@ -69,9 +69,11 @@ spec:
     service:
       app:
         type: LoadBalancer
+        ipFamilies: [IPv4, IPv6]
+        ipFamilyPolicy: PreferDualStack
         externalTrafficPolicy: Local
         annotations:
-          lbipam.cilium.io/ips: 192.168.20.30
+          lbipam.cilium.io/ips: 192.168.20.30, ${IPV6_PREFIX}:20::30
         ports:
           http:
             port: *port

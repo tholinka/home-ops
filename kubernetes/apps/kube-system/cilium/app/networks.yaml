@@ -8,7 +8,7 @@ spec:
   allowFirstLastIPs: 'No'
   blocks:
     - cidr: 192.168.20.0/24
-    - cidr: ::ffff:192.168.20.0/120 # IPv4-mapped IPv6
+    - cidr: ${IPV6_PREFIX}:20::/80
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliuml2announcementpolicy_v2alpha1.json
 apiVersion: cilium.io/v2alpha1
@@ -17,8 +17,9 @@ metadata:
   name: l2-policy
 spec:
   loadBalancerIPs: true
-  interfaces:
-    - ^eth[0-9]+
+  # NOTE: interfaces might need to be set if you have more than one active NIC on your hosts
+  # interfaces:
+  #   - ^bond[0-9]+
   nodeSelector:
     matchLabels:
       kubernetes.io/os: linux
@@ -27,7 +28,7 @@ spec:
 apiVersion: cilium.io/v2
 kind: CiliumBGPAdvertisement
 metadata:
-  name: cilium-bgp-advertisement
+  name: l3-bgp-advertisement
   labels:
     advertise: bgp
 spec:
@@ -47,10 +48,15 @@ spec:
 apiVersion: cilium.io/v2
 kind: CiliumBGPPeerConfig
 metadata:
-  name: cilium-bgp-peer-config
+  name: l3-bgp-peer-config
 spec:
   families:
     - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: bgp
+    - afi: ipv6
       safi: unicast
       advertisements:
         matchLabels:
@@ -63,7 +69,7 @@ spec:
 apiVersion: cilium.io/v2
 kind: CiliumBGPClusterConfig
 metadata:
-  name: cilium-bgp-cluster-config
+  name: l3-bgp-cluster-config
 spec:
   nodeSelector:
     matchLabels:
@@ -76,7 +82,12 @@ spec:
           peerASN: 64513
           peerAddress: 192.168.20.1
           peerConfigRef:
-            name: cilium-bgp-peer-config
+            name: l3-bgp-peer-config
+        - name: router-v6
+          peerASN: 64513
+          peerAddress: ${IPV6_PREFIX}::1
+          peerConfigRef:
+            name: l3-bgp-peer-config
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/service-v1.json
 apiVersion: v1
@@ -84,9 +95,11 @@ kind: Service
 metadata:
   name: kube-api
   annotations:
-    lbipam.cilium.io/ips: 192.168.20.2, ::ffff:192.168.20.2
+    lbipam.cilium.io/ips: 192.168.20.2, ${IPV6_PREFIX}:20::2
 spec:
   type: LoadBalancer
+  ipFamilies: [IPv4, IPv6]
+  ipFamilyPolicy: PreferDualStack
   selector:
     k8s-app: kube-apiserver
     tier: control-plane

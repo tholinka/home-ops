@@ -91,9 +91,10 @@ spec:
     service:
       *app :
         type: LoadBalancer
-        #clusterIP: 10.96.0.11
+        ipFamilies: [IPv4, IPv6]
+        ipFamilyPolicy: PreferDualStack
         annotations:
-          lbipam.cilium.io/ips: 192.168.20.7
+          lbipam.cilium.io/ips: 192.168.20.7, ${IPV6_PREFIX}:20::7
         ports:
           dns-udp:
             primary: false

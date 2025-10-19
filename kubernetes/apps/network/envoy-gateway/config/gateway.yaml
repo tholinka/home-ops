@@ -23,7 +23,7 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      lbipam.cilium.io/ips: 192.168.20.10,::ffff:192.168.20.10
+      lbipam.cilium.io/ips: 192.168.20.10, ${IPV6_PREFIX}:20::10
       gatus.home-operations.com/endpoint: |-
         group: internal
         guarded: true
@@ -74,7 +74,7 @@ spec:
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
-      lbipam.cilium.io/ips: 192.168.20.3,::ffff:192.168.20.3
+      lbipam.cilium.io/ips: 192.168.20.3, ${IPV6_PREFIX}:20::3
   listeners:
     - name: http
       protocol: HTTP
@@ -113,7 +113,7 @@ spec:
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
-      lbipam.cilium.io/ips: 192.168.20.4,::ffff:192.168.20.4
+      lbipam.cilium.io/ips: 192.168.20.4, ${IPV6_PREFIX}:20::4
   listeners:
     - name: http
       protocol: HTTP

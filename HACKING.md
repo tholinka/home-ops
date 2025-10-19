@@ -7,7 +7,7 @@
 
 ### UniFi BGP Setup
 
-Verify it's working with `vtysh -c 'show ip bgp'`.
+Verify it's working with `vtysh -c 'show bgp ipv4' ; vtysh -c 'show bgp ipv6'`.
 
 ```conf
 ! -*- bgp -*-
@@ -20,6 +20,7 @@ log file stdout
 router bgp 64513
   bgp router-id 192.168.5.1
   no bgp ebgp-requires-policy
+  maximum-paths 3
 
   neighbor k8s peer-group
   neighbor k8s remote-as 64514
@@ -38,6 +39,12 @@ router bgp 64513
   neighbor 192.168.20.101 peer-group k8s
 
   address-family ipv4 unicast
+    neighbor k8s next-hop-self
+    neighbor k8s soft-reconfiguration inbound
+  exit-address-family
+  !
+
+  address-family ipv6 unicast
     neighbor k8s next-hop-self
     neighbor k8s soft-reconfiguration inbound
   exit-address-family

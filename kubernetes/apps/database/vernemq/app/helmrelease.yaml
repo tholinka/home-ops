@@ -108,10 +108,12 @@ spec:
       app:
         primary: true
         type: LoadBalancer
+        ipFamilies: [IPv4, IPv6]
+        ipFamilyPolicy: PreferDualStack
         sessionAffinity: ClientIP # vernemq docs note that hopping between pods causes a significate data replication/sync cost
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: 'mqtt.${SECRET_DOMAIN}.'
-          lbipam.cilium.io/ips: 192.168.20.8, ::ffff:192.168.20.8
+          external-dns.alpha.kubernetes.io/hostname: mqtt.${SECRET_DOMAIN}.
+          lbipam.cilium.io/ips: 192.168.20.8, ${IPV6_PREFIX}:20::8
         ports: &ports
           mqtt:
             port: 1883
