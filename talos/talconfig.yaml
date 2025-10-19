@@ -69,8 +69,6 @@ nodes:
               MONITOR cluster@nas.servers.internal 1 secondaryuser "${nut_password:=default_password}" secondary
               SHUTDOWNCMD "/sbin/poweroff"
             mountPath: /usr/local/etc/nut/upsmon.conf
-    extraManifests: &extraManifests
-      - ./manifests/watchdogtimerconfig.yaml
 
   - hostname: lenovo-m700-1
     ipAddress: 192.168.20.61
@@ -103,7 +101,6 @@ nodes:
           - 192.168.20.61/24
           - ${ipv6_prefix}:20::61/64
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels: &lenovoLabels
       cpu: i5-6400T
       intel.feature.node.kubernetes.io/gpu: 'true'
@@ -126,7 +123,6 @@ nodes:
           - 192.168.20.62/24
           - ${ipv6_prefix}:20::62/64
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels: *lenovoLabels
     patches: *lenovoPatches
 
@@ -143,7 +139,6 @@ nodes:
           - 192.168.20.63/24
           - ${ipv6_prefix}:20::63/64
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels: *lenovoLabels
     patches: *lenovoPatches
 
@@ -167,7 +162,6 @@ nodes:
         # vip: &vip
         #   ip: 192.168.20.2
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels: &hpLabels
       cpu: i5-9500T
       intel.feature.node.kubernetes.io/gpu: 'true'
@@ -196,7 +190,6 @@ nodes:
           - ${ipv6_prefix}:20::72/64
         # vip: *vip
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels: *hpLabels
     patches: *hpPatches
 
@@ -214,7 +207,6 @@ nodes:
           - ${ipv6_prefix}:20::73/64
         # vip: *vip
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels: *hpLabels
     patches: *hpPatches
 
@@ -232,7 +224,6 @@ nodes:
           - 192.168.20.74/24
           - ${ipv6_prefix}:20::74/64
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels:
       cpu: i5-8500T
       intel.feature.node.kubernetes.io/gpu: 'true'
@@ -264,7 +255,6 @@ nodes:
           - 192.168.20.101/24
           - ${ipv6_prefix}:20::101/64
     extensionServices: *extensionServices
-    extraManifests: *extraManifests
     nodeLabels:
       cpu: qemu
     patches:
@@ -280,6 +270,7 @@ patches:
   - '@./patches/global/machine-sysctls.yaml'
   - '@./patches/global/machine-time.yaml'
   - '@./patches/global/machine-udev.yaml'
+  - '@./patches/global/watchdogtimerconfig.yaml'
 
 # Controller patches
 controlPlane:
