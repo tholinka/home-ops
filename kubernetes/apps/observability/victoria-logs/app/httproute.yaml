@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/group: Observability
     gethomepage.dev/name: Victoria Logs
     gethomepage.dev/icon: victoriametrics.svg
-    gethomepage.dev/pod-selector: victoria-logs-single
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=victoria-logs-single
 spec:
   hostnames:
     - victoria-logs.${SECRET_DOMAIN}

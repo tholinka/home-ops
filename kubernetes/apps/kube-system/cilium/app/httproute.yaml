@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/group: Observability
     gethomepage.dev/name: Cilium Hubble
     gethomepage.dev/icon: cilium.svg
-    gethomepage.dev/pod-selector: hubble-ui
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=hubble-ui
 spec:
   hostnames:
     - hubble.${SECRET_DOMAIN}

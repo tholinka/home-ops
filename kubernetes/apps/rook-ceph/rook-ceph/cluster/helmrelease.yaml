@@ -28,7 +28,7 @@ spec:
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/name: Rook Ceph
           gethomepage.dev/icon: rook.svg
-          gethomepage.dev/pod-selector: ceph-mgr
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=ceph-mgr
         host:
           name: rook.${SECRET_DOMAIN}
           path: /

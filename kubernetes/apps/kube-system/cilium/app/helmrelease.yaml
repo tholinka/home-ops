@@ -65,10 +65,13 @@ spec:
         prometheus:
           serviceMonitor:
             enabled: true
+      ui:
+        enabled: true
+        rollOutPods: true
     ipam:
       mode: kubernetes
     enableIPv4BIGTCP: true
-    ipv4NativeRoutingCIDR: '10.69.0.0/16'
+    ipv4NativeRoutingCIDR: 10.69.0.0/16
     k8sServiceHost: 127.0.0.1
     k8sServicePort: 7445
     kubeProxyReplacement: true
@@ -77,7 +80,7 @@ spec:
       enabled: true
     loadBalancer:
       algorithm: maglev
-      mode: 'dsr'
+      mode: dsr
     localRedirectPolicy: true
     operator:
       replicas: 2
@@ -117,6 +120,3 @@ spec:
           - NET_ADMIN
           - SYS_ADMIN
           - SYS_RESOURCE
-      ui:
-        enabled: true
-        rollOutPods: true
