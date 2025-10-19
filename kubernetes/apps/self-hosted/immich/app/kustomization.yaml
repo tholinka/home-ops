@@ -6,5 +6,6 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./httproute.yaml
+  - ./ocirepository.yaml
   - ./pvc.yaml
   - ./volsync.yaml
