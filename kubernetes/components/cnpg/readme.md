@@ -9,13 +9,16 @@
 ### Variables to set:
 
 ```yaml
+  dependsOn:
+    - name: cnpg-crds
+      namespace: *namespace
+    - name: openebs
+      namespace: openebs-system
   postBuild:
     substitute:
       APP: *app # required
       CNPG_REPLICAS: '1 '# default
-      CNPG_IMAGE: ghcr.io/cloudnative-pg/postgresql # default
-       # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      POSTGRES_VERSION: 17.4-bookworm # required
+      CNPG_IMAGE: ghcr.io/cloudnative-pg/postgresql:17.6-standard-trixie@sha256:e185037ad4c926fece1d3cfd1ec99680a862d7d02b160354e263a04a2d46b5f5 # required
       CNPG_SIZE: 2Gi # default
       CNPG_STORAGECLASS: openebs-hostpath # default
       CNPG_REQUESTS_CPU: 500m # default
@@ -29,22 +32,6 @@
 ### HealthChecks
 
 ```yaml
-  postBuild:
-    substitute:
-      APP: postgres
-      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      CNPG_REPLICAS: '2'
-      CNPG_VERSION: 17.4-bookworm
-      CNPG_SIZE: 2Gi
-      CNPG_LIMITS_MEMORY_HUGEPAGES: 1Gi
-      CNPG_LIMITS_MEMORY: 2Gi
-  components:
-    - ../../../../components/cnpg/backup
-  dependsOn:
-    - name: cnpg-crds
-      namespace: *namespace
-    - name: openebs
-      namespace: openebs-system
   healthChecks:
     - apiVersion: &postgresVersion postgresql.cnpg.io/v1
       kind: &postgresKind Cluster

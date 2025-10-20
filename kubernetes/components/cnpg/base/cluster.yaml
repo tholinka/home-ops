@@ -6,7 +6,7 @@ metadata:
   name: postgres-${APP}
 spec:
   instances: ${CNPG_REPLICAS:=1}
-  imageName: ${CNPG_IMAGE:=ghcr.io/cloudnative-pg/postgresql}:${CNPG_VERSION}
+  imageName: ${CNPG_IMAGE}
   primaryUpdateMethod: switchover
   primaryUpdateStrategy: unsupervised
   managed:
