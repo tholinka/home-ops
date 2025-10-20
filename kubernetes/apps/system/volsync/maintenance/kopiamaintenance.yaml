@@ -11,6 +11,10 @@ spec:
     schedule: 30 3 * * *
   repository:
     repository: volsync-nfs-maintenance-secret
+  podSecurityContext:
+    runAsUser: 0
+    runAsGroup: 1000
+    runAsNonRoot: false
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/volsync.backube/kopiamaintenance_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1

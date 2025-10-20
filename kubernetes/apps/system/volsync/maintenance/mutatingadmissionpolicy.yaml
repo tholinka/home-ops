@@ -52,10 +52,6 @@ spec:
               value: "amd64"
             },
             JSONPatch{
-              op: "replace", path: "/spec/containers/0/securityContext/runAsUser",
-              value: 0
-            },
-            JSONPatch{
               op: "add", path: "/spec/template/spec/volumes/-",
               value: Object.spec.template.spec.volumes{
                 name: "repository",

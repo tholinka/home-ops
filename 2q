@@ -1,0 +1,108 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    batch.kubernetes.io/cronjob-scheduled-timestamp: "2025-10-19T03:30:00-05:00"
+  creationTimestamp: "2025-10-20T02:52:29Z"
+  generation: 1
+  labels:
+    volsync.backube/kopia-maintenance: "true"
+    volsync.backube/maintenance-name: nfs-daily
+  name: kopia-maint-nfs-daily-c7bb251eeaf443b9-29347710
+  namespace: system
+  ownerReferences:
+  - apiVersion: batch/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: CronJob
+    name: kopia-maint-nfs-daily-c7bb251eeaf443b9
+    uid: 72299dd4-dd16-4847-a940-e7aa8af8a179
+  resourceVersion: "262513054"
+  uid: d69d9de5-50a2-482b-8595-7d16cd779d9a
+spec:
+  activeDeadlineSeconds: 3600
+  backoffLimit: 5
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: d69d9de5-50a2-482b-8595-7d16cd779d9a
+  suspend: false
+  template:
+    metadata:
+      labels:
+        batch.kubernetes.io/controller-uid: d69d9de5-50a2-482b-8595-7d16cd779d9a
+        batch.kubernetes.io/job-name: kopia-maint-nfs-daily-c7bb251eeaf443b9-29347710
+        controller-uid: d69d9de5-50a2-482b-8595-7d16cd779d9a
+        job-name: kopia-maint-nfs-daily-c7bb251eeaf443b9-29347710
+        volsync.backube/kopia-maintenance: "true"
+        volsync.backube/maintenance-name: nfs-daily
+    spec:
+      containers:
+      - command:
+        - /mover-kopia/entry.sh
+        env:
+        - name: DIRECTION
+          value: maintenance
+        - name: DATA_DIR
+          value: /data
+        - name: KOPIA_CACHE_DIR
+          value: /cache
+        envFrom:
+        - secretRef:
+            name: volsync-nfs-maintenance-secret
+        image: ghcr.io/perfectra1n/volsync:v0.16.10@sha256:8726d96122dde22fa270e2f0b42f253eaee0e7a5be00436c404d3f4deb4b1549
+        imagePullPolicy: IfNotPresent
+        name: kopia-maintenance
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /cache
+          name: kopia-cache
+        - mountPath: /repository
+          name: repository
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      restartPolicy: OnFailure
+      schedulerName: default-scheduler
+      securityContext:
+        runAsUser: 0
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      - emptyDir:
+          sizeLimit: 8Gi
+        name: kopia-cache
+      - name: repository
+        nfs:
+          path: /backups/VolsyncKopia
+          server: nas.servers.internal
+status:
+  active: 1
+  failed: 1
+  ready: 0
+  startTime: "2025-10-20T02:52:29Z"
+  terminating: 0
+  uncountedTerminatedPods: {}
