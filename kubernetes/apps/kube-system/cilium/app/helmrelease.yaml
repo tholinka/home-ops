@@ -31,11 +31,10 @@ spec:
     cluster:
       id: 1
       name: main
-    # cilium pods fail startup probe?? logs seem to indicate it can't delete the old endpoints for some reason due to a 404, try on re-bootstrap?
-    # ipv6:
-    #   enabled: true
+    ipv6:
+      enabled: true
     enableIPv6BIGTCP: true
-    ipv6NativeRoutingCIDR: ${IPV6_PREFIX}:1069::/80
+    ipv6NativeRoutingCIDR: fc69::/16
     dashboards:
       enabled: true
     # NOTE: devices might need to be set if you have more than one active NIC on your hosts

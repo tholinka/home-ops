@@ -12,41 +12,34 @@ Verify it's working with `vtysh -c 'show bgp ipv4' ; vtysh -c 'show bgp ipv6'`.
 ```conf
 ! -*- bgp -*-
 !
-hostname $UDMP_HOSTNAME
-password zebra
 frr defaults traditional
-log file stdout
 !
 router bgp 64513
   bgp router-id 192.168.5.1
   no bgp ebgp-requires-policy
-  maximum-paths 3
+  maximum-paths 9
 
-  neighbor k8s peer-group
-  neighbor k8s remote-as 64514
+  neighbor k8s-v4 peer-group
+  neighbor k8s-v4 remote-as 64514
 
-  neighbor 192.168.20.51 peer-group k8s
-
-  neighbor 192.168.20.61 peer-group k8s
-  neighbor 192.168.20.62 peer-group k8s
-  neighbor 192.168.20.63 peer-group k8s
-
-  neighbor 192.168.20.71 peer-group k8s
-  neighbor 192.168.20.72 peer-group k8s
-  neighbor 192.168.20.73 peer-group k8s
-  neighbor 192.168.20.74 peer-group k8s
-
-  neighbor 192.168.20.101 peer-group k8s
+  bgp listen range 192.168.20.0/24 peer-group k8s-v4
 
   address-family ipv4 unicast
-    neighbor k8s next-hop-self
-    neighbor k8s soft-reconfiguration inbound
+    neighbor k8s-v4 next-hop-self
+    neighbor k8s-v4 soft-reconfiguration inbound
   exit-address-family
   !
 
+  neighbor k8s-v6 peer-group
+  neighbor k8s-v6 remote-as 64514
+
+  bgp listen range REPLACE_WITH_IPV6_PREFIX::/64 peer-group k8s-v6
+
   address-family ipv6 unicast
-    neighbor k8s next-hop-self
-    neighbor k8s soft-reconfiguration inbound
+    neighbor k8s-v6 activate
+    neighbor k8s-v6 next-hop-self
+    neighbor k8s-v6 soft-reconfiguration inbound
+    neighbor k8s-v6 maximum-prefix 256
   exit-address-family
   !
 route-map ALLOW-ALL permit 10

@@ -33,6 +33,8 @@ spec:
               - tunnel
               - --config
               - /etc/cloudflared/config/config.yaml
+              - --edge-ip-version
+              - auto
               - run
               - '$(TUNNEL_ID)'
             probes:

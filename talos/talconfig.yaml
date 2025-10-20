@@ -10,10 +10,10 @@ endpoint: https://192.168.20.2:6443
 
 clusterPodNets:
   - 10.69.0.0/16
-  - ${ipv6_prefix}:1069::/80
+  - fc69::/16
 clusterSvcNets:
   - 10.96.0.0/16
-  - ${ipv6_prefix}:1096::/80
+  - fc96::/16
 
 additionalApiServerCertSans: &sans
   - cluster.servers.internal

@@ -5,7 +5,7 @@ kind: EnvoyProxy
 metadata:
   name: config
 spec:
-  #ipFamily: DualStack
+  ipFamily: DualStack
   telemetry:
     metrics:
       prometheus:
