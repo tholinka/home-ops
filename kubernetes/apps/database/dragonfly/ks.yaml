@@ -1,43 +1,9 @@
 ---
-# yaml-language-server: $schema=https://schemas.tholinka.dev/source.toolkit.fluxcd.io/gitrepository_v1.json
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: dragonfly-crds
-spec:
-  interval: 1h
-  url: https://github.com/dragonflydb/dragonfly-operator.git
-  ref:
-    tag: v1.3.0
-  ignore: |
-    # exclude
-    /*
-    # include
-    !manifests/crd.yaml
----
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app dragonfly-crds
-  namespace: &namespace database
-spec:
-  interval: 1h
-  targetNamespace: *namespace
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: *app
-  healthChecks:
-    - apiVersion: apiextensions.k8s.io/v1
-      kind: CustomResourceDefinition
-      name: dragonflies.dragonflydb.io
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: dragonfly
+  name: dragonfly-operator
   namespace: &namespace database
 spec:
   interval: 1h
@@ -48,10 +14,10 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  dependsOn:
-    - name: dragonfly-crds
-      namespace: *namespace
-  wait: true
+  healthChecks:
+    - apiVersion: apiextensions.k8s.io/v1
+      kind: CustomResourceDefinition
+      name: dragonflies.dragonflydb.io
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -69,7 +35,7 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   dependsOn:
-    - name: dragonfly
+    - name: dragonfly-operator
       namespace: *namespace
   postBuild:
     substitute:

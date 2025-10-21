@@ -14,3 +14,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
+  dependsOn:
+    - name: dragonfly-cluster
+      namespace: database
