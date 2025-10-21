@@ -55,7 +55,7 @@ spec:
       APP: immich
       CNPG_REPLICAS: '2'
       # on upgrade of vectorchord, run: k exec -n self-hosted postgres-immich-1 -- psql -d immich -c 'ALTER EXTENSION vchord UPDATE;'
-      CNPG_IMAGE: ghcr.io/tensorchord/cloudnative-vectorchord:17.5@sha256:77d394c01d70180f18453d44f9a2778d743eb7dd92cf46cd2b4b2aa64602f7b9
+      CNPG_IMAGE: ghcr.io/tensorchord/cloudnative-vectorchord:17.6@sha256:bc5fbeba82a75de3f25d06b1dda8a7de42711ab2a0adcfca140d8344bf4d1b62
       CNPG_SIZE: 5Gi
       CNPG_LIMITS_MEMORY_HUGEPAGES: 512Mi
       CNPG_LIMITS_MEMORY: 1Gi
