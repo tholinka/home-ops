@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://flux.tholinka.dev/helmrelease/v2/github/cloudnative-pg/charts/main/charts/plugin-barman-cloud
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app plugin-barman-cloud
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
