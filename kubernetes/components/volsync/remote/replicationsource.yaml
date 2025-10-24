@@ -26,18 +26,3 @@ spec:
       daily: 4
     storageClassName: '${VOLSYNC_STORAGECLASS:=ceph-block}'
     volumeSnapshotClassName: '${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}'
-    # on new repository run:
-    # kopia maintenance set --extend-object-locks true
-    # kopia repo set-parameters --retention-mode COMPLIANCE --retention-period 5d
-    # equivalent to the following snippet (doesn't work because there's no connection info present):
-    # policyConfig:
-    #   repositoryConfig: |
-    #     {
-    #       "blobRetention": {
-    #         "retentionMode": "COMPLIANCE",
-    #         "retentionPeriod": 432000000000000
-    #       },
-    #       "maintenance": {
-    #         "extendObjectLocks": true
-    #       }
-    #     }
