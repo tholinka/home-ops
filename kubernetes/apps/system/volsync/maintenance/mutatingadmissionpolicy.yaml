@@ -52,6 +52,10 @@ spec:
               value: "amd64"
             },
             JSONPatch{
+              op: "replace", path: "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
+              value: false
+            },
+            JSONPatch{
               op: "add", path: "/spec/template/spec/volumes/-",
               value: Object.spec.template.spec.volumes{
                 name: "repository",
