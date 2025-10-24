@@ -10,13 +10,32 @@ spec:
     kind: OCIRepository
     name: *app
   values:
-    fullnameOverride: victoria-logs
-    retentionPeriod: 30d
+    fullnameOverride: *app
+    retentionPeriod: 14d
     server:
       persistentVolume:
         enabled: true
         storageClassName: ceph-block
         size: 20Gi
+      route:
+        enabled: true
+        hostnames:
+          - victoria-logs.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: network
+        extraRules:
+          - filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /select/vmui/
+                  statusCode: 302
+            matches:
+              - path:
+                  type: Exact
+                  value: /
       serviceMonitor:
         enabled: true
     dashboards:
