@@ -67,7 +67,6 @@ spec:
         parentRefs:
           - name: internal
             namespace: network
-            sectionName: https
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: Kopia

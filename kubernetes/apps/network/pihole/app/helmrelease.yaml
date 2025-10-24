@@ -216,7 +216,6 @@ spec:
         parentRefs:
           - name: internal
             namespace: network
-            sectionName: https
         rules:
           - backendRefs: [identifier: *app]
             sessionPersistence:

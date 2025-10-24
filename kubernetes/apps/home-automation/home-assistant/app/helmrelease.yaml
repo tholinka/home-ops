@@ -89,7 +89,6 @@ spec:
         parentRefs:
           - name: external
             namespace: network
-            sectionName: https
         rules:
           - backendRefs: [{}]
       code: # split so it's not external, and we can ext-auth it as well
@@ -98,7 +97,6 @@ spec:
         parentRefs:
           - name: internal
             namespace: network
-            sectionName: https
         rules:
           - backendRefs:
               - name: *app

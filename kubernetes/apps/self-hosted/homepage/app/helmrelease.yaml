@@ -120,10 +120,8 @@ spec:
         parentRefs:
           # - name: internal
           #   namespace: network
-          #   sectionName: https
           - name: internal-root
             namespace: network
-            sectionName: https
         rules:
           - backendRefs: [{}]
     persistence:

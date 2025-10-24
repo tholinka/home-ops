@@ -87,7 +87,6 @@ spec:
         parentRefs:
           - name: external
             namespace: network
-            sectionName: https
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Observability

@@ -36,7 +36,6 @@ spec:
         parentRefs:
           - name: internal
             namespace: network
-            sectionName: https
     cephClusterSpec:
       cephConfig:
         global: # all values must be string
