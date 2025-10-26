@@ -6,7 +6,7 @@ talosVersion: v1.11.3
 kubernetesVersion: v1.34.1
 
 clusterName: kubernetes
-endpoint: https://192.168.20.2:6443
+endpoint: https://cluster.servers.internal:6443
 
 clusterPodNets:
   - 10.69.0.0/16
