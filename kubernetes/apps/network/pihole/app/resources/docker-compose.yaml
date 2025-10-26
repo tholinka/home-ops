@@ -3,6 +3,7 @@
 services:
   dnscrypt-proxy:
     restart: always
+    pull_policy: always
     image: ghcr.io/klutchell/dnscrypt-proxy:main
     # ports:
     #   - "5053:5053/tcp"
@@ -15,6 +16,7 @@ services:
         target: /config/dnscrypt-proxy.toml
   pihole:
     restart: always
+    pull_policy: always
     image: ghcr.io/pi-hole/pihole:latest
     ports:
       - target: 53
@@ -47,10 +49,10 @@ services:
     healthcheck:
       start_period: 5m
     configs:
-    #   - source: pihole-dnsmasq
-    #     target: /etc/dnsmasq.d/02-custom.conf
-    #   - source: dns_localhost
-    #     target: /etc/dnsmasq.d/03-localhost.conf
+      #   - source: pihole-dnsmasq
+      #     target: /etc/dnsmasq.d/02-custom.conf
+      #   - source: dns_localhost
+      #     target: /etc/dnsmasq.d/03-localhost.conf
       - source: dns_update_lists
         target: /config/update.sh
     entrypoint:
