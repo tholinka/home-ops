@@ -41,28 +41,6 @@ type: kubernetes.io/tls
 data: {{ ENV['lets_encrypt_tls'] | safe}}
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}-unifi
-  namespace: network
-  annotations:
-    cert-manager.io/alt-names: 'unifi.{{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }}'
-    cert-manager.io/certificate-name: {{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}-unifi
-    cert-manager.io/common-name: 'unifi.{{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }}'
-    cert-manager.io/ip-sans: ''
-    cert-manager.io/issuer-group: ''
-    cert-manager.io/issuer-kind: ClusterIssuer
-    cert-manager.io/issuer-name: letsencrypt
-    cert-manager.io/uri-sans: ''
-  labels:
-    controller.cert-manager.io/fao: 'true'
-type: kubernetes.io/tls
-# this get saved as json, but yaml is a super-set of json so we can just directly import it :)
-data: {{ ENV['lets_encrypt_unifi'] | safe}}
-{% for namespace in ['security', 'flux-system'] %}
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
 # security namespace needs cluster-secrets so it can bootstrap the ClusterSecretStore, which can then be used to get the cluster-secrets for the other namespaces
 # flux-system needs it so that flux can bootstrap itself
 apiVersion: v1
