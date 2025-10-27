@@ -75,6 +75,7 @@ services:
 
 networks:
   pihole:
+    enable_ipv6: true
     ipam:
       config:
         - subnet: 172.20.0.0/24
