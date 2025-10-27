@@ -3,7 +3,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: KopiaMaintenance
 metadata:
-  name: nfs-daily
+  name: nfs
   namespace: system
 spec:
   enabled: true
@@ -20,11 +20,11 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: KopiaMaintenance
 metadata:
-  name: s3-weekly
+  name: s3
   namespace: system
 spec:
   enabled: true
   trigger:
-    schedule: 30 3 * * 0
+    schedule: 30 3 * * */3
   repository:
     repository: volsync-s3-maintenance-secret
