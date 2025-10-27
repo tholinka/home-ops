@@ -38,19 +38,10 @@ spec:
     - patchType: JSONPatch
       jsonPatch:
         # patches in order:
-        # - don't run on rpi, as its very slow :)
-        # - runAsUser: 0, as this is what the mover pods run as, so it's required to not have perm errors
+        # - runAsNonRoot: the pod-level securityContext sets runAsUser to 0, but the container-level securityContext has runAsNonRoot set
         # - mount nfs as /repository
         expression: >-
           [
-            JSONPatch{
-              op: "add", path: "/spec/template/spec/nodeSelector",
-              value: Object.spec.template.spec.nodeSelector{}
-            },
-            JSONPatch{
-              op: "add", path: "/spec/template/spec/nodeSelector/kubernetes.io~1arch",
-              value: "amd64"
-            },
             JSONPatch{
               op: "replace", path: "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
               value: false
@@ -71,5 +62,56 @@ spec:
                 name: "repository",
                 mountPath: "/repository"
               }
+            }
+          ]
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.34.0/mutatingadmissionpolicybinding-admissionregistration-v1beta1.json
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: kopia-maintenance
+spec:
+  policyName: kopia-maintenance
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.34.0/mutatingadmissionpolicy-admissionregistration-v1beta1.json
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: kopia-maintenance
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - batch
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - jobs
+  matchConditions:
+    - name: has-kopia-maint-job-name-prefix
+      expression: >
+        object.metadata.name.startsWith("kopia-maint")
+    - name: node-selector-does-not-exist
+      expression: >
+        !has(object.spec.template.spec.nodeSelector)
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        # patches in order:
+        # - don't run on rpi, as its very slow :)
+        expression: >-
+          [
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/nodeSelector",
+              value: Object.spec.template.spec.nodeSelector{}
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/nodeSelector/kubernetes.io~1arch",
+              value: "amd64"
             }
           ]
