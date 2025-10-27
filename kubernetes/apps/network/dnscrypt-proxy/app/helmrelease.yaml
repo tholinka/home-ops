@@ -105,6 +105,11 @@ spec:
             port: 53
             protocol: TCP
     persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /config
+            subPath: config
       config-map:
         type: configMap
         name: dnscrypt-proxy-configmap
