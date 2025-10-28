@@ -5,7 +5,7 @@
 			defaultRegistryUrlTemplate: "https://grafana.com/api/dashboards/{{packageName}}",
 			format: "json",
 			transformTemplates: [
-				'{"releases":[{"version": $string(revision)}], "sourceDirectory": $string(name)}'
+				'{"releases":[{"version": $string(revision)}], "sourceDirectory": name}'
 			],
 		},
 	},
