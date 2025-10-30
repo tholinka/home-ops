@@ -12,7 +12,11 @@ spec:
   values:
     controllers:
       *app :
+        replicas: 2
         strategy: RollingUpdate
+        rollingUpdate:
+          unavailable: 1
+          surge: 1
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -47,7 +51,7 @@ spec:
                 cpu: 10m
                 memory: 256Mi
               limits:
-                memory: 2Gi
+                memory: 3Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
