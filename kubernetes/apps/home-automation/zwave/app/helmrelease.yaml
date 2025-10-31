@@ -38,12 +38,13 @@ spec:
               capabilities: { drop: ['ALL'] }
             resources:
               requests:
-                cpu: 10m
+                cpu: 50m
                 memory: 128Mi
               limits:
-                memory: 512Mi
+                memory: 256Mi
                 squat.ai/gpio: 1
     defaultPodOptions:
+      priorityClassName: system-node-critical # force other pods to move off the pi node
       nodeSelector:
         kubernetes.io/hostname: p1 # only p1 has the zwave ZAC93-800 GPIO
       securityContext:
