@@ -37,6 +37,10 @@ spec:
           global:
             resolveTimeout: 5m
         externalUrl: https://alertmanager.${SECRET_DOMAIN}
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
         storage:
           volumeClaimTemplate:
             spec:
@@ -50,6 +54,11 @@ spec:
           component: kube-apiserver # etcd runs on control plane nodes
     kubeProxy:
       enabled: false
+    prometheusOperator:
+      resources:
+        requests:
+          cpu: 1m
+          memory: 64Mi
     prometheus:
       route:
         main:
@@ -100,8 +109,16 @@ spec:
                   storage: 50Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
     grafana:
       enabled: false
       forceDeployDashboards: true
