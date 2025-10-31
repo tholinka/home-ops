@@ -87,6 +87,10 @@ spec:
           log_response_payload false
     dashboards:
       enabled: true
+    resources:
+      limits:
+        cpu: 50m
+        memory: 64Mi
     serviceMonitor:
       enabled: true
     logLevel: warn
