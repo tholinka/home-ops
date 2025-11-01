@@ -13,17 +13,13 @@ spec:
   values:
     controllers:
       *app :
-        enabled: true
-        type: deployment
         annotations:
           reloader.stakater.com/auto: 'true'
-        labels: {}
         replicas: 3
         strategy: RollingUpdate
         rollingUpdate:
           unavailable: 1
           surge: 1
-
         containers:
           app:
             image:
@@ -96,14 +92,43 @@ spec:
         annotations:
           lbipam.cilium.io/ips: 192.168.20.7, ${IPV6_PREFIX}:20::7
         ports:
+          http:
+            primary: true
+            port: 80
           dns-udp:
-            primary: false
             port: 53
             protocol: UDP
           dns-tcp:
-            primary: false
             port: 53
             protocol: TCP
+
+    route:
+      app:
+        hostnames: ['{{ .Release.Name }}.${SECRET_DOMAIN}']
+        parentRefs:
+          - name: internal
+            namespace: network
+        rules:
+          - backendRefs: [{}]
+            sessionPersistence:
+              sessionName: *app
+              type: Cookie
+              absoluteTimeout: 35m
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/name: Dnscrypt Proxy
+          gethomepage.dev/icon: azure-dns.svg
+
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+
     persistence:
       tmpfs:
         type: emptyDir

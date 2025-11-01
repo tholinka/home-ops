@@ -18,6 +18,8 @@ spec:
     - <<: *policy
       namespace: media
     - <<: *policy
+      namespace: network
+    - <<: *policy
       namespace: observability
     - <<: *policy
       namespace: self-hosted

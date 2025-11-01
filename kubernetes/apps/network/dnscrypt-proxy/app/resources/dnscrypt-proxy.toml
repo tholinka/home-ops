@@ -991,16 +991,16 @@ key = ""
 [monitoring_ui]
 
 ## Enable the monitoring UI
-enabled = false
+enabled = true
 
 ## Listen address for the monitoring UI
-listen_address = "127.0.0.1:8080"
+listen_address = "[::]:80"
 
 ## Optional username and password for basic authentication
 ## To disable authentication, set username to an empty string: username = ""
 ## If both username and password are empty, no authentication is required
-username = "admin"
-password = "changeme"
+username = ""
+password = ""
 
 ## Optional TLS certificate and key for HTTPS
 ## If both are empty, HTTP will be used
@@ -1015,7 +1015,7 @@ enable_query_log = true
 ## 0: show all details including client IPs
 ## 1: anonymize client IPs (default)
 ## 2: aggregate data only (no individual queries or domains shown)
-privacy_level = 1
+privacy_level = 0
 
 ## Maximum number of recent query log entries to keep in memory
 ## Helps control memory usage on high-traffic servers
@@ -1029,7 +1029,7 @@ privacy_level = 1
 
 ## Enable Prometheus metrics endpoint
 ## Default: false
-# prometheus_enabled = false
+prometheus_enabled = true
 
 ## Path for Prometheus metrics endpoint
 ## Default: /metrics
