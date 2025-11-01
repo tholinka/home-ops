@@ -7,28 +7,23 @@ metadata:
   name: ref-authentik-svc
 spec:
   from:
-    - group: gateway.envoyproxy.io
+    - &policy
+      group: gateway.envoyproxy.io
       kind: SecurityPolicy
       namespace: database
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
+    - <<: *policy
       namespace: flux-system
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
+    - <<: *policy
       namespace: home-automation
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
+    - <<: *policy
       namespace: media
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
+    - <<: *policy
       namespace: observability
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
+    - <<: *policy
       namespace: self-hosted
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
+    - <<: *policy
       namespace: system
   to:
     - group: ''
       kind: Service
-      name: ${AUTH_SVC}
+      name: ak-outpost-authentik-embedded-outpost

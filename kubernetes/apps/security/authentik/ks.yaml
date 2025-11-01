@@ -55,22 +55,3 @@ spec:
       namespace: *namespace
     - name: openebs
       namespace: openebs-system
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: authentik-references
-  namespace: &namespace security
-spec:
-  interval: 1h
-  path: ./kubernetes/apps/security/authentik/references
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  postBuild:
-    substitute:
-      AUTH_SVC: ak-outpost-authentik-embedded-outpost
