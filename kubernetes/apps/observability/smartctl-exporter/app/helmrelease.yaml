@@ -28,8 +28,6 @@ spec:
           action: replace
     prometheusRules:
       enabled: false
-    nodeSelector:
-      kubernetes.io/arch: amd64
     resources:
       requests:
         cpu: 10m
