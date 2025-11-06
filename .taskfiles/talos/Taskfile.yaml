@@ -18,11 +18,9 @@ tasks:
     desc: Apply Talos config to a node [IP=required]
     dir: '{{.TALHELPER_DIR}}'
     cmds:
-      - task: down
       - talhelper gencommand apply --node {{.IP}} --extra-flags '--mode={{.MODE}}' | bash
       # shuffle a random ip, that way if the node being upgraded is the one picked we eventually pick one that's up
       - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | shuf -n 1) health; do sleep 5; done
-      - task: up
     vars:
       MODE: '{{.MODE | default "auto"}}'
     requires:
@@ -39,13 +37,11 @@ tasks:
     desc: Upgrade Talos on a single node [IP=required]
     dir: '{{.TALHELPER_DIR}}'
     cmds:
-      - task: down
       - kubectl drain {{.NODE_NAME}} --ignore-daemonsets --delete-emptydir-data --timeout=1m
       - talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}' --timeout=10m" | bash
       - kubectl uncordon {{.NODE_NAME}}
       # shuffle a random ip, that way if the node being upgraded is the one picked we eventually pick one that's up
       - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | shuf -n 1) health; do sleep 5; done
-      - task: up
     vars:
       NODE_NAME:
         sh: yq 'explode(.) | .nodes[] | select(.ipAddress == "{{.IP}}") | .hostname' {{.TALHELPER_DIR}}/talconfig.yaml
@@ -71,9 +67,7 @@ tasks:
     desc: Upgrade Kubernetes
     dir: '{{.TALHELPER_DIR}}'
     cmds:
-      - task: down
       - talhelper gencommand upgrade-k8s --extra-flags "--to '{{.KUBERNETES_VERSION}}'" | bash
-      - task: up
     vars:
       KUBERNETES_VERSION:
         sh: yq '.kubernetesVersion' {{.TALHELPER_DIR}}/talconfig.yaml
@@ -85,11 +79,9 @@ tasks:
   reboot-node:
     desc: Reboot Talos on a single node [IP=required] [MODE=default]
     cmds:
-      - task: down
       - talosctl --nodes {{.IP}} reboot --mode={{.MODE}}
       # shuffle a random ip, that way if the node being upgraded is the one picked we eventually pick one that's up
       - until talosctl --nodes $(talosctl config info --output yaml | yq --exit-status '.endpoints[]' | shuf -n 1) health; do sleep 5; done
-      - task: up
     vars:
       MODE: '{{.MODE | default "default"}}'
     requires:
@@ -162,19 +154,3 @@ tasks:
     cmd: talhelper gencommand reset --extra-flags="--reboot {{- if eq .CLI_FORCE false }} --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL{{ end }} --graceful=false --wait=false" | bash
     preconditions:
       - which talhelper
-
-  down:
-    internal: true
-    cmds:
-      - until kubectl wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
-      - until kubectl wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
-    preconditions:
-      - which kubectl
-
-  up:
-    internal: true
-    cmds:
-      - until kubectl wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
-      - until kubectl wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
-    preconditions:
-      - which kubectl
