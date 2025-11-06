@@ -16,4 +16,5 @@ machine:
     extraConfig:
       featureGates:
         ImageVolume: true
+        ResourceHealthStatus: true
       serializeImagePulls: false

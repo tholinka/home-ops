@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plex
+  name: &app plex
 spec:
   interval: 1h
   chartRef:
@@ -12,12 +12,9 @@ spec:
   driftDetection:
     ignore:
       - paths: [/spec/replicas]
-  dependsOn:
-    - name: intel-device-plugin-gpu
-      namespace: system
   values:
     controllers:
-      plex:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -51,11 +48,12 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: [ALL] }
             resources:
+              claims:
+                - name: gpu
               requests:
                 cpu: 1
                 memory: 2Gi
               limits:
-                gpu.intel.com/i915: 1
                 memory: 16Gi
     defaultPodOptions:
       securityContext:
@@ -66,6 +64,9 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
         cpu: i5-9500T
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: *app
     service:
       app:
         type: LoadBalancer
