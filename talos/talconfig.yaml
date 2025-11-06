@@ -25,51 +25,6 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: p1
-    ipAddress: 192.168.20.51
-    installDiskSelector:
-      serial: '0x31f66767'
-    schematic:
-      overlay:
-        image: siderolabs/sbc-raspberrypi
-        name: rpi_generic
-      customization:
-        extraKernelArgs: []
-        systemExtensions:
-          officialExtensions:
-            - siderolabs/nut-client
-    controlPlane: false
-    networkInterfaces:
-      - &interface
-        interface: bond0
-        bond: &bond
-          deviceSelectors:
-            - hardwareAddr: dc:a6:32:ad:6e:81
-              driver: bcmgenet
-          mode: active-backup
-        dhcp: false
-        addresses:
-          - 192.168.20.51/24
-          - ${ipv6_prefix}:20::51/64
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 192.168.20.1
-        mtu: 1500
-        vlans:
-          - vlanId: 30
-            mtu: 1500
-            dhcp: false
-            dhcpOptions:
-              routeMetric: 4096
-    extensionServices: &extensionServices
-      - name: nut-client
-        configFiles:
-          # default_password is to allow `talhelper gencommand`, but when doing `task talos:generate-config`, it's overridden
-          - content: |-
-              MONITOR cluster@nas.servers.internal 1 secondaryuser "${nut_password:=default_password}" secondary
-              SHUTDOWNCMD "/sbin/poweroff"
-            mountPath: /usr/local/etc/nut/upsmon.conf
-
   - hostname: lenovo-m700-1
     ipAddress: 192.168.20.61
     installDisk: /dev/sda
@@ -91,16 +46,35 @@ nodes:
             - siderolabs/nut-client
     controlPlane: false
     networkInterfaces:
-      - <<: *interface
+      - &interface
+        interface: bond0
         bond: &lenovoBond
-          <<: *bond
           deviceSelectors:
             - hardwareAddr: c4:*
               driver: r8169
+          mode: active-backup
+        dhcp: false
         addresses:
           - 192.168.20.61/24
           - ${ipv6_prefix}:20::61/64
-    extensionServices: *extensionServices
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.20.1
+        mtu: 1500
+        vlans:
+          - vlanId: 30
+            mtu: 1500
+            dhcp: false
+            dhcpOptions:
+              routeMetric: 4096
+    extensionServices: &extensionServices
+      - name: nut-client
+        configFiles:
+          # default_password is to allow `talhelper gencommand`, but when doing `task talos:generate-config`, it's overridden
+          - content: |-
+              MONITOR cluster@nas.servers.internal 1 secondaryuser "${nut_password:=default_password}" secondary
+              SHUTDOWNCMD "/sbin/poweroff"
+            mountPath: /usr/local/etc/nut/upsmon.conf
     nodeLabels: &lenovoLabels
       cpu: i5-6400T
       intel.feature.node.kubernetes.io/gpu: 'true'
@@ -152,7 +126,7 @@ nodes:
     networkInterfaces: # backup 1GbE port: 80:e8:2c:2f:b4:ad
       - <<: *interface
         bond: &hpBond
-          <<: *bond
+          <<: *lenovoBond
           deviceSelectors:
             - hardwareAddr: 6c:*
               driver: r8152
@@ -248,7 +222,7 @@ nodes:
     networkInterfaces:
       - <<: *interface
         bond:
-          <<: *bond
+          <<: *lenovoBond
           deviceSelectors:
             - driver: virtio_net
         addresses:

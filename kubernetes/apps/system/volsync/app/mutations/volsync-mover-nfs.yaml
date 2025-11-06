@@ -34,17 +34,8 @@ spec:
   mutations:
     - patchType: JSONPatch
       jsonPatch:
-        # volsync doesn't support arm: https://github.com/backube/volsync/issues/574
         expression: >
           [
-            JSONPatch{
-              op: "add", path: "/spec/template/spec/nodeSelector",
-              value: Object.spec.template.spec.nodeSelector{}
-            },
-            JSONPatch{
-              op: "add", path: "/spec/template/spec/nodeSelector/kubernetes.io~1arch",
-              value: "amd64"
-            },
             JSONPatch{
               op: "add", path: "/spec/template/spec/containers/0/volumeMounts/-",
               value: Object.spec.template.spec.containers.volumeMounts{

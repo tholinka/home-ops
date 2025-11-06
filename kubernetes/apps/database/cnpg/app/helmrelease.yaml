@@ -10,8 +10,6 @@ spec:
     kind: OCIRepository
     name: *name
   values:
-    nodeSelector:
-      kubernetes.io/arch: amd64
     crds:
       create: true
     monitoring:

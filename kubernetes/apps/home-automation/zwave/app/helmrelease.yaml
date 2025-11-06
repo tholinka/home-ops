@@ -42,17 +42,12 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 256Mi
-                squat.ai/gpio: 1
     defaultPodOptions:
-      priorityClassName: system-node-critical # force other pods to move off the pi node
-      nodeSelector:
-        kubernetes.io/hostname: p1 # only p1 has the zwave ZAC93-800 GPIO
       securityContext:
-        # needs to be root to access /dev/ttyAMA0
-        # runAsNonRoot: true
-        # runAsUser: 1000
-        # runAsGroup: 1000
-        # fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:

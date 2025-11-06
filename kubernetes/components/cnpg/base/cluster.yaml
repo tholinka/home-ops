@@ -29,8 +29,6 @@ spec:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname
     podAntiAffinityType: required
-    nodeSelector:
-      kubernetes.io/arch: amd64
   postgresql:
     parameters:
       max_connections: '${CNPG_MAX_CONNECTIONS:="600"}'
