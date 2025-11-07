@@ -15,7 +15,7 @@ spec:
         type: cronjob
         cronjob:
           schedule: 0 0 * * 1
-          parallelism: 9 # Set this to your number of nodes
+          parallelism: 8 # Set this to your number of nodes
           backoffLimit: 0
           failedJobsHistory: 1
           successfulJobsHistory: 0
