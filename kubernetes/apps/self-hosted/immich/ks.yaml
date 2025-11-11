@@ -84,6 +84,7 @@ spec:
     # also cpu scales the api, which is fine, but theoretically only really need to scale the microservices
     # needs https://github.com/immich-app/immich-charts/issues/94
     - ../../../../components/keda/nfs-cpu-scaler
+    - ../../../../components/cnpg/db
   dependsOn:
     - name: keda
       namespace: observability
@@ -97,6 +98,14 @@ spec:
       APP: *app
       SCALER_NAME: immich-server
       SCALER_MAX_REPLICAS: '5'
+
+      DATABASE_EXTENSIONS: |
+        [
+          { name: vector },
+          { name: vchord },
+          { name: cube },
+          { name: earthdistance }
+        ]
   prune: true
   sourceRef:
     kind: GitRepository
