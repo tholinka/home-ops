@@ -42,7 +42,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/cnpg/db
+    - ../../../../components/cnpg/app
   path: ./kubernetes/apps/security/authentik/app
   postBuild:
     substitute:

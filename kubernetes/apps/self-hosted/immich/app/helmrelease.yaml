@@ -41,6 +41,14 @@ spec:
       annotations:
         reloader.stakater.com/auto: 'true'
 
+    persistence:
+      postgres-certs:
+        type: secret
+        name: 'postgres-{{ .Release.Name }}-cert'
+        defaultMode: 0440
+        globalMounts:
+          - path: /var/run/secrets/postgresql
+
     controllers:
       main:
         containers:
@@ -68,6 +76,7 @@ spec:
       persistence:
         library:
           existingClaim: immich-photos
+
       configuration: # see https://immich.app/docs/install/config-file/
         backup:
           database:

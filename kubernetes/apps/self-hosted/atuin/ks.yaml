@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/cnpg/db
+    - ../../../../components/cnpg/app
   dependsOn:
     - name: postgres-cluster
       namespace: database

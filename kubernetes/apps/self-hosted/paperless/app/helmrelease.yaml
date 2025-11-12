@@ -141,6 +141,15 @@ spec:
             app:
               - path: /data/nas
 
+      postgres-certs:
+        type: secret
+        name: 'postgres-{{ .Release.Name }}-cert'
+        defaultMode: 0440
+        advancedMounts:
+          paperless:
+            app:
+              - path: /var/run/secrets/postgresql
+
     route:
       app:
         hostnames:
