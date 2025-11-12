@@ -16,31 +16,23 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 17.6@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
-            envFrom:
-              - secretRef:
-                  name: *app
-              - secretRef:
-                  name: atuin-initdb
         containers:
           app:
             image:
               repository: ghcr.io/atuinsh/atuin
               tag: v18.10.0@sha256:4a29feda6f352581ece849807445fe1f50f2074b4643b7bfe62b27e23705b068
             env:
-              ATUIN_HOST: 0.0.0.0
+              ATUIN_HOST: '::'
               ATUIN_PORT: &port 80
               ATUIN_OPEN_REGISTRATION: true
               ATUIN_METRICS__ENABLE: true
               ATUIN_METRICS__HOST: 0.0.0.0
               ATUIN_METRICS__PORT: &metricsPort 8081
-            envFrom:
-              - secretRef:
-                  name: *app
+              ATUIN_DB_URI:
+                valueFrom:
+                  secretKeyRef:
+                    name: '${APP}-postgres'
+                    key: url
             args:
               - server
               - start
