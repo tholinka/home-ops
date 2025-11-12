@@ -34,4 +34,4 @@ spec:
       max_connections: '${CNPG_MAX_CONNECTIONS:="600"}'
       shared_buffers: ${CNPG_SHARED_BUFFERS:=512MB}
   monitoring:
-    enablePodMonitor: true
+    enablePodMonitor: false # deprecated - https://github.com/cloudnative-pg/cloudnative-pg/pull/8753
