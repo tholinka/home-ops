@@ -10,6 +10,7 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
+    - ../../../../components/cnpg/db
   dependsOn:
     - name: keda
       namespace: observability

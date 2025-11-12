@@ -47,6 +47,12 @@ patches:
               superuser: false
               disablePassword: true
 
+            - name: paperless
+              ensure: present
+              login: true
+              superuser: false
+              disablePassword: true
+
 #         bootstrap:
 #           recovery:
 #             recoveryTarget:

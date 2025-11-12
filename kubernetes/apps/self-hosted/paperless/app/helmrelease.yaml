@@ -13,20 +13,15 @@ spec:
     ignore:
       - paths: [/spec/replicas]
   values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
     controllers:
       *app :
         annotations:
           reloader.stakater.com/auto: 'true'
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 17.6@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
-            envFrom:
-              - secretRef:
-                  name: *app
-              - secretRef:
-                  name: paperless-initdb
         containers:
           app:
             image:
@@ -39,27 +34,37 @@ spec:
               PAPERLESS_TIME_ZONE: ${TIMEZONE}
               PAPERLESS_WEBSERVER_WORKERS: '2'
               PAPERLESS_TASK_WORKERS: '2'
+
               # Configure folders
               PAPERLESS_CONSUMPTION_DIR: /data/nas/incoming
               PAPERLESS_DATA_DIR: /data/local/data
               PAPERLESS_EXPORT_DIR: /data/nas/export
               PAPERLESS_MEDIA_ROOT: /data/local/media
+
               # Configure folder importer
               PAPERLESS_CONSUMER_POLLING: '60'
               PAPERLESS_CONSUMER_RECURSIVE: 'true'
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: 'true'
+
               # Configure OCR
               PAPERLESS_OCR_LANGUAGES: eng
               PAPERLESS_OCR_LANGUAGE: eng
+
               # Configure redis integration
               PAPERLESS_REDIS: redis://dragonfly-cluster.database.svc.cluster.local:6379/1
-              # Configure user permissions
-              USERMAP_UID: '568'
-              USERMAP_GID: '568'
+
+              # Postgres
+              PAPERLESS_DBHOST: postgres-cluster-rw.database.svc.cluster.local
+              PAPERLESS_DBSSLMODE: verify-full
+              PAPERLESS_DBSSLROOTCERT: /var/run/secrets/postgresql/ca.crt
+              PAPERLESS_DBSSLCERT: /var/run/secrets/postgresql/tls.crt
+              PAPERLESS_DBSSLKEY: /var/run/secrets/postgresql/tls.key
+
               # optional integrations
               PAPERLESS_TIKA_ENABLED: 1
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
               PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
+
               # Configure SSO
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
               PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: 'false'
