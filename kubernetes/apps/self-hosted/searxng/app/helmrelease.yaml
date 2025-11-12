@@ -76,7 +76,7 @@ spec:
           http:
             port: *port
     route:
-      app:
+      internal:
         hostnames:
           - search.${SECRET_DOMAIN}
         parentRefs:
@@ -89,6 +89,14 @@ spec:
           gethomepage.dev/group: Home
           gethomepage.dev/name: SearXNG Search
           gethomepage.dev/icon: searxng.svg
+      external:
+        hostnames:
+          - search.${SECRET_DOMAIN}
+        parentRefs:
+          - name: external
+            namespace: network
+        rules:
+          - backendRefs: [{}]
     persistence:
       config:
         type: configMap
