@@ -3,35 +3,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: immich-init
-  namespace: &namespace self-hosted
-spec:
-  interval: 1h
-  path: ./kubernetes/apps/self-hosted/immich/init
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  dependsOn:
-    - name: crds-ready
-      namespace: flux-system
-  healthChecks:
-    - apiVersion: &esVersion external-secrets.io/v1
-      kind: &esKind ExternalSecret
-      name: immich-postgres-user
-      namespace: *namespace
-  healthCheckExprs:
-    - apiVersion: *esVersion
-      kind: *esKind
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: &app postgres-immich
   namespace: &namespace self-hosted
 spec:
@@ -48,8 +19,6 @@ spec:
       namespace: database
     - name: openebs
       namespace: openebs-system
-    - name: immich-init
-      namespace: *namespace
   postBuild:
     substitute:
       APP: immich
