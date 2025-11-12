@@ -125,7 +125,7 @@ spec:
                 memory: 512Mi
           exporter: &exporter
             image:
-              repository: ekofr/pihole-exporter
+              repository: docker.io/ekofr/pihole-exporter
               tag: v1.2.0
             env: &exporterEnv
               PIHOLE_HOSTNAME:
@@ -144,13 +144,14 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  failureThreshold: 3
-                  initialDelaySeconds: 10
+                  failureThreshold: 5
+                  initialDelaySeconds: 20
                   periodSeconds: 20
                   successThreshold: 1
-                  tcpSocket:
+                  httpGet:
+                    path: /metrics
                     port: &exporter-port 9617
-                  timeoutSeconds: 1
+                  timeoutSeconds: 10
               readiness: *exporter-probes
             securityContext:
               allowPrivilegeEscalation: false
