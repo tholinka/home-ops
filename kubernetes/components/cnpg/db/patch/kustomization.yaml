@@ -14,35 +14,6 @@ patches:
         name: not-used
       spec:
         values:
-          # defaultPodOptions:
-          #   annotations:
-          #     k8s.ksgate.org/postgres-ready: |
-          #       {
-          #         "apiVersion": "postgresql.cnpg.io/v1",
-          #         "kind": "Cluster",
-          #         "name": "postgres-cluster",
-          #         "namespace": "database",
-          #         "expression": "resource.status.readyInstances >= 1"
-          #       }
-          #     k8s.ksgate.org/postgres-service: |
-          #       {
-          #         "apiVersion": "v1",
-          #         "kind": "Service",
-          #         "name": "postgres-cluster-rw",
-          #         "namespace": "database"
-          #       }
-          #     k8s.ksgate.org/database-applied: |
-          #       {
-          #         "apiVersion": "postgresql.cnpg.io/v1",
-          #         "kind": "Database",
-          #         "name": "postgres-${APP}",
-          #         "namespace": "database",
-          #         "expression": "resource.status.applied"
-          #       }
-          #   schedulingGates:
-          #     - name: k8s.ksgate.org/postgres-ready
-          #     - name: k8s.ksgate.org/postgres-service
-          #     - name: k8s.ksgate.org/database-applied
           persistence:
             postgres-certs:
               type: secret

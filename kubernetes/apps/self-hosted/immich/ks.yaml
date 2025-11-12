@@ -3,48 +3,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app postgres-immich
-  namespace: &namespace self-hosted
-spec:
-  interval: 1h
-  path: ./kubernetes/apps/self-hosted/immich/db
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  dependsOn:
-    - name: cnpg-crds
-      namespace: database
-    - name: openebs
-      namespace: openebs-system
-  postBuild:
-    substitute:
-      APP: immich
-      CNPG_REPLICAS: '2'
-      # on upgrade of vectorchord, run: k exec -n self-hosted postgres-immich-1 -- psql -d immich -c 'ALTER EXTENSION vchord UPDATE;'
-      CNPG_IMAGE: ghcr.io/tensorchord/cloudnative-vectorchord:17.6@sha256:bc5fbeba82a75de3f25d06b1dda8a7de42711ab2a0adcfca140d8344bf4d1b62
-      CNPG_SIZE: 5Gi
-      CNPG_LIMITS_MEMORY_HUGEPAGES: 512Mi
-      CNPG_LIMITS_MEMORY: 1Gi
-  components:
-    - ../../../../components/cnpg/backup
-  healthChecks:
-    - apiVersion: &postgresVersion postgresql.cnpg.io/v1
-      kind: &postgresKind Cluster
-      name: *app
-      namespace: *namespace
-  healthCheckExprs:
-    - apiVersion: *postgresVersion
-      kind: *postgresKind
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: &app immich
   namespace: &namespace self-hosted
 spec:
@@ -59,8 +17,8 @@ spec:
       namespace: observability
     - name: dragonfly-cluster
       namespace: database
-    - name: postgres-immich
-      namespace: *namespace
+    - name: postgres-cluster
+      namespace: database
   path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:
     substitute:
