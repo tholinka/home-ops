@@ -28,6 +28,7 @@ spec:
     extraArgs:
       - --pihole-api-version=6
       - --pihole-server=http://pihole-0.pihole.network.svc.cluster.local
+      - --annotation-filter=externaldns.enable.custom/internal notin (false,no)
     triggerLoopOnEvent: true
     policy: sync
     sources:

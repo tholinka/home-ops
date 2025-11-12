@@ -97,6 +97,8 @@ spec:
             namespace: network
         rules:
           - backendRefs: [{}]
+        annotations:
+          externaldns.enable.custom/internal: 'false'
     persistence:
       config:
         type: configMap
