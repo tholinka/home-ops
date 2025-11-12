@@ -55,3 +55,34 @@ metadata:
 spec:
   ca:
     secretName: cluster-signed-issuer-secret
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+# base of CNPG ClusterIssuer for clients
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgres-cluster-client-ca
+spec:
+  isCA: true
+  commonName: postgres-cluster-client-ca
+  secretName: postgres-cluster-client-ca-secret
+  secretTemplate:
+    labels:
+      cnpg.io/reload: ''
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: cluster-signed-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/clusterissuer_v1.json
+# used by clients for cert-based connections
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: postgres-cluster-client-ca-issuer
+spec:
+  ca:
+    secretName: postgres-cluster-client-ca-secret

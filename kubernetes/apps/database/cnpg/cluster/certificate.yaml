@@ -1,0 +1,79 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+# base of CNPG Issuer for CNPG usage
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgres-cluster-ca
+spec:
+  isCA: true
+  commonName: postgres-cluster-ca
+  secretName: postgres-cluster-ca-secret
+  secretTemplate:
+    labels:
+      cnpg.io/reload: ''
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: cluster-signed-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/issuer_v1.json
+# used by CNPG itself
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: postgres-cluster-ca-issuer
+spec:
+  ca:
+    secretName: postgres-cluster-ca-secret
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgres-cluster-server-cert
+spec:
+  secretName: postgres-cluster-server-cert
+  secretTemplate:
+    labels:
+      cnpg.io/reload: ''
+  usages:
+    - server auth
+  dnsNames:
+    - postgres-cluster-rw
+    - postgres-cluster-rw.database
+    - postgres-cluster-rw.database.svc
+    - postgres-cluster-rw.database.svc.cluster.local
+    - postgres-cluster-r
+    - postgres-cluster-r.database
+    - postgres-cluster-r.database.svc
+    - postgres-cluster-r.database.svc.cluster.local
+    - postgres-cluster-ro
+    - postgres-cluster-ro.database
+    - postgres-cluster-ro.database.svc
+    - postgres-cluster-ro.database.svc.cluster.local
+  issuerRef:
+    name: postgres-cluster-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgres-cluster-client-cert
+spec:
+  secretName: postgres-cluster-client-cert
+  secretTemplate:
+    labels:
+      cnpg.io/reload: ''
+  usages:
+    - client auth
+  commonName: streaming_replica
+  issuerRef:
+    name: postgres-cluster-client-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

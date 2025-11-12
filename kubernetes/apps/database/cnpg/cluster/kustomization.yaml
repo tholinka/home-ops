@@ -2,7 +2,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
+resources:
+  - certificate.yaml
 patches:
   - target:
       kind: Cluster
@@ -11,6 +12,12 @@ patches:
       metadata:
         name: not-used
       spec:
+        certificates:
+          serverTLSSecret: postgres-cluster-server-cert
+          serverCASecret: postgres-cluster-server-cert
+          clientCASecret: postgres-cluster-client-cert
+          replicationTLSSecret: postgres-cluster-client-cert
+
         postgresql:
           pg_hba:
             - hostnossl all all 10.69.0.0/16      scram-sha-256
