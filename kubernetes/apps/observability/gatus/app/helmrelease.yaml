@@ -36,7 +36,6 @@ spec:
               tag: v5.31.0@sha256:3a432fcc2826b8eb2b38caceb83e7777fda139b8058b1d022c73a82be7342682
             env:
               GATUS_CONFIG_PATH: /config
-              GATUS_DELAY_START_SECONDS: 5
               GATUS_WEB_PORT: &port 80
             probes:
               liveness: &probes
@@ -88,12 +87,14 @@ spec:
           - name: external
             namespace: network
         annotations:
+          gatus.home-operations.com/enabled: 'false'
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Observability
           gethomepage.dev/name: Gatus
           gethomepage.dev/icon: gatus.svg
           gethomepage.dev/widget.type: *app
           gethomepage.dev/widget.url: 'http://{{ .Release.Name }}.observability.svc.cluster.local.:80'
+
     serviceAccount:
       *app : {}
 

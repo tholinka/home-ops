@@ -30,12 +30,53 @@ connectivity:
     interval: 1m
 
 endpoints:
-  - name: mqtt
+  - name: MQTT
     group: infrastructure
     url: tcp://vernemq-app.database.svc.cluster.local:1883
     interval: 1m
     ui:
       hide-url: true
       hide-hostname: true
+    conditions:
+      - '[CONNECTED] == true'
+
+  - name: PostgreSQL Cluster
+    group: infrastructure
+    url: tcp://postgres-cluster-rw.database.svc.cluster.local:5432
+    interval: 1m
+    ui:
+      hide-url: true
+      hide-hostname: true
+    conditions:
+      - '[CONNECTED] == true'
+
+  - name: MongoDB (FerretDB)
+    group: infrastructure
+    url: tcp://ferretdb.database.svc.cluster.local:27017
+    interval: 1m
+    ui:
+      hide-url: true
+      hide-hostname: true
+    conditions:
+      - '[CONNECTED] == true'
+
+  - name: Cloudflare
+    group: connectivity
+    url: icmp://1.1.1.1
+    interval: 1m
+    conditions:
+      - '[CONNECTED] == true'
+
+  - name: Google
+    group: connectivity
+    url: icmp://8.8.8.8
+    interval: 1m
+    conditions:
+      - '[CONNECTED] == true'
+
+  - name: Quad9
+    group: connectivity
+    url: icmp://9.9.9.9
+    interval: 1m
     conditions:
       - '[CONNECTED] == true'
