@@ -75,6 +75,8 @@ services:
 
 networks:
   pihole:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
     enable_ipv6: true
     ipam:
       config:
