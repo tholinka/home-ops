@@ -37,11 +37,16 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: authentik
+  name: &app authentik
   namespace: &namespace security
 spec:
   interval: 1h
+  components:
+    - ../../../../components/cnpg/db
   path: ./kubernetes/apps/security/authentik/app
+  postBuild:
+    substitute:
+      APP: *app
   prune: true
   sourceRef:
     kind: GitRepository

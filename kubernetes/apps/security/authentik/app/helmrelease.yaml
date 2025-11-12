@@ -19,28 +19,41 @@ spec:
         secret.reloader.stakater.com/reload: &secret authentik-secret
       deploymentStrategy:
         type: RollingUpdate
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       envFrom:
         - secretRef:
             name: *secret
+      env:
+        - name: AUTHENTIK_POSTGRESQL__SSLMODE
+          value: verify-full
+        - name: AUTHENTIK_POSTGRESQL__SSLROOTCERT
+          value: /var/run/secrets/postgresql/ca.crt
+        - name: AUTHENTIK_POSTGRESQL__SSLCERT
+          value: /var/run/secrets/postgresql/tls.crt
+        - name: AUTHENTIK_POSTGRESQL__SSLKEY
+          value: /var/run/secrets/postgresql/tls.key
+      volumeMounts:
+        - name: postgres-certs
+          mountPath: /var/run/secrets/postgresql
+      volumes:
+        - name: postgres-certs
+          secret:
+            defaultMode: 0440
+            secretName: postgres-authentik-cert
     authentik:
       postgresql:
         host: postgres-cluster-rw.database.svc.cluster.local
-        user: file:///postgres-creds/username
-        password: file:///postgres-creds/password
+        name: *app
+        user: *app
       email:
         port: 587
         use_tls: true
       redis:
         host: dragonfly-authentik
     server:
-      initContainers:
-        - name: init-db
-          image: ghcr.io/home-operations/postgres-init:17.6@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
-          envFrom:
-            - secretRef:
-                name: *secret
-            - secretRef:
-                name: authentik-initdb
       autoscaling: &autoscaling
         enabled: true
         minReplicas: 1
