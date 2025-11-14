@@ -85,6 +85,7 @@ spec:
         rules:
           - backendRefs: [{}]
         annotations:
+          gatus.home-operations.com/enabled: 'false'
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Home
           gethomepage.dev/name: SearXNG Search
