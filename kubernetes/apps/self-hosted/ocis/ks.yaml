@@ -16,7 +16,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 100Gi
+      VOLSYNC_CAPACITY: 150Gi
       VOLSYNC_CACHE_CAPACITY: 30Gi
       VOLSYNC_GROUP_CHANGE_POLICY: OnRootMismatch
   prune: true
