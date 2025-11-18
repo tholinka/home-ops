@@ -12,6 +12,7 @@ spec:
     staticConfig:
       static:
         - zigbee.iot.internal
+        - zwave.iot.internal
         - garage.iot.internal
 
         - bedroom.air.iot.internal

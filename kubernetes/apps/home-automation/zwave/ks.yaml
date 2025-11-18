@@ -10,9 +10,10 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
+    - ../../../../components/keda/prometheus-scaler
   dependsOn:
-    - name: generic-device-plugin
-      namespace: system
+    - name: keda
+      namespace: observability
     - name: storage-ready
       namespace: flux-system
   path: ./kubernetes/apps/home-automation/zwave/app
@@ -20,6 +21,8 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
+      SCALER_QUERY: probe_success{instance=~"zwave.iot.internal"}
+      SCALER_SILENT: silent-
   prune: true
   sourceRef:
     kind: GitRepository
