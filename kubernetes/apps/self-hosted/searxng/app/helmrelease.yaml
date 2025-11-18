@@ -90,6 +90,7 @@ spec:
           gethomepage.dev/group: Home
           gethomepage.dev/name: SearXNG Search
           gethomepage.dev/icon: searxng.svg
+          gethomepage.dev/pod-selector: app.kubernetes.io/name={{ .Release.Name }}
       external:
         hostnames:
           - search.${SECRET_DOMAIN}
