@@ -66,6 +66,7 @@ spec:
                       - -c
                       - >-
                         wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/publicip/ip
+                  periodSeconds: 10
             lifecycle:
               postStart:
                 exec:
@@ -109,6 +110,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: [ALL] }
         containers:
+          # in qbit config, set "on torrent finished" set to "curl -v http://webhook.media.svc.cluster.local/hooks/qbit-pushover --header 'Content-Type: application/json' --data-raw '{"name": "%N", "cat": "%L", "size": "%Z", "indexer": "%T"}'"
           app:
             image:
               repository: ghcr.io/home-operations/qbittorrent
@@ -143,13 +145,6 @@ spec:
             env:
               GLUETUN_CONTROL_SERVER_HOST: localhost
               GLUETUN_CONTROL_SERVER_PORT: 8000
-              GLUETUN_CONTROL_SERVER_API_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: qbittorrent
-                    key: GLUETUN_CONTROL_SERVER_API_KEY
-              QBITTORRENT_HOST: localhost
-              QBITTORRENT_WEBUI_PORT: *port
               CRON_ENABLED: true
               CRON_SCHEDULE: '*/5 * * * *'
               LOG_TIMESTAMP: false
@@ -217,14 +212,6 @@ spec:
               - path: /config/.qbt.toml
                 subPath: .qbt.toml
                 readOnly: true
-
-      qbrr:
-        # in qbit config, set "on torrent add" to "/qbrr/qbrr --hash "%I" && qbt tag delete "cross-seed""
-        # "on torrent finished" set to "curl -v http://webhook.media.svc.cluster.local/hooks/qbit-pushover --header 'Content-Type: application/json' --data-raw '{"name": "%N", "cat": "%L", "size": "%Z", "indexer": "%T"}'"
-        type: image
-        image: ghcr.io/buroa/qbrr:0.1.2@sha256:f930dbb4de49ffe3348d1d4f8187ce27590842bc4d6a89c3aa84234d7e99f46b
-        globalMounts:
-          - readOnly: true
 
       tmpfs:
         type: emptyDir

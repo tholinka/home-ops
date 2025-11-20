@@ -9,7 +9,6 @@ spec:
   interval: 1h
   components:
     - ../../../../components/volsync
-    - ../../../../components/ext-auth
     - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: keda
