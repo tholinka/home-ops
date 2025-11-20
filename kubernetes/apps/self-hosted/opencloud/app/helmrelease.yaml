@@ -1,0 +1,205 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app opencloud
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+
+        containers:
+          app:
+            image:
+              repository: opencloudeu/opencloud-rolling
+              tag: 3.7.0@sha256:7bd41ba329a29869227804875f62cb59f23ed9178ae3b6be36f3a7f0e514077e
+            command:
+              ['/bin/sh', '-c', 'opencloud init || true; opencloud server']
+            env:
+              OC_INSECURE: false
+              OC_URL: https://files.${SECRET_DOMAIN}
+              OC_EXCLUDE_RUN_SERVICES: idp
+              IDM_CREATE_DEMO_USERS: false
+
+              PROXY_TLS: false
+              PROXY_CSP_CONFIG_FILE_LOCATION: /etc/opencloud/csp.yaml
+
+              GATEWAY_GRPC_ADDR: 0.0.0.0:9142
+              OC_ENABLE_OCM: false
+
+              PROXY_AUTOPROVISION_ACCOUNTS: true
+              PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
+
+              OC_OIDC_ISSUER: https://auth.${SECRET_DOMAIN}/application/o/{{ .Release.Name }}/
+              WEB_OPTION_ACCOUNT_EDIT_LINK_HREF: https://auth.${SECRET_DOMAIN}/if/user/#/settings
+              # sidecar handles this
+              #WEB_OIDC_METADATA_URL: https://auth.${SECRET_DOMAIN}/application/o/{{ .Release.Name }}/.well-known/openid-configuration
+              PROXY_OIDC_REWRITE_WELLKNOWN: true
+              PROXY_USER_OIDC_CLAIM: preferred_username
+              PROXY_AUTOPROVISION_CLAIM_USERNAME: preferred_username
+              PROXY_USER_CS3_CLAIM: username
+              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: groups
+              # see https://docs.opencloud.eu/docs/dev/server/services/proxy/information#automatic-role-assignments for group name info
+              WEB_OIDC_SCOPE: openid profile email groups
+              PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: none # can't verify the issuer on desktop or mobile clients, since they won't match web issuer
+              PROXY_OIDC_SKIP_USER_INFO: false # do NOT set this to true when having TOKEN_VERIFY_METHOD as none, or we have no security
+
+              OC_ADMIN_USER_ID: ''
+              SETTINGS_SETUP_DEFAULT_ASSIGNMENTS: false
+              GRAPH_ASSIGN_DEFAULT_USER_ROLE: false
+              GRAPH_USERNAME_MATCH: none
+
+              NOTIFICATIONS_SMTP_PORT: 587
+
+              # OC_LOG_COLOR: true
+              # OC_LOG_LEVEL: info
+              # OC_LOG_PRETTY: true
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+          webfinger-proxy:
+            image:
+              repository: ghcr.io/2bros-group/opencloud-oidc-webfinger-proxy
+              tag: v1.0.0@sha256:40dfe5aa1f716ca82870734d1e75d9727c5366ac5f97a1d1196cd5e4e38a457b
+            env:
+              PORT: '9201'
+              UPSTREAM_URL: https://files.${SECRET_DOMAIN}
+              HREF_PATTERN: &href https://auth.${SECRET_DOMAIN}/application/o/
+              HREF_REPLACEMENT: *href
+              DEFAULT_SUFFIX: '{{ .Release.Name }}'
+
+    service:
+      app:
+        ports:
+          http:
+            port: 80
+            targetPort: 9200
+            primary: true
+          webfinger:
+            port: 9201
+
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Home
+          gethomepage.dev/name: OpenCloud
+          gethomepage.dev/icon: opencloud.svg
+        hostnames:
+          - files.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: network
+        rules:
+          # desktop UA
+          - backendRefs: [port: 9201]
+            matches:
+              - path:
+                  type: Exact
+                  value: /.well-known/webfinger
+                headers:
+                  - type: RegularExpression
+                    name: User-Agent
+                    value: '.*mirall.*OpenCloud.*'
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: X-Issuer-Suffix
+                      value: opencloud-desktop
+          # Android UA
+          - backendRefs: [port: 9201]
+            matches:
+              - path:
+                  type: Exact
+                  value: /.well-known/webfinger
+                headers:
+                  - type: RegularExpression
+                    name: User-Agent
+                    value: '.*OpenCloud-android.*'
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: X-Issuer-Suffix
+                      value: opencloud-android
+          # iOS UA
+          - backendRefs: [port: 9201]
+            matches:
+              - path:
+                  type: Exact
+                  value: /.well-known/webfinger
+                headers:
+                  - type: RegularExpression
+                    name: User-Agent
+                    value: '.*OpenCloudApp'
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: X-Issuer-Suffix
+                      value: opencloud-ios
+          - backendRefs: [port: 80]
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+    persistence:
+      config:
+        type: configMap
+        name: *app
+        advancedMounts:
+          *app :
+            app:
+              - path: /etc/opencloud/csp.yaml
+                subPath: csp.yaml
+                readOnly: true
+      data:
+        existingClaim: *app
+        advancedMounts:
+          *app :
+            app:
+              - subPath: 'data'
+                path: '/data'
+              - path: /var/lib/opencloud
+                subPath: data
+              - path: /etc/opencloud
+                subPath: config
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          *app :
+            app:
+              - path: /tmp
+                subPath: tmp

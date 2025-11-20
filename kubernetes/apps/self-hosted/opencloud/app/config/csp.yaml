@@ -1,27 +1,32 @@
-# https://github.com/owncloud/ocis/issues/9441#issuecomment-2186412759
 directives:
   child-src:
     - "'self'"
   connect-src:
     - "'self'"
     - 'blob:'
-    - 'https://raw.githubusercontent.com/owncloud/awesome-ocis/'
+    - 'https://companion.${SECRET_DOMAIN}/'
+    - 'wss://companion.${SECRET_DOMAIN}/'
+    - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
     - 'https://auth.${SECRET_DOMAIN}/'
   default-src:
     - "'none'"
   font-src:
     - "'self'"
   frame-ancestors:
-    - "'none'"
+    - "'self'"
   frame-src:
     - "'self'"
     - 'blob:'
     - 'https://embed.diagrams.net/'
+    - 'https://collabora.${SECRET_DOMAIN}/'
+    # This is needed for the external-sites web extension when embedding sites
+    - 'https://docs.opencloud.eu'
   img-src:
     - "'self'"
     - 'data:'
     - 'blob:'
-    - 'https://raw.githubusercontent.com/owncloud/awesome-ocis/'
+    - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
+    - 'https://collabora.${SECRET_DOMAIN}/'
   manifest-src:
     - "'self'"
   media-src:
