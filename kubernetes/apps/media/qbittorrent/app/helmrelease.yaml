@@ -153,6 +153,9 @@ spec:
               CRON_ENABLED: true
               CRON_SCHEDULE: '*/5 * * * *'
               LOG_TIMESTAMP: false
+            envFrom:
+              - secretRef:
+                  name: *app
             resources:
               requests:
                 cpu: 5m
