@@ -94,6 +94,11 @@
           type: qbittorrent
           url: http://qbittorrent.media.svc.cluster.local.:80
           enableLeechProgress: true # optional, defaults to false
+    - qui:
+        icon: qui.svg
+        href: https://qui.${SECRET_DOMAIN}
+        app: qui
+        namespace: media
     - Radarr:
         href: https://radarr.${SECRET_DOMAIN}
         icon: radarr.svg
