@@ -30,6 +30,7 @@ spec:
   components:
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/ext-auth
+    - ../../../../components/ext-auth/two
   dependsOn:
     - name: keda
       namespace: observability
@@ -42,6 +43,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      EXT_AUTH_TARGET_2: kopia-s3
   prune: true
   sourceRef:
     kind: GitRepository
