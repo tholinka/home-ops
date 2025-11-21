@@ -70,8 +70,6 @@ spec:
         parentRefs:
           - name: external
             namespace: network
-        rules:
-          - backendRefs: [{}]
     persistence:
       config-file:
         type: configMap

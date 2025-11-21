@@ -61,15 +61,6 @@ spec:
         ports:
           http:
             port: *port
-    # route:
-    #   app:
-    #     hostnames: ['{{ .Release.Name }}.${SECRET_DOMAIN}']
-    #     parentRefs:
-    #       - name: internal
-    #         namespace: network
-    #         sectionName: https
-    #     rules:
-    #       - backendRefs: [{}]
     persistence:
       config:
         type: configMap

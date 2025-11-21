@@ -66,8 +66,6 @@ spec:
         parentRefs:
           - name: internal
             namespace: network
-        rules:
-          - backendRefs: [{}]
     persistence:
       config:
         existingClaim: tautulli

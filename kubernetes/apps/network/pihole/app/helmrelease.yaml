@@ -172,7 +172,8 @@ spec:
               PIHOLE_HOSTNAME: nas.servers.internal.
 
     service:
-      *app :
+      app:
+        forceRename: *app
         controller: *app
         type: LoadBalancer
         ipFamilies: [IPv4, IPv6]
@@ -218,7 +219,7 @@ spec:
           - name: internal
             namespace: network
         rules:
-          - backendRefs: [identifier: *app]
+          - backendRefs: [{ identifier: app }]
             sessionPersistence:
               sessionName: *app
               type: Cookie
@@ -243,7 +244,7 @@ spec:
         <<: *serviceMonitor
         forceRename: *app
         service:
-          identifier: *app
+          identifier: app
 
     persistence:
       #tmpfs:
