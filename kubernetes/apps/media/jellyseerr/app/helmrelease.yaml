@@ -66,8 +66,6 @@ spec:
         parentRefs:
           - name: external
             namespace: network
-        rules:
-          - backendRefs: [{}]
     persistence:
       config:
         existingClaim: jellyseerr

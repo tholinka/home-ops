@@ -185,9 +185,7 @@ spec:
           - name: internal
             namespace: network
         rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+          - backendRefs: [{ identifier: app }]
 
     configMaps:
       config:

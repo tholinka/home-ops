@@ -82,8 +82,6 @@ spec:
         parentRefs:
           - name: internal
             namespace: network
-        rules:
-          - backendRefs: [{}]
         annotations:
           gatus.home-operations.com/enabled: 'false'
           gethomepage.dev/enabled: 'true'
@@ -97,8 +95,6 @@ spec:
         parentRefs:
           - name: external
             namespace: network
-        rules:
-          - backendRefs: [{}]
         annotations:
           externaldns.enable.custom/internal: 'false'
     persistence:

@@ -89,8 +89,6 @@ spec:
         parentRefs:
           - name: external
             namespace: network
-        rules:
-          - backendRefs: [{}]
       code: # split so it's not external, and we can ext-auth it as well
         hostnames:
           - ha-code.${SECRET_DOMAIN}

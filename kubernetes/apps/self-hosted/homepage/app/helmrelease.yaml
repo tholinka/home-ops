@@ -130,8 +130,6 @@ spec:
           #   namespace: network
           - name: internal-root
             namespace: network
-        rules:
-          - backendRefs: [{}]
     persistence:
       config:
         type: configMap

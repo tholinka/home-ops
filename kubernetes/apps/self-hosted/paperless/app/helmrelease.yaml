@@ -157,8 +157,6 @@ spec:
         parentRefs:
           - name: internal
             namespace: network
-        rules:
-          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Home

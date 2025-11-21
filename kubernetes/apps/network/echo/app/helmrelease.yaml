@@ -67,8 +67,6 @@ spec:
         parentRefs:
           - name: external
             namespace: network
-        rules:
-          - backendRefs: [{}]
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Dev Tools
