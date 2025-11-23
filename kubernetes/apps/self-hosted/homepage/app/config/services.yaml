@@ -47,15 +47,6 @@
           url: http://calibre-web-automated.media.svc.cluster.local.:8083
           username: '{{HOMEPAGE_VAR_CALIBRE_USER}}'
           password: '{{HOMEPAGE_VAR_CALIBRE_PASS}}'
-    - Jellyseerr:
-        icon: jellyseerr.svg
-        href: https://requests.${SECRET_DOMAIN}
-        app: jellyseerr
-        namespace: media
-        widget:
-          type: jellyseerr
-          url: http://jellyseerr.media.svc.cluster.local.:80
-          key: '{{HOMEPAGE_VAR_JELLYSEERR_TOKEN}}'
     - Kavita:
         href: https://kavita.${SECRET_DOMAIN}
         icon: kavita.svg
@@ -118,6 +109,15 @@
           type: sabnzbd
           url: http://sabnzbd.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_SABNZBD_TOKEN}}'
+    - Seerr:
+        icon: seerr.svg
+        href: https://requests.${SECRET_DOMAIN}
+        app: seerr
+        namespace: media
+        widget:
+          type: jellyseerr
+          url: http://seerr.media.svc.cluster.local.:80
+          key: '{{HOMEPAGE_VAR_SEERR_TOKEN}}'
     - Sonarr:
         href: https://sonarr.${SECRET_DOMAIN}
         icon: sonarr.svg

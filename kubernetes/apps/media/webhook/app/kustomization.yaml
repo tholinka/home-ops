@@ -10,9 +10,9 @@ configMapGenerator:
     files:
       - cross-seed-pushover.sh=./resources/cross-seed-pushover.sh
       - hooks.yaml=./resources/hooks.yaml
-      - jellyseerr-pushover.sh=./resources/jellyseerr-pushover.sh
       - qbit-pushover.sh=./resources/qbit-pushover.sh
       - radarr-pushover.sh=./resources/radarr-pushover.sh
+      - seerr-pushover.sh=./resources/seerr-pushover.sh
       - sonarr-pushover.sh=./resources/sonarr-pushover.sh
       - sonarr-refresh-series.sh=./resources/sonarr-refresh-series.sh
       - sonarr-tag-codecs.sh=./resources/sonarr-tag-codecs.sh

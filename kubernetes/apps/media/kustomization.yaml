@@ -10,7 +10,6 @@ resources:
   - ./calibre-web-automated/ks.yaml
   - ./cross-seed/ks.yaml
   - ./flaresolverr/ks.yaml
-  - ./jellyseerr/ks.yaml
   - ./kavita/ks.yaml
   - ./maintainerr/ks.yaml
   - ./plex/ks.yaml
@@ -20,6 +19,7 @@ resources:
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
   - ./sabnzbd/ks.yaml
+  - ./seerr/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./tqm/ks.yaml

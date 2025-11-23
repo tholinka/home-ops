@@ -31,38 +31,6 @@
       source: payload
       name: extra.infoHashes.0
 
-- id: jellyseerr-pushover
-  execute-command: /config/jellyseerr-pushover.sh
-  command-working-directory: /config
-  pass-environment-to-command:
-    - envname: JELLYSEERR_PUSHOVER_URL
-      source: string
-      name: '{{ getenv "JELLYSEERR_PUSHOVER_URL" }}'
-    - envname: EVENT_TYPE
-      source: payload
-      name: notification_type
-    - envname: EVENT_EVENT
-      source: payload
-      name: event
-    - envname: EVENT_SUBJECT
-      source: payload
-      name: subject
-    - envname: EVENT_MESSAGE
-      source: payload
-      name: message
-    - envname: EVENT_REQUESTED_BY
-      source: payload
-      name: request.requestedBy_username
-    - envname: EVENT_MEDIA_STATUS
-      source: payload
-      name: media.status
-    - envname: EVENT_MEDIA_TYPE
-      source: payload
-      name: media.media_type
-    - envname: EVENT_IMAGE
-      source: payload
-      name: image
-
 - id: qbit-pushover
   execute-command: /config/qbit-pushover.sh
   command-working-directory: /config
@@ -111,6 +79,38 @@
     - envname: RADARR_DOWNLOAD_CLIENT
       source: payload
       name: downloadClient
+
+- id: seerr-pushover
+  execute-command: /config/seerr-pushover.sh
+  command-working-directory: /config
+  pass-environment-to-command:
+    - envname: SEERR_PUSHOVER_URL
+      source: string
+      name: '{{ getenv "SEERR_PUSHOVER_URL" }}'
+    - envname: EVENT_TYPE
+      source: payload
+      name: notification_type
+    - envname: EVENT_EVENT
+      source: payload
+      name: event
+    - envname: EVENT_SUBJECT
+      source: payload
+      name: subject
+    - envname: EVENT_MESSAGE
+      source: payload
+      name: message
+    - envname: EVENT_REQUESTED_BY
+      source: payload
+      name: request.requestedBy_username
+    - envname: EVENT_MEDIA_STATUS
+      source: payload
+      name: media.status
+    - envname: EVENT_MEDIA_TYPE
+      source: payload
+      name: media.media_type
+    - envname: EVENT_IMAGE
+      source: payload
+      name: image
 
 - id: sonarr-pushover
   execute-command: /config/sonarr-pushover.sh
