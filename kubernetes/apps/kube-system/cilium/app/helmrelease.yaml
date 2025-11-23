@@ -121,5 +121,5 @@ spec:
           - SYS_RESOURCE
     socketLB:
       enabled: true
-      hostNamespaceOnly: true
+      #hostNamespaceOnly: true
       terminatePodConnections: true
