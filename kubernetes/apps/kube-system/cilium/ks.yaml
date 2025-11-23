@@ -19,3 +19,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      EXT_AUTH_TARGET: hubble
