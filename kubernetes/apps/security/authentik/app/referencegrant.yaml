@@ -16,6 +16,8 @@ spec:
     - <<: *policy
       namespace: home-automation
     - <<: *policy
+      namespace: kube-system
+    - <<: *policy
       namespace: media
     - <<: *policy
       namespace: network

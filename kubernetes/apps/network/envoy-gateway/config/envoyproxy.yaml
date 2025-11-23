@@ -12,7 +12,7 @@ spec:
         compression:
           type: Gzip
   shutdown:
-    drainTimeout: 300s
+    drainTimeout: 60s
   logging:
     level:
       default: info
