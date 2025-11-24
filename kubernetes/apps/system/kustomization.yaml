@@ -8,7 +8,6 @@ resources:
   - ./fstrim/ks.yaml
   - ./generic-device-plugin/ks.yaml
   - ./intel-gpu-resource-driver/ks.yaml
-  - ./irqbalance/ks.yaml
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
   - ./volsync/ks.yaml
