@@ -3,7 +3,7 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
 metadata:
-  name: &name internal-root
+  name: &name envoy-internal-root
 spec:
   targetRef:
     group: gateway.networking.k8s.io
@@ -12,7 +12,7 @@ spec:
   type: JSONPatch
   jsonPatches:
     - type: type.googleapis.com/envoy.config.listener.v3.Listener
-      name: network/internal-root/https
+      name: network/envoy-internal-root/https
       operation: &operation
         op: add
         jsonPath: ..filters[*].typed_config.http_filters[?(@.name=="envoy.filters.http.compressor.zstd")].typed_config
@@ -26,14 +26,14 @@ spec:
           response_direction_config:
             remove_accept_encoding_header: true
     - type: type.googleapis.com/envoy.config.listener.v3.Listener
-      name: network/internal-root/https-quic
+      name: network/envoy-internal-root/https-quic
       operation: *operation
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.envoyproxy.io/envoypatchpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
 metadata:
-  name: &name internal
+  name: &name envoy-internal
 spec:
   targetRef:
     group: gateway.networking.k8s.io
@@ -42,7 +42,7 @@ spec:
   type: JSONPatch
   jsonPatches:
     - type: type.googleapis.com/envoy.config.listener.v3.Listener
-      name: network/internal/https
+      name: network/envoy-internal/https
       operation: &operation
         op: add
         jsonPath: ..filters[*].typed_config.http_filters[?(@.name=="envoy.filters.http.compressor.zstd")].typed_config
@@ -56,14 +56,14 @@ spec:
           response_direction_config:
             remove_accept_encoding_header: true
     - type: type.googleapis.com/envoy.config.listener.v3.Listener
-      name: network/internal/https-quic
+      name: network/envoy-internal/https-quic
       operation: *operation
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.envoyproxy.io/envoypatchpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
 metadata:
-  name: &name external
+  name: &name envoy-external
 spec:
   targetRef:
     group: gateway.networking.k8s.io
@@ -72,7 +72,7 @@ spec:
   type: JSONPatch
   jsonPatches:
     - type: type.googleapis.com/envoy.config.listener.v3.Listener
-      name: network/external/https
+      name: network/envoy-external/https
       operation: &operation
         op: add
         jsonPath: ..filters[*].typed_config.http_filters[?(@.name=="envoy.filters.http.compressor.zstd")].typed_config
@@ -86,5 +86,5 @@ spec:
           response_direction_config:
             remove_accept_encoding_header: true
     - type: type.googleapis.com/envoy.config.listener.v3.Listener
-      name: network/external/https-quic
+      name: network/envoy-external/https-quic
       operation: *operation

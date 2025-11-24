@@ -80,7 +80,7 @@ spec:
         hostnames:
           - search.${SECRET_DOMAIN}
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
         annotations:
           gatus.home-operations.com/enabled: 'false'
@@ -93,7 +93,7 @@ spec:
         hostnames:
           - search.${SECRET_DOMAIN}
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
         annotations:
           externaldns.enable.custom/internal: 'false'

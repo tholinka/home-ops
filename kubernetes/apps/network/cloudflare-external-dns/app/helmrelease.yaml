@@ -9,17 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: *app
-  install:
-    disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
-    strategy:
-      name: RetryOnFailure
-  upgrade:
-    disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
-    strategy:
-      name: RemediateOnFailure
-    remediation:
-      remediateLastFailure: true
-      retries: 2
   values:
     fullnameOverride: *app
     provider:
@@ -35,7 +24,7 @@ spec:
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --gateway-name=external
+      - --gateway-name=envoy-external
     triggerLoopOnEvent: true
     policy: sync
     sources:

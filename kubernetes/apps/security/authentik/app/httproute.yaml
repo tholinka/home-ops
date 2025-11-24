@@ -18,7 +18,7 @@ spec:
   hostnames:
     - auth.${SECRET_DOMAIN}
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: network
   rules:
     - backendRefs:

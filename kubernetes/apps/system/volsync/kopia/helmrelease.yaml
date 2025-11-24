@@ -85,7 +85,7 @@ spec:
       s3: &route
         hostnames: ['{{ .Release.Name }}-s3.${SECRET_DOMAIN}']
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
         rules:
           - backendRefs: [{ identifier: s3 }]

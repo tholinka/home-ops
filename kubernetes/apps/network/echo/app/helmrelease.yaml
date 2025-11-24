@@ -65,7 +65,7 @@ spec:
         hostnames:
           - '{{ .Release.Name }}.${SECRET_DOMAIN}'
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
         annotations:
           gethomepage.dev/enabled: 'true'

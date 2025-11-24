@@ -14,7 +14,7 @@ spec:
   hostnames:
     - hubble.${SECRET_DOMAIN}
   parentRefs:
-    - name: internal
+    - name: envoy-internal
       namespace: network
   rules:
     - backendRefs:

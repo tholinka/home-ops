@@ -22,7 +22,7 @@ spec:
         hostnames:
           - victoria-logs.${SECRET_DOMAIN}
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
         extraRules:
           - filters:

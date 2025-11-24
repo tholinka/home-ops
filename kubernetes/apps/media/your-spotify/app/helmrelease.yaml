@@ -80,7 +80,7 @@ spec:
           - '{{ .Release.Name }}.${SECRET_DOMAIN}'
           - 'ys.${SECRET_DOMAIN}'
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
         rules:
           - matches:

@@ -9,13 +9,13 @@ metadata:
 spec:
   parentRefs:
     - &gateway
-      name: internal-root
+      name: envoy-internal-root
       namespace: network
       sectionName: http
     - <<: *gateway
-      name: internal
+      name: envoy-internal
     - <<: *gateway
-      name: external
+      name: envoy-external
   rules:
     - filters:
         - requestRedirect:

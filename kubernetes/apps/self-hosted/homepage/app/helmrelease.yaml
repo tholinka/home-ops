@@ -126,9 +126,9 @@ spec:
           # - '{{ .Release.Name }}.${SECRET_DOMAIN}'
           - '${SECRET_DOMAIN:=test}'
         parentRefs:
-          # - name: internal
+          # - name: envoy-internal
           #   namespace: network
-          - name: internal-root
+          - name: envoy-internal-root
             namespace: network
     persistence:
       config:

@@ -119,7 +119,7 @@ spec:
         hostnames:
           - files.${SECRET_DOMAIN}
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
         rules:
           # desktop UA

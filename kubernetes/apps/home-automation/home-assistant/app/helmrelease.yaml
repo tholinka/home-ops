@@ -87,13 +87,13 @@ spec:
         hostnames:
           - ha.${SECRET_DOMAIN}
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
       code: # split so it's not external, and we can ext-auth it as well
         hostnames:
           - ha-code.${SECRET_DOMAIN}
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: network
         rules:
           - backendRefs:

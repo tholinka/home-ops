@@ -38,12 +38,12 @@ spec:
     - &healthCheck
       apiVersion: &gatewayVersion gateway.networking.k8s.io/v1
       kind: &gatewayKind Gateway
-      name: external
+      name: envoy-external
       namespace: *namespace
     - <<: *healthCheck
-      name: internal
+      name: envoy-internal
     - <<: *healthCheck
-      name: internal-root
+      name: envoy-internal-root
     - &healthCheck
       apiVersion: &envoyVersion gateway.envoyproxy.io/v1alpha1
       kind: &clientKind ClientTrafficPolicy

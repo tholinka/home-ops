@@ -85,7 +85,7 @@ spec:
         hostnames:
           - status.${SECRET_DOMAIN}
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: network
         annotations:
           gatus.home-operations.com/enabled: 'false'
