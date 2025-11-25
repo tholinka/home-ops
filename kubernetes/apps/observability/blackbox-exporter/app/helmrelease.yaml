@@ -14,8 +14,7 @@ spec:
     securityContext:
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false
-      capabilities:
-        add: ['NET_RAW']
+      capabilities: { drop: [ALL] }
     config:
       modules:
         http_2xx:
