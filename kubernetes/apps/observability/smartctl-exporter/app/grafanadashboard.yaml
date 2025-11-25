@@ -11,7 +11,7 @@ spec:
       grafana.internal/instance: grafana
   datasources:
     - datasourceName: prometheus
-      inputName: DS_PROMETHEUS
+      inputName: DS_VICTORIAMETRICS
   url: https://grafana.com/api/dashboards/22381/revisions/1/download
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/grafana.integreatly.org/grafanadashboard_v1beta1.json
