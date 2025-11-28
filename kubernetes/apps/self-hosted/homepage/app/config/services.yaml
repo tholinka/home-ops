@@ -35,7 +35,7 @@
         namespace: media
         widget:
           type: bazarr
-          url: http://bazarr.media.svc.cluster.local.:6767
+          url: http://bazarr.media.svc.cluster.local:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
     - Calibre Web Automated:
         icon: calibre-web.svg
@@ -83,7 +83,7 @@
         namespace: media
         widget:
           type: qbittorrent
-          url: http://qbittorrent.media.svc.cluster.local.:80
+          url: '{{HOMEPAGE_VAR_QBITTORRENT_PROXY}}'
           enableLeechProgress: true # optional, defaults to false
     - qui:
         icon: qui.svg
@@ -110,7 +110,7 @@
           url: http://sabnzbd.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_SABNZBD_TOKEN}}'
     - Seerr:
-        icon: seerr.svg
+        icon: jellyseerr.svg
         href: https://requests.${SECRET_DOMAIN}
         app: seerr
         namespace: media

@@ -31,7 +31,7 @@ spec:
               ['/bin/sh', '-c', 'opencloud init || true; opencloud server']
             env:
               OC_INSECURE: false
-              OC_URL: https://files.${SECRET_DOMAIN}
+              OC_URL: &url https://files.${SECRET_DOMAIN}
               OC_EXCLUDE_RUN_SERVICES: idp
               IDM_CREATE_DEMO_USERS: false
 
@@ -94,7 +94,7 @@ spec:
               tag: v1.0.0@sha256:40dfe5aa1f716ca82870734d1e75d9727c5366ac5f97a1d1196cd5e4e38a457b
             env:
               PORT: '9201'
-              UPSTREAM_URL: https://files.${SECRET_DOMAIN}
+              UPSTREAM_URL: *url
               HREF_PATTERN: &href https://auth.${SECRET_DOMAIN}/application/o/
               HREF_REPLACEMENT: *href
               DEFAULT_SUFFIX: '{{ .Release.Name }}'
@@ -115,7 +115,8 @@ spec:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Home
           gethomepage.dev/name: OpenCloud
-          gethomepage.dev/icon: opencloud.svg
+          gethomepage.dev/icon: owncloud.svg
+          gethomepage.dev/widget.url: *url
         hostnames:
           - files.${SECRET_DOMAIN}
         parentRefs:
