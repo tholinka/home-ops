@@ -172,7 +172,7 @@ nodes:
     installDisk: /dev/sda
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
-    controlPlane: true
+    controlPlane: false
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
         bond: *hpBond
@@ -190,7 +190,7 @@ nodes:
       serial: S4GNNF0N206772
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
-    controlPlane: false
+    controlPlane: true
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
         bond: *hpBond
