@@ -11,6 +11,12 @@ services:
     networks:
       pihole:
         ipv4_address: 172.20.0.7
+    healthcheck:
+      test:
+        - CMD
+        - /usr/local/bin/dnsprobe
+        - localhost
+        - '127.0.0.1'
     configs:
       - source: dnscrypt-config
         target: /config/dnscrypt-proxy.toml
@@ -36,7 +42,8 @@ services:
         protocol: tcp
         mode: host
     networks:
-      - pihole
+      pihole:
+        ipv4_address: 172.20.0.6
     environment:
       TZ: America/Chicago
       WEBPASSWORD_FILE: pihole-password
@@ -46,8 +53,14 @@ services:
       FTLCONF_webserver_interface_boxed: false
       FTLCONF_webserver_interface_theme: default-auto
       FTLCONF_webserver_port: 80
+      #PH_VERBOSE: 1
     healthcheck:
-      start_period: 5m
+      test:
+        - CMD
+        - /usr/bin/nslookup
+        - pihole
+        - '127.0.0.1'
+      start_period: 1m
     configs:
       #   - source: pihole-dnsmasq
       #     target: /etc/dnsmasq.d/02-custom.conf
@@ -58,7 +71,6 @@ services:
     entrypoint:
       - sh
       - -c
-      - /config/update.sh && exec /usr/bin/start.sh
       # slightly modified update.sh:
       # - remove lines 8-11
       # - insert in place of those lines:
@@ -68,6 +80,7 @@ services:
       #     curl https://raw.githubusercontent.com/tholinka/home-ops/refs/heads/main/kubernetes/apps/network/pihole/app/resources/02-custom.conf -o /etc/dnsmasq.d/02-custom.conf
       #     curl https://raw.githubusercontent.com/tholinka/home-ops/refs/heads/main/kubernetes/apps/network/pihole/app/resources/03-hosts.conf -o /etc/dnsmasq.d/03-hosts.conf
       # - replace coredns ip with 172.20.0.7
+      - /config/update.sh && exec /usr/bin/start.sh
     secrets:
       - pihole-password
     volumes: # comment to remove persistence
