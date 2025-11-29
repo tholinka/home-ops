@@ -2,10 +2,10 @@
 use_default_settings: true
 
 server:
-  limiter: true
+  limiter: false # -> external is behind auth
   image_proxy: true
   method: GET # https://github.com/searxng/searxng/pull/3619
-  public_instance: true
+  public_instance: false # -> external is behind auth
 
 valkey:
   url: redis://dragonfly-cluster.database.svc.cluster.local/3
