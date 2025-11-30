@@ -173,6 +173,8 @@ nodes:
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: false
+    certSANs:
+      - talos.default # TODO needed for `talosctl image pull` because this was a demoted control-plane node, remove on rebuild
     networkInterfaces: # backup 1GbE port: e8:
       - <<: *interface
         bond: *hpBond
