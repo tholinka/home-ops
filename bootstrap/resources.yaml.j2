@@ -6,6 +6,7 @@ kind: Namespace
 metadata:
   name: {{ namespace }}
 {% endfor %}
+
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
 apiVersion: v1
@@ -38,7 +39,9 @@ metadata:
     controller.cert-manager.io/fao: 'true'
 type: kubernetes.io/tls
 # this get saved as json, but yaml is a super-set of json so we can just directly import it :)
-data: {{ ENV['lets_encrypt_tls'] | safe}}
+data: {{ ENV['lets_encrypt_tls'] | safe }}
+
+{% for namespace in ['security', 'flux-system'] %}
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
 # security namespace needs cluster-secrets so it can bootstrap the ClusterSecretStore, which can then be used to get the cluster-secrets for the other namespaces
