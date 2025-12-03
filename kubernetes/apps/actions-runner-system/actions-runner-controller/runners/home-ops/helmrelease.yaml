@@ -52,13 +52,3 @@ spec:
           - name: talos
             secret:
               secretName: *name
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    # TODO remove on rebuild - because this node used to be a controlplane node, talos.default fails on e.g. talosctl image pull
-                    - key: kubernetes.io/hostname
-                      operator: NotIn
-                      values:
-                        - hp-400-g5-2
