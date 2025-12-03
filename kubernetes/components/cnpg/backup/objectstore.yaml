@@ -9,11 +9,11 @@ spec:
   retentionPolicy: 30d
   configuration:
     wal:
-      compression: bzip2
+      compression: zstd
       maxParallel: 8
       encryption: AES256
     data:
-      compression: bzip2
+      compression: zstd
       encryption: AES256
     destinationPath: s3://${S3_POSTGRES_BUCKET}/
     endpointURL: ${S3_POSTGRES_STORAGE}
