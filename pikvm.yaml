@@ -10,6 +10,10 @@ kvmd:
     type: disabled
   gpio:
     drivers:
+      tes:
+        type: tesmart
+        host: switch.kvm.iot.internal
+        port: 5000
       wol_c1:
         type: wol
         mac: c4:62:37:00:3c:73
@@ -35,37 +39,37 @@ kvmd:
         type: wol
         mac: ae:98:0d:1e:a6:fe
     scheme:
-      wol_c1:
+      wol_l1:
         driver: wol_c1
         pin: 0
         mode: output
         switch: false
-      wol_c2:
+      wol_l2:
         driver: wol_c2
         pin: 0
         mode: output
         switch: false
-      wol_c3:
+      wol_l3:
         driver: wol_c3
         pin: 0
         mode: output
         switch: false
-      wol_w1:
+      wol_h1:
         driver: wol_w1
         pin: 0
         mode: output
         switch: false
-      wol_w2:
+      wol_h2:
         driver: wol_w2
         pin: 0
         mode: output
         switch: false
-      wol_w3:
+      wol_h3:
         driver: wol_w3
         pin: 0
         mode: output
         switch: false
-      wol_w4:
+      wol_h4:
         driver: wol_w4
         pin: 0
         mode: output
@@ -75,13 +79,64 @@ kvmd:
         pin: 0
         mode: output
         switch: false
+      nas_led: &led
+        driver: tes
+        pin: 0
+        mode: input
+      nas_switch: &switch
+        driver: tes
+        pin: 0
+        mode: output
+        switch: false
+      h1_led:
+        <<: *led
+        pin: 1
+      h1_switch:
+        <<: *switch
+        pin: 1
+      h2_led:
+        <<: *led
+        pin: 2
+      h2_switch:
+        <<: *switch
+        pin: 2
+      h3_led:
+        <<: *led
+        pin: 3
+      h3_switch:
+        <<: *switch
+        pin: 3
+      h4_led:
+        <<: *led
+        pin: 4
+      h4_switch:
+        <<: *switch
+        pin: 4
+      l1_led:
+        <<: *led
+        pin: 5
+      l1_switch:
+        <<: *switch
+        pin: 5
+      l2_led:
+        <<: *led
+        pin: 6
+      l2_switch:
+        <<: *switch
+        pin: 6
+      l3_led:
+        <<: *led
+        pin: 7
+      l3_switch:
+        <<: *switch
+        pin: 7
     view:
       table:
-        - ['c1', 'wol_c1|Send Wake-on-LAN to c1']
-        - ['c2', 'wol_c2|Send Wake-on-LAN to c2']
-        - ['c3', 'wol_c3|Send Wake-on-LAN to c3']
-        - ['w1', 'wol_w1|Send Wake-on-LAN to w1']
-        - ['w2', 'wol_w2|Send Wake-on-LAN to w2']
-        - ['w3', 'wol_w3|Send Wake-on-LAN to w3']
-        - ['w4', 'wol_w3|Send Wake-on-LAN to w4']
-        - ['nas', 'wol_w3|Send Wake-on-LAN to nas']
+        - ['#l1', wol_l1|WoL, l1_led, l1_switch|Switch]
+        - ['#l2', wol_l2|WoL, l2_led, l2_switch|Switch]
+        - ['#l3', wol_l3|WoL, l3_led, l3_switch|Switch]
+        - ['#h1', wol_h1|WoL, h1_led, h1_switch|Switch]
+        - ['#h2', wol_h2|WoL, h2_led, h2_switch|Switch]
+        - ['#h3', wol_h3|WoL, h3_led, h3_switch|Switch]
+        - ['#h4', wol_h4|WoL, h4_led, h4_switch|Switch]
+        - ['#nas', wol_nas|WoL, nas_led, nas_switch|Switch]
