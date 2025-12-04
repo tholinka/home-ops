@@ -92,7 +92,7 @@ spec:
                 memory: 2Gi
           gotenberg:
             image:
-              repository: gotenberg/gotenberg
+              repository: docker.io/gotenberg/gotenberg
               tag: 8.25.1
             ports:
               - containerPort: 3000
