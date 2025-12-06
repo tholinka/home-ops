@@ -103,7 +103,7 @@ spec:
           - name: lenovo-m700-2
           - name: lenovo-m700-3
           - name: hp-800-g5-1
-          - name: hp-400-g5-2
+          - name: h3
         useAllDevices: false
         devicePathFilter: ^/dev/disk/by-id/(ata-SPCC_M.2_SSD_|nvme-SPCC_M.2_PCIe_SSD_).*
         config:

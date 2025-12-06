@@ -167,7 +167,7 @@ nodes:
     nodeLabels: *hpLabels
     patches: *hpPatches
 
-  - hostname: hp-400-g5-2
+  - hostname: h3 #hp-400-g5-2
     ipAddress: 192.168.20.73
     installDisk: /dev/sda
     machineSpec: *x64MachineSpec
