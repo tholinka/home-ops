@@ -93,3 +93,9 @@ spec:
             subPath: log
           - path: /config/.config/OrcaSlicer/cache
             subPath: cache
+
+      shm:
+        type: emptyDir
+        medium: Memory
+        globalMounts:
+          - path: /dev/shm
