@@ -20,7 +20,7 @@ spec:
               repository: ghcr.io/linuxserver/orcaslicer
               tag: 2.3.1@sha256:8d58bde8d7573ddd5b60546752995d14ea89acd63755916c7d51283ed50b420b
             env:
-              DRINODE: /dev/dri/renderD128
+              # DRINODE: /dev/dri/renderD128
               GTK_THEME: Adwaita:dark # segfaults if no theme is set
               S6_READ_ONLY_ROOT: '1'
               PGID: '911' # default for this image
@@ -37,8 +37,8 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFileSystem: true
             resources:
-              claims:
-                - name: gpu
+              # claims:
+              #   - name: gpu
               requests:
                 cpu: 100m
                 memory: 1Gi
@@ -46,10 +46,10 @@ spec:
                 cpu: 4
                 memory: 3Gi
 
-    defaultPodOptions:
-      resourceClaims:
-        - name: gpu
-          resourceClaimTemplateName: *app
+    # defaultPodOptions:
+    #   resourceClaims:
+    #     - name: gpu
+    #       resourceClaimTemplateName: *app
 
     service:
       app:
