@@ -83,7 +83,7 @@ spec:
 
     route:
       s3: &route
-        hostnames: ['{{ .Release.Name }}-s3.${SECRET_DOMAIN}']
+        hostnames: ['{{ .Release.Name }}-s3.tholinka.dev']
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -97,7 +97,7 @@ spec:
       app:
         <<: *route
         forceRename: *app
-        hostnames: ['{{ .Release.Name }}.${SECRET_DOMAIN}']
+        hostnames: ['{{ .Release.Name }}.tholinka.dev']
         rules:
           - backendRefs: [{ identifier: app }]
         annotations:

@@ -20,7 +20,7 @@ spec:
               repository: ghcr.io/home-operations/tautulli
               tag: 2.16.0@sha256:2a092f86a51f5718111097b0fced33eaa876b5904a543b7504f92357a4f75635
             env:
-              TAUTULLI_HTTP_BASE_URL: https://tautulli.${SECRET_DOMAIN}
+              TAUTULLI_HTTP_BASE_URL: https://tautulli.tholinka.dev
               TAUTULLI_HTTP_PORT: &port 80
             envFrom:
               - secretRef:
@@ -62,7 +62,7 @@ spec:
     route:
       app:
         hostnames:
-          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+          - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:
           - name: envoy-internal
             namespace: network

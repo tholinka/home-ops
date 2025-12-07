@@ -22,7 +22,7 @@ search:
     - json
 
 general:
-  instance_name: ${SECRET_DOMAIN} Search
+  instance_name: tholinka.dev Search
 
 ui:
   default_theme: simple

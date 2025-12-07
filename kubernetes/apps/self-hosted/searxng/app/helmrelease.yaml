@@ -27,7 +27,7 @@ spec:
               tag: latest@sha256:b40d6e5ee3792e450f4034c53bdcb50f12d906e0cfb74df169e979b125b99f78
             command: [/usr/local/searxng/.venv/bin/granian, searx.webapp:app]
             env:
-              SEARXNG_BASE_URL: https://search.${SECRET_DOMAIN}
+              SEARXNG_BASE_URL: https://search.tholinka.dev
               GRANIAN_PORT: &port 8080
               GRANIAN_BLOCKING_THREADS: '1'
             envFrom:
@@ -78,7 +78,7 @@ spec:
     route:
       internal:
         hostnames:
-          - search.${SECRET_DOMAIN}
+          - search.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -91,7 +91,7 @@ spec:
           gethomepage.dev/pod-selector: app.kubernetes.io/name={{ .Release.Name }}
       external:
         hostnames:
-          - search.${SECRET_DOMAIN}
+          - search.tholinka.dev
         parentRefs:
           - name: envoy-external
             namespace: network

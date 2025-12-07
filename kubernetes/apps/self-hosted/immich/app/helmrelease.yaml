@@ -111,11 +111,11 @@ spec:
           buttonText: Login with Authentik
           defaultStorageQuota: 0 # Unlimited
           enabled: true
-          issuerUrl: https://auth.${SECRET_DOMAIN}/application/o/immich/.well-known/openid-configuration
+          issuerUrl: https://auth.tholinka.dev/application/o/immich/.well-known/openid-configuration
         passwordLogin:
           enabled: false
         server:
-          externalDomain: https://photos.${SECRET_DOMAIN}
+          externalDomain: https://photos.tholinka.dev
         storageTemplate:
           enabled: true
           hashVerificationEnabled: true

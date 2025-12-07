@@ -38,21 +38,21 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: '${SECRET_DOMAIN}'
+      hostname: tholinka.dev
       allowedRoutes:
         namespaces:
           from: Same
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: '${SECRET_DOMAIN}'
+      hostname: tholinka.dev
       allowedRoutes:
         namespaces:
           from: All
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${SECRET_DOMAIN/./-}-tls
+            name: tholinka-dev-tls
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
@@ -62,7 +62,7 @@ metadata:
   labels:
     type: internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: &hostname internal.tholinka.dev
     gatus.home-operations.com/endpoint: |-
       group: internal
       guarded: true
@@ -79,21 +79,21 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: '*.${SECRET_DOMAIN}'
+      hostname: '*.tholinka.dev'
       allowedRoutes:
         namespaces:
           from: Same
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: '*.${SECRET_DOMAIN}'
+      hostname: '*.tholinka.dev'
       allowedRoutes:
         namespaces:
           from: All
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${SECRET_DOMAIN/./-}-tls
+            name: tholinka-dev-tls
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
@@ -103,7 +103,7 @@ metadata:
   labels:
     type: external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: &hostname external.tholinka.dev
     gatus.home-operations.com/endpoint: |-
       client:
         dns-resolver: tcp://192.168.20.7:53
@@ -118,18 +118,18 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: '*.${SECRET_DOMAIN}'
+      hostname: '*.tholinka.dev'
       allowedRoutes:
         namespaces:
           from: Same
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: '*.${SECRET_DOMAIN}'
+      hostname: '*.tholinka.dev'
       allowedRoutes:
         namespaces:
           from: All
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${SECRET_DOMAIN/./-}-tls
+            name: tholinka-dev-tls

@@ -16,7 +16,7 @@ metadata:
     gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_AUTHENTIK_TOKEN}}'
 spec:
   hostnames:
-    - auth.${SECRET_DOMAIN}
+    - auth.tholinka.dev
   parentRefs:
     - name: envoy-external
       namespace: network

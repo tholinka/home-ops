@@ -12,7 +12,7 @@ metadata:
     gethomepage.dev/pod-selector: app=grafana
 spec:
   hostnames:
-    - grafana.${SECRET_DOMAIN}
+    - grafana.tholinka.dev
   parentRefs:
     - name: envoy-internal
       namespace: network

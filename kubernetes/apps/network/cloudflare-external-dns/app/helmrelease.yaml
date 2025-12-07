@@ -36,7 +36,7 @@ spec:
       - gateway-udproute
     txtPrefix: k8s.
     txtOwnerId: default
-    domainFilters: ['${SECRET_DOMAIN}']
+    domainFilters: [tholinka.dev]
     serviceMonitor:
       enabled: true
     podAnnotations:

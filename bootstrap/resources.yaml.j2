@@ -24,12 +24,12 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}-tls
+  name: tholinka-dev-tls
   namespace: network
   annotations:
-    cert-manager.io/alt-names: '*.{{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }},{{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }}'
-    cert-manager.io/certificate-name: {{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | replace('.', '-') | safe }}
-    cert-manager.io/common-name: {{ ENV['cluster_secrets'] | split('SECRET_DOMAIN: ') | last | split('\n') | first | safe }}
+    cert-manager.io/alt-names: '*.tholinka.dev,tholinka.dev'
+    cert-manager.io/certificate-name: tholinka-dev
+    cert-manager.io/common-name: tholinka.dev
     cert-manager.io/ip-sans: ''
     cert-manager.io/issuer-group: ''
     cert-manager.io/issuer-kind: ClusterIssuer

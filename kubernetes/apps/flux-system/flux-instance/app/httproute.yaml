@@ -9,7 +9,7 @@ metadata:
       conditions: ["[STATUS] == 404"]
 spec:
   hostnames:
-    - flux-webhook.${SECRET_DOMAIN}
+    - flux-webhook.tholinka.dev
   parentRefs:
     - name: envoy-external
       namespace: network

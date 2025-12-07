@@ -1,7 +1,7 @@
 ---
 - Home:
     - Home Assistant:
-        href: https://ha.${SECRET_DOMAIN}
+        href: https://ha.tholinka.dev
         icon: home-assistant.png
         #description: Home Assistant
         app: home-assistant
@@ -19,7 +19,7 @@
 - Media:
     - Autobrr:
         icon: autobrr.svg
-        href: https://autobrr.${SECRET_DOMAIN}
+        href: https://autobrr.tholinka.dev
         #description: Download Automation
         app: autobrr
         namespace: media
@@ -29,7 +29,7 @@
           key: '{{HOMEPAGE_VAR_AUTOBRR_TOKEN}}'
     - Bazarr:
         icon: bazarr.svg
-        href: https://bazarr.${SECRET_DOMAIN}
+        href: https://bazarr.tholinka.dev
         #description: Subtitles Management
         app: bazarr
         namespace: media
@@ -39,7 +39,7 @@
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
     - Calibre Web Automated:
         icon: calibre-web.svg
-        href: https://calibre.${SECRET_DOMAIN}
+        href: https://calibre.tholinka.dev
         app: calibre-web-automated
         namespace: media
         widget:
@@ -48,7 +48,7 @@
           username: '{{HOMEPAGE_VAR_CALIBRE_USER}}'
           password: '{{HOMEPAGE_VAR_CALIBRE_PASS}}'
     - Kavita:
-        href: https://kavita.${SECRET_DOMAIN}
+        href: https://kavita.tholinka.dev
         icon: kavita.svg
         app: kavita
         namespace: media
@@ -58,7 +58,7 @@
           key: '{{HOMEPAGE_VAR_KAVITA_TOKEN}}'
     - Plex:
         icon: plex.svg
-        href: https://plex.${SECRET_DOMAIN}
+        href: https://plex.tholinka.dev
         #description: Media Server
         app: plex
         namespace: media
@@ -69,7 +69,7 @@
           enableNowPlaying: true
     - Prowlarr:
         icon: prowlarr.svg
-        href: https://prowlarr.${SECRET_DOMAIN}
+        href: https://prowlarr.tholinka.dev
         app: prowlarr
         namespace: media
         widget:
@@ -78,7 +78,7 @@
           key: '{{HOMEPAGE_VAR_PROWLARR_TOKEN}}'
     - qBittorrent:
         icon: qbittorrent.svg
-        href: https://qb.${SECRET_DOMAIN}
+        href: https://qb.tholinka.dev
         app: qbittorrent
         namespace: media
         widget:
@@ -87,11 +87,11 @@
           enableLeechProgress: true # optional, defaults to false
     - qui:
         icon: qui.svg
-        href: https://qui.${SECRET_DOMAIN}
+        href: https://qui.tholinka.dev
         app: qui
         namespace: media
     - Radarr:
-        href: https://radarr.${SECRET_DOMAIN}
+        href: https://radarr.tholinka.dev
         icon: radarr.svg
         #description: Movies
         app: radarr
@@ -102,7 +102,7 @@
           key: '{{HOMEPAGE_VAR_RADARR_TOKEN}}'
     - SABnzbd:
         icon: sabnzbd.svg
-        href: https://sab.${SECRET_DOMAIN}
+        href: https://sab.tholinka.dev
         app: sabnzbd
         namespace: media
         widget:
@@ -111,7 +111,7 @@
           key: '{{HOMEPAGE_VAR_SABNZBD_TOKEN}}'
     - Seerr:
         icon: jellyseerr.svg
-        href: https://requests.${SECRET_DOMAIN}
+        href: https://requests.tholinka.dev
         app: seerr
         namespace: media
         widget:
@@ -119,7 +119,7 @@
           url: http://seerr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_SEERR_TOKEN}}'
     - Sonarr:
-        href: https://sonarr.${SECRET_DOMAIN}
+        href: https://sonarr.tholinka.dev
         icon: sonarr.svg
         #description: TV Shows
         app: sonarr
@@ -130,7 +130,7 @@
           key: '{{HOMEPAGE_VAR_SONARR_TOKEN}}'
     - Tautulli:
         icon: tautulli.svg
-        href: https://tautulli.${SECRET_DOMAIN}
+        href: https://tautulli.tholinka.dev
         app: plex
         namespace: media
         widget:
@@ -140,18 +140,18 @@
           enableNowPlaying: true
     ### no widgets at bottom of list
     - Calibre Web Automated Book Downloader:
-        href: https://calibre-downloader.${SECRET_DOMAIN}
+        href: https://calibre-downloader.tholinka.dev
         icon: calibre.svg
         app: calibre-downloader
         namespace: media
     - Maintainerr:
-        href: https://maintainerr.${SECRET_DOMAIN}
+        href: https://maintainerr.tholinka.dev
         icon: maintainerr.svg
         app: maintainerr
         namespace: media
     - Your Spotify:
         icon: your-spotify.svg
-        href: https://ys.${SECRET_DOMAIN}
+        href: https://ys.tholinka.dev
         app: your-spotify
         namespace: media
 

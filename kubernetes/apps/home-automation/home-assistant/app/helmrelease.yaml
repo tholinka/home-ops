@@ -85,13 +85,13 @@ spec:
     route:
       app:
         hostnames:
-          - ha.${SECRET_DOMAIN}
+          - ha.tholinka.dev
         parentRefs:
           - name: envoy-external
             namespace: network
       code: # split so it's not external, and we can ext-auth it as well
         hostnames:
-          - ha-code.${SECRET_DOMAIN}
+          - ha-code.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network

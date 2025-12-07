@@ -23,8 +23,8 @@ spec:
               tag: 1.15.0@sha256:3679ea122e2083703a3f8c1199acf4b1bb81c81da33334bdcaf478bfbbf36e9b
             env:
               # Caveat if it includes Spotify in name: https://github.com/Yooooomi/your_spotify/pull/254
-              API_ENDPOINT: &api_endpoint https://ys.${SECRET_DOMAIN}/api
-              CLIENT_ENDPOINT: https://ys.${SECRET_DOMAIN}
+              API_ENDPOINT: &api_endpoint https://ys.tholinka.dev/api
+              CLIENT_ENDPOINT: https://ys.tholinka.dev
               MONGO_ENDPOINT: mongodb://your_spotify:$(DB_PASSWORD)@ferretdb.database.svc.cluster.local/your-spotify
               PORT: &port 8080
               MONGO_NO_ADMIN_RIGHTS: 'true'
@@ -77,8 +77,8 @@ spec:
     route:
       app:
         hostnames:
-          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
-          - 'ys.${SECRET_DOMAIN}'
+          - '{{ .Release.Name }}.tholinka.dev'
+          - ys.tholinka.dev
         parentRefs:
           - name: envoy-external
             namespace: network

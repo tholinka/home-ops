@@ -53,7 +53,7 @@ spec:
           gethomepage.dev/icon: rook.svg
           gethomepage.dev/pod-selector: app.kubernetes.io/name=ceph-mgr
         host:
-          name: rook.${SECRET_DOMAIN}
+          name: rook.tholinka.dev
           path: /
           pathType: PathPrefix
         parentRefs:

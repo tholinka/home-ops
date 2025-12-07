@@ -64,7 +64,7 @@ spec:
     route:
       app:
         hostnames:
-          - calibre.${SECRET_DOMAIN}
+          - calibre.tholinka.dev
         parentRefs:
           - name: envoy-external
             namespace: network

@@ -74,7 +74,7 @@ spec:
         ipFamilyPolicy: PreferDualStack
         externalTrafficPolicy: Local
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: go2rtc-streams.${SECRET_DOMAIN}.
+          external-dns.alpha.kubernetes.io/hostname: go2rtc-streams.tholinka.dev.
           lbipam.cilium.io/ips: 192.168.20.9, ${IPV6_PREFIX}:20::9
         ports:
           http:
@@ -92,7 +92,7 @@ spec:
     route:
       app:
         hostnames:
-          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+          - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:
           - name: envoy-internal
             namespace: network

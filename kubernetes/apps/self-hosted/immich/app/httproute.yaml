@@ -16,7 +16,7 @@ metadata:
     gethomepage.dev/pod-selector: app.kubernetes.io/name=server
 spec:
   hostnames:
-    - 'photos.${SECRET_DOMAIN}'
+    - photos.tholinka.dev
   parentRefs:
     - name: envoy-internal
       namespace: network

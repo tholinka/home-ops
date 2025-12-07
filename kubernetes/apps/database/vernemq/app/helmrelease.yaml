@@ -112,7 +112,7 @@ spec:
         ipFamilyPolicy: PreferDualStack
         sessionAffinity: ClientIP # vernemq docs note that hopping between pods causes a significate data replication/sync cost
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: mqtt.${SECRET_DOMAIN}.
+          external-dns.alpha.kubernetes.io/hostname: mqtt.tholinka.dev.
           lbipam.cilium.io/ips: 192.168.20.8, ${IPV6_PREFIX}:20::8
         ports: &ports
           mqtt:
@@ -131,7 +131,7 @@ spec:
     route:
       app:
         hostnames:
-          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+          - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:
           - name: envoy-internal
             namespace: network

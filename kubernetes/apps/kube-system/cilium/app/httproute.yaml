@@ -12,7 +12,7 @@ metadata:
     gethomepage.dev/pod-selector: app.kubernetes.io/name=hubble-ui
 spec:
   hostnames:
-    - hubble.${SECRET_DOMAIN}
+    - hubble.tholinka.dev
   parentRefs:
     - name: envoy-internal
       namespace: network

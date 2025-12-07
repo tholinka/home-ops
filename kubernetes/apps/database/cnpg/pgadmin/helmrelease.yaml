@@ -92,7 +92,7 @@ spec:
     route:
       app:
         hostnames:
-          - pg.${SECRET_DOMAIN}
+          - pg.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network

@@ -20,7 +20,7 @@ spec:
       route:
         enabled: true
         hostnames:
-          - victoria-logs.${SECRET_DOMAIN}
+          - victoria-logs.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network

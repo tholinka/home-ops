@@ -83,7 +83,7 @@ spec:
     route:
       app:
         hostnames:
-          - status.${SECRET_DOMAIN}
+          - status.tholinka.dev
         parentRefs:
           - name: envoy-external
             namespace: network

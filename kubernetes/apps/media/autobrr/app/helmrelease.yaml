@@ -28,8 +28,8 @@ spec:
               AUTOBRR__CHECK_FOR_UPDATES: false
               AUTOBRR__LOG_LEVEL: INFO
               AUTOBRR__OIDC_ENABLED: true
-              AUTOBRR__OIDC_ISSUER: https://auth.${SECRET_DOMAIN}/application/o/autobrr/
-              AUTOBRR__OIDC_REDIRECT_URL: https://autobrr.${SECRET_DOMAIN}/api/auth/oidc/callback
+              AUTOBRR__OIDC_ISSUER: https://auth.tholinka.dev/application/o/autobrr/
+              AUTOBRR__OIDC_REDIRECT_URL: https://autobrr.tholinka.dev/api/auth/oidc/callback
               AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: false
             envFrom:
               - secretRef:
@@ -77,7 +77,7 @@ spec:
     route:
       app:
         hostnames:
-          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+          - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:
           - name: envoy-internal
             namespace: network

@@ -180,7 +180,7 @@ spec:
     route:
       app:
         hostnames:
-          - 'qb.${SECRET_DOMAIN}'
+          - qb.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network

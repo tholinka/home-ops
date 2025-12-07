@@ -21,7 +21,7 @@ spec:
         main:
           enabled: true
           hostnames:
-            - alertmanager.${SECRET_DOMAIN}
+            - alertmanager.tholinka.dev
           parentRefs:
             - name: envoy-internal
               namespace: network
@@ -36,7 +36,7 @@ spec:
           name: alertmanager
           global:
             resolveTimeout: 5m
-        externalUrl: https://alertmanager.${SECRET_DOMAIN}
+        externalUrl: https://alertmanager.tholinka.dev
         resources:
           requests:
             cpu: 10m
@@ -64,7 +64,7 @@ spec:
         main:
           enabled: true
           hostnames:
-            - 'prometheus.${SECRET_DOMAIN}'
+            - prometheus.tholinka.dev
           parentRefs:
             - name: envoy-internal
               namespace: network
@@ -77,7 +77,7 @@ spec:
             gethomepage.dev/widget.type: prometheus
             gethomepage.dev/widget.url: 'http://kube-prometheus-stack-prometheus.observability.svc.cluster.local.:9090'
       prometheusSpec:
-        externalUrl: https://prometheus.${SECRET_DOMAIN}
+        externalUrl: https://prometheus.tholinka.dev
         version: v2.55.1 # override 'unsupported Prometheus version' error
         image:
           registry: docker.io

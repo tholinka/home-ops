@@ -20,7 +20,7 @@ function notify() {
 			"${EVENT_FROM_TRACKER}" \
 			"${EVENT_SOURCE}"
 
-		printf -v pushover_url "https://qb.%s/#/torrent/%s" "${SECRET_DOMAIN}" "${EVENT_HASH}"
+		printf -v pushover_url "https://qb.%s/#/torrent/%s" "tholinka.dev" "${EVENT_HASH}"
 		printf -v pushover_url_title "View in qbit"
 
 		printf -v pushover_priority "%s" \

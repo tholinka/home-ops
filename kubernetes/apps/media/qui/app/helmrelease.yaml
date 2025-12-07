@@ -29,8 +29,8 @@ spec:
 
               # oidc
               QUI__OIDC_ENABLED: true
-              QUI__OIDC_ISSUER: https://auth.${SECRET_DOMAIN}/application/o/qui/
-              QUI__OIDC_REDIRECT_URL: https://qui.${SECRET_DOMAIN}/api/auth/oidc/callback
+              QUI__OIDC_ISSUER: https://auth.tholinka.dev/application/o/qui/
+              QUI__OIDC_REDIRECT_URL: https://qui.tholinka.dev/api/auth/oidc/callback
               QUI__OIDC_DISABLE_BUILT_IN_LOGIN: true
             envFrom:
               - secretRef:
@@ -72,7 +72,7 @@ spec:
     route:
       app:
         hostnames:
-          - '{{ .Release.Name }}.${SECRET_DOMAIN}'
+          - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:
           - name: envoy-internal
             namespace: network

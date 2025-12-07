@@ -20,7 +20,7 @@ function notify() {
 		printf -v PUSHOVER_PRIORITY "emergency"
 	fi
 
-	printf -v PUSHOVER_URL "https://requests.%s" "${SECRET_DOMAIN}"
+	printf -v PUSHOVER_URL "https://requests.%s" "tholinka.dev"
 	printf -v PUSHOVER_URL_TITLE "Open Request"
 
 	apprise -vv --title "${PUSHOVER_TITLE}" --body "${PUSHOVER_MESSAGE}" --input-format html \

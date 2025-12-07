@@ -12,7 +12,7 @@ metadata:
     gethomepage.dev/pod-selector: app.kubernetes.io/name=prometheus-blackbox-exporter
 spec:
   hostnames:
-    - blackbox-exporter.${SECRET_DOMAIN}
+    - blackbox-exporter.tholinka.dev
   parentRefs:
     - name: envoy-internal
       namespace: network

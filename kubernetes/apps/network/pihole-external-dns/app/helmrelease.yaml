@@ -42,7 +42,7 @@ spec:
     # You don't need to set this flag, but if you leave it unset, you will receive warning
     # logs when ExternalDNS attempts to create TXT records.
     registry: noop
-    domainFilters: ['${SECRET_DOMAIN}']
+    domainFilters: [tholinka.dev]
     serviceMonitor:
       enabled: true
     podAnnotations:

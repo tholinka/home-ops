@@ -17,7 +17,7 @@ spec:
               key: CLOUDFLARE_DNS_TOKEN
         selector:
           dnsZones:
-            - '${SECRET_DOMAIN}'
+            - tholinka.dev
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/clusterissuer_v1.json
 apiVersion: cert-manager.io/v1
@@ -37,7 +37,7 @@ spec:
   commonName: *name
   subject:
     organizations:
-      - '${SECRET_DOMAIN}'
+      - tholinka.dev
   secretName: cluster-signed-issuer-secret
   privateKey:
     algorithm: ECDSA

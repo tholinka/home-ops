@@ -9,7 +9,7 @@ spec:
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: '${SECRET_DOMAIN}'
+  commonName: tholinka.dev
   dnsNames:
-    - '${SECRET_DOMAIN}'
-    - '*.${SECRET_DOMAIN}'
+    - tholinka.dev
+    - '*.tholinka.dev'

@@ -54,7 +54,7 @@ spec:
     route:
       app:
         hostnames:
-          - maintainerr.${SECRET_DOMAIN}
+          - maintainerr.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network

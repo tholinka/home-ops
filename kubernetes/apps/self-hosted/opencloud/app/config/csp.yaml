@@ -4,10 +4,10 @@ directives:
   connect-src:
     - "'self'"
     - 'blob:'
-    - 'https://companion.${SECRET_DOMAIN}/'
-    - 'wss://companion.${SECRET_DOMAIN}/'
+    - 'https://companion.tholinka.dev/'
+    - 'wss://companion.tholinka.dev/'
     - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
-    - 'https://auth.${SECRET_DOMAIN}/'
+    - 'https://auth.tholinka.dev/'
   default-src:
     - "'none'"
   font-src:
@@ -18,7 +18,7 @@ directives:
     - "'self'"
     - 'blob:'
     - 'https://embed.diagrams.net/'
-    - 'https://collabora.${SECRET_DOMAIN}/'
+    - 'https://collabora.tholinka.dev/'
     # This is needed for the external-sites web extension when embedding sites
     - 'https://docs.opencloud.eu'
   img-src:
@@ -26,7 +26,7 @@ directives:
     - 'data:'
     - 'blob:'
     - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
-    - 'https://collabora.${SECRET_DOMAIN}/'
+    - 'https://collabora.tholinka.dev/'
   manifest-src:
     - "'self'"
   media-src:

@@ -61,7 +61,7 @@ spec:
     route:
       *app :
         hostnames:
-          - 'orca.${SECRET_DOMAIN}'
+          - orca.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network

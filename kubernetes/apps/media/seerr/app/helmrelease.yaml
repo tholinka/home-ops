@@ -62,7 +62,7 @@ spec:
     route:
       app:
         hostnames:
-          - 'requests.${SECRET_DOMAIN}'
+          - requests.tholinka.dev
         parentRefs:
           - name: envoy-external
             namespace: network

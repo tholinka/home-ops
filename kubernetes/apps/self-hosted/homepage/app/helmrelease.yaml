@@ -24,7 +24,7 @@ spec:
               repository: ghcr.io/gethomepage/homepage
               tag: v1.7.0@sha256:b6ac42c31845ea7c862d71451c16413a6284430d8ff08e16ad791f42718a7c71
             env:
-              HOMEPAGE_ALLOWED_HOSTS: '${SECRET_DOMAIN:=test},{{ .Release.Name }}.${SECRET_DOMAIN}'
+              HOMEPAGE_ALLOWED_HOSTS: 'tholinka.dev,{{ .Release.Name }}.tholinka.dev'
             envFrom:
               - secretRef:
                   name: homepage-secret
@@ -123,8 +123,8 @@ spec:
           gatus.home-operations.com/endpoint: |-
             group: internal
         hostnames:
-          # - '{{ .Release.Name }}.${SECRET_DOMAIN}'
-          - '${SECRET_DOMAIN:=test}'
+          # - '{{ .Release.Name }}.tholinka.dev'
+          - tholinka.dev
         parentRefs:
           # - name: envoy-internal
           #   namespace: network

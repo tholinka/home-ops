@@ -1,11 +1,11 @@
 ---
 originRequest:
   http2Origin: true
-  originServerName: 'external.${SECRET_DOMAIN}'
+  originServerName: external.tholinka.dev
 
 ingress:
-  - hostname: '${SECRET_DOMAIN}'
+  - hostname: tholinka.dev
     service: &svc https://envoy-external.network.svc.cluster.local
-  - hostname: '*.${SECRET_DOMAIN}'
+  - hostname: '*.tholinka.dev'
     service: *svc
   - service: http_status:404
