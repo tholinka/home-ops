@@ -37,8 +37,8 @@ metrics:
     title: CPU
     suffix: '%'
     colors:
-      - { color: 'green', min: 0, max: 35 }
-      - { color: 'orange', min: 36, max: 75 }
+      - { color: 'green', min: 0, max: 50 }
+      - { color: 'orange', min: 51, max: 75 }
       - { color: 'red', min: 76, max: 9999 }
 
   - name: cluster_memory_usage
@@ -46,8 +46,8 @@ metrics:
     title: Memory
     suffix: '%'
     colors:
-      - { color: green, min: 0, max: 35 }
-      - { color: orange, min: 36, max: 75 }
+      - { color: green, min: 0, max: 50 }
+      - { color: orange, min: 51, max: 75 }
       - { color: red, min: 76, max: 9999 }
 
   - name: cluster_power_usage
@@ -55,8 +55,8 @@ metrics:
     title: Power
     suffix: 'w'
     colors:
-      - { color: 'green', min: 0, max: 300 }
-      - { color: 'orange', min: 301, max: 500 }
+      - { color: 'green', min: 0, max: 350 }
+      - { color: 'orange', min: 351, max: 500 }
       - { color: 'red', min: 501, max: 9999 }
 
   - name: internet_power_usage
@@ -64,8 +64,8 @@ metrics:
     title: Power
     suffix: 'w'
     colors:
-      - { color: 'green', min: 0, max: 80 }
-      - { color: 'orange', min: 81, max: 100 }
+      - { color: 'green', min: 0, max: 70 }
+      - { color: 'orange', min: 71, max: 100 }
       - { color: 'red', min: 101, max: 9999 }
 
   - name: cluster_age_days
@@ -73,17 +73,17 @@ metrics:
     title: Age
     suffix: 'd'
     colors:
-      - { color: 'green', min: 0, max: 180 }
-      - { color: 'orange', min: 181, max: 360 }
-      - { color: 'red', min: 361, max: 9999 }
+      - { color: 'green', min: 31, max: 9999 }
+      - { color: 'orange', min: 11, max: 30 }
+      - { color: 'red', min: 0, max: 10 }
 
   - name: cluster_uptime_days
     query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}) / 86400)
     suffix: 'd'
     colors:
-      - { color: 'green', min: 0, max: 180 }
-      - { color: 'orange', min: 181, max: 360 }
-      - { color: 'red', min: 361, max: 9999 }
+      - { color: 'green', min: 7, max: 9999 }
+      - { color: 'orange', min: 3, max: 6 }
+      - { color: 'red', min: 0, max: 2 }
 
   - name: cluster_alert_count
     query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
