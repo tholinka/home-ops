@@ -14,7 +14,7 @@ spec:
 
     replicaCount: 2
 
-    timezone: ${TIMEZONE}
+    timezone: America/Chicago
     cronJobTimeZone: true
 
     webhook:
