@@ -244,7 +244,7 @@ spec:
       tunnel:
         type: hostPath
         hostPath: /dev/net/tun
-        hostPathType: charDevice
+        hostPathType: CharDevice
         advancedMounts:
           *app :
             gluetun:
