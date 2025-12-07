@@ -89,7 +89,6 @@ spec:
               requests:
                 cpu: 20m
               limits:
-                squat.ai/tun: 1
                 memory: 100Mi
           # TODO: Replace once gluetun supports socks5, nothing supports shadowsocks
           socks5:
@@ -237,6 +236,16 @@ spec:
         type: nfs
         server: nas.servers.internal
         path: /media
-        globalMounts:
-          - path: /media/downloads/qbittorrent
-            subPath: downloads/qbittorrent
+        advancedMounts:
+          *app :
+            app:
+              - path: /media/downloads/qbittorrent
+                subPath: downloads/qbittorrent
+      tunnel:
+        type: hostPath
+        hostPath: /dev/net/tun
+        hostPathType: charDevice
+        advancedMounts:
+          *app :
+            gluetun:
+              - path: /dev/net/tun

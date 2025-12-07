@@ -15,8 +15,6 @@ spec:
       namespace: observability
     - name: storage-ready
       namespace: flux-system
-    - name: generic-device-plugin
-      namespace: system
   path: ./kubernetes/apps/media/qbittorrent/app
   postBuild:
     substitute:
