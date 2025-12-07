@@ -27,6 +27,10 @@ spec:
       CNPG_SIZE: 5Gi
       CNPG_LIMITS_MEMORY_HUGEPAGES: 1Gi
       CNPG_LIMITS_MEMORY: 2Gi
+    substituteFrom:
+      - kind: Secret
+        name: cnpg-objectstore-substitute
+        optional: false
   components:
     - ../../../../components/cnpg/backup
   healthChecks:

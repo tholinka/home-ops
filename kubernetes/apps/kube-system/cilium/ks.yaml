@@ -20,3 +20,7 @@ spec:
     substitute:
       APP: *app
       EXT_AUTH_TARGET: hubble
+    substituteFrom:
+      - kind: Secret
+        name: ipv6
+        optional: false

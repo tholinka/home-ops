@@ -3,16 +3,37 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: cloudflare-tunnel-substitute
+  namespace: &namespace network
+spec:
+  interval: 1h
+  targetNamespace: *namespace
+  path: ./kubernetes/apps/network/cloudflare-tunnel/substitute
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: cloudflare-tunnel
   namespace: &namespace network
 spec:
   interval: 1h
   targetNamespace: *namespace
   dependsOn:
-    - name: cloudflare-external-dns
+    - name: &substitute cloudflare-tunnel-substitute
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: *substitute
+        optional: false

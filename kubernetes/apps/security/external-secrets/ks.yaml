@@ -31,6 +31,13 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
+  dependsOn:
+    - name: external-secrets
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: bitwarden
+        optional: false
   healthChecks:
     - apiVersion: &certApiVersion cert-manager.io/v1
       kind: &certKind Certificate

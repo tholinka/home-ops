@@ -14,6 +14,10 @@ spec:
     substitute:
       APP: *app
       EXT_AUTH_TARGET: searxng-external
+    substituteFrom:
+      - kind: Secret
+        name: ipv6
+        optional: false
   prune: true
   sourceRef:
     kind: GitRepository

@@ -26,6 +26,14 @@
       CNPG_MAX_CONNECTIONS: '600' # default
       CNPG_SHARED_BUFFERS: 512MB # default
       CNPG_DISABLED_SERVICES: ['ro', 'r'] # default
+    subsituteFrom:
+      # backup/restore requires:
+      #S3_POSTGRES_STORAGE: https://s3.url
+      #S3_POSTGRES_BUCKET: postgres
+      # which is provided by a secret in cnpg-crds
+      - kind: Secret
+        name: cnpg-objectstore-substitute
+        optional: false
 ```
 
 

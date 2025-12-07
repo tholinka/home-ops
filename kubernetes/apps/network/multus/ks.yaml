@@ -33,4 +33,8 @@ spec:
     namespace: flux-system
   dependsOn:
     - name: multus
-      namespace: network
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: ipv6
+        optional: false
