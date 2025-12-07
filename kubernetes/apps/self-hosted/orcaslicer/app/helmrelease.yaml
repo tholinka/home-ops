@@ -44,7 +44,7 @@ spec:
                 memory: 1Gi
               limits:
                 #cpu: 4
-                memory: 3Gi
+                memory: 8Gi
 
     # defaultPodOptions:
     #   resourceClaims:
