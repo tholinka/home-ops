@@ -25,9 +25,9 @@ spec:
               S6_READ_ONLY_ROOT: '1'
               PGID: '911' # default for this image
               PUID: '911' # default for this image
-              SELKIES_MANUAL_WIDTH: 1920
-              SELKIES_MANUAL_HEIGHT: 1080
-              MAX_RESOLUTION: 1920x1080
+              SELKIES_MANUAL_WIDTH: 2560
+              SELKIES_MANUAL_HEIGHT: 1440
+              MAX_RESOLUTION: 2560x1440
             probes:
               liveness: &probes
                 enabled: true
