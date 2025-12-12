@@ -34,7 +34,7 @@ spec:
             image: *image
             env:
               FLASK_PORT: &port 80
-              FLASK_DEBUG: false
+              DEBUG: false
               AA_BASE_URL: https://annas-archive.li
               INGEST_DIR: &ingest /cwa-book-ingest
               BOOK_LANGUAGE: en
