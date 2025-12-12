@@ -3,9 +3,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: '${SECRET_DOMAIN/./-}'
+  name: tholinka-dev
 spec:
-  secretName: '${SECRET_DOMAIN/./-}-tls'
+  secretName: 'tholinka-dev-tls'
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer

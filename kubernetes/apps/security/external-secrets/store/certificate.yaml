@@ -18,7 +18,7 @@ spec:
     size: 2048
     rotationPolicy: Always
   duration: 168h # 7d
-  renewBefore: 24h # 1d
+  renewBefore: 49h # 2d + a bit
   issuerRef:
     name: cluster-signed-issuer
     kind: ClusterIssuer
