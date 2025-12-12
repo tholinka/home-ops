@@ -8,10 +8,9 @@ spec:
   groups:
     - name: gatus.rules
       rules:
-        - alert: GatusEndpointDown
-          # if down internally, don't report that it's also down externally
+        - alert: GatusExternalDown
           expr: |
-            gatus_results_endpoint_success{group="external"} == 0 unless on (name) (gatus_results_endpoint_success{group="internal"}) == 0
+            gatus_results_endpoint_success{group="external"} == 0
           for: 5m
           annotations:
             summary: >-
@@ -19,19 +18,19 @@ spec:
           labels:
             severity: critical
 
-        - alert: GatusInternalEndpointDown
+        - alert: GatusInfrastructureDown
           expr: |
-            gatus_results_endpoint_success{group="internal"} == 0
+            gatus_results_endpoint_success{group="infrastructure"} == 0
           for: 5m
           annotations:
             summary: >-
-              The {{ $labels.name }} endpoint is down internally
+              The {{ $labels.name }} infrastructure endpoint is down
           labels:
             severity: critical
 
-        - alert: GatusEndpointExposed
+        - alert: GatusInternalExposed
           expr: |
-            gatus_results_endpoint_success{group="guarded"} == 0
+            gatus_results_endpoint_success{group="internal"} == 0
           for: 5m
           annotations:
             summary: >-
