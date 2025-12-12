@@ -19,7 +19,7 @@ spec:
           init:
             image: &image
               repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
-              tag: v0.3.0@sha256:838a418f37648d680b01f912dec796ca458ade58dc8a7565d9568da83e267b2f
+              tag: v0.3.2@sha256:f73cccab5c14dbdbcb46084db84aabc9f5bb3a577d91ca0b00f1b846006c73da
             command:
               - bash
               - -c
