@@ -203,37 +203,6 @@ nodes:
       intel.feature.node.kubernetes.io/gpu: 'true'
     patches: *hpPatches
 
-  - hostname: q1
-    ipAddress: 192.168.20.101
-    installDisk: /dev/sda
-    machineSpec:
-      mode: nocloud
-      arch: amd64
-      secureboot: false
-      useUKI: false
-    schematic:
-      customization:
-        extraKernelArgs: []
-        systemExtensions:
-          officialExtensions:
-            - siderolabs/qemu-guest-agent
-            - siderolabs/nut-client
-    controlPlane: false
-    networkInterfaces:
-      - <<: *interface
-        bond:
-          <<: *lenovoBond
-          deviceSelectors:
-            - driver: virtio_net
-        addresses:
-          - 192.168.20.101/24
-          - ${ipv6_prefix}:20::101/64
-    extensionServices: *extensionServices
-    nodeLabels:
-      cpu: qemu
-    patches:
-      - '@./patches/large/machine-sysctls.yaml'
-
 # Global patches
 patches:
   - '@./patches/global/machine-features.yaml'
