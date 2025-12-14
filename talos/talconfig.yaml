@@ -78,11 +78,6 @@ nodes:
     nodeLabels: &lenovoLabels
       cpu: i5-6400T
       intel.feature.node.kubernetes.io/gpu: 'true'
-    patches: &lenovoPatches
-      #
-      #- '@./patches/intel/machine-encryption.yaml' # block.VolumeManagerController panics with runtime error out of range [0] with length [0] -> TPM to old to work?
-      - &intelMachineSysfs '@./patches/intel/machine-sysfs.yaml'
-      - &largeMachineSysctls '@./patches/large/machine-sysctls.yaml'
 
   - hostname: lenovo-m700-2
     ipAddress: 192.168.20.62
@@ -98,7 +93,6 @@ nodes:
           - ${ipv6_prefix}:20::62/64
     extensionServices: *extensionServices
     nodeLabels: *lenovoLabels
-    patches: *lenovoPatches
 
   - hostname: lenovo-m700-3
     ipAddress: 192.168.20.63
@@ -114,7 +108,6 @@ nodes:
           - ${ipv6_prefix}:20::63/64
     extensionServices: *extensionServices
     nodeLabels: *lenovoLabels
-    patches: *lenovoPatches
 
   - hostname: hp-800-g5-1
     ipAddress: 192.168.20.71
@@ -140,9 +133,7 @@ nodes:
       cpu: i5-9500T
       intel.feature.node.kubernetes.io/gpu: 'true'
     patches: &hpPatches
-      - '@./patches/intel/machine-encryption.yaml'
-      - *intelMachineSysfs
-      - *largeMachineSysctls
+      - '@./patches/global/machine-encryption.yaml'
       - |-
         machine:
           sysfs:
@@ -211,6 +202,7 @@ patches:
   - '@./patches/global/machine-modules.yaml'
   - '@./patches/global/machine-network.yaml'
   - '@./patches/global/machine-sysctls.yaml'
+  - '@./patches/global/machine-sysfs.yaml'
   - '@./patches/global/machine-time.yaml'
   - '@./patches/global/machine-udev.yaml'
   - '@./patches/global/watchdogtimerconfig.yaml'
