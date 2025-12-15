@@ -139,8 +139,8 @@ spec:
                 memory: 8Gi
           port-forward:
             image:
-              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
-              tag: 0.0.4@sha256:6060da1978c5ec8ea1cad56d8538f35b504b1dcb3fc9845f1f69b18d1b36020a
+              repository: ghcr.io/tholinka/gluetun-qb-port-sync
+              tag: 0.0.5@sha256:1e825a56f7d9f69bd8c96cf5d2d64188b7782d4e46e3d03bf7aadce7d7650c39
             env:
               GLUETUN_CONTROL_SERVER_HOST: localhost
               GLUETUN_CONTROL_SERVER_PORT: 8000
