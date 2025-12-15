@@ -109,7 +109,6 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: [ALL] }
         containers:
-          # in qbit config, set "on torrent finished" set to "curl -v http://webhook.media.svc.cluster.local/hooks/qbit-pushover --header 'Content-Type: application/json' --data-raw '{"name": "%N", "cat": "%L", "size": "%Z", "indexer": "%T"}'"
           app:
             image:
               repository: ghcr.io/home-operations/qbittorrent
