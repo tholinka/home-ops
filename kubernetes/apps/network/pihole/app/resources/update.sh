@@ -29,7 +29,9 @@ pihole-FTL sql /etc/pihole/gravity.db "SELECT address FROM adlist WHERE type=1" 
 
 to_remove=$(comm -23 /tmp/current-allow.list /tmp/allow.list)
 echo "Removing lists not in the combined allow lists from db: $to_remove"
-echo "$to_remove" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist WHERE address='{}' AND type=1;"
+echo "$to_remove" |
+xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "SELECT id FROM adlist WHERE address='{}' AND type=1;" |
+xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist_by_group WHERE adlist_id='{}'; DELETE FROM gravity WHERE adlist_id='{}'; DELETE FROM adlist WHERE id='{}'"
 
 to_add="$(comm -13 /tmp/current-allow.list /tmp/allow.list)"
 echo "Inserting new allow lists into db: $to_add"
@@ -56,7 +58,9 @@ cat /tmp/firebog.list /tmp/tholinka.list | sort > /tmp/combined.list
 to_remove="$(comm -23 /tmp/current.list /tmp/combined.list)"
 echo "Removing lists not in the combined lists from db: $to_remove"
 
-echo "$to_remove" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist WHERE address='{}' AND type=0;"
+echo "$to_remove" |
+xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "SELECT id FROM adlist WHERE address='{}' AND type=0;" |
+xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist_by_group WHERE adlist_id='{}'; DELETE FROM gravity WHERE adlist_id='{}'; DELETE FROM adlist WHERE id='{}'"
 
 to_add="$(comm -13 /tmp/current.list /tmp/firebog.list)"
 echo "Inserting new firebog lists into db: $to_add"
