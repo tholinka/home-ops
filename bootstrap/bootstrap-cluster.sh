@@ -77,12 +77,19 @@ function fetch_kubeconfig() {
 		log error "Failed to fetch kubeconfig"
 	fi
 
-	if [[ $1 == 'bootstrap' ]]; then
+	if [[ $1 = 'bootstrap' ]]; then
 		# use the controller as the endpoint for now
 		if sed --version &> /dev/null; then # macos sed is annoying
-			sed -i "s/cluster.servers.internal/${controller}/g" kubeconfig
+			sed -i "s/cluster.servers.internal/${controller}/g" "${ROOT_DIR}/kubeconfig"
 		else
-			sed -i '' "s/cluster.servers.internal/${controller}/g" kubeconfig
+			sed -i '' "s/cluster.servers.internal/${controller}/g" "${ROOT_DIR}/kubeconfig"
+		fi
+	else
+		# should already be the dns name, but sometimes its the ip, so force it to use the dns name
+		if sed --version &> /dev/null; then # macos sed is annoying
+			sed -i "s/192\.168\.20\.../cluster.servers.internal/g" "${ROOT_DIR}/kubeconfig"
+		else
+			sed -i '' "s/192\.168\.20\.../cluster.servers.internal/g" "${ROOT_DIR}/kubeconfig"
 		fi
 	fi
 
@@ -174,7 +181,7 @@ function main() {
 		log error "Failed to authenticate with Bitwarden Seccret Manager CLI"
 	fi
 
-	# Bootstrap the Talos node configuration
+	# # Bootstrap the Talos node configuration
 	apply_talos_config
 	bootstrap_talos
 	fetch_kubeconfig bootstrap
