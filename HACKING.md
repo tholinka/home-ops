@@ -4,7 +4,10 @@
 
 > [!IMPORTANT]
 >
-> In the Unifi Network App, under Settings -> Network -> IPv6 -> Additional IPs, add the ULA IP for that network, e.g. `fdaa:aaaa:aaaa:5::1/64`
+> In the Unifi Network App: under Settings:
+>  1) Under Network -> IPv6 -> Additional IPs, add the ULA IP for that network, e.g. `fdaa:aaaa:aaaa:5::1/64`
+> 2) Under Policy Table -> Create New Policy -> NAT -> Src NAT -> Select network -> IPv6 -> select ULA
+> > RIP Hardware Acceleration with IPv6 NAT enabled
 
 ### UniFi BGP Setup
 
