@@ -12,7 +12,7 @@ machine:
     nodeIP:
       validSubnets:
         - 192.168.20.0/24
-        - fdaa:aaaa:aaaa:20::/64
+        - ${ipv6_prefix}::/64
     extraConfig:
       featureGates:
         ImageVolume: true
