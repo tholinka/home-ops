@@ -9,7 +9,7 @@ rtsp:
 webrtc:
   listen: :8555
   candidates:
-    - 192.168.20.9:8555
+    - 192.168.21.9:8555
     - stun:8555
   ice_servers:
     - urls:

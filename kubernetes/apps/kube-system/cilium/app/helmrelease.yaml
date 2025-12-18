@@ -34,7 +34,7 @@ spec:
     ipv6:
       enabled: true
     enableIPv6BIGTCP: true
-    ipv6NativeRoutingCIDR: fc69::/16
+    ipv6NativeRoutingCIDR: fc69::/108
     dashboards:
       enabled: true
     # NOTE: devices might need to be set if you have more than one active NIC on your hosts

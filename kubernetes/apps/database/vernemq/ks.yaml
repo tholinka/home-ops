@@ -22,8 +22,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-    substituteFrom:
-      - kind: Secret
-        name: ipv6
-        optional: false
   wait: true

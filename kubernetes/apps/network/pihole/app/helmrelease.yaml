@@ -54,7 +54,7 @@ spec:
           dnsPolicy: None
           dnsConfig:
             nameservers:
-              - 192.168.20.7
+              - 192.168.21.7
             options:
               - name: ndots
                 value: '1'
@@ -94,7 +94,7 @@ spec:
             env:
               FTLCONF_dns_listeningMode: all
               FTLCONF_dns_dnssec: 'false'
-              FTLCONF_dns_upstreams: 192.168.20.7;192.168.20.7
+              FTLCONF_dns_upstreams: 192.168.21.7;192.168.21.7
               FTLCONF_webserver_interface_boxed: false
               FTLCONF_webserver_interface_theme: default-auto
               FTLCONF_webserver_port: &pihole-port 80
@@ -179,7 +179,7 @@ spec:
         ipFamilies: [IPv4, IPv6]
         ipFamilyPolicy: PreferDualStack
         annotations:
-          lbipam.cilium.io/ips: 192.168.20.6, ${IPV6_PREFIX}:20::6
+          lbipam.cilium.io/ips: 192.168.21.6, fdaa:aaaa:aaaa:21::6
         ports:
           dns-udp:
             port: 53

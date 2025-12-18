@@ -102,16 +102,16 @@ kvmd:
         pin: 2
       h3_led:
         <<: *led
-        pin: 3
+        pin: 4
       h3_switch:
         <<: *switch
-        pin: 3
+        pin: 4
       h4_led:
         <<: *led
-        pin: 4
+        pin: 3
       h4_switch:
         <<: *switch
-        pin: 4
+        pin: 3
       l1_led:
         <<: *led
         pin: 5

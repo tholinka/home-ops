@@ -49,7 +49,7 @@ services:
       WEBPASSWORD_FILE: pihole-password
       FTLCONF_dns_listeningMode: all
       FTLCONF_dns_dnssec: 'false'
-      FTLCONF_dns_upstreams: 172.20.0.7;192.168.20.7
+      FTLCONF_dns_upstreams: 172.20.0.7;192.168.21.7
       FTLCONF_webserver_interface_boxed: false
       FTLCONF_webserver_interface_theme: default-auto
       FTLCONF_webserver_port: 80

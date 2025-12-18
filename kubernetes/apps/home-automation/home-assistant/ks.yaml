@@ -21,10 +21,6 @@ spec:
       APP: *app
       VOLSYNC_CAPACITY: 50Gi
       EXT_AUTH_TARGET: home-assistant-code
-    substituteFrom:
-      - kind: Secret
-        name: ipv6
-        optional: false
   prune: true
   sourceRef:
     kind: GitRepository

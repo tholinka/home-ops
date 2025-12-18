@@ -3,7 +3,8 @@
 ### DNS
 
 > [!IMPORTANT]
-> In the Unifi Network App, under Settings -> Internet -> WAN1 and WAN2. Set IPv4 dns to `192.168.20.6` and IPv6 to `fdaa:aaaa:aaaa:aa20::6`.
+>
+> In the Unifi Network App, under Settings -> Network -> IPv6 -> Additional IPs, add the ULA IP for that network, e.g. `fdaa:aaaa:aaaa:5::1/64`
 
 ### UniFi BGP Setup
 
@@ -33,7 +34,7 @@ router bgp 64513
   neighbor k8s-v6 peer-group
   neighbor k8s-v6 remote-as 64514
 
-  bgp listen range REPLACE_WITH_IPV6_PREFIX::/64 peer-group k8s-v6
+  bgp listen range fdaa:aaaa:aaaa:20::/64 peer-group k8s-v6
 
   address-family ipv6 unicast
     neighbor k8s-v6 activate

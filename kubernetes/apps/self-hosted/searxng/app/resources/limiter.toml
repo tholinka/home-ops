@@ -18,7 +18,7 @@ trusted_proxies = [
 	'10.0.0.0/8',
 	'fd00::/8',
 	'fc00::/8',
-	'${IPV6_PREFIX}::/64',
+	'fdaa:aaaa:aaaa:21::/64',
 ]
 
 [botdetection.ip_limit]
@@ -40,7 +40,7 @@ block_ip = []
 
 pass_ip = [
 	'192.168.0.0/16',      # IPv4 private network
-	'${IPV6_PREFIX}::/64', # IPv6 GUA
+	'fdaa:aaaa:aaaa::/48', # IPv6 ULA
 ]
 
 # Activate passlist of (hardcoded) IPs from the SearXNG organization,

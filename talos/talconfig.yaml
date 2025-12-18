@@ -10,10 +10,10 @@ endpoint: https://cluster.servers.internal:6443
 
 clusterPodNets:
   - 10.69.0.0/16
-  - fc69::/16
+  - fc69::/108
 clusterSvcNets:
   - 10.96.0.0/16
-  - fc96::/16
+  - fc96::/108
 
 additionalApiServerCertSans: &sans
   - cluster.servers.internal
@@ -25,7 +25,7 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: lenovo-m700-1
+  - hostname: l1 #lenovo-m700-1
     ipAddress: 192.168.20.61
     installDisk: /dev/sda
     machineSpec: &x64MachineSpec
@@ -45,28 +45,20 @@ nodes:
             - siderolabs/mei
             - siderolabs/nut-client
     controlPlane: false
-    networkInterfaces:
+    networkInterfaces: &lenovoNetwork
       - &interface
         interface: bond0
-        bond: &lenovoBond
+        bond:
           deviceSelectors:
             - hardwareAddr: c4:*
               driver: r8169
           mode: active-backup
-        dhcp: false
-        addresses:
-          - 192.168.20.61/24
-          - ${ipv6_prefix}:20::61/64
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 192.168.20.1
+        dhcp: true
         mtu: 9000
         vlans:
           - vlanId: 30
             mtu: 9000
             dhcp: false
-            dhcpOptions:
-              routeMetric: 4096
     extensionServices: &extensionServices
       - name: nut-client
         configFiles:
@@ -79,55 +71,40 @@ nodes:
       cpu: i5-6400T
       intel.feature.node.kubernetes.io/gpu: 'true'
 
-  - hostname: lenovo-m700-2
+  - hostname: l2 #lenovo-m700-2
     ipAddress: 192.168.20.62
     installDisk: /dev/sda
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: false
-    networkInterfaces:
-      - <<: *interface
-        bond: *lenovoBond
-        addresses:
-          - 192.168.20.62/24
-          - ${ipv6_prefix}:20::62/64
+    networkInterfaces: *lenovoNetwork
     extensionServices: *extensionServices
     nodeLabels: *lenovoLabels
 
-  - hostname: lenovo-m700-3
+  - hostname: l3 #lenovo-m700-3
     ipAddress: 192.168.20.63
     installDisk: /dev/sda
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: false
-    networkInterfaces:
-      - <<: *interface
-        bond: *lenovoBond
-        addresses:
-          - 192.168.20.63/24
-          - ${ipv6_prefix}:20::63/64
+    networkInterfaces: *lenovoNetwork
     extensionServices: *extensionServices
     nodeLabels: *lenovoLabels
 
-  - hostname: hp-800-g5-1
+  - hostname: h1 #hp-800-g5-1
     ipAddress: 192.168.20.71
     installDiskSelector:
       serial: 1922DD470802
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: true
-    networkInterfaces: # backup 1GbE port: 80:e8:2c:2f:b4:ad
+    networkInterfaces: &hpInterface # backup 1GbE port: 80:e8:2c:2f:b4:ad
       - <<: *interface
-        bond: &hpBond
-          <<: *lenovoBond
+        bond:
           deviceSelectors:
             - hardwareAddr: 6c:*
               driver: r8152
-        addresses:
-          - 192.168.20.71/24
-          - ${ipv6_prefix}:20::71/64
-        # vip: &vip
-        #   ip: 192.168.20.2
+          mode: active-backup
     extensionServices: *extensionServices
     nodeLabels: &hpLabels
       cpu: i5-9500T
@@ -140,58 +117,41 @@ nodes:
             devices.system.cpu.cpu4.cpufreq.energy_performance_preference: balance_performance
             devices.system.cpu.cpu5.cpufreq.energy_performance_preference: balance_performance
 
-  - hostname: hp-400-g5-1
+  - hostname: h2 #hp-400-g5-1
     ipAddress: 192.168.20.72
     installDiskSelector:
       serial: S4GNNF0N211290
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: true
-    networkInterfaces: # backup 1GbE port: e8:
-      - <<: *interface
-        bond: *hpBond
-        addresses:
-          - 192.168.20.72/24
-          - ${ipv6_prefix}:20::72/64
-        # vip: *vip
+    networkInterfaces: *hpInterface # backup 1GbE port: e8:
     extensionServices: *extensionServices
     nodeLabels: *hpLabels
     patches: *hpPatches
 
-  - hostname: h3 #hp-400-g5-2
+  - hostname: h3 #hp-400-g4-1
     ipAddress: 192.168.20.73
-    installDisk: /dev/sda
-    machineSpec: *x64MachineSpec
-    schematic: *x64schematic
-    controlPlane: false
-    networkInterfaces: # backup 1GbE port: e8:
-      - <<: *interface
-        bond: *hpBond
-        addresses:
-          - 192.168.20.73/24
-          - ${ipv6_prefix}:20::73/64
-        # vip: *vip
-    extensionServices: *extensionServices
-    nodeLabels: *hpLabels
-    patches: *hpPatches
-
-  - hostname: hp-400-g4-1
-    ipAddress: 192.168.20.74
     installDiskSelector:
       serial: S4GNNF0N206772
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: true
-    networkInterfaces: # backup 1GbE port: e8:
-      - <<: *interface
-        bond: *hpBond
-        addresses:
-          - 192.168.20.74/24
-          - ${ipv6_prefix}:20::74/64
+    networkInterfaces: *hpInterface # backup 1GbE port: e8:
     extensionServices: *extensionServices
     nodeLabels:
       cpu: i5-8500T
       intel.feature.node.kubernetes.io/gpu: 'true'
+    patches: *hpPatches
+
+  - hostname: h4 #hp-400-g5-2
+    ipAddress: 192.168.20.74
+    installDisk: /dev/sda
+    machineSpec: *x64MachineSpec
+    schematic: *x64schematic
+    controlPlane: false
+    networkInterfaces: *hpInterface # backup 1GbE port: e8:
+    extensionServices: *extensionServices
+    nodeLabels: *hpLabels
     patches: *hpPatches
 
 # Global patches

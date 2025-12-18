@@ -27,3 +27,7 @@ machine:
     # Enable IPv6 Privacy Extensions
     net.ipv6.conf.all.use_tempaddr: 2
     net.ipv6.conf.default.use_tempaddr: 2
+
+    # ignore router adverts so we don't get an ip we don't need
+    # multus will handle it on the pods that need it
+    net.ipv6.conf.bond0/30.accept_ra: 0

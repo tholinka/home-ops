@@ -3,7 +3,7 @@
 set -Eeuo pipefail
 
 # use dnscrypt-proxy, and add coredns in case there's no dns container up
-printf "nameserver 192.168.20.7\nnameserver 10.96.0.10" > /etc/resolv.conf
+printf "nameserver 192.168.21.7\nnameserver 10.96.0.10" > /etc/resolv.conf
 
 if [ -f "/final/gravity.db" ]; then
 	echo "using symbol link for /etc/pihole, as /final is already setup"
@@ -86,13 +86,14 @@ pihole-FTL --config webserver.domain "pihole.tholinka.dev"
 pihole-FTL --config dns.revServers '[
 	"true,192.168.5.0/24,192.168.20.1,computers.local",
 	"true,192.168.20.0/24,192.168.20.1,servers.local",
+	"true,192.168.21.0/24,192.168.20.1,services.local",
 	"true,192.168.30.0/24,192.168.20.1,iot.local",
 	"true,192.168.40.0/24,192.168.20.1,guests.local"
 	]'
 pihole-FTL --config dns.reply.host.force4 true
-pihole-FTL --config dns.reply.host.IPv4 192.168.20.6
+pihole-FTL --config dns.reply.host.IPv4 192.168.21.6
 pihole-FTL --config dns.reply.blocking.force4 true
-pihole-FTL --config dns.reply.blocking.IPv4 192.168.20.6
+pihole-FTL --config dns.reply.blocking.IPv4 192.168.21.6
 pihole-FTL --config misc.nice -999
 pihole-FTL --config misc.check.load false
 pihole-FTL --config dns.ignoreLocalhost true
@@ -109,4 +110,4 @@ else
 fi
 
 # use only dnscrypt-proxy
-echo 'nameserver 192.168.20.7' > /etc/resolv.conf
+echo 'nameserver 192.168.21.7' > /etc/resolv.conf

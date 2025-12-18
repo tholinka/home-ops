@@ -99,11 +99,11 @@ spec:
       storage:
         useAllNodes: false
         nodes:
-          - name: lenovo-m700-1
-          - name: lenovo-m700-2
-          - name: lenovo-m700-3
-          - name: hp-800-g5-1
-          - name: h3
+          - name: l1
+          - name: l2
+          - name: l3
+          - name: h1
+          - name: h4
         useAllDevices: false
         devicePathFilter: ^/dev/disk/by-id/(ata-SPCC_M.2_SSD_|nvme-SPCC_M.2_PCIe_SSD_).*
         config:

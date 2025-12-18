@@ -18,7 +18,7 @@ spec:
             "type": "static",
             "routes": [
               { "dst": "0.0.0.0/0", "gw": "192.168.30.1" },
-              { "dst": "::/0", "gw": "${IPV6_IOT_PREFIX}::1" }
+              { "dst": "::/0", "gw": "fdaa:aaaa:aaaa:30::1" }
             ]
           }
         },
