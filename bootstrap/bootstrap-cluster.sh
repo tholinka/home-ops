@@ -77,6 +77,15 @@ function fetch_kubeconfig() {
 		log error "Failed to fetch kubeconfig"
 	fi
 
+	if [[ $1 == 'bootstrap' ]]; then
+		# use the controller as the endpoint for now
+		if sed --version &> /dev/null; then # macos sed is annoying
+			sed -i "s/cluster.servers.internal/${controller}/g" kubeconfig
+		else
+			sed -i '' "s/cluster.servers.internal/${controller}/g" kubeconfig
+		fi
+	fi
+
 	cp "${ROOT_DIR}/kubeconfig" "$HOME/.kube/config"
 
 	log info "Kubeconfig fetched successfully"
@@ -89,7 +98,7 @@ function wait_for_nodes() {
 	log debug "Waiting for nodes to be available"
 
 	# Skip waiting if all nodes are 'Ready=True'
-	if kubectl wait nodes --for=condition=Ready=True --all --timeout=10s &>/dev/null; then
+	if kubectl wait nodes --for=condition=Ready=True --all --timeout=1s &>/dev/null; then
 		log info "Nodes are available and ready, skipping wait for nodes"
 		return
 	fi
@@ -111,7 +120,7 @@ function apply_crds() {
 		log error "File does not exist" "file=${helmfile_file}"
 	fi
 
-	if ! helmfile --file "${helmfile_file}" template -q | kubectl apply --server-side --field-manager bootstrap --force-conflicts -f -; then
+	if ! helmfile --file "${helmfile_file}" template -q | yq ea -e 'select(.kind == "CustomResourceDefinition")' | kubectl apply --server-side --field-manager bootstrap --force-conflicts -f -; then
 		log error "Failed to apply CRDs"
 	fi
 
@@ -159,7 +168,7 @@ function sync_helm_releases() {
 
 function main() {
 	check_env KUBECONFIG
-	check_cli helmfile jq kubectl kustomize minijinja-cli bws talosctl yq
+	check_cli helmfile jq kubectl kustomize minijinja-cli bws talosctl yq sed
 
 	if ! bws project list &>/dev/null; then
 		log error "Failed to authenticate with Bitwarden Seccret Manager CLI"
@@ -168,13 +177,15 @@ function main() {
 	# Bootstrap the Talos node configuration
 	apply_talos_config
 	bootstrap_talos
-	fetch_kubeconfig
+	fetch_kubeconfig bootstrap
 
 	# Apply resources and Helm releases
 	wait_for_nodes
 	apply_crds
 	apply_resources
 	sync_helm_releases
+
+	fetch_kubeconfig done
 
 	log info "Congrats! The cluster is bootstrapped and Flux is syncing the Git repository"
 }

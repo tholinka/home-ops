@@ -8,6 +8,8 @@ metadata:
 spec:
   interval: 1h
   targetNamespace: *namespace
+  dependsOn:
+    - name: pihole
   path: ./kubernetes/apps/network/pihole-nebula-sync/app
   prune: true
   sourceRef:

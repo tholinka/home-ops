@@ -8,6 +8,9 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/media/your-spotify/app
+  dependsOn:
+    - name: ferretdb
+      namespace: database
   prune: true
   sourceRef:
     kind: GitRepository

@@ -14,7 +14,11 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  wait: true
+  healthChecks:
+    - apiVersion: v1
+      kind: Secret
+      namespace: *namespace
+      name: tholinka-dev-tls
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -33,4 +37,12 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  wait: false
+  healthChecks:
+    - apiVersion: &certApi cert-manager.io/v1
+      kind: &certKind Certificate
+      namespace: *namespace
+      name: tholinka-dev
+  healthCheckExprs:
+    - apiVersion: *certApi
+      kind: *certKind
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')

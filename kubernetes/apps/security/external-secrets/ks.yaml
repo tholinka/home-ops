@@ -14,25 +14,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  wait: true
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: external-secrets-store
-  namespace: &namespace security
-spec:
-  interval: 1h
-  path: ./kubernetes/apps/security/external-secrets/store
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  dependsOn:
-    - name: external-secrets
   postBuild:
     substituteFrom:
       - kind: Secret
