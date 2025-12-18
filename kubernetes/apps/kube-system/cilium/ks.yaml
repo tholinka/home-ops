@@ -7,8 +7,6 @@ metadata:
   namespace: &namespace kube-system
 spec:
   interval: 1h
-  components:
-    - ../../../../components/ext-auth
   targetNamespace: *namespace
   path: ./kubernetes/apps/kube-system/cilium/app
   prune: true
@@ -19,4 +17,3 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      EXT_AUTH_TARGET: hubble
