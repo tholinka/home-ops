@@ -24,6 +24,8 @@ spec:
     - <<: *policy
       namespace: observability
     - <<: *policy
+      namespace: renovate
+    - <<: *policy
       namespace: self-hosted
     - <<: *policy
       namespace: system
