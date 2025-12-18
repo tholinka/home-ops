@@ -25,6 +25,8 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/system-upgrade/tuppr/upgrades
+  dependsOn:
+    - name: tuppr
   prune: true
   sourceRef:
     kind: GitRepository

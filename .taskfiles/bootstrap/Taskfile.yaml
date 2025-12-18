@@ -5,8 +5,8 @@ version: '3'
 tasks:
   default:
     desc: Bootstrap Talos nodes, and Cluster apps
-    cmd: bash "{{.SCRIPTS_DIR}}/bootstrap-cluster.sh"
+    cmd: bash "{{.BOOTSTRAP_DIR}}/bootstrap-cluster.sh"
     preconditions:
       - talosctl config info
       - test -f {{.TALHELPER_DIR}}/talconfig.yaml
-      - test -f {{.SCRIPTS_DIR}}/bootstrap-cluster.sh
+      - test -f {{.BOOTSTRAP_DIR}}/bootstrap-cluster.sh
