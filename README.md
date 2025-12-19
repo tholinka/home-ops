@@ -108,7 +108,7 @@ graph TD
 graph TD
   A>AT&T Fiber]
   A --> |ONT is WAS-110 with 8311 Community Firmware| A1([This allows IPv6 on all VLANs])
-  A --> |1Gb/1Gb on a 2.5GbE link| R
+  A --> |1Gb/1Gb through 10Gb SFP ONT| R
   B>T-Mobile Home Internet - Wireless] --> |Failover, 300ish down| R
   B --> |😭|B1([No IPv6 at all on UniFi])
   R>UniFi Cloud Gateway Fiber]
@@ -137,7 +137,7 @@ graph TD
 | T-Mobile Gateway | -  | 192.168.12.0/24 | -                       |
 | Default          | 1  | 192.168.5.0/24  | fdaa:aaaa:aaaa:5::1/64  |
 | servers          | 20 | 192.168.20.0/24 | fdaa:aaaa:aaaa:20::1/64 |
-| services         | 20 | 192.168.21.0/24 | fdaa:aaaa:aaaa:21::1/64 |
+| services         | 21 | 192.168.21.0/24 | fdaa:aaaa:aaaa:21::1/64 |
 | iot              | 30 | 192.168.30.0/24 | fdaa:aaaa:aaaa:30::1/64 |
 | guest            | 40 | 192.168.40.0/24 | fdaa:aaaa:aaaa:40::1/64 |
 
