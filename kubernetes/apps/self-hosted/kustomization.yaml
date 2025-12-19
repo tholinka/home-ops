@@ -11,6 +11,7 @@ resources:
   - ./orcaslicer/ks.yaml
   - ./paperless/ks.yaml
   - ./searxng/ks.yaml
+  - ./webhook/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template
