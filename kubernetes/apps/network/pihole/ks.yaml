@@ -18,3 +18,8 @@ spec:
     - name: storage-ready
       namespace: flux-system
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: ipv6
+        optional: false

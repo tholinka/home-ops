@@ -179,7 +179,7 @@ spec:
         ipFamilies: [IPv4, IPv6]
         ipFamilyPolicy: PreferDualStack
         annotations:
-          lbipam.cilium.io/ips: 192.168.21.6, fdaa:aaaa:aaaa:21::6
+          lbipam.cilium.io/ips: 192.168.21.6, ${IPV6_SERVICES_PREFIX}::6
         ports:
           dns-udp:
             port: 53
