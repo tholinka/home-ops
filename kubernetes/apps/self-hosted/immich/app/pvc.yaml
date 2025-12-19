@@ -12,11 +12,11 @@ spec:
   nfs:
     path: /apps/immich
     server: nas.servers.internal
-    mountOptions:
-      - nfsvers=4.2
-      - nconnect=16
-      - hard
-      - noatime
+  mountOptions:
+    - nfsvers=4.2
+    - nconnect=16
+    - hard
+    - noatime
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/persistentvolumeclaim-v1.json
 apiVersion: v1

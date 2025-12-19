@@ -12,12 +12,12 @@ spec:
   nfs:
     path: /apps/opencloud
     server: nas.servers.internal
-    mountOptions:
-      - nfsvers=4.2
-      - nconnect=16
-      - hard
-      - noatime
-      - noac # no caching, which can rarely break uploads
+  mountOptions:
+    - nfsvers=4.2
+    - nconnect=16
+    - hard
+    - noatime
+    - noac # no caching, which can rarely break uploads
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/persistentvolumeclaim-v1.json
 apiVersion: v1
