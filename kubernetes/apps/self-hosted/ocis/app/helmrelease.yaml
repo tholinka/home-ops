@@ -40,28 +40,41 @@ spec:
           *app :
             image:
               repository: docker.io/owncloud/ocis
-              tag: 7.3.1
+              tag: 7.3.1@sha256:6ab768c78681e743b5fe4d18a26cda58a28b714c9ed9a2c585411af51c26a6f7
             env:
-              DEMO_USERS: false
-              NOTIFICATIONS_SMTP_PORT: 587
-              OCIS_LOG_COLOR: true
-              OCIS_LOG_LEVEL: info
-              OCIS_LOG_PRETTY: true
+              OCIS_INSECURE: false
               OCIS_URL: https://files.tholinka.dev
+              OCIS_EXCLUDE_RUN_SERVICES: idp
+              IDM_CREATE_DEMO_USERS: false
+
               PROXY_TLS: false
-              STORAGE_USERS_OCIS_ROOT: /data
               PROXY_CSP_CONFIG_FILE_LOCATION: /etc/ocis/csp.yaml
+
+              OCIS_GATEWAY_GRPC_ADDR: 0.0.0.0:9142
+              OCIS_ENABLE_OCM: false
+
               PROXY_AUTOPROVISION_ACCOUNTS: true
               PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: none # https://github.com/owncloud/ocis/issues/6479
               PROXY_OIDC_SKIP_USER_INFO: false # do NOT set this to true when having TOKEN_VERIFY_METHOD as none, or we have no security
               PROXY_OIDC_REWRITE_WELLKNOWN: true
               PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
               PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: groups
+              PROXY_USER_CS3_CLAIM: username
               PROXY_USER_OIDC_CLAIM: preferred_username
               OCIS_OIDC_ISSUER: https://auth.tholinka.dev/application/o/ocis-web-client/
               WEB_OIDC_METADATA_URL: https://auth.tholinka.dev/application/o/ocis-web-client/.well-known/openid-configuration
               # see https://doc.owncloud.com/ocis/next/deployment/services/s-list/proxy.html#automatic-role-assignments for group name info
               WEB_OIDC_SCOPE: openid profile email groups
+
+              SETTINGS_SETUP_DEFAULT_ASSIGNMENTS: false
+              GRAPH_ASSIGN_DEFAULT_USER_ROLE: false
+              GRAPH_USERNAME_MATCH: none
+
+              NOTIFICATIONS_SMTP_PORT: 587Q
+
+              # OCIS_LOG_COLOR: true
+              # OCIS_LOG_LEVEL: info
+              # OCIS_LOG_PRETTY: true
             envFrom:
               - secretRef:
                   name: ocis-secret
@@ -100,8 +113,6 @@ spec:
       data:
         existingClaim: *app
         globalMounts:
-          - subPath: 'data'
-            path: '/data'
           - path: /var/lib/ocis
             subPath: data
           - path: /etc/ocis
