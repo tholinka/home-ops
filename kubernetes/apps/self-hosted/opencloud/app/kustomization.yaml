@@ -5,7 +5,12 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-
+  - ./pvc.yaml
+  # kopia can't actually successfully restore automatically because kopia doesn't backup xattrs (https://github.com/kopia/kopia/issues/544),
+  # but the files are still present for a manual restore
+  - ../../../../components//volsync/local/externalsecret.yaml
+  - ../../../../components/volsync/local/replicationsource.yaml
+  - ../../../../components/volsync/remote
 configMapGenerator:
   - name: opencloud
     files:

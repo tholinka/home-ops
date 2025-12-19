@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/persistentvolume-v1.json
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: opencloud
+spec:
+  capacity:
+    storage: 1T
+  accessModes: ['ReadWriteMany']
+  storageClassName: manual
+  nfs:
+    path: /apps/opencloud
+    server: nas.servers.internal
+    mountOptions:
+      - nfsvers=4.2
+      - nconnect=16
+      - hard
+      - noatime
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/persistentvolumeclaim-v1.json
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opencloud
+spec:
+  storageClassName: manual
+  accessModes: ['ReadWriteMany']
+  resources:
+    requests:
+      storage: 1T

@@ -7,8 +7,8 @@ metadata:
   namespace: &namespace self-hosted
 spec:
   interval: 1h
-  components:
-    - ../../../../components/volsync
+  # components:
+  #   - ../../../../components/volsync # kopia can't backup the xattr that opencloud's posixfs requires: https://github.com/kopia/kopia/issues/544
   dependsOn:
     - name: storage-ready
       namespace: flux-system
