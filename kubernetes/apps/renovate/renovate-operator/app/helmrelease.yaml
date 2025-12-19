@@ -13,3 +13,6 @@ spec:
     fullnameOverride: *name
     webhook:
       enabled: true
+    config:
+      defaultJobBackoffLimit: 5
+      defaultJobActiveDeadlineSeconds: 3600
