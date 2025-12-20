@@ -71,7 +71,7 @@ spec:
             name: l3-bgp-peer-config
         - name: router-v6
           peerASN: 64513
-          peerAddress: ${IPV6_PREFIX}::1
+          peerAddress: fd83:43a4:6dab:21::1
           peerConfigRef:
             name: l3-bgp-peer-config
 ---
