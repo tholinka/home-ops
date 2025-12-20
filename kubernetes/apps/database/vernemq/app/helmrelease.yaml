@@ -114,7 +114,7 @@ spec:
         externalTrafficPolicy: Local
         annotations:
           external-dns.alpha.kubernetes.io/hostname: mqtt.tholinka.dev.
-          lbipam.cilium.io/ips: 192.168.21.8, ${IPV6_SERVICES_PREFIX}::8
+          lbipam.cilium.io/ips: 192.168.21.8, fd83:43a4:6dab:21::8
         ports: &ports
           mqtt:
             port: 1883

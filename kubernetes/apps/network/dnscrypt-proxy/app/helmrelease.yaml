@@ -91,7 +91,7 @@ spec:
         ipFamilyPolicy: PreferDualStack
         externalTrafficPolicy: Local
         annotations:
-          lbipam.cilium.io/ips: 192.168.21.7, ${IPV6_SERVICES_PREFIX}::7
+          lbipam.cilium.io/ips: 192.168.21.7, fd83:43a4:6dab:21::7
         ports:
           http:
             primary: true

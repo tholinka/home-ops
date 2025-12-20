@@ -28,7 +28,7 @@ router bgp 64513
   neighbor k8s-v6 peer-group
   neighbor k8s-v6 remote-as 64514
 
-  bgp listen range ${ipv6_prefix}$::/64 peer-group k8s-v6
+  bgp listen range ${ipv6_prefix}::/64 peer-group k8s-v6
 
   address-family ipv6 unicast
     neighbor k8s-v6 activate

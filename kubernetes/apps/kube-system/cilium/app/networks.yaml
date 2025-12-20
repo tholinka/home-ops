@@ -8,7 +8,7 @@ spec:
   allowFirstLastIPs: 'No'
   blocks:
     - cidr: 192.168.21.0/24
-    - cidr: ${IPV6_SERVICES_PREFIX}::/64
+    - cidr: fd83:43a4:6dab:21::/64 # random ULA (except the :21::), thanks https://unique-local-ipv6.com/
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumbgpadvertisement_v2.json
 apiVersion: cilium.io/v2
@@ -82,7 +82,7 @@ metadata:
   name: kube-api
   annotations:
     external-dns.alpha.kubernetes.io/hostname: cluster.tholinka.dev
-    lbipam.cilium.io/ips: 192.168.21.2, ${IPV6_SERVICES_PREFIX}::2
+    lbipam.cilium.io/ips: 192.168.21.2, fd83:43a4:6dab:21::2
 spec:
   type: LoadBalancer
   ipFamilies: [IPv4, IPv6]

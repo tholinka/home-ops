@@ -180,7 +180,7 @@ spec:
         ipFamilyPolicy: PreferDualStack
         externalTrafficPolicy: Local
         annotations:
-          lbipam.cilium.io/ips: 192.168.21.6, ${IPV6_SERVICES_PREFIX}::6
+          lbipam.cilium.io/ips: 192.168.21.6, fd83:43a4:6dab:21::6
         ports:
           dns-udp:
             port: 53

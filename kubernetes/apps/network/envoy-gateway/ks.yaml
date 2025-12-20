@@ -34,11 +34,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: ipv6
-        optional: false
   healthChecks:
     - &healthCheck
       apiVersion: &gatewayVersion gateway.networking.k8s.io/v1
