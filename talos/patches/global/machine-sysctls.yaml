@@ -31,3 +31,4 @@ machine:
     # ignore router adverts so we don't get an ip we don't need
     # multus will handle it on the pods that need it
     net.ipv6.conf.bond0/30.accept_ra: 0
+    net.ipv6.conf.bond0.accept_ra: 2 # this didn't use to be required, but /proc/sys/net/ipv6/conf/bond0/forwarding seems to be set now
