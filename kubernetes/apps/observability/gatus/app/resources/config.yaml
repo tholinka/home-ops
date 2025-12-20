@@ -50,6 +50,16 @@ endpoints:
     conditions:
       - '[CONNECTED] == true'
 
+  - name: MongoDB (FerretDB)
+    group: infrastructure
+    url: tcp://ferretdb.database.svc.cluster.local:27017
+    interval: 1m
+    ui:
+      hide-url: true
+      hide-hostname: true
+    conditions:
+      - '[CONNECTED] == true'
+
   - name: Cloudflare
     group: connectivity
     url: icmp://1.1.1.1
