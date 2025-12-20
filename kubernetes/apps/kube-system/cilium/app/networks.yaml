@@ -87,6 +87,7 @@ spec:
   type: LoadBalancer
   ipFamilies: [IPv4, IPv6]
   ipFamilyPolicy: PreferDualStack
+  externalTrafficPolicy: Local
   selector:
     k8s-app: kube-apiserver
     tier: control-plane

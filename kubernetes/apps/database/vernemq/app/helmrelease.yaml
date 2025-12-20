@@ -111,6 +111,7 @@ spec:
         ipFamilies: [IPv4, IPv6]
         ipFamilyPolicy: PreferDualStack
         sessionAffinity: ClientIP # vernemq docs note that hopping between pods causes a significate data replication/sync cost
+        externalTrafficPolicy: Local
         annotations:
           external-dns.alpha.kubernetes.io/hostname: mqtt.tholinka.dev.
           lbipam.cilium.io/ips: 192.168.21.8, ${IPV6_SERVICES_PREFIX}::8

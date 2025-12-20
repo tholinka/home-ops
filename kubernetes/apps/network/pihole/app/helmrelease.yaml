@@ -178,6 +178,7 @@ spec:
         type: LoadBalancer
         ipFamilies: [IPv4, IPv6]
         ipFamilyPolicy: PreferDualStack
+        externalTrafficPolicy: Local
         annotations:
           lbipam.cilium.io/ips: 192.168.21.6, ${IPV6_SERVICES_PREFIX}::6
         ports:
