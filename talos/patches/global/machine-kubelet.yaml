@@ -14,6 +14,4 @@ machine:
         - 192.168.20.0/24
         - ${ipv6_prefix}::/64
     extraConfig:
-      featureGates:
-        ImageVolume: true
       serializeImagePulls: false
