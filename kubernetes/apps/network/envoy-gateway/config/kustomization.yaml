@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./backendtrafficpolicy.yaml
   - ./clienttrafficpolicy.yaml
-  - ./envoypatchpolicy.yaml
   - ./envoyproxy.yaml
   - ./gateway.yaml
   - ./httproute.yaml

@@ -6,9 +6,9 @@ metadata:
   name: backend
 spec:
   compression:
+    - type: Zstd
     - type: Brotli
     - type: Gzip
-    - type: Zstd
   connection:
     bufferLimit: 8Mi
   targetSelectors:
