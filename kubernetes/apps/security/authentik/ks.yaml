@@ -1,37 +1,3 @@
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app dragonfly-authentik
-  namespace: &namespace security
-spec:
-  interval: 1h
-  path: ./kubernetes/apps/security/authentik/cluster
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  dependsOn:
-    - name: dragonfly-operator
-      namespace: database
-  postBuild:
-    substitute:
-      APP: authentik
-      DRAGONFLY_REQUESTS_MEMORY: 256Mi
-  components:
-    - ../../../../components/dragonfly
-  healthChecks:
-    - apiVersion: &dragonflyVersion dragonflydb.io/v1alpha1
-      kind: &dragonflyKind Dragonfly
-      name: *app
-      namespace: *namespace
-  healthCheckExprs:
-    - apiVersion: *dragonflyVersion
-      kind: *dragonflyKind
-      failed: status.phase != 'ready' && status.phase != 'Ready'
-      current: status.phase == 'ready' || status.phase == 'Ready'
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -56,7 +22,5 @@ spec:
   dependsOn:
     - name: postgres-cluster
       namespace: database
-    - name: dragonfly-authentik
-      namespace: *namespace
     - name: openebs
       namespace: openebs-system
