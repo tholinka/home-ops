@@ -51,8 +51,6 @@ spec:
       email:
         port: 587
         use_tls: true
-      redis:
-        host: dragonfly-authentik
     server:
       autoscaling: &autoscaling
         enabled: true
