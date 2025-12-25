@@ -80,7 +80,7 @@ spec:
         globalMounts:
           - path: /config/.config/OrcaSlicer
             subPath: orcaslicer
-          - path: /config/models
+          - path: /config/Desktop
             subPath: models
 
       tmpfs:
