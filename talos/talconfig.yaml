@@ -45,20 +45,6 @@ nodes:
             - siderolabs/mei
             - siderolabs/nut-client
     controlPlane: false
-    networkInterfaces: &lenovoNetwork
-      - &interface
-        interface: bond0
-        bond:
-          deviceSelectors:
-            - hardwareAddr: c4:*
-              driver: r8169
-          mode: active-backup
-        dhcp: true
-        mtu: 9000
-        vlans:
-          - vlanId: 30
-            mtu: 9000
-            dhcp: false
     extensionServices: &extensionServices
       - name: nut-client
         configFiles:
@@ -77,7 +63,6 @@ nodes:
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: false
-    networkInterfaces: *lenovoNetwork
     extensionServices: *extensionServices
     nodeLabels: *lenovoLabels
 
@@ -87,7 +72,6 @@ nodes:
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: false
-    networkInterfaces: *lenovoNetwork
     extensionServices: *extensionServices
     nodeLabels: *lenovoLabels
 
@@ -98,13 +82,6 @@ nodes:
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: true
-    networkInterfaces: &hpInterface # backup 1GbE port: 80:e8:2c:2f:b4:ad
-      - <<: *interface
-        bond:
-          deviceSelectors:
-            - hardwareAddr: 6c:*
-              driver: r8152
-          mode: active-backup
     extensionServices: *extensionServices
     nodeLabels: &hpLabels
       cpu: i5-9500T
@@ -124,7 +101,6 @@ nodes:
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: true
-    networkInterfaces: *hpInterface # backup 1GbE port: e8:
     extensionServices: *extensionServices
     nodeLabels: *hpLabels
     patches: *hpPatches
@@ -136,7 +112,6 @@ nodes:
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: true
-    networkInterfaces: *hpInterface # backup 1GbE port: e8:
     extensionServices: *extensionServices
     nodeLabels:
       cpu: i5-8500T
@@ -149,7 +124,6 @@ nodes:
     machineSpec: *x64MachineSpec
     schematic: *x64schematic
     controlPlane: false
-    networkInterfaces: *hpInterface # backup 1GbE port: e8:
     extensionServices: *extensionServices
     nodeLabels: *hpLabels
     patches: *hpPatches
@@ -165,6 +139,7 @@ patches:
   - '@./patches/global/machine-sysfs.yaml'
   - '@./patches/global/machine-time.yaml'
   - '@./patches/global/machine-udev.yaml'
+  - '@./patches/global/network.yaml'
   - '@./patches/global/watchdogtimerconfig.yaml'
 
 # Controller patches
