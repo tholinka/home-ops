@@ -35,13 +35,38 @@ spec:
             env:
               FLASK_PORT: &port 80
               DEBUG: false
-              AA_BASE_URL: https://annas-archive.li
+              # AA_BASE_URL: https://annas-archive.li
               INGEST_DIR: &ingest /cwa-book-ingest
               BOOK_LANGUAGE: en
+              CUSTOM_DNS: system
+
+              USING_EXTERNAL_BYPASSER: true
+              EXT_BYPASSER_URL: http://flaresolverr.media.svc.cluster.local:8191
+              BYPASS_WARMUP_ON_CONNECT: false
+
+              METADATA_PROVIDER: openlibrary
+
+              CALIBRE_WEB_URL: https://calibre.tholinka.dev
             # envFrom:
             #   - secretRef:
             #       name: *app
-            command: [python, -m, app] # don't run annoying init script
+            command: # don't run annoying init script
+              - gunicorn
+              - --log-level
+              - info
+              - --access-logfile
+              - '-'
+              - --error-logfile
+              - '-'
+              - --worker-class
+              - geventwebsocket.gunicorn.workers.GeventWebSocketWorker
+              - --workers
+              - '1'
+              - -t
+              - '300'
+              - -b
+              - 0.0.0.0:80
+              - cwa_book_downloader.main:app
             probes:
               liveness: &probe
                 enabled: true
@@ -85,6 +110,17 @@ spec:
             namespace: network
 
     persistence:
+      config:
+        storageClass: ceph-block
+        accessMode: ReadWriteOnce
+        size: 2Gi
+        advancedMounts:
+          *app :
+            app:
+              - path: /config
+                subPath: config
+              - path: /app/downloaded_files
+                subPath: download
       tmpfs:
         type: emptyDir
         advancedMounts:
@@ -98,8 +134,6 @@ spec:
                 subPath: tmp
               - path: /var/log/cwa-book-downloader/
                 subPath: log
-              - path: /app/downloaded_files
-                subPath: download
               - path: /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
                 subPath: drivers
             init:
