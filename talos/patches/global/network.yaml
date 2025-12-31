@@ -27,3 +27,21 @@ name: bond0.30
 vlanID: 30
 parent: bond0
 mtu: 9000
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+nameservers:
+  - address: 192.168.21.6
+  - address: 192.168.20.100
+  - address: fd83:43a4:6dab:21::6
+  # - address: 1.1.1.1
+searchDomains:
+  disableDefault: true
+---
+apiVersion: v1alpha1
+kind: TimeSyncConfig
+ntp:
+  servers:
+    - time.cloudflare.com
+    # - 162.159.200.1 # time.cloudflare.com
+    # - 162.159.200.123 # time.cloudflare.com

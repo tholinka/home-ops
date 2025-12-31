@@ -1,8 +1,0 @@
----
-machine:
-  time:
-    disabled: false
-    servers:
-      # - 192.168.21.6
-      - 162.159.200.1 # time.cloudflare.com
-      - 162.159.200.123 # time.cloudflare.com
