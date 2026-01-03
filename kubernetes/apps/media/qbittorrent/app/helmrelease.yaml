@@ -23,19 +23,23 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.41.0@sha256:6b54856716d0de56e5bb00a77029b0adea57284cf5a466f23aad5979257d3045
             env:
-              DOT: 'off'
+              DNS_SERVER: 'off'
               DNS_ADDRESS: 10.96.0.10 # coredns is either pihole, dnsmasq, or cloudflare over tls, so it's fine to use
               HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: &gluetunAuthPath /gluetun/auth.toml
               FIREWALL_INPUT_PORTS: 80,8388,9999 # 80: WebUI, 8388 Socks Proxy, 9999 Kube Probes
               FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16,10.96.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: :9999
               HEALTH_SUCCESS_WAIT_DURATION: 10s
-              VPN_TYPE: wireguard
+              # VPN_TYPE: wireguard
               VPN_PORT_FORWARDING: 'on'
               PORT_FORWARD_ONLY: 'on'
               VPN_INTERFACE: tun0
-              SERVER_COUNTRIES: 'United States'
               UPDATER_PERIOD: 24h
+
+              # https://github.com/qdm12/gluetun/issues/3069
+              VPN_TYPE: openvpn
+              OPENVPN_MSSFIX: 1320
+              WIREGUARD_MTU: 1400
             envFrom:
               - secretRef:
                   name: wireguard
@@ -49,7 +53,7 @@ spec:
                       - /bin/sh
                       - -c
                       - >-
-                        [ $(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/openvpn/portforwarded) != '{"port":0}' ]
+                        [ $(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/portforward) != '{"port":0}' ]
                   initialDelaySeconds: 10
                   periodSeconds: 60
                   successThreshold: 1
@@ -138,8 +142,8 @@ spec:
                 memory: 8Gi
           port-forward:
             image:
-              repository: ghcr.io/tholinka/gluetun-qb-port-sync
-              tag: 0.0.5@sha256:1e825a56f7d9f69bd8c96cf5d2d64188b7782d4e46e3d03bf7aadce7d7650c39
+              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
+              tag: 0.0.4@sha256:14ce24f2e054abf06f695f35c8c33612e49d6d0fe80a33896403d85b09a9d329
             env:
               GLUETUN_CONTROL_SERVER_HOST: localhost
               GLUETUN_CONTROL_SERVER_PORT: 8000
