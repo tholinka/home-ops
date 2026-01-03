@@ -25,21 +25,28 @@ spec:
             env:
               DNS_SERVER: 'off'
               DNS_ADDRESS: 10.96.0.10 # coredns is either pihole, dnsmasq, or cloudflare over tls, so it's fine to use
+
               HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: &gluetunAuthPath /gluetun/auth.toml
+
               FIREWALL_INPUT_PORTS: 80,8388,9999 # 80: WebUI, 8388 Socks Proxy, 9999 Kube Probes
               FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16,10.96.0.0/16 # Allow access to k8s subnets
+
               HEALTH_SERVER_ADDRESS: :9999
               HEALTH_SUCCESS_WAIT_DURATION: 10s
+
+              # wireguard seems broken for now - https://github.com/qdm12/gluetun/issues/3069
               # VPN_TYPE: wireguard
+              VPN_TYPE: openvpn
+
               VPN_PORT_FORWARDING: 'on'
               PORT_FORWARD_ONLY: 'on'
+
               VPN_INTERFACE: tun0
               UPDATER_PERIOD: 24h
 
-              # https://github.com/qdm12/gluetun/issues/3069
-              VPN_TYPE: openvpn
-              OPENVPN_MSSFIX: 1320
+              # slightly larger MTU
               WIREGUARD_MTU: 1400
+              OPENVPN_MSSFIX: 1320
             envFrom:
               - secretRef:
                   name: wireguard
