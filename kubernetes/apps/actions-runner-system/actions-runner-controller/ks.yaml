@@ -23,6 +23,10 @@ metadata:
   name: actions-runner-controller-runners
   namespace: &namespace actions-runner-system
 spec:
+  dependsOn:
+    - name: actions-runner-controller
+    - name: openebs
+      namespace: openebs-system
   interval: 1h
   path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/runners
   prune: true
