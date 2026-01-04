@@ -1,0 +1,5 @@
+---
+# OOM bug in talos 1.12
+apiVersion: v1alpha1
+kind: OOMConfig
+triggerExpression: 'false'

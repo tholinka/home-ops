@@ -138,6 +138,7 @@ patches:
   - '@./patches/global/machine-sysfs.yaml'
   - '@./patches/global/machine-udev.yaml'
   - '@./patches/global/network.yaml'
+  - '@./patches/global/oomconfig.yaml'
   - '@./patches/global/watchdogtimerconfig.yaml'
 
 # Controller patches
