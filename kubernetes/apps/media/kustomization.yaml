@@ -8,7 +8,6 @@ resources:
   - ./bazarr/ks.yaml
   - ./calibre-downloader/ks.yaml
   - ./calibre-web-automated/ks.yaml
-  - ./cross-seed/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./kavita/ks.yaml
   - ./maintainerr/ks.yaml
@@ -22,7 +21,6 @@ resources:
   - ./seerr/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
-  - ./tqm/ks.yaml
   - ./unpackerr/ks.yaml
   - ./webhook/ks.yaml
   - ./your-spotify/ks.yaml
