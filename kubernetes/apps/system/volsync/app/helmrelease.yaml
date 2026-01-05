@@ -15,15 +15,15 @@ spec:
       namespace: system-controllers
   values:
     fullnameOverride: volsync # Required for volsync-perfectra1n fork
-    image: &image
-      repository: ghcr.io/perfectra1n/volsync
-      tag: v0.17.0@sha256:90db35d21e9858b99f7a0ee0af9855d382a1babe328cd1700e4536365a36e95d
-    kopia: *image
-    rclone: *image
-    restic: *image
-    rsync: *image
-    rsync-tls: *image
-    syncthing: *image
+    # image: &image
+    #   repository: ghcr.io/perfectra1n/volsync
+    #   tag: v0.17.0@sha256:90db35d21e9858b99f7a0ee0af9855d382a1babe328cd1700e4536365a36e95d
+    # kopia: *image
+    # rclone: *image
+    # restic: *image
+    # rsync: *image
+    # rsync-tls: *image
+    # syncthing: *image
     manageCRDs: true
     metrics:
       disableAuth: true
