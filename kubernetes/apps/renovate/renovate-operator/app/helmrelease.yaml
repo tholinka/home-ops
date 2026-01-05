@@ -8,7 +8,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: *name
-  interval: 30m
+  interval: 1h
   values:
     fullnameOverride: *name
     webhook:
