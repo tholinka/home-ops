@@ -9,30 +9,21 @@ spec:
   chartRef:
     kind: OCIRepository
     name: flux-operator
-  valuesFrom:
-    - &valuesFrom
-      kind: Secret
-      name: flux-operator-web-secret
-      valuesKey: client-id
-      targetPath: web.config.authentication.oauth2.clientID
-    - <<: *valuesFrom
-      valuesKey: client-secret
-      targetPath: web.config.authentication.oauth2.clientSecret
   values:
     serviceMonitor:
       create: true
     web:
-      config:
-        authentication:
-          oauth2:
-            issuerURL: https://auth.tholinka.dev/application/o/flux-operator/
-            provider: OIDC
-            # provide values for bootstrap, get overwritten by valuesFrom
-            clientID: not_used
-            clientSecret: not_used
-          type: OAuth2
-          impersonation:
-            username: 'claims.preferred_username'
-        baseURL: https://flux-operator.tholinka.dev
+      # TODO switch to this after next release
+      #configSecretName: flux-operator-web-config-secret
       networkPolicy:
         create: false
+    extraArgs:
+      - '--web-config=/etc/flux-operator/web/config.yaml'
+    extraVolumeMounts:
+      - name: web-config
+        mountPath: /etc/flux-operator/web
+        readOnly: true
+    extraVolumes:
+      - name: web-config
+        secret:
+          secretName: flux-operator-web-config-secret

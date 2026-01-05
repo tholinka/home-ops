@@ -1,4 +1,4 @@
-{% for namespace in ['security', 'network', 'flux-system'] %}
+{% for namespace in ['security', 'flux-system'] %}
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/namespace-v1.json
 apiVersion: v1
@@ -17,3 +17,19 @@ metadata:
     reconcile.external-secrets.io/managed: 'true'
 stringData:
   {{ ENV['bitwarden'] | indent(2) | safe }}
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flux-operator-web-config-secret
+  namespace: flux-system
+  labels:
+    reconcile.external-secrets.io/managed: 'true'
+data:
+  # no auth on bootstrap, once the external-secret takes over, will use oauth
+  config.yaml: |
+      apiVersion: web.fluxcd.controlplane.io/v1
+      kind: Config
+      spec:
+        baseURL: https://flux-operator.tholinka.dev
