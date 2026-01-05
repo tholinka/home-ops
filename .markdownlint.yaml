@@ -1,0 +1,15 @@
+---
+MD013:
+  line_length: 1000
+  heading_line_length: 1000
+  code_block_line_length: 1000
+
+MD033:
+  allowed_elements:
+    - div
+    - img
+  table_allowed_elements:
+    - br
+
+MD041:
+  allow_preamble: true

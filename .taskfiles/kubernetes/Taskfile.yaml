@@ -30,7 +30,7 @@ tasks:
   sync-secrets:
     desc: Sync all ExternalSecrets
     cmds:
-      - for: { var: SECRETS, split: "\n" }
+      - for: { var: SECRETS, split: \n }
         cmd: kubectl --namespace {{splitList "," .ITEM | first}} annotate externalsecret {{splitList "," .ITEM | last}} force-sync="{{now | unixEpoch}}" --overwrite
     vars:
       SECRETS:

@@ -11,8 +11,10 @@
           url: http://home-assistant.home-automation.svc.cluster.local.:8123
           key: '{{HOMEPAGE_VAR_HA_TOKEN}}'
           custom:
+            # yamllint disable-line rule:quoted-strings
             - template: "{{ states.person|selectattr('state','equalto','home')|list|length }} / {{ states.person|list|length }}"
               label: homeassistant.people_home
+            # yamllint disable-line rule:quoted-strings
             - template: "{{ states.light|selectattr('state','equalto','on')|list|length }} / {{ states.light|list|length }}"
               label: homeassistant.lights_on
 

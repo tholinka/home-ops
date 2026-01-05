@@ -1,3 +1,5 @@
+# Notes on Project
+
 ## 🛜 Networking
 
 ### UniFi BGP Setup
@@ -80,7 +82,7 @@ task talos:reset # --force
 1. Install Talos:
 
     >[!NOTE]
-     _It might take a while for the cluster to be setup (10+ minutes is normal). During which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. 'Ready' will remain "False" as no CNI is deployed yet. **This is a normal.** If this step gets interrupted, e.g. by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd>, you likely will need to [reset the cluster](#-reset) before trying again_
+     _It might take a while for the cluster to be setup (10+ minutes is normal). During which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. 'Ready' will remain "False" as no CNI is deployed yet. **This is a normal.** If this step gets interrupted, e.g. by pressing `Ctrl` + `C`, you likely will need to [reset the cluster](#-reset) before trying again_
 
     ```sh
     task talos:generate-config
@@ -101,7 +103,7 @@ task talos:reset # --force
     task bootstrap:apps
     ```
 
-5. Watch the rollout of your cluster happen:
+4. Watch the rollout of your cluster happen:
 
     ```sh
     watch kubectl get pods --all-namespaces

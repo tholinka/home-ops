@@ -1,3 +1,4 @@
+---
 machine:
   systemDiskEncryption:
     ephemeral: &encrypt

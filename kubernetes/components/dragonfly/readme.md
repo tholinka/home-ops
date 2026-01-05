@@ -1,6 +1,6 @@
 # Dragonfly
 
-### HealthChecks
+## HealthChecks
 
 ```yaml
   components:

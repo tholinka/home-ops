@@ -6,7 +6,7 @@
 - `../../../../components/cnpg/restore` for restoring db from backup, can be used after initial backup bootstrap has occurred
 - `../../../../components/cnpg/no-backup` for db with no backups
 
-### Variables to set:
+### Variables to set
 
 ```yaml
   dependsOn:
@@ -35,7 +35,6 @@
         name: cnpg-objectstore-substitute
         optional: false
 ```
-
 
 ### HealthChecks
 

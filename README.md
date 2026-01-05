@@ -1,10 +1,10 @@
-<div align="center">
+<!-- markdownlint-disable MD041 --><div align="center">
 
-<img src="https://avatars.githubusercontent.com/u/1685504?v=4" align="center" width="144px" height="144px"/>
+<img alt="tholinka's avatar" src="https://avatars.githubusercontent.com/u/1685504?v=4" align="center" width="144px" height="144px"/>
 
 ### <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16"> My Home Operations Repository <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a7/512.gif" alt="🚧" width="16" height="16">
 
-_... managed with Flux, Renovate, and GitHub Actions_ <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16">
+_... managed with Flux, Renovate, and GitHub Actions_ <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16"> <!-- markdownlint-disable MD036 -->
 
 </div>
 
@@ -163,18 +163,17 @@ While most of my infrastructure and workloads are self-hosted I do rely upon the
 
 Alternative solutions to the first two of these problems would be to host a Kubernetes cluster in the cloud and deploy applications like [HCVault](https://www.vaultproject.io/), [Vaultwarden](https://github.com/dani-garcia/vaultwarden), [ntfy](https://ntfy.sh/), and [Gatus](https://gatus.io/); however, maintaining another cluster and monitoring another group of workloads would be more work and probably be more or equal out to the same costs as described below.
 
-| Service                                            | Use                                                            | Cost           |
-|----------------------------------------------------|----------------------------------------------------------------|----------------|
-| [Bitwarden Secret Manager](https://1password.com/) | Secrets with [External Secrets](https://external-secrets.io/)  | Free           |
-| [Cloudflare](https://www.cloudflare.com/)          | Domain and S3                                                  | ~$50/yr        |
-| [GCP](https://cloud.google.com/)                   | Voice interactions with Home Assistant over Google Assistant   | Free           |
-| [GitHub](https://github.com/)                      | Hosting this repository and continuous integration/deployments | Free           |
-| [Pushover](https://pushover.net/)                  | Kubernetes Alerts and application notifications                | $5 OTP         |
-| [Fastmail](https://fastmail.com)                   | E-Mail                                                         | ~$56/yr        |
+| Service                                            | Use                                                            | Cost            |
+|----------------------------------------------------|----------------------------------------------------------------|-----------------|
+| [Bitwarden Secret Manager](https://1password.com/) | Secrets with [External Secrets](https://external-secrets.io/)  | Free            |
+| [Cloudflare](https://www.cloudflare.com/)          | Domain and S3                                                  | ~$50/yr         |
+| [GCP](https://cloud.google.com/)                   | Voice interactions with Home Assistant over Google Assistant   | Free            |
+| [GitHub](https://github.com/)                      | Hosting this repository and continuous integration/deployments | Free            |
+| [Pushover](https://pushover.net/)                  | Kubernetes Alerts and application notifications                | $5 OTP          |
+| [Fastmail](https://fastmail.com)                   | E-Mail                                                         | ~$56/yr         |
 |                                                    |                                                                | Total: ~$110/yo |
 
 ## 🖥️ Hardware
-
 
 | Num | Device                           | CPU      | RAM           | OS Disk                       | Data Disks                                                                                          | OS                 | Function                                           |
 |-----|----------------------------------|----------|---------------|-------------------------------|-----------------------------------------------------------------------------------------------------|--------------------|----------------------------------------------------|
@@ -193,6 +192,7 @@ Thanks to all the people in the [Home Operations](https://discord.gg/home-operat
 The awesome [kubesearch.dev](kubesearch.dev), large parts of this are inspired by various work found through the search.
 
 ### Extra Special Thanks
-  - [onedr0p](https://github.com/onedr0p) for his awesome [cluster-template](https://github.com/onedr0p/cluster-template), which this was originally based on, and his [home-ops](https://github.com/onedr0p/home-ops), which large portions of this were inspired by.
-  - [bjw-s](https://github.com/bjw-s-labs/) for his amazing [app-template](https://github.com/bjw-s/helm-charts).
-  - The home-operations community, [github](https://github.com/home-operations) and [discord](https://discord.gg/home-operations).
+
+- [onedr0p](https://github.com/onedr0p) for his awesome [cluster-template](https://github.com/onedr0p/cluster-template), which this was originally based on, and his [home-ops](https://github.com/onedr0p/home-ops), which large portions of this were inspired by.
+- [bjw-s](https://github.com/bjw-s-labs/) for his amazing [app-template](https://github.com/bjw-s/helm-charts).
+- The home-operations community, [github](https://github.com/home-operations) and [discord](https://discord.gg/home-operations).
