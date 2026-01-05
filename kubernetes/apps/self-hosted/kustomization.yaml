@@ -11,6 +11,7 @@ resources:
   - ./octoeverywhere-connect-cc/ks.yaml
   - ./orcaslicer/ks.yaml
   - ./paperless/ks.yaml
+  - ./publish-k8s-schemas/ks.yaml
   - ./searxng/ks.yaml
   - ./webhook/ks.yaml
 components:

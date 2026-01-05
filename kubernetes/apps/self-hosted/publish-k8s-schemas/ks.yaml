@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: publish-k8s-schemas
+  namespace: &namespace self-hosted
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/self-hosted/publish-k8s-schemas/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
