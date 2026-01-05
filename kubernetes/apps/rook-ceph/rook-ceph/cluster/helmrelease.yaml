@@ -65,8 +65,8 @@ spec:
           bdev_enable_discard: 'true'
           bdev_async_discard_threads: '1'
           osd_class_update_on_start: 'false'
-          bluestore_slow_ops_warn_threshold: '5' # https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-slow-op-alert default is 1
           bluestore_slow_ops_warn_lifetime: '10' # https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-slow-op-alert default is 86400 (24 hrs)
+          bdev_stalled_read_warn_lifetime: '10' # https://docs.ceph.com/en/latest/rados/operations/health-checks/#block-device-stalled-read-alert
           device_failure_prediction_mode: local # doesn't do anything without mgr module
           mon_data_avail_warn: '10' # default is 30%
       cleanupPolicy:
