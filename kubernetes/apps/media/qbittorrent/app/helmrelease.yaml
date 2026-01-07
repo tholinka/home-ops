@@ -34,9 +34,8 @@ spec:
               HEALTH_SERVER_ADDRESS: :9999
               HEALTH_SUCCESS_WAIT_DURATION: 10s
 
-              # wireguard seems broken for now - https://github.com/qdm12/gluetun/issues/3069
-              # VPN_TYPE: wireguard
-              VPN_TYPE: openvpn
+              VPN_TYPE: wireguard
+              # VPN_TYPE: openvpn
 
               VPN_PORT_FORWARDING: 'on'
               PORT_FORWARD_ONLY: 'on'
@@ -59,25 +58,30 @@ spec:
                     command:
                       - /bin/sh
                       - -c
-                      - >-
-                        [ $(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/portforward) != '{"port":0}' ]
-                  initialDelaySeconds: 10
+                      - |-
+                        port="$(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/portforward)"
+                        echo $port
+                        [ "$port" = '{"port":0}' ] && exit 1 || exit 0
+                  initialDelaySeconds: 5
                   periodSeconds: 60
                   successThreshold: 1
                   timeoutSeconds: 30
-                  failureThreshold: 30
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  <<: *probe
-                  exec:
-                    command:
-                      - /bin/sh
-                      - -c
-                      - >-
-                        wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/publicip/ip
-                  periodSeconds: 10
+                  failureThreshold: 10
+              # randomly gluetun will fail to get public_ip on startup for some reason
+              # startup:
+              #   enabled: true
+              #   custom: true
+              #   spec:
+              #     <<: *probe
+              #     exec:
+              #       command:
+              #         - /bin/sh
+              #         - -c
+              #         - |-
+              #           ip="$(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/publicip/ip)"
+              #           echo $ip
+              #           [ "$ip" = '{"public_ip":""}' ] && exit 1 || exit 0
+              #     periodSeconds: 10
             lifecycle:
               postStart:
                 exec:
@@ -149,8 +153,8 @@ spec:
                 memory: 8Gi
           port-forward:
             image:
-              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
-              tag: 0.0.4@sha256:14ce24f2e054abf06f695f35c8c33612e49d6d0fe80a33896403d85b09a9d329
+              repository: ghcr.io/tholinka/gluetun-qb-port-sync
+              tag: 0.0.6@sha256:b5112f8b0c63f60067215f57a2e817ecab906422556b682539ccaa4829198095
             env:
               GLUETUN_CONTROL_SERVER_HOST: localhost
               GLUETUN_CONTROL_SERVER_PORT: 8000
