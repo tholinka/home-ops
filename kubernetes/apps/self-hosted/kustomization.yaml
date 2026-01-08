@@ -13,6 +13,7 @@ resources:
   - ./paperless/ks.yaml
   - ./publish-k8s-schemas/ks.yaml
   - ./searxng/ks.yaml
+  - ./thelounge/ks.yaml
   - ./webhook/ks.yaml
 components:
   - ../../components/common
