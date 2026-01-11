@@ -62,11 +62,11 @@ spec:
                         port="$(wget -O - -q --header="X-API-KEY: $GLUETUN_CONTROL_SERVER_API_KEY" http://localhost:8000/v1/portforward)"
                         echo $port
                         [ "$port" = '{"port":0}' ] && exit 1 || exit 0
-                  initialDelaySeconds: 5
-                  periodSeconds: 60
-                  successThreshold: 1
-                  timeoutSeconds: 30
-                  failureThreshold: 10
+                  # initialDelaySeconds: 5
+                  # periodSeconds: 60
+                  # successThreshold: 1
+                  # timeoutSeconds: 30
+                  # failureThreshold: 10
               # randomly gluetun will fail to get public_ip on startup for some reason
               # startup:
               #   enabled: true
