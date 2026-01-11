@@ -1,7 +1,9 @@
 ---
 originRequest:
   http2Origin: true
+  keepAliveTimeout: 3600s
   originServerName: external.tholinka.dev
+  tcpKeepAlive: 7200s
 
 ingress:
   - hostname: tholinka.dev
