@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app calibre-downloader
+  name: &app shelfmark
 spec:
   interval: 1h
   chartRef:
@@ -18,7 +18,7 @@ spec:
         initContainers:
           init:
             image: &image
-              repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
+              repository: ghcr.io/calibrain/shelfmark
               tag: v1.0.0@sha256:2b94ee920da47ca3889b8d2056b07df86aa1ff815a9e4a139e8aeb29fcd6d834
             command:
               - bash

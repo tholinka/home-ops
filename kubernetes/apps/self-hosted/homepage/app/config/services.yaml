@@ -142,9 +142,9 @@
           enableNowPlaying: true
     ### no widgets at bottom of list
     - Calibre Web Automated Book Downloader:
-        href: https://calibre-downloader.tholinka.dev
+        href: https://shelfmark.tholinka.dev
         icon: calibre.svg
-        app: calibre-downloader
+        app: shelfmark
         namespace: media
     - Maintainerr:
         href: https://maintainerr.tholinka.dev
