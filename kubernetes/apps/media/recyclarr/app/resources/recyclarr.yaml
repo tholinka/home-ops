@@ -27,16 +27,25 @@ sonarr:
       - name: Remux-1080p - Anime
 
     custom_formats:
-      # HDR Formats
       - trash_ids:
-          # Comment out the next line if you and all of your users' setups are fully DV compatible
-          - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)
-
-          # HDR10+ Boost - Uncomment the next two lines if any of your devices DO support HDR10+
-          - 0dad0a507451acddd754fe6dc3a7f5e7 # HDR10+ Boost
-          - 385e9e8581d33133c3961bdcdeffb7b4 # DV HDR10+ Boost
+          - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
         assign_scores_to:
+          - name: WEB-1080p
+            score: -100
           - name: WEB-2160p
+            score: -100
+          - name: Remux-1080p - Anime
+            score: -100
+
+      - trash_ids:
+          - 15a05bc7c1a36e2b57fd628f8977e2fc # AV1
+        assign_scores_to:
+          - name: WEB-1080p
+            score: -500
+          - name: WEB-2160p
+            score: -500
+          - name: Remux-1080p - Anime
+            score: -500
 
       - trash_ids:
           - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
@@ -63,7 +72,7 @@ sonarr:
           - 418f50b10f1907201b6cfdf881f467b7 # Anime Dual Audio
         assign_scores_to:
           - name: Remux-1080p - Anime
-            score: 600 # Adjust scoring as desired
+            score: 2000 # Adjust scoring as desired
     media_naming:
       series: plex-tvdb
       season: default
@@ -107,20 +116,20 @@ radarr:
           - name: SQP-1 (2160p)
 
       - trash_ids:
-          # Comment out the next line if you and all of your users' setups are fully DV compatible
-          - 923b6abef9b17f937fab56cfcf89e1f1 # DV (WEBDL)
-
-          # HDR10+ Boost - Uncomment the next two lines if any of your devices DO support HDR10+
-          - b17886cb4158d9fea189859409975758 # HDR10Plus Boost
-          - 55a5b50cb416dea5a50c4955896217ab # DV HDR10+ Boost
+          - dc98083864ea246d05a42df0d05f81cc # x265 (no HDR/DV)
         assign_scores_to:
           - name: SQP-1 (2160p)
+            score: -100
+          - name: Remux-1080p - Anime
+            score: -100
 
       - trash_ids:
-          - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
+          - cae4ca30163749b891686f95532519bd # AV1
         assign_scores_to:
           - name: SQP-1 (2160p)
-            score: 0
+            score: -500
+          - name: Remux-1080p - Anime
+            score: -500
 
       # anime
       - trash_ids:
@@ -137,7 +146,7 @@ radarr:
           - 4a3b087eea2ce012fcc1ce319259a3be # Anime Dual Audio
         assign_scores_to:
           - name: Remux-1080p - Anime
-            score: 600 # Adjust scoring as desired
+            score: 2000 # Adjust scoring as desired
 
     media_naming:
       folder: plex-tmdb
