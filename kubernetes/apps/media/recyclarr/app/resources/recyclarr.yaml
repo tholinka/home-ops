@@ -48,6 +48,16 @@ sonarr:
           - name: WEB-1080p
           - name: WEB-2160p
 
+      - trash_ids:
+          - cae4ca30163749b891686f95532519bd # AV1
+        assign_scores_to:
+          - name: WEB-1080p
+            score: -500
+          - name: WEB-2160p
+            score: -500
+          - name: Remux-1080p - Anime
+            score: -500
+
       # anime
       - trash_ids:
           - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
@@ -63,7 +73,7 @@ sonarr:
           - 418f50b10f1907201b6cfdf881f467b7 # Anime Dual Audio
         assign_scores_to:
           - name: Remux-1080p - Anime
-            score: 600 # Adjust scoring as desired
+            score: 2000 # Adjust scoring as desired
     media_naming:
       series: plex-tvdb
       season: default
@@ -121,6 +131,14 @@ radarr:
         assign_scores_to:
           - name: SQP-1 (2160p)
             score: 0
+
+      - trash_ids:
+          - cae4ca30163749b891686f95532519bd # AV1
+        assign_scores_to:
+          - name: SQP-1 (2160p)
+            score: -500
+          - name: Remux-1080p - Anime
+            score: -500
 
       # anime
       - trash_ids:
