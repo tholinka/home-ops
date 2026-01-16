@@ -24,3 +24,67 @@ spec:
   timeout:
     http:
       requestTimeout: 0s
+  # Custom error page redirects
+  responseOverride:
+    # 403 Forbidden
+    - match:
+        statusCodes:
+          - type: Value
+            value: 403
+      redirect: &redirect
+        scheme: https
+        hostname: error-pages.tholinka.dev
+        path:
+          type: &pathType ReplaceFullPath
+          replaceFullPath: /403.html
+        statusCode: 302
+
+    # 404 Not Found
+    - match:
+        statusCodes: [{ type: Value, value: 404 }]
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /404.html
+        statusCode: 302
+
+    # 500 Internal Server Error
+    - match:
+        statusCodes: [{ type: Value, value: 500 }]
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /500.html
+        statusCode: 302
+
+    # 502 Bad Gateway
+    - match:
+        statusCodes: [{ type: Value, value: 502 }]
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /502.html
+        statusCode: 302
+
+    # 503 Service Unavailable
+    - match:
+        statusCodes: [{ type: Value, value: 503 }]
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /503.html
+        statusCode: 302
+
+    # 504 Gateway Timeout
+    - match:
+        statusCodes: [{ type: Value, value: 504 }]
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /504.html
+        statusCode: 302
