@@ -57,6 +57,16 @@ sonarr:
           - name: WEB-1080p
           - name: WEB-2160p
 
+      - trash_ids:
+          - cae4ca30163749b891686f95532519bd # AV1
+        assign_scores_to:
+          - name: WEB-1080p
+            score: -500
+          - name: WEB-2160p
+            score: -500
+          - name: Remux-1080p - Anime
+            score: -500
+
       # anime
       - trash_ids:
           - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
@@ -122,6 +132,14 @@ radarr:
             score: -100
           - name: Remux-1080p - Anime
             score: -100
+
+      - trash_ids:
+          - cae4ca30163749b891686f95532519bd # AV1
+        assign_scores_to:
+          - name: SQP-1 (2160p)
+            score: -500
+          - name: Remux-1080p - Anime
+            score: -500
 
       - trash_ids:
           - cae4ca30163749b891686f95532519bd # AV1
