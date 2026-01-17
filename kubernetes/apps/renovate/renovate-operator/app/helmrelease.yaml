@@ -28,3 +28,7 @@ spec:
       parentRefs:
         - name: envoy-internal
           namespace: network
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
