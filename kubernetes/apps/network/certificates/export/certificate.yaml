@@ -5,12 +5,10 @@ kind: Certificate
 metadata:
   name: tholinka-dev
 spec:
-  duration: 160h
   secretName: 'tholinka-dev-tls'
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: tholinka.dev
   dnsNames:
     - tholinka.dev
     - '*.tholinka.dev'
