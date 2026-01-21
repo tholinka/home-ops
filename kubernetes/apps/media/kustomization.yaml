@@ -9,6 +9,7 @@ resources:
   - ./calibre-web-automated/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./kavita/ks.yaml
+  - ./lidarr/ks.yaml
   - ./maintainerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
@@ -19,6 +20,7 @@ resources:
   - ./sabnzbd/ks.yaml
   - ./seerr/ks.yaml
   - ./shelfmark/ks.yaml
+  - ./slskd/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./unpackerr/ks.yaml

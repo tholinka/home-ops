@@ -120,6 +120,15 @@
           type: jellyseerr
           url: http://seerr.media.svc.cluster.local.:80
           key: '{{HOMEPAGE_VAR_SEERR_TOKEN}}'
+    - slskd:
+        href: https://slskd.tholinka.dev
+        icon: slskd.svg
+        app: slskd
+        namespace: media
+        widget:
+          type: slskd
+          url: http://slskd.media.svc.cluster.local:80
+          key: '{{HOMEPAGE_VAR_SLSKD_TOKEN}}'
     - Sonarr:
         href: https://sonarr.tholinka.dev
         icon: sonarr.svg
