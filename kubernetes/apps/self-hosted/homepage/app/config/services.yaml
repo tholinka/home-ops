@@ -58,6 +58,15 @@
           type: kavita
           url: http://kavita.media.svc.cluster.local.:5000
           key: '{{HOMEPAGE_VAR_KAVITA_TOKEN}}'
+    - Lidarr:
+        href: https://lidarr.tholinka.dev
+        icon: lidarr.svg
+        app: lidarr
+        namespace: media
+        widget:
+          type: lidarr
+          url: http://lidarr.media.svc.cluster.local
+          key: '{{HOMEPAGE_VAR_LIDARR_TOKEN}}'
     - Plex:
         icon: plex.svg
         href: https://plex.tholinka.dev
