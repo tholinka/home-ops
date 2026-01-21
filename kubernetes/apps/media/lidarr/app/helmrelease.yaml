@@ -1,0 +1,118 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template-4.5.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app lidarr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              # need nightly for slskd plugin support
+              #repository: ghcr.io/home-operations/lidarr
+              repository: ghcr.io/linuxserver/lidarr
+              tag: 3.1.2-nightly@sha256:ef7f37bcf3031b696d01ac24df034e5ebb0ec480aa961e6bfa8f7eb6b38b1032
+            env:
+              LIDARR__APP__INSTANCENAME: Lidarr
+              LIDARR__APP__THEME: dark
+              LIDARR__AUTH__METHOD: External
+              LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              LIDARR__LOG__DBENABLED: 'False'
+              LIDARR__LOG__LEVEL: info
+              LIDARR__SERVER__PORT: &port 80
+              LIDARR__UPDATE__BRANCH: develop
+
+              # just s6-overlay things
+              PUID: 1000
+              GUID: 1000
+              S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: 1
+              S6_READ_ONLY_ROOT: 1
+              LSIO_READ_ONLY_FS: 1
+              LSIO_NON_ROOT_USER: 1
+            envFrom:
+              - secretRef:
+                  name: lidarr
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        hostnames: ['{{ .Release.Name }}.tholinka.dev']
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+
+    persistence:
+      config:
+        existingClaim: *app
+      config-cache:
+        existingClaim: '{{ .Release.Name }}-cache'
+        globalMounts:
+          - path: /config/MediaCover
+      media:
+        type: nfs
+        server: nas.servers.internal
+        path: /media
+        globalMounts:
+          - path: /media
+      media-qbit:
+        type: nfs
+        server: nas.servers.internal
+        path: /media/downloads/qbittorrent
+        globalMounts:
+          - path: /media/downloads/qbittorrent
+            readOnly: true
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+          - path: /config/logs
+            subPath: logs
+          - path: /run
+            subPath: run
