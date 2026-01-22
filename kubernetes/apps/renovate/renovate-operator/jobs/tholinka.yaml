@@ -28,3 +28,5 @@ spec:
   secretRef: lab-assistant-tholinka
   webhook:
     enabled: true
+    authentication:
+      enabled: false
