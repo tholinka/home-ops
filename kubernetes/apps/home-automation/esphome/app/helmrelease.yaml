@@ -64,9 +64,9 @@ spec:
               - --disable-telemetry
               - --disable-update-check
               - --user-data-dir
-              - /config/.code-server
+              - /mnt/code-server
               - --extensions-dir
-              - /config/.code-server
+              - /mnt/code-server
               - --port
               - '12321'
               - /config
@@ -120,6 +120,7 @@ spec:
           gethomepage.dev/icon: esphome.svg
           gethomepage.dev/widget.type: esphome
           gethomepage.dev/widget.url: 'http://esphome.home-automation.svc.cluster.local.:6052'
+
     persistence:
       config:
         existingClaim: esphome
@@ -127,20 +128,38 @@ spec:
           esphome:
             app:
               - path: /config
+                subPath: config
             code-server:
               - path: /config
+                subPath: config
+              - path: /mnt/code-server
+                subPath: code-server
       secrets:
         type: secret
         name: esphome-secrets
         globalMounts:
           - path: /config/secrets.yaml
             subPath: secrets.yaml
-      cache:
-        type: emptyDir
+      buildcache:
+        suffix: buildcache
+        size: 50Gi
+        accessMode: ReadWriteOnce
         advancedMounts:
           esphome:
             app:
               - path: /cache
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          esphome:
+            app:
+              - path: /tmp
+                subPath: esphome-tmp
+            code-server:
+              - path: /tmp
+                subPath: code-server-tmp
+              - path: /nonexistent
+                subPath: nonexistent
       deploy-key:
         type: secret
         name: esphome-deploykey
