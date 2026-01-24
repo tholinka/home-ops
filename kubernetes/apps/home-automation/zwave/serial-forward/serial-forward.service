@@ -1,0 +1,9 @@
+[Unit]
+Description=Forward ttyAMA0 to TCP
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/serial-forward
+
+[Install]
+WantedBy=multi-user.target

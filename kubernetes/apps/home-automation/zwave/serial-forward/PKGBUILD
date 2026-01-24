@@ -1,0 +1,17 @@
+pkgname=serial-forward
+pkgdesc="forward ttyAMA0 to tcp"
+pkgver=1
+pkgrel=1
+arch=('any')
+depends=('python' 'python-pyserial' 'python-systemd')
+source=(
+    'serial-forward.service'
+    'serial-forward.py'
+)
+sha512sums=('SKIP'
+            'SKIP')
+
+package() {
+    install -Dm644 serial-forward.service "$pkgdir"/usr/lib/systemd/system/serial-forward.service
+	install -Dm755 serial-forward.py "$pkgdir"/usr/bin/serial-forward
+}
