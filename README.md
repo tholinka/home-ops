@@ -84,23 +84,7 @@ This Git repository contains the following directories under [Kubernetes](./kube
 
 ### Flux Workflow
 
-This is a high-level look how Flux deploys my applications with dependencies. In most cases a `HelmRelease` will depend on other `HelmRelease`'s, in other cases a `Kustomization` will depend on other `Kustomization`'s, and in rare situations an app can depend on a `HelmRelease` and a `Kustomization`. The example below shows that `mongo` won't be deployed or upgrade until `mongo` and `volsync` are installed and in a healthy state.
-
-```mermaid
-graph TD
-    A>Kustomization: unifi-mongo] --> |Depends on| B
-    B>Kustomization: mongo] --> |Creates| B1
-    B1>HelmRelease: mongo] --> |Depends on| B3
-    B3>HelmRelease: rook-ceph-cluster] -->|Depends on| B4
-    B4>HelmRelease: rook-ceph]
-    B5>Kustomization: rook-ceph] -->|Creates| B3
-    B5 -->|Creates| B4
-    A -->|Depends on|D
-    D>Kustomization: volsync] --> |Creates| D1
-    D1>HelmRelease: volsync] --> |Depends on| E1
-    E>Kustomization: snapshot-controller] --> |Creates| E1>Helmrelease: snapshot-controller]
-    B3 --> |Depends on| E1
-```
+This is a high-level look how Flux deploys my applications with dependencies. In most cases a `HelmRelease` will depend on other `HelmRelease`'s, in other cases a `Kustomization` will depend on other `Kustomization`'s, and in rare situations an app can depend on a `HelmRelease` and a `Kustomization`.
 
 ## 🌐 Networking
 

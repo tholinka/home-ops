@@ -169,11 +169,6 @@
         icon: maintainerr.svg
         app: maintainerr
         namespace: media
-    - Your Spotify:
-        icon: your-spotify.svg
-        href: https://ys.tholinka.dev
-        app: your-spotify
-        namespace: media
 
 - Infrastructure:
     - Unifi:

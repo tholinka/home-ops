@@ -9,5 +9,4 @@ components:
 resources:
   - ./cnpg/ks.yaml
   - ./dragonfly/ks.yaml
-  - ./ferretdb/ks.yaml
   - ./vernemq/ks.yaml
