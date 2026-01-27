@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: docker.io/octoeverywhere/octoeverywhere
-              tag: 4.4.0@sha256:ac8f41f7497b8ff2a1288ecee02c3a99c077ce20ffaf04ece5cb7f40506915ac
+              tag: 4.5.0@sha256:313a6d2e835e529e6a86fd812f28a5ba28d7ddfeaeff7c0954385d503e888b84
             env:
               COMPANION_MODE: elegoo
               PRINTER_IP: cc.3dprinter.iot.internal
