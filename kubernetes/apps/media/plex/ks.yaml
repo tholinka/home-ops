@@ -20,6 +20,10 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 50Gi
+    substituteFrom:
+      - kind: Secret
+        name: ipv6
+        optional: false
   prune: true
   sourceRef:
     kind: GitRepository
