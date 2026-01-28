@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: whisper
+  namespace: &namespace home-automation
+spec:
+  interval: 1h
+  dependsOn:
+    - name: storage-ready
+      namespace: flux-system
+  path: ./kubernetes/apps/home-automation/whisper/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace

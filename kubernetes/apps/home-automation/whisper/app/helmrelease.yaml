@@ -1,0 +1,61 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app whisper
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  values:
+    controllers:
+      *app :
+        containers:
+          app:
+            image:
+              repository: docker.io/rhasspy/wyoming-whisper
+              tag: 3.0.2@sha256:995b37523bc422f4f7649e50ccded97a5b9bf6d1d0420591183a778dd5d7d3f2
+            args:
+              - --model=base.en
+              - --language=en
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
+            resources:
+              requests:
+                cpu: 500m
+                memory: 512M
+              limits:
+                memory: 8G
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        controller: *app
+        ports:
+          wyoming:
+            port: 10300
+
+    persistence:
+      data:
+        size: 1Gi
+        accessMode: ReadWriteOnce
+
+      tmpfs:
+        type: emptyDir
+        medium: Memory
+        globalMounts:
+          - path: /.cache
+            subPath: cache
+          - path: tmp
+            subPath: tmp
