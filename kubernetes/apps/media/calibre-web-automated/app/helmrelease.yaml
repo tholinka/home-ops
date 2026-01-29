@@ -20,7 +20,7 @@ spec:
             image:
               repository: docker.io/crocodilestick/calibre-web-automated
               # renovate doesn't like versioning scheme, so just lock the latest
-              tag: latest@sha256:577e846f104fd21453ef306eefb4a95dd95b3b9ddd2463a150944494284da0fd
+              tag: latest@sha256:a6193b231c30d62d468f0d66bafdaaa6c5c23145273d3a21a1d2d7c0fb6d4c6c
             env:
               CACHE_DIR: /cache
               PUID: 1000
