@@ -112,21 +112,6 @@
 				commitMessageTopic: "{{{groupName}}} group",
 			},
 			minimumGroupSize: 2,
-		},
-		{
-			description: "Dragonfly Group",
-			groupName: "Dragonfly",
-			matchDatasources: [
-				"docker",
-				"github-tags"
-			],
-			matchPackageNames: [
-				"/dragonfly/",
-			],
-			group: {
-				commitMessageTopic: "{{{groupName}}} group",
-			},
-			minimumGroupSize: 2,
-		},
+		}
 	],
 }
