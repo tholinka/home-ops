@@ -159,7 +159,7 @@
           key: '{{HOMEPAGE_VAR_TAUTULLI_TOKEN}}'
           enableNowPlaying: true
     ### no widgets at bottom of list
-    - Calibre Web Automated Book Downloader:
+    - Shelfmark:
         href: https://shelfmark.tholinka.dev
         icon: calibre.svg
         app: shelfmark
