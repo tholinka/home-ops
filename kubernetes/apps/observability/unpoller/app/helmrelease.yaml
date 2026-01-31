@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: ghcr.io/unpoller/unpoller
-              tag: v2.27.0@sha256:dd2fb18a5f0388067209f5eec9615aaa423c55cc843f61b3717f2749a3ff76a4
+              tag: v2.29.0@sha256:b556eb45802bc01c4e53c51292b9629e2131870a45b9890f8adebcadf2ae4bcb
             env:
               UP_UNIFI_DEFAULT_ROLE: home-ops
               UP_UNIFI_DEFAULT_URL: https://192.168.20.1
