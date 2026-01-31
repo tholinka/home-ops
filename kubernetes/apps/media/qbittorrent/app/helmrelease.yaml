@@ -154,7 +154,7 @@ spec:
           port-forward:
             image:
               repository: ghcr.io/tholinka/gluetun-qb-port-sync
-              tag: 0.0.6@sha256:b5112f8b0c63f60067215f57a2e817ecab906422556b682539ccaa4829198095
+              tag: 0.0.6@sha256:02c8cd2400d75ac59ac2500c05712971286df9e503caba4f614875e99af72aea
             env:
               GLUETUN_CONTROL_SERVER_HOST: localhost
               GLUETUN_CONTROL_SERVER_PORT: 8000
