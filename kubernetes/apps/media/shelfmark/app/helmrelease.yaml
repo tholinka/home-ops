@@ -46,7 +46,6 @@ spec:
 
               METADATA_PROVIDER: openlibrary
 
-              CALIBRE_WEB_URL: https://calibre.tholinka.dev
             # envFrom:
             #   - secretRef:
             #       name: *app
@@ -93,7 +92,6 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-        supplementalGroups: [65534] # nobody group, required since calibre-web-automated tries to use root on startup
         fsGroupChangePolicy: 'OnRootMismatch'
 
     service:

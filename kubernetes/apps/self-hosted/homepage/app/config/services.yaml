@@ -39,16 +39,6 @@
           type: bazarr
           url: http://bazarr.media.svc.cluster.local:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
-    - Calibre Web Automated:
-        icon: calibre-web.svg
-        href: https://calibre.tholinka.dev
-        app: calibre-web-automated
-        namespace: media
-        widget:
-          type: calibreweb
-          url: http://calibre-web-automated.media.svc.cluster.local.:8083
-          username: '{{HOMEPAGE_VAR_CALIBRE_USER}}'
-          password: '{{HOMEPAGE_VAR_CALIBRE_PASS}}'
     - Kavita:
         href: https://kavita.tholinka.dev
         icon: kavita.svg
