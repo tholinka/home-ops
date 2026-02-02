@@ -50,7 +50,7 @@ releases:
   - name: cert-manager
     namespace: security
     chart: oci://quay.io/jetstack/charts/cert-manager
-    version: v1.19.2
+    version: v1.19.3
     values: *template
     needs: [system/spegel]
 
