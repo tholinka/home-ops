@@ -7,7 +7,6 @@ resources:
   - ./esphome/ks.yaml
   - ./go2rtc/ks.yaml
   - ./home-assistant/ks.yaml
-  - ./openwakeword/ks.yaml
   - ./piper/ks.yaml
   - ./whisper/ks.yaml
   - ./zigbee/ks.yaml
