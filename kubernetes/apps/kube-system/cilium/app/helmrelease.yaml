@@ -18,7 +18,6 @@ spec:
       datapathMode: netkit
       masquerade: true
       preallocateMaps: true
-      tproxy: true # breaks accessing cilium gateway ips from inside cluster
     bpfClockProbe: true
     bgpControlPlane:
       enabled: true
