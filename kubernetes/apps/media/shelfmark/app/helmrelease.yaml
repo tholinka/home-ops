@@ -15,6 +15,9 @@ spec:
   values:
     controllers:
       *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+
         initContainers:
           init:
             image: &image
@@ -35,7 +38,6 @@ spec:
             env:
               FLASK_PORT: &port 80
               DEBUG: false
-              # AA_BASE_URL: https://annas-archive.li
               INGEST_DIR: &ingest /cwa-book-ingest
               BOOK_LANGUAGE: en
               CUSTOM_DNS: system
@@ -46,9 +48,17 @@ spec:
 
               METADATA_PROVIDER: openlibrary
 
-            # envFrom:
-            #   - secretRef:
-            #       name: *app
+              SEARCH_MODE: universal
+
+              PROWLARR_ENABLED: true
+              PROWLARR_URL: http://prowlarr.media.svc.cluster.local
+              PROWLARR_TORRENT_CLIENT: qbittorrent
+              QBITTORRENT_CATEGORY_AUDIOBOOK: audiobooks
+              PROWLARR_USENET_CLIENT: sabnzbd
+              SABNZBD_URL: http://sabnzbd.media.svc.cluster.local
+            envFrom:
+              - secretRef:
+                  name: *app
             command: # don't run annoying init script
               - gunicorn
               - --log-level
