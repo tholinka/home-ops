@@ -81,10 +81,3 @@ spec:
         path: /media
         globalMounts:
           - path: /media
-      media-downloads:
-        type: nfs
-        server: nas.servers.internal
-        path: /media/downloads
-        globalMounts:
-          - path: /media/downloads
-            readOnly: true
