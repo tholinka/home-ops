@@ -100,13 +100,6 @@ spec:
         path: /media
         globalMounts:
           - path: /media
-      media-qbit:
-        type: nfs
-        server: nas.servers.internal
-        path: /media/downloads/qbittorrent
-        globalMounts:
-          - path: /media/downloads/qbittorrent
-            readOnly: true
       tmpfs:
         type: emptyDir
         globalMounts:
