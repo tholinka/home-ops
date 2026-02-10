@@ -34,7 +34,6 @@ spec:
                     name: '${APP}-postgres'
                     key: url
             args:
-              - server
               - start
             probes:
               liveness: &probes
