@@ -9,6 +9,10 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kube-prometheus-stack
+  valuesFrom:
+    - kind: ConfigMap
+      name: flux-metrics-configmap
+      valuesKey: flux-metrics.yaml
   values:
     crds:
       enabled: true
