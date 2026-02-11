@@ -25,7 +25,7 @@ spec:
         object.metadata.name.startsWith("volsync-")
     - name: has-volsync-created-by-labels
       expression: >
-        object.metadata.labels["app.kubernetes.io/created-by"] == "volsync"
+        object.metadata.?labels[?"app.kubernetes.io/created-by"].orValue("") == "volsync"
     - name: repository-volume-does-not-exist
       expression: >
         !object.spec.template.spec.volumes.exists(item, item.name == "repository")
