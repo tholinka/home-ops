@@ -27,7 +27,8 @@ spec:
   matchConditions:
     - name: has-kopia-maint-job-name-prefix
       expression: >
-        object.metadata.name.startsWith("kopia-maint-nfs-")
+        object.metadata.?name.orValue("").startsWith("kopia-maint-nfs-") ||
+        object.metadata.?generateName.orValue("").startsWith("kopia-maint-nfs-")
     - name: repository-volume-does-not-exist
       expression: >
         !has(object.spec.template.spec.volumes) ||
@@ -37,15 +38,8 @@ spec:
   mutations:
     - patchType: JSONPatch
       jsonPatch:
-        # patches in order:
-        # - runAsNonRoot: the pod-level securityContext sets runAsUser to 0, but the container-level securityContext has runAsNonRoot set
-        # - mount nfs as /repository
         expression: >-
           [
-            JSONPatch{
-              op: "replace", path: "/spec/template/spec/containers/0/securityContext/runAsNonRoot",
-              value: false
-            },
             JSONPatch{
               op: "add", path: "/spec/template/spec/volumes/-",
               value: Object.spec.template.spec.volumes{
