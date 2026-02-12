@@ -9,6 +9,9 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
+  driftDetection:
+    ignore:
+      - paths: [/spec/replicas]
   values:
     controllers:
       *app :
