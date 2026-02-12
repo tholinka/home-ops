@@ -22,15 +22,18 @@ spec:
             env:
               AUTOBRR__HOST: 0.0.0.0
               AUTOBRR__PORT: &port 80
+
               AUTOBRR__METRICS_ENABLED: true
               AUTOBRR__METRICS_HOST: 0.0.0.0
               AUTOBRR__METRICS_PORT: &metricsPort 9094
+
               AUTOBRR__CHECK_FOR_UPDATES: false
               AUTOBRR__LOG_LEVEL: INFO
+
               AUTOBRR__OIDC_ENABLED: true
               AUTOBRR__OIDC_ISSUER: https://auth.tholinka.dev/application/o/autobrr/
               AUTOBRR__OIDC_REDIRECT_URL: https://autobrr.tholinka.dev/api/auth/oidc/callback
-              AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: false
+              AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: true
             envFrom:
               - secretRef:
                   name: autobrr-secret
