@@ -155,8 +155,8 @@ spec:
         hostnames:
           - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:
-          - name: envoy-internal
-            namespace: network
+          - name: &gateway envoy-internal
+            namespace: &gatewayns network
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/group: Home
@@ -165,3 +165,23 @@ spec:
           gethomepage.dev/widget.type: paperlessngx
           gethomepage.dev/widget.url: http://{{ .Release.Name }}.self-hosted.svc.cluster.local:80
           gethomepage.dev/widget.key: '{{`{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}`}}'
+
+    rawResources:
+      netpol:
+        apiVersion: cilium.io/v2
+        kind: CiliumNetworkPolicy
+        spec:
+          spec:
+            endpointSelector:
+              matchLabels:
+                app.kubernetes.io/name: *app
+                app.kubernetes.io/instance: *app
+            ingress:
+              - fromEndpoints:
+                  - matchLabels:
+                      gateway.networking.k8s.io/gateway-name: *gateway
+                      k8s:io.kubernetes.pod.namespace: *gatewayns
+                toPorts:
+                  - ports:
+                      - port: '80'
+                        protocol: TCP

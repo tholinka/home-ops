@@ -81,8 +81,8 @@ spec:
           - '{{ .Release.Name }}.tholinka.dev'
           - sh.tholinka.dev
         parentRefs:
-          - name: envoy-internal
-            namespace: network
+          - name: &gateway envoy-internal
+            namespace: &gatewayns network
         annotations:
           gethomepage.dev/enabled: 'true'
           gethomepage.dev/name: Atuin
@@ -104,3 +104,30 @@ spec:
         defaultMode: 0440
         globalMounts:
           - path: /var/run/secrets/postgresql
+
+    rawResources:
+      netpol:
+        apiVersion: cilium.io/v2
+        kind: CiliumNetworkPolicy
+        spec:
+          spec:
+            endpointSelector:
+              matchLabels:
+                app.kubernetes.io/name: *app
+                app.kubernetes.io/instance: *app
+            ingress:
+              - fromEndpoints:
+                  - matchLabels:
+                      gateway.networking.k8s.io/gateway-name: *gateway
+                      k8s:io.kubernetes.pod.namespace: *gatewayns
+                toPorts:
+                  - ports:
+                      - port: '80'
+                        protocol: TCP
+              - fromEndpoints:
+                  - matchLabels:
+                      prometheus: kube-prometheus-stack
+                toPorts:
+                  - ports:
+                      - port: '8081'
+                        protocol: TCP
