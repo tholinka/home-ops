@@ -8,5 +8,15 @@
 			],
 			changelogUrl: "https://github.com/cloudflare/cloudflared/blob/master/RELEASE_NOTES",
 		},
+		{
+			description: "Override Renovate Operator source",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"ghcr.io/mogenius/helm-charts/renovate-operator"
+			],
+			sourceUrl: "https://github.com/mogenius/renovate-operator",
+		},
 	],
 }
