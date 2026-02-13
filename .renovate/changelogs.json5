@@ -18,5 +18,35 @@
 			],
 			sourceUrl: "https://github.com/mogenius/renovate-operator",
 		},
+		{
+			description: "Set saerxng source",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"ghcr.io/searxng/searxng"
+			],
+			sourceUrl: "https://github.com/searxng/searxng",
+		},
+		{
+			description: "Set seerr source",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"ghcr.io/seerr-team/seerr"
+			],
+			sourceUrl: "https://github.com/seer-team/seer",
+		},
+		{
+			description: "Set talos-installer source",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"ghcr.io/siderolabs/installer"
+			],
+			sourceUrl: "https://github.com/siderolabs/talos",
+		},
 	],
 }
