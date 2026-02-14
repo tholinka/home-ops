@@ -8,7 +8,7 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/triggers/0/metadata/query
-        value: probe_success{instance="nas.servers.internal:2049"}
+        value: max_over_time(probe_success{instance="nas.servers.internal:2049"}[1m])
     target: &target
       group: keda.sh
       kind: ScaledObject

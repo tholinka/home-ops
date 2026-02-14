@@ -21,7 +21,7 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
-      SCALER_QUERY: probe_success{instance=~"zwave.iot.internal"}
+      SCALER_QUERY: max_over_time(probe_success{instance=~"zwave.iot.internal"}[1m])
       SCALER_SILENT: silent-
   prune: true
   sourceRef:
