@@ -34,7 +34,7 @@
 				"docker"
 			],
 			matchPackageNames: [
-				"ghcr.io/seerr-team/seerr"
+				"ghcr.io/seerrr-team/seerr"
 			],
 			sourceUrl: "https://github.com/seer-team/seer",
 		},
