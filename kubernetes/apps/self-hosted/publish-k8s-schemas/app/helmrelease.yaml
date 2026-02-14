@@ -14,7 +14,7 @@ spec:
       *app :
         type: cronjob
         cronjob:
-          backoffLimit: 0
+          backoffLimit: 3
           concurrencyPolicy: 'Replace'
           failedJobsHistory: 1
           schedule: '0 */4 * * *'
