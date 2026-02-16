@@ -41,14 +41,6 @@ spec:
       annotations:
         reloader.stakater.com/auto: 'true'
 
-    persistence:
-      postgres-certs:
-        type: secret
-        name: 'postgres-{{ .Release.Name }}-cert'
-        defaultMode: 0440
-        globalMounts:
-          - path: /var/run/secrets/postgresql
-
     controllers:
       main:
         containers:

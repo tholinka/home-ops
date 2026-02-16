@@ -10,7 +10,7 @@ spec:
     - name: cnpg
       namespace: database
   interval: 1h
-  path: ./kubernetes/components/cnpg/app/db/database
+  path: ./kubernetes/components/cnpg/app/database
   postBuild:
     substitute:
       APP: ${APP}

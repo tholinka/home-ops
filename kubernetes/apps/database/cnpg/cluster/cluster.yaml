@@ -1,0 +1,101 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: &name postgres-${APP}
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: 'enabled'
+spec:
+  instances: ${CNPG_REPLICAS:=1}
+  imageName: ${CNPG_IMAGE}
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: ${CNPG_SIZE:=2Gi}
+    storageClass: ${CNPG_STORAGECLASS:=openebs-hostpath}
+  superuserSecret:
+    name: ${APP}-cnpg-secret
+  enableSuperuserAccess: true
+  resources:
+    requests:
+      cpu: ${CNPG_REQUESTS_CPU:=500m}
+      memory: ${CNPG_REQUESTS_MEMORY:=${CNPG_LIMITS_MEMORY:=1Gi}}
+    limits:
+      hugepages-2Mi: ${CNPG_LIMITS_MEMORY_HUGEPAGES:=1Gi} # Requires sysctl set on the host
+      memory: ${CNPG_LIMITS_MEMORY:=1Gi}
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
+  postgresql:
+    parameters:
+      max_connections: '600'
+      shared_buffers: 512MB
+    pg_hba:
+      - hostnossl all all 10.69.0.0/16      scram-sha-256
+      - hostnossl all all fc69::/16         scram-sha-256
+      - hostssl   all all all               cert clientcert=verify-full
+    shared_preload_libraries:
+      - vchord.so
+    extensions:
+      - name: vchord
+        image:
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v0.5.3@sha256:c310ede47f7f82bd257c3e53806d60680d5899c318ca946fb313efad9a90a78e
+        dynamic_library_path:
+          - /usr/lib/postgresql/18/lib
+        extension_control_path:
+          - /usr/share/postgresql/18/
+  monitoring:
+    enablePodMonitor: false # deprecated - https://github.com/cloudnative-pg/cloudnative-pg/pull/8753
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: *name
+        serverName: *name
+  bootstrap:
+    # recoveryTarget:
+    #   targetTime: "2025-05-23 19:00:00.000000-05:00"
+    recovery:
+      source: source
+  externalClusters:
+    - name: source
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: *name
+          serverName: *name
+  certificates:
+    serverTLSSecret: postgres-cluster-server-cert
+    serverCASecret: postgres-cluster-server-cert
+    clientCASecret: postgres-cluster-client-cert
+    replicationTLSSecret: postgres-cluster-client-cert
+
+  managed:
+    services:
+      disabledDefaultServices: ['ro', 'r']
+    roles:
+      - name: atuin
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
+
+      - name: authentik
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
+
+      - name: immich
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
+
+      - name: paperless
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true

@@ -98,12 +98,6 @@ spec:
     persistence:
       config:
         type: emptyDir
-      postgres-certs:
-        type: secret
-        name: 'postgres-{{ .Release.Name }}-cert'
-        defaultMode: 0440
-        globalMounts:
-          - path: /var/run/secrets/postgresql
 
     rawResources:
       netpol:

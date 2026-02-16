@@ -89,8 +89,6 @@ spec:
       - kind: Secret
         name: cnpg-objectstore-substitute
         optional: false
-  components:
-    - ../../../../components/cnpg/restore
   healthChecks:
     - apiVersion: &postgresVersion postgresql.cnpg.io/v1
       kind: &postgresKind Cluster
