@@ -65,14 +65,33 @@ metadata:
   name: postgres-cluster-client-ca
 spec:
   isCA: true
-  commonName: postgres-cluster-client-ca
+  commonName: Postgres Authentication Certificate Authority
   secretName: postgres-cluster-client-ca-secret
+  subject:
+    countries:
+      - US
+    organizations:
+      - homelab-cluster
+  usages:
+    - cert sign
+    - crl sign
+  nameConstraints:
+    critical: true
+    # Exclude everything. Only the CN may be set.
+    excluded:
+      dnsDomains: []
+      ipRanges: []
+      emailAddresses: []
+      uriDomains: []
+  duration: 87660h # 10 years - it's a large pain when this renews, need to manually renew all downstream certs and restart all apps
   secretTemplate:
     labels:
       cnpg.io/reload: ''
   privateKey:
     algorithm: ECDSA
-    size: 256
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Never
   issuerRef:
     name: cluster-signed-issuer
     kind: ClusterIssuer
