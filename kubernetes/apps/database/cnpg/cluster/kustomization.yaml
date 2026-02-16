@@ -4,62 +4,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - certificate.yaml
-patches:
-  - target:
-      kind: Cluster
-    patch: |-
-      kind: Cluster
-      metadata:
-        name: not-used
-      spec:
-        certificates:
-          serverTLSSecret: postgres-cluster-server-cert
-          serverCASecret: postgres-cluster-server-cert
-          clientCASecret: postgres-cluster-client-cert
-          replicationTLSSecret: postgres-cluster-client-cert
-
-        postgresql:
-          pg_hba:
-            - hostnossl all all 10.69.0.0/16      scram-sha-256
-            - hostnossl all all fc69::/16         scram-sha-256
-            - hostssl   all all all               cert clientcert=verify-full
-          shared_preload_libraries:
-            - vchord.so
-          extensions:
-            - name: vchord
-              image:
-                reference: ghcr.io/tensorchord/vchord-scratch:pg18-v0.5.3@sha256:c310ede47f7f82bd257c3e53806d60680d5899c318ca946fb313efad9a90a78e
-              dynamic_library_path:
-                - /usr/lib/postgresql/18/lib
-              extension_control_path:
-                - /usr/share/postgresql/18/
-        managed:
-          roles:
-            - name: atuin
-              ensure: present
-              login: true
-              superuser: false
-              disablePassword: true
-
-            - name: authentik
-              ensure: present
-              login: true
-              superuser: false
-              disablePassword: true
-
-            - name: immich
-              ensure: present
-              login: true
-              superuser: false
-              disablePassword: true
-
-            - name: paperless
-              ensure: present
-              login: true
-              superuser: false
-              disablePassword: true
-
-#         bootstrap:
-#           recovery:
-#             recoveryTarget:
-#               targetTime: "2025-05-23 19:00:00.000000-05:00"
+  - cluster.yaml
+  - externalsecret.yaml
+  - objectstore.yaml
+  - podmonitor.yaml
+  - scheduledbackup.yaml

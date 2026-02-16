@@ -1,12 +1,6 @@
-# cloudnative-pg
+# cloudnative-pg cluster
 
-## Postgres Clusters
-
-- `../../../../components/cnpg/backup` for db with backups
-- `../../../../components/cnpg/restore` for restoring db from backup, can be used after initial backup bootstrap has occurred
-- `../../../../components/cnpg/no-backup` for db with no backups
-
-### Variables to set
+## Variables to set
 
 ```yaml
   dependsOn:
@@ -23,9 +17,6 @@
       CNPG_STORAGECLASS: openebs-hostpath # default
       CNPG_REQUESTS_CPU: 500m # default
       CNPG_LIMITS_MEMORY: 2Gi # default
-      CNPG_MAX_CONNECTIONS: '600' # default
-      CNPG_SHARED_BUFFERS: 512MB # default
-      CNPG_DISABLED_SERVICES: ['ro', 'r'] # default
     subsituteFrom:
       # backup/restore requires:
       #S3_POSTGRES_STORAGE: https://s3.url
@@ -36,7 +27,7 @@
         optional: false
 ```
 
-### HealthChecks
+## HealthChecks
 
 ```yaml
   healthChecks:
