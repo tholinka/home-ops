@@ -16,7 +16,7 @@ spec:
     # if I ever lose the db, my setup is based heavily on https://github.com/joryirving/home-ops/tree/77478606352bfb43e6c1c5fcf0b5fa134d007095/terraform/authentik
     global:
       podAnnotations:
-        secret.reloader.stakater.com/reload: &secret authentik-secret
+        reloader.stakater.com/auto: 'true'
       deploymentStrategy:
         type: RollingUpdate
       securityContext:
@@ -25,7 +25,7 @@ spec:
         fsGroup: 1000
       envFrom:
         - secretRef:
-            name: *secret
+            name: &secret authentik-secret
       env:
         - name: AUTHENTIK_POSTGRESQL__SSLMODE
           value: verify-full
@@ -84,17 +84,17 @@ spec:
   valuesFrom:
     - targetPath: authentik.email.host
       kind: Secret
-      name: authentik-secret
+      name: *secret
       valuesKey: EMAIL_SERVER
     - targetPath: authentik.email.username
       kind: Secret
-      name: authentik-secret
+      name: *secret
       valuesKey: EMAIL_USER
     - targetPath: authentik.email.from
       kind: Secret
-      name: authentik-secret
+      name: *secret
       valuesKey: EMAIL_FROM
     - targetPath: authentik.email.password
       kind: Secret
-      name: authentik-secret
+      name: *secret
       valuesKey: EMAIL_PASS
