@@ -36,7 +36,7 @@ sonarr:
         assign_scores_to:
           - name: WEB-2160p (Combined)
             score: -100
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: -100
 
       - trash_ids: # only do a minor penalty, instead of the default major one
@@ -44,7 +44,7 @@ sonarr:
         assign_scores_to:
           - name: WEB-2160p (Combined)
             score: -100
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: -100
 
       - trash_ids:
@@ -59,17 +59,17 @@ sonarr:
       - trash_ids:
           - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
         assign_scores_to:
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: 1000 # Adjust scoring as desired
       - trash_ids:
           - b2550eb333d27b75833e25b8c2557b38 # 10bit
         assign_scores_to:
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: 0 # Adjust scoring as desired
       - trash_ids:
           - 418f50b10f1907201b6cfdf881f467b7 # Anime Dual Audio
         assign_scores_to:
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: 2000 # Adjust scoring as desired
 
 radarr:
@@ -116,7 +116,7 @@ radarr:
         assign_scores_to:
           - name: SQP-1 (2160p)
             score: -100
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: -100
 
       - trash_ids: # only do a minor penalty, instead of the default major one
@@ -124,22 +124,22 @@ radarr:
         assign_scores_to:
           - name: SQP-1 (2160p)
             score: -500
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: -500
 
       # anime
       - trash_ids:
           - 064af5f084a0a24458cc8ecd3220f93f # Uncensored
         assign_scores_to:
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: 1000 # Adjust scoring as desired
       - trash_ids:
           - a5d148168c4506b55cf53984107c396e # 10bit
         assign_scores_to:
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: 0 # Adjust scoring as desired
       - trash_ids:
           - 4a3b087eea2ce012fcc1ce319259a3be # Anime Dual Audio
         assign_scores_to:
-          - name: Remux-1080p
+          - name: '[Anime] Remux-1080p'
             score: 2000 # Adjust scoring as desired
