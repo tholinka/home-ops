@@ -25,10 +25,15 @@ spec:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 8.2.0@sha256:30e13877e8ef2242b053b986e69e64801797b39ae4f74b744d8f4dc3f98757ab
+            env:
+              RECYCLARR_DATA_DIR: /tmp
             envFrom:
               - secretRef:
                   name: recyclarr-secret
-            args: ['sync']
+            command: [bash, -c]
+            args:
+              - |-
+                recyclarr state repair --adopt && recyclarr sync
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
