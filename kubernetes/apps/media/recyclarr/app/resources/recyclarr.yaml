@@ -109,12 +109,12 @@ radarr:
           - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
           - f537cf427b64c38c8e36298f657e4828 # Scene
         assign_scores_to:
-          - name: SQP-1 (2160p)
+          - name: '[SQP] SQP-1 (2160p)'
 
       - trash_ids: # only do a minor penalty, instead of the default major one
           - dc98083864ea246d05a42df0d05f81cc # x265 (no HDR/DV)
         assign_scores_to:
-          - name: SQP-1 (2160p)
+          - name: '[SQP] SQP-1 (2160p)'
             score: -100
           - name: '[Anime] Remux-1080p'
             score: -100
@@ -122,7 +122,7 @@ radarr:
       - trash_ids: # only do a minor penalty, instead of the default major one
           - cae4ca30163749b891686f95532519bd # AV1
         assign_scores_to:
-          - name: SQP-1 (2160p)
+          - name: '[SQP] SQP-1 (2160p)'
             score: -500
           - name: '[Anime] Remux-1080p'
             score: -500
