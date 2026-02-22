@@ -82,16 +82,6 @@ radarr:
     media_management:
       propers_and_repacks: do_not_prefer
 
-    include:
-      # SQP
-      - template: radarr-quality-definition-sqp-streaming
-      - template: radarr-custom-formats-sqp-1-2160p
-      - template: radarr-quality-profile-sqp-1-2160p-default
-      # anime
-      - template: radarr-quality-definition-movie
-      - template: radarr-quality-profile-anime
-      - template: radarr-custom-formats-anime
-
     media_naming:
       folder: plex-tmdb
       movie:
