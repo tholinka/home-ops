@@ -143,7 +143,7 @@ spec:
                 subPath: config
               - path: /tmp
                 subPath: tmp
-              - path: /var/log/cwa-book-downloader/
+              - path: /var/log
                 subPath: log
               - path: /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
                 subPath: drivers
