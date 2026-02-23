@@ -56,6 +56,9 @@ spec:
               QBITTORRENT_CATEGORY_AUDIOBOOK: audiobooks
               PROWLARR_USENET_CLIENT: sabnzbd
               SABNZBD_URL: http://sabnzbd.media.svc.cluster.local
+
+              DISABLE_LOCAL_AUTH: true
+              OIDC_AUTO_REDIRECT: true
             envFrom:
               - secretRef:
                   name: *app
