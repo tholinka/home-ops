@@ -81,3 +81,23 @@ spec:
     - name: horizontalpodautoscaler
       value: keda-hpa-silent-.*
       matchType: '=~'
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: smart-device-high-temperature
+spec:
+  matchers:
+    - name: alertname
+      value: SmartDeviceHighTemperature
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
+  name: etcd-database-high-fragmentation-ratio
+spec:
+  matchers:
+    - name: alertname
+      value: etcdDatabaseHighFragmentationRatio
