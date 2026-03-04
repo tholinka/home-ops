@@ -23,7 +23,7 @@ spec:
               # need nightly for slskd plugin support
               #repository: ghcr.io/home-operations/lidarr
               repository: ghcr.io/linuxserver/lidarr
-              tag: 3.1.2-nightly@sha256:bcad2fdb95a60cf3e634a37ec833a54f8dc5346fe9e8d8963b44ba35bb78c9cd
+              tag: 3.1.2-nightly@sha256:f64fabd1737d9c7d519e1a37aba97b2e110d717e1c497a6f9788766f9633cf8f
             env:
               LIDARR__APP__INSTANCENAME: Lidarr
               LIDARR__APP__THEME: dark
