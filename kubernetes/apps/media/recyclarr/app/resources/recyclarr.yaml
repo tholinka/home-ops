@@ -26,6 +26,7 @@ sonarr:
       - trash_id: c4cadd6b35b95f62c3d47a408e53e2f7 # WEB-2160p (Combined)
         reset_unmatched_scores:
           enabled: true
+        min_format_score: 100
       - trash_id: 20e0fc959f1f1704bed501f23bdae76f # [Anime] Remux-1080p
         reset_unmatched_scores:
           enabled: true
@@ -33,19 +34,18 @@ sonarr:
     custom_formats:
       - trash_ids: # only do a minor penalty, instead of the default major one
           - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
+          - 9b64dff695c2115facf1b6ea59c9bd07 # x265 (no HDR/DV)
         assign_scores_to:
           - name: WEB-2160p (Combined)
-            score: -100
-          - name: '[Anime] Remux-1080p'
             score: -100
 
       - trash_ids: # only do a minor penalty, instead of the default major one
           - 15a05bc7c1a36e2b57fd628f8977e2fc # AV1
         assign_scores_to:
           - name: WEB-2160p (Combined)
-            score: -100
+            score: -200
           - name: '[Anime] Remux-1080p'
-            score: -100
+            score: -200
 
       - trash_ids:
           - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
@@ -112,20 +112,19 @@ radarr:
           - name: '[SQP] SQP-1 (2160p)'
 
       - trash_ids: # only do a minor penalty, instead of the default major one
-          - dc98083864ea246d05a42df0d05f81cc # x265 (no HDR/DV)
+          - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
+          - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
         assign_scores_to:
           - name: '[SQP] SQP-1 (2160p)'
-            score: -100
-          - name: '[Anime] Remux-1080p'
             score: -100
 
       - trash_ids: # only do a minor penalty, instead of the default major one
           - cae4ca30163749b891686f95532519bd # AV1
         assign_scores_to:
           - name: '[SQP] SQP-1 (2160p)'
-            score: -500
+            score: -200
           - name: '[Anime] Remux-1080p'
-            score: -500
+            score: -200
 
       # anime
       - trash_ids:
