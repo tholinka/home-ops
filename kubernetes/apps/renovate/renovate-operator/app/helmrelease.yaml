@@ -34,3 +34,16 @@ spec:
         enabled: true
       dashboard:
         enabled: true
+    auth:
+      oidc:
+        enabled: true
+        issuerUrl: https://auth.tholinka.dev/application/o/renovate-operator/
+        #clientId: 'your-client-id'
+        existingSecret: *name
+        secretKey: RENOVATE_OPERATOR_CLIENT_SECRET
+        sessionSecretKey: RENOVATE_OPERATOR_SESSION_SECRET
+  valuesFrom:
+    - targetPath: auth.oidc.clientId
+      kind: Secret
+      name: *name
+      valuesKey: RENOVATE_OPERATOR_CLIENT_ID

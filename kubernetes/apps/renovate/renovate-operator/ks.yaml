@@ -8,8 +8,6 @@ metadata:
 spec:
   interval: 1h
   targetNamespace: *namespace
-  components:
-    - ../../../../components/ext-auth
   postBuild:
     substitute:
       APP: *app
