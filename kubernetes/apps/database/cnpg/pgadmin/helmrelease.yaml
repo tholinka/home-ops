@@ -29,7 +29,7 @@ spec:
           init:
             image: &image
               repository: docker.io/dpage/pgadmin4
-              tag: 9.12.0@sha256:10137f33be7ed61e47f56004493710cb5b80ba7fb0ca01758855e242f1f284a7
+              tag: 9.13.0@sha256:d243a4bcc02d2ee6b447c601692813531d2d0fbca18b583d9f7f9658da835d81
             command: # pgadmin only creates the per-user .pgpass when the user is first created, so this manually updates it
               - /bin/sh
               - -c
