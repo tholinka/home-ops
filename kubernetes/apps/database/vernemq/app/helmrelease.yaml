@@ -31,7 +31,7 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/vernemq/vernemq
+              repository: mirror.gcr.io/vernemq/vernemq
               tag: 2.1.2-alpine
             env:
               MY_POD_NAME:

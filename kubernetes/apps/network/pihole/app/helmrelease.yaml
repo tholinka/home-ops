@@ -125,7 +125,7 @@ spec:
                 memory: 512Mi
           exporter: &exporter
             image:
-              repository: docker.io/ekofr/pihole-exporter
+              repository: mirror.gcr.io/ekofr/pihole-exporter
               tag: v1.2.0
             env: &exporterEnv
               PIHOLE_HOSTNAME:

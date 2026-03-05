@@ -25,8 +25,8 @@ spec:
         initContainers:
           init-config:
             image:
-              repository: docker.io/owncloud/ocis
-              tag: 8.0.0
+              repository: mirror.gcr.io/owncloud/ocis
+              tag: 8.0.0@sha256:41e6d78f43507015e0c34b87bff49ae0744f261a92916f044e47d32067ff18ce
             command:
               - /bin/sh
               - -c
@@ -39,7 +39,7 @@ spec:
         containers:
           *app :
             image:
-              repository: docker.io/owncloud/ocis
+              repository: mirror.gcr.io/owncloud/ocis
               tag: 8.0.0@sha256:41e6d78f43507015e0c34b87bff49ae0744f261a92916f044e47d32067ff18ce
             env:
               OCIS_INSECURE: false

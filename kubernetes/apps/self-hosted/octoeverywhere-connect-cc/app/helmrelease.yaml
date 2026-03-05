@@ -17,7 +17,7 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/octoeverywhere/octoeverywhere
+              repository: mirror.gcr.io/octoeverywhere/octoeverywhere
               tag: 4.6.8@sha256:3b3480d9f3520cde8ddaa0b7addb9714c44e6e82f0ec26fc467d9a4e4df9f379
             env:
               COMPANION_MODE: elegoo

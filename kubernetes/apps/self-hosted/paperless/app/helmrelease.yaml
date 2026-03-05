@@ -92,7 +92,7 @@ spec:
                 memory: 2Gi
           gotenberg:
             image:
-              repository: docker.io/gotenberg/gotenberg
+              repository: mirror.gcr.io/gotenberg/gotenberg
               tag: 8.27.0
             ports:
               - containerPort: 3000
@@ -109,7 +109,7 @@ spec:
                 memory: 256Mi
           tika:
             image:
-              repository: docker.io/apache/tika
+              repository: mirror.gcr.io/apache/tika
               tag: 3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7
             ports:
               - containerPort: 9998

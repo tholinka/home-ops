@@ -6,7 +6,7 @@ tasks:
   browse-pvc:
     desc: Mount a PVC to an temp container [NS=default] [CLAIM=required]
     interactive: true
-    cmd: kubectl browse-pvc --namespace {{.NS}} --image docker.io/library/alpine:latest {{.CLAIM}}
+    cmd: kubectl browse-pvc --namespace {{.NS}} --image mirror.gcr.io/library/alpine:latest {{.CLAIM}}
     vars:
       NS: '{{.NS | default "default"}}'
     requires:
