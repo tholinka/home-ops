@@ -62,10 +62,6 @@ spec:
             port: *healthPort
     route:
       app:
-        annotations:
-          # it's actually a 404, but the error-pages override converts it to a 302
-          gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == 302"]
         hostnames:
           - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:
