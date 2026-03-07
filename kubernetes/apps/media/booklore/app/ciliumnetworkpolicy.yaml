@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: booklore
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: booklore
+      app.kubernetes.io/instance: booklore
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: network
+            gateway.networking.k8s.io/gateway-name: envoy-internal
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: media
+            app.kubernetes.io/name: shelfmark
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: self-hosted
+            app.kubernetes.io/name: homepage
+      toPorts:
+        - ports:
+            - port: '80'
+              protocol: TCP

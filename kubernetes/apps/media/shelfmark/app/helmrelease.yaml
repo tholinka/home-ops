@@ -38,7 +38,7 @@ spec:
             env:
               FLASK_PORT: &port 80
               DEBUG: false
-              INGEST_DIR: &ingest /cwa-book-ingest
+              INGEST_DIR: &ingest /ingest
               BOOK_LANGUAGE: en
               CUSTOM_DNS: system
 
@@ -59,6 +59,13 @@ spec:
 
               DISABLE_LOCAL_AUTH: true
               OIDC_AUTO_REDIRECT: true
+
+              CALIBRE_WEB_URL: https://booklore.tholinka.dev
+              BOOKLORE_HOST: http://booklore.media.svc.cluster.local
+              BOOKLORE_DESTINATION: library
+              BOOKLORE_LIBRARY_ID: '1'
+              BOOKLORE_PATH_ID: '1'
+              BOOKS_OUTPUT_MODE: booklore
             envFrom:
               - secretRef:
                   name: *app
