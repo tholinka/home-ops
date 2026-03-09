@@ -80,7 +80,7 @@ spec:
   postBuild:
     substitute:
       APP: cluster
-      CNPG_IMAGE: ghcr.io/cloudnative-pg/postgresql:18.3-standard-trixie@sha256:e4f9958296aac318d23c12e5f97369b47a925ee6f26eef4e2064affceb2ddf36
+      CNPG_IMAGE: ghcr.io/cloudnative-pg/postgresql:18.3-standard-trixie@sha256:3a83f577034d7c9b5f41c60e753d8380b94360a2a7088f5d6a60ba8e09d30285
       CNPG_REPLICAS: '2'
       CNPG_SIZE: 5Gi
       CNPG_LIMITS_MEMORY_HUGEPAGES: 1Gi
