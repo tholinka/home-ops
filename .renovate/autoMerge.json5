@@ -65,8 +65,8 @@
 			matchPackageNames: [
 				"ghcr.io/renovatebot/renovate",
 			],
-			// updates verions multiple times a day normally, so wait for a 2 day gap (the weekend) before actually creating a release
-			"minimumReleaseAge": "2 days",
+			// updates versions multiple times a day normally, so wait for a 1 day gap (the weekend) before actually creating a release
+			"minimumReleaseAge": "1 days",
 			ignoreTests: false,
 		},
 	],
