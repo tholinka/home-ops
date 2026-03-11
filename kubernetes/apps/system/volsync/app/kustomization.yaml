@@ -7,4 +7,4 @@ resources:
   - ./helmrelease.yaml
   - ./ocirepository.yaml
   - ./prometheusrule.yaml
-  - ./mutations
+  - ./volsync-mover-jitter.yaml
