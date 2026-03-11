@@ -112,6 +112,19 @@
 				commitMessageTopic: "{{{groupName}}} group",
 			},
 			minimumGroupSize: 2,
+		},
+		{
+			description: "Volsync Group",
+			groupName: "Volsync",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"/volsync/"
+			],
+			group: {
+				commitMessageTopic: "{{{groupName}}} group",
+			}
 		}
 	],
 }
