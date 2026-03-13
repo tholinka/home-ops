@@ -8,6 +8,7 @@ resources:
   - ./bazarr/ks.yaml
   - ./booklore/ks.yaml
   - ./flaresolverr/ks.yaml
+  - ./kavita/ks.yaml
   - ./lidarr/ks.yaml
   - ./maintainerr/ks.yaml
   - ./plex/ks.yaml
