@@ -65,5 +65,5 @@ spec:
         server: nas.servers.internal
         path: /media
         globalMounts:
-          - path: /media
-            readOnly: true
+          - path: /media/book
+            subPath: book

@@ -39,16 +39,6 @@
           type: bazarr
           url: http://bazarr.media.svc.cluster.local:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
-    - Booklore:
-        icon: booklore.svg
-        href: https://booklore.tholinka.dev
-        app: booklore
-        namespace: media
-        widget:
-          type: booklore
-          url: http://booklore.media.svc.cluster.local
-          username: '{{HOMEPAGE_VAR_BOOKLORE_USERNAME}}'
-          password: '{{HOMEPAGE_VAR_BOOKLORE_PASSWORD}}'
     - Kavita:
         href: https://kavita.tholinka.dev
         icon: kavita.svg

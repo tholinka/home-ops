@@ -38,7 +38,6 @@ spec:
             env:
               FLASK_PORT: &port 80
               DEBUG: false
-              INGEST_DIR: &ingest /ingest
               BOOK_LANGUAGE: en
               CUSTOM_DNS: system
 
@@ -60,12 +59,17 @@ spec:
               DISABLE_LOCAL_AUTH: true
               OIDC_AUTO_REDIRECT: true
 
-              CALIBRE_WEB_URL: https://booklore.tholinka.dev
-              BOOKLORE_HOST: http://booklore.media.svc.cluster.local
-              BOOKLORE_DESTINATION: library
-              BOOKLORE_LIBRARY_ID: '1'
-              BOOKLORE_PATH_ID: '1'
-              BOOKS_OUTPUT_MODE: booklore
+              CALIBRE_WEB_URL: https://kavita.tholinka.dev
+              BOOKS_OUTPUT_MODE: folder
+              INGEST_DIR: &ingest /ingest
+              FILE_ORGANIZATION: organize
+              FILE_ORGANIZATION_AUDIOBOOK: organize
+              TEMPLATE_ORGANIZE: '{Author}/{Title}/{Author} - {Title} ({Year})'
+              TEMPLATE_AUDIOBOOK_ORGANIZE: '{Author}/{Title}/{Author} - {Title} ({Year}) {PartNumber}'
+              HARDLINK_TORRENTS: true
+              HARDLINK_TORRENTS_AUDIOBOOK: true
+
+              AUTO_OPEN_DOWNLOADS_SIDEBAR: true
             envFrom:
               - secretRef:
                   name: *app
@@ -165,4 +169,4 @@ spec:
           *app :
             app:
               - path: *ingest
-                subPath: downloads/openbooks
+                subPath: book
