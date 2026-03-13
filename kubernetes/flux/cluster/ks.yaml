@@ -37,8 +37,6 @@ spec:
                     mode: enabled
                   install:
                     crds: CreateReplace
-                    strategy:
-                      name: RetryOnFailure
                   rollback:
                     cleanupOnFail: true
                     recreate: true
