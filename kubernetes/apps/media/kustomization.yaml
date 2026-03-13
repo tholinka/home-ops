@@ -6,7 +6,6 @@ namespace: media
 resources:
   - ./autobrr/ks.yaml
   - ./bazarr/ks.yaml
-  - ./booklore/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./kavita/ks.yaml
   - ./lidarr/ks.yaml

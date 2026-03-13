@@ -66,4 +66,12 @@ spec:
         path: /media
         globalMounts:
           - path: /media
+            subPath: book
             readOnly: true
+SELECT      c.name  AS 'ColumnName'
+            ,(SCHEMA_NAME(t.schema_id) + '.' + t.name) AS 'TableName'
+FROM        sys.columns c
+JOIN        sys.tables  t   ON c.object_id = t.object_id
+WHERE       c.name LIKE '%MyNa'
+ORDER BY    TableName
+            ,ColumnName;
