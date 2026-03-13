@@ -8,7 +8,6 @@ metadata:
 spec:
   provider:
     name: github
-    endpoint: https://api.github.com/
   discoveryFilter: tholinka/*
   extraEnv:
     - name: LOG_LEVEL
