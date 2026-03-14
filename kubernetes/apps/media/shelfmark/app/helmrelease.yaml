@@ -45,10 +45,6 @@ spec:
               EXT_BYPASSER_URL: http://flaresolverr.media.svc.cluster.local:8191
               BYPASS_WARMUP_ON_CONNECT: false
 
-              METADATA_PROVIDER: openlibrary
-
-              SEARCH_MODE: universal
-
               PROWLARR_ENABLED: true
               PROWLARR_URL: http://prowlarr.media.svc.cluster.local
               PROWLARR_TORRENT_CLIENT: qbittorrent
