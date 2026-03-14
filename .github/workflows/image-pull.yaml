@@ -40,7 +40,7 @@ jobs:
       pull: ${{ steps.extract.outputs.pull }}
     steps:
       - name: Generate Token
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -70,12 +70,14 @@ jobs:
       - name: Extract Images
         id: extract
         run: |-
-          echo "${{ matrix.branch }}=$(jq --compact-output '.' images.json)" >> $GITHUB_OUTPUT
+          echo "${{ matrix.branch }}=$(jq --compact-output '.' images.json)" >> "$GITHUB_OUTPUT"
 
-          echo '## Branch ${{ matrix.branch }} images' >> $GITHUB_STEP_SUMMARY
-          echo '```json' >> $GITHUB_STEP_SUMMARY
-          jq '.' images.json >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          {
+            echo '## Branch ${{ matrix.branch }} images'
+            echo '```json'
+            jq '.' images.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   diff:
     if: ${{ needs.extract.outputs.default != needs.extract.outputs.pull }}
@@ -88,17 +90,18 @@ jobs:
       - name: Diff Images
         id: diff
         run: |-
-          images=$(jq --compact-output --null-input \
+          images="$(jq --compact-output --null-input \
               --argjson f1 '${{ needs.extract.outputs.default }}' \
               --argjson f2 '${{ needs.extract.outputs.pull }}' \
-              '$f2 - $f1' \
-          )
-          echo "images=${images}" >> $GITHUB_OUTPUT
+              '$f2 - $f1')"
+          echo "images=${images}" >> "$GITHUB_OUTPUT"
 
-          echo '## New images to Pull' >> $GITHUB_STEP_SUMMARY
-          echo '```json' >> $GITHUB_STEP_SUMMARY
-          echo $images | jq >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          {
+            echo '## New images to Pull'
+            echo '```json'
+            echo "$images" | jq
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   pull:
     if: ${{ needs.diff.outputs.images != '[]' }}
@@ -117,7 +120,7 @@ jobs:
         run: curl -fsSL https://raw.githubusercontent.com/siderolabs/talos/b412ffdbc29d77a81aed88be62f21bc2999afcde/website/static/install | sh
 
       - name: Pull Image
-        run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
+        run: talosctl --nodes "$NODE" image pull "${MATRIX_IMAGE}"
 
   success:
     if: ${{ !cancelled() }}
