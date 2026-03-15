@@ -159,6 +159,11 @@
         icon: maintainerr.svg
         app: maintainerr
         namespace: media
+    - Upload-Assistant:
+        href: https://upload-assistant.tholinka.dev
+        icon: mdi-upload
+        app: upload-assistant
+        namespace: media
 
 - Infrastructure:
     - Unifi:

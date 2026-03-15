@@ -1,0 +1,110 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app upload-assistant
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  driftDetection:
+    ignore:
+      - paths: [/spec/replicas]
+  values:
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/audionut/upload-assistant
+              tag: v7.1.1@sha256:17a5e029fa1e07a94ef08189a4965ff1a66376e6eab911ae3638bf6887ab4be4
+            args:
+              - --webui
+              - 0.0.0.0:80
+            env:
+              UA_BROWSE_ROOTS: /media/downloads/qbittorrent,/Upload-Assistant/tmp
+              SESSION_SECRET_FILE: &session /Upload-Assistant/data/session_secret
+              IN_DOCKER: 1
+              PUID: 1000
+              GUID: 1000
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              # capabilities: { drop: [ALL] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1Gi
+
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 1000
+    #     runAsGroup: 1000
+    #     fsGroup: 1000
+    #     fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        ports:
+          http:
+            port: 80
+
+    route:
+      app:
+        hostnames:
+          - '{{ .Release.Name }}.tholinka.dev'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+
+    persistence:
+      media:
+        type: nfs
+        server: nas.servers.internal
+        path: /media
+        globalMounts:
+          - path: /media/downloads/qbittorrent
+            subPath: downloads/qbittorrent
+
+      config:
+        enabled: true
+        type: secret
+        name: *app
+        globalMounts:
+          - path: /Upload-Assistant/data/config.py
+            subPath: config.py
+            readOnly: true
+          - path: /Upload-Assistant/session_secret
+            subPath: session-secret
+            readOnly: true
+          - path: *session
+            subPath: session-secret
+            readOnly: true
+          - path: /root/.config/upload-assistant/session_secret
+            subPath: session-secret
+            readOnly: true
+          - path: /root/.config/upload-assistant/webui_auth.json
+            subPath: webui_auth.json
+            readOnly: true
+          - path: /Upload-Assistant/data/webui_auth.json
+            subPath: webui_auth.json
+            readOnly: true
+
+      tmpfs:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /Upload-Assistant/tmp
+            subPath: tmp
+          - path: /root/.config
+            subPath: config
+          - path: /Upload-Assistant/data/sessions
+            subPath: sessions
+          - path: /Upload-Assistant/data/banned
+            subPath: sessions
