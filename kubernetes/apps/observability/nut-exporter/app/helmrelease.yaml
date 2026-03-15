@@ -75,7 +75,7 @@ spec:
                 replacement: &cluster cluster
             params:
               ups: [*cluster]
-              server: [nas.servers.internal]
+              server: [pikvm.servers.internal]
           - interval: 30s
             path: /metrics
             port: metrics

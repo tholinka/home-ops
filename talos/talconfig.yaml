@@ -50,7 +50,7 @@ nodes:
         configFiles:
           # default_password is to allow `talhelper gencommand`, but when doing `task talos:generate-config`, it's overridden
           - content: |-
-              MONITOR cluster@nas.servers.internal 1 secondaryuser "${nut_password:=default_password}" secondary
+              MONITOR cluster@pikvm.servers.internal 1 secondaryuser "${nut_password:=default_password}" secondary
               SHUTDOWNCMD "/sbin/poweroff"
             mountPath: /usr/local/etc/nut/upsmon.conf
     nodeLabels: &lenovoLabels
