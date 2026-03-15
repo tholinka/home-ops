@@ -23,6 +23,7 @@ resources:
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./unpackerr/ks.yaml
+  - ./upload-assistant/ks.yaml
   - ./webhook/ks.yaml
 components:
   - ../../components/common
