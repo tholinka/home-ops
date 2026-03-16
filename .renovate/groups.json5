@@ -125,6 +125,17 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			}
+		},
+		{
+			description: "Ignore back upload assistant version",
+			groupName: "Upload Assistant",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"/audionut/upload-assistant/"
+			],
+			allowedVersions: "<31.0.0",
 		}
 	],
 }
