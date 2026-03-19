@@ -30,3 +30,4 @@ spec:
       labelSelector:
         matchLabels:
           app.kubernetes.io/part-of: dragonfly
+  networkPolicyEnabled: false # blocks prometheus scrape
