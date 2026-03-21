@@ -3,11 +3,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: fluent-bit
+  name: victoria-logs-collector
   namespace: &namespace observability
 spec:
   interval: 1h
-  path: ./kubernetes/apps/observability/fluent-bit/app
+  path: ./kubernetes/apps/observability/victoria-logs-collector/app
   prune: true
   sourceRef:
     kind: GitRepository

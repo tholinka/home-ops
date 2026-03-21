@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: observability
 resources:
   - ./blackbox-exporter/ks.yaml
-  - ./fluent-bit/ks.yaml
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml
   - ./keda/ks.yaml
@@ -16,6 +15,7 @@ resources:
   - ./smartctl-exporter/ks.yaml
   - ./unpoller/ks.yaml
   - ./victoria-logs/ks.yaml
+  - ./victoria-logs-collector/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template
