@@ -1,0 +1,136 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app json-exporter
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  interval: 1h
+  values:
+    fullnameOverride: json-exporter
+    securityContext:
+      runAsUser: 1022
+      runAsGroup: 1022
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities: { drop: ['ALL'] }
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 100Mi
+      limits:
+        memory: 100Mi
+
+    configuration:
+      config: |
+        ---
+        modules:
+          pon:
+            http_client_config:
+              tls_config:
+                insecure_skip_verify: true
+            metrics:
+              - name: pon_cpu1_temp_celsius
+                valuetype: gauge
+                path: "{ .cpu1_tempC }"
+                help: PON CPU1 temperature in Celsius
+                labels:
+                  sensor: pon
+              - name: pon_cpu2_temp_celsius
+                valuetype: gauge
+                path: "{ .cpu2_tempC }"
+                help: PON CPU2 temperature in Celsius
+                labels:
+                  sensor: pon
+              - name: pon_module_voltage
+                valuetype: gauge
+                path: "{ .module_voltage }"
+                help: PON module voltage
+                labels:
+                  sensor: pon
+              - name: pon_optic_temp_celsius
+                valuetype: gauge
+                path: "{ .optic_tempC }"
+                help: PON optics temperature in Celsius
+                labels:
+                  sensor: pon
+              - name: pon_ploam_state
+                valuetype: gauge
+                path: "{ .ploam_state }"
+                help: PON ploam state
+                labels:
+                  sensor: pon
+              - name: pon_rx_power_dbm
+                valuetype: gauge
+                path: "{ .rx_power_dBm }"
+                help: PON rx power in dBm
+                labels:
+                  sensor: pon
+              - name: pon_tx_bias_ma
+                valuetype: gauge
+                path: "{ .tx_bias_mA }"
+                help: PON tx bias in mA
+                labels:
+                  sensor: pon
+              - name: pon_tx_power_dba
+                valuetype: gauge
+                path: "{ .tx_power_dBm }"
+                help: PON tx power in dBm
+                labels:
+                  sensor: pon
+
+    # serviceMonitor: # doesn't allow dropping labels, and doesn't create one for json-exporter itself, just the probes
+    #   enabled: true
+
+    prometheusRule:
+      enabled: true
+      rules:
+        - alert: PonMissing
+          expr: absent(pon_cpu1_temp_celsius)
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: |-
+              {{`{{ $labels.target }}`}} is currently unreachable
+        - alert: PonHighTemperature
+          expr: pon_cpu1_temp_celsius > 70 or pon_cpu2_temp_celsius > 70 or pon_optic_temp_celsius > 70
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: |-
+              {{`{{ $labels.target }}`}}'s cpu1 or cpu2 or optics is {{`{{$value}}`}}°c
+        - alert: PonNotAssociated
+          expr: pon_ploam_state != 51
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: |-
+              {{`{{ $labels.target }}`}}'s' PLOAM state is not Associated State 51
+        - alert: PonRxPowerBad # https://pon.wiki/guides/troubleshoot-connectivity-issues-with-the-was-110-or-x-onu-sfpp/#mikrotik-routeros-ddmi
+          expr: pon_rx_power_dbm > -8 or pon_rx_power_dbm < -24
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            description: |-
+              {{`{{ $labels.target }}`}}'s Rx dBm is {{`{{ $value }}`}}
+            summary: |-
+              {{`{{ $labels.target }}`}}'s Rx dBm is Fair or Poor
+        - alert: PonTxPowerBad # https://pon.wiki/guides/troubleshoot-connectivity-issues-with-the-was-110-or-x-onu-sfpp/#mikrotik-routeros-ddmi
+          expr: pon_tx_power_dba > 7 or pon_tx_power_dbm < 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            description: |-
+              {{`{{ $labels.target }}`}}'s Tx dBm is {{`{{ $value }}`}}
+            summary: |-
+              {{`{{ $labels.target }}`}}'s Tx dBm is Fair or Poor

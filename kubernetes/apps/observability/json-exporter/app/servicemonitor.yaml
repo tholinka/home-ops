@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.coreos.com/servicemonitor_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: &app json-exporter
+spec:
+  endpoints:
+    - port: http
+  jobLabel: *app
+  namespaceSelector:
+    matchNames:
+      - observability
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: *app
+      app.kubernetes.io/name: prometheus-json-exporter

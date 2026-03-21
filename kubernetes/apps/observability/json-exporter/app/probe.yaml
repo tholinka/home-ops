@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.coreos.com/probe_v1.json
+kind: Probe
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: pon
+spec:
+  module: pon
+  metricRelabelings:
+    - action: labeldrop
+      regex: (pod)
+    - targetLabel: target
+      replacement: pon.internal
+  prober:
+    url: json-exporter.observability.svc.cluster.local:7979
+  targets:
+    staticConfig:
+      static:
+        - https://pon.internal/cgi-bin/luci/8311/metrics

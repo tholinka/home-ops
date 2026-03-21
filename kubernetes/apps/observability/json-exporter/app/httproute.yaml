@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: json-exporter
+  annotations:
+    gethomepage.dev/enabled: 'true'
+    gethomepage.dev/group: Observability
+    gethomepage.dev/name: JSON Exporter
+    gethomepage.dev/icon: mdi-export-variant
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=prometheus-json-exporter
+spec:
+  hostnames:
+    - json-exporter.tholinka.dev
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+  rules:
+    - backendRefs:
+        - name: json-exporter
+          port: 7979
