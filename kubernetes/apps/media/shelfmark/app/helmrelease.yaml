@@ -26,7 +26,7 @@ spec:
             command:
               - bash
               - -c
-              - 'exec cp -r /usr/local/lib/python3.10/site-packages/seleniumbase/drivers/* /mnt'
+              - 'exec cp -r /usr/local/lib/python3.14/site-packages/seleniumbase/drivers/* /mnt'
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
