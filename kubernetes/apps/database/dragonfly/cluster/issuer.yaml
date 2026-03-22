@@ -9,7 +9,7 @@ spec:
   commonName: Dragonfly Authentication Certificate Authority
   subject:
     countries:
-      - PL
+      - US
     organizations:
       - homelab-cluster
   usages:
