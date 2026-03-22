@@ -12,6 +12,7 @@ spec:
     # needs https://github.com/immich-app/immich-charts/issues/94
     - ../../../../components/keda/nfs-cpu-scaler
     - ../../../../components/cnpg/app-template
+    - ../../../../components/dragonfly/app-template-stunnel
   dependsOn:
     - name: keda
       namespace: observability

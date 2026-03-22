@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dragonfly-${APP}-cert
+spec:
+  secretName: dragonfly-${APP}-cert
+  usages:
+    - client auth
+  dnsNames:
+    - ${DATABASE_OWNER:=${APP}}
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Always
+  issuerRef:
+    name: dfguard-client-ca
+    kind: ClusterIssuer
+    group: cert-manager.io

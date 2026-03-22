@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/mutatingadmissionpolicybinding-admissionregistration-v1beta1.json
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: renovate-job-stunnel
+spec:
+  policyName: renovate-job-stunnel
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/mutatingadmissionpolicy-admissionregistration-v1beta1.json
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: renovate-job-stunnel
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [batch]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [jobs]
+  matchConditions:
+    - name: has-renovate-job-generate-name-prefix
+      expression: >
+        has(object.metadata.generateName) &&
+        object.metadata.generateName.startsWith("renovate-")
+    - name: has-renovate-labels
+      expression: >
+        has(object.metadata.labels) &&
+        object.metadata.labels["renovate-operator.mogenius.com/job-type"] in ["executor", "discovery"]
+    - name: missing-dragonfly-stunnel-container
+      expression: >
+        !has(object.spec.template.spec.containers) ||
+        !object.spec.template.spec.containers.exists(c, c.name == "dragonfly-stunnel")
+    - name: has-volumes-array
+      expression: >
+        has(object.spec.template.spec.volumes)
+    - name: has-containers-array
+      expression: >
+        has(object.spec.template.spec.containers)
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >
+          [
+            JSONPatch{
+              op: "add",
+              path: "/spec/template/spec/initContainers",
+              value: []
+            },
+            JSONPatch{
+              op: "add",
+              path: "/spec/template/spec/initContainers/-",
+              value: Object.spec.template.spec.initContainers{
+                name: "dragonfly-stunnel",
+                image: "cgr.dev/chainguard/stunnel:latest@sha256:c573ad23a5b7a8294d8d64d08deb4f6c05b0d8f39e0ce49fd635986057b2d870",
+                args: ["/etc/stunnel/stunnel.conf"],
+                restartPolicy: "Always",
+                volumeMounts: [
+                  Object.spec.template.spec.initContainers.volumeMounts{
+                    name: "dragonfly-stunnel",
+                    mountPath: "/etc/stunnel/stunnel.conf",
+                    subPath: "stunnel.conf",
+                    readOnly: true
+                  },
+                  Object.spec.template.spec.initContainers.volumeMounts{
+                    name: "dragonfly-certs",
+                    mountPath: "/var/run/secrets/dragonfly",
+                    readOnly: true
+                  }
+                ],
+                securityContext: Object.spec.template.spec.initContainers.securityContext{
+                  allowPrivilegeEscalation: false,
+                  readOnlyRootFilesystem: true,
+                  capabilities: Object.spec.template.spec.initContainers.securityContext.capabilities{
+                    drop: ["ALL"]
+                  },
+                  seccompProfile: Object.spec.template.spec.initContainers.securityContext.seccompProfile{
+                    type: "RuntimeDefault"
+                  }
+                }
+              }
+            }
+          ]

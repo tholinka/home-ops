@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/fluxcd.controlplane.io/resourcesetinputprovider_v1.json
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSetInputProvider
+metadata:
+  name: dragonfly-${APP}
+  annotations:
+    fluxcd.controlplane.io/reconcile: enabled
+    fluxcd.controlplane.io/reconcileEvery: 5m
+  labels:
+    dragonflydb.io/acl: true
+spec:
+  type: Static
+  defaultValues:
+    users:
+      - ${OWNER}

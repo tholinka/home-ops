@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://schemas.tholinka.dev/fluxcd.controlplane.io/resourceset_v1.json
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: dragonfly-acls
+  annotations:
+    fluxcd.controlplane.io/reconcile: enabled
+    fluxcd.controlplane.io/reconcileEvery: 30m
+    fluxcd.controlplane.io/reconcileTimeout: 5m
+spec:
+  inputStrategy:
+    name: Permute
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: dragonfly
+  inputsFrom:
+    - apiVersion: fluxcd.controlplane.io/v1
+      kind: ResourceSetInputProvider
+      selector:
+        matchLabels:
+          dragonflydb.io/acl: 'true'
+  resourcesTemplate: |
+    ---
+    <<- $users := list >>
+    <<- range $k, $in := inputs >>
+    <<- $ul := list >>
+    <<- if kindIs "map" $in >>
+    <<-   $ul = default (list) (index $in "users") >>
+    <<- else if or (kindIs "slice" $in) (kindIs "array" $in) >>
+    <<-   $ul = $in >>
+    <<- end >>
+    <<- $users = concat $users $ul >>
+    <<- end >>
+    apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: &name dragonfly-acls
+      namespace: database
+    spec:
+      refreshPolicy: OnChange
+      target:
+        name: *name
+        creationPolicy: Owner
+        template:
+          engineVersion: v2
+          type: Opaque
+          data:
+            acl.conf: |
+              <<- range $u := $users >>
+              USER << $u >> NAMESPACE:<< $u >> resetkeys resetchannels -@ALL ON >{{ index . "password_<< $u >>" }} ~* &* +@ALL -@ADMIN -@DANGEROUS +INFO
+              <<- end >>
+
+      dataFrom:
+        <<- range $u := $users >>
+        - sourceRef:
+            generatorRef:
+              apiVersion: generators.external-secrets.io/v1alpha1
+              kind: ClusterGenerator
+              name: pw
+          rewrite:
+            - regexp:
+                source: "^password$"
+                target: "password_<< $u >>"
+        <<- end >>

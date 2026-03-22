@@ -3,7 +3,7 @@
 apiVersion: renovate-operator.mogenius.com/v1alpha1
 kind: RenovateJob
 metadata:
-  name: tholinka
+  name: renovate-tholinka
   namespace: renovate
 spec:
   provider:
@@ -30,11 +30,19 @@ spec:
       value: >-
         [{"hostType":"docker","matchHost":"docker.io","username":"$(DOCKERHUB_USERNAME)","password":"$(DOCKERHUB_TOKEN)"}]
     - name: RENOVATE_REDIS_URL
-      value: redis://dragonfly-cluster.database.svc.cluster.local:6379/4
+      value: redis://localhost:6379
     - name: RENOVATE_REPOSITORY_CACHE
       value: enabled
     - name: RENOVATE_CACHE_PRIVATE_PACKAGES
       value: 'true'
+  extraVolumes:
+    - name: dragonfly-stunnel
+      configMap:
+        name: dragonfly-stunnel
+    - name: dragonfly-certs
+      secret:
+        secretName: dragonfly-renovate-operator-jobs-cert
+        defaultMode: 288
   image: ghcr.io/renovatebot/renovate:43.84.2
   parallelism: 5
   resources:

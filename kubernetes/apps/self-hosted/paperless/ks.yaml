@@ -11,6 +11,7 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/cnpg/app
+    - ../../../../components/dragonfly/app-template
   dependsOn:
     - name: keda
       namespace: observability

@@ -1,0 +1,97 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: not-used
+spec:
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+              labelSelector: 'dragonfly.enable.custom/no-stunnel!=true'
+            patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: ignored
+              spec:
+                template:
+                  spec:
+                    volumes:
+                      - name: dragonfly-stunnel
+                        configMap:
+                          name: dragonfly-stunnel
+                      - name: dragonfly-certs
+                        secret:
+                          secretName: dragonfly-${APP}-cert
+                          defaultMode: 0440
+
+                    containers:
+                      - name: dragonfly-stunnel
+                        image: cgr.dev/chainguard/stunnel:latest@sha256:c573ad23a5b7a8294d8d64d08deb4f6c05b0d8f39e0ce49fd635986057b2d870
+                        args:
+                          - /etc/stunnel/stunnel.conf
+                        volumeMounts:
+                          - name: dragonfly-stunnel
+                            mountPath: /etc/stunnel/stunnel.conf
+                            subPath: stunnel.conf
+                            readOnly: true
+                          - name: dragonfly-certs
+                            mountPath: /var/run/secrets/dragonfly
+                            readOnly: true
+                        securityContext:
+                          allowPrivilegeEscalation: false
+                          readOnlyRootFilesystem: true
+                          capabilities:
+                            drop:
+                              - ALL
+                          seccompProfile:
+                            type: RuntimeDefault
+
+          - target:
+              group: apps
+              version: v1
+              kind: StatefulSet
+              labelSelector: 'dragonfly.enable.custom/no-stunnel!=true'
+            patch: |-
+              apiVersion: apps/v1
+              kind: StatefulSet
+              metadata:
+                name: ignored
+              spec:
+                template:
+                  spec:
+                    volumes:
+                      - name: dragonfly-stunnel
+                        configMap:
+                          name: dragonfly-stunnel
+                      - name: dragonfly-certs
+                        secret:
+                          secretName: dragonfly-${APP}-cert
+                          defaultMode: 0440
+
+                    containers:
+                      - name: dragonfly-stunnel
+                        image: cgr.dev/chainguard/stunnel:latest@sha256:c573ad23a5b7a8294d8d64d08deb4f6c05b0d8f39e0ce49fd635986057b2d870
+                        args:
+                          - /etc/stunnel/stunnel.conf
+                        volumeMounts:
+                          - name: dragonfly-stunnel
+                            mountPath: /etc/stunnel/stunnel.conf
+                            subPath: stunnel.conf
+                            readOnly: true
+                          - name: dragonfly-certs
+                            mountPath: /var/run/secrets/dragonfly
+                            readOnly: true
+                        securityContext:
+                          allowPrivilegeEscalation: false
+                          readOnlyRootFilesystem: true
+                          capabilities:
+                            drop:
+                              - ALL
+                          seccompProfile:
+                            type: RuntimeDefault

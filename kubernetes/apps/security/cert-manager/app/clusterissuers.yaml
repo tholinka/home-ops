@@ -106,3 +106,48 @@ metadata:
 spec:
   ca:
     secretName: postgres-cluster-client-ca-secret
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name dfguard-client-ca
+spec:
+  isCA: true
+  commonName: DFGuard Authentication Certificate Authority
+  subject:
+    countries:
+      - US
+    organizations:
+      - homelab-cluster
+  usages:
+    - cert sign
+    - crl sign
+  nameConstraints:
+    critical: true
+    # Exclude everything. Only the CN may be set.
+    excluded:
+      dnsDomains: []
+      ipRanges: []
+      emailAddresses: []
+      uriDomains: []
+  duration: 87660h # 10 years
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Never
+  issuerRef:
+    name: cluster-signed-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  secretName: *name
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/clusterissuer_v1.json
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: &name dfguard-client-ca
+spec:
+  ca:
+    secretName: *name

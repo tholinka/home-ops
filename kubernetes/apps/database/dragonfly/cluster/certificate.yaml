@@ -1,0 +1,71 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name dragonfly-server-cert
+spec:
+  dnsNames:
+    - dragonfly-cluster.database.svc
+    - dragonfly-cluster.database.svc.cluster.local
+  subject:
+    countries:
+      - US
+    organizations:
+      - homelab-cluster
+  usages:
+    - server auth
+  duration: 720h # 1 month
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Always
+  issuerRef:
+    name: dragonfly-client-ca
+    kind: Issuer
+    group: cert-manager.io
+  secretName: *name
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name dfguard-server-cert
+spec:
+  dnsNames:
+    - dfguard.database.svc
+    - dfguard.database.svc.cluster.local
+  subject:
+    countries:
+      - US
+    organizations:
+      - homelab-cluster
+  usages:
+    - server auth
+  duration: 720h # 1 month
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Always
+  issuerRef:
+    name: dragonfly-client-ca
+    kind: Issuer
+    group: cert-manager.io
+  secretName: *name
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name dfguard-client-cert
+spec:
+  secretName: *name
+  usages:
+    - client auth
+  commonName: dfguard
+  issuerRef:
+    name: dragonfly-client-ca
+    kind: Issuer
+    group: cert-manager.io

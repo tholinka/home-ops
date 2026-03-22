@@ -8,7 +8,7 @@ server:
   public_instance: false # -> external is behind auth
 
 valkey:
-  url: redis://dragonfly-cluster.database.svc.cluster.local/3
+  url: redis://localhost:6379
 
 search:
   autocomplete: duckduckgo

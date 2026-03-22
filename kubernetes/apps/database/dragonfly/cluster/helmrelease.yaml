@@ -1,0 +1,99 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app dfguard
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  values:
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+    controllers:
+      *app :
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/m00nwtchr/dfguard
+              tag: 0.2.6@sha256:2b5a21252b81a4436a72bed0a3f37d38674d147bb0cf6c9428462026fce76d39
+            env:
+              DFGUARD_UPSTREAM: dragonfly-cluster.database.svc.cluster.local:6379
+              DFGUARD_SERVER_CERT: /tls/server/tls.crt
+              DFGUARD_SERVER_KEY: /tls/server/tls.key
+              DFGUARD_SERVER_CA: /tls/client/ca.crt
+              DFGUARD_UPSTREAM_CERT: /tls/dragonfly/tls.crt
+              DFGUARD_UPSTREAM_KEY: /tls/dragonfly/tls.key
+              DFGUARD_UPSTREAM_CA: /tls/dragonfly/ca.crt
+              DFGUARD_METRICS_LISTEN: '[::]:9464'
+            probes:
+              liveness:
+                enabled: true
+                type: HTTP
+                path: /livez
+                port: &metricsPort 9464
+              readiness:
+                enabled: true
+                type: HTTP
+                path: /readyz
+                port: *metricsPort
+            resources:
+              requests:
+                cpu: 50m
+                memory: 64Mi
+              limits:
+                cpu: 200m
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+              seccompProfile:
+                type: RuntimeDefault
+    service:
+      app:
+        controller: *app
+        ports:
+          redis:
+            port: 6379
+          metrics:
+            port: *metricsPort
+
+    persistence:
+      acl:
+        type: secret
+        name: dragonfly-acls
+        globalMounts:
+          - path: /config
+            readOnly: true
+
+      tls:
+        type: secret
+        name: dfguard-server-cert
+        globalMounts:
+          - path: /tls/server
+            readOnly: true
+      client-ca:
+        type: secret
+        name: dfguard-client-ca
+        globalMounts:
+          - path: /tls/client
+            readOnly: true
+
+      dragonfly-cert:
+        type: secret
+        name: dfguard-client-cert
+        globalMounts:
+          - path: /tls/dragonfly
+            readOnly: true
