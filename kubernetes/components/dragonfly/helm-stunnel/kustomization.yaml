@@ -2,6 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
-resources:
-  - ./cluster.yaml
-  - ./podmonitor.yaml
+patches:
+  - target:
+      kind: HelmRelease
+      group: helm.toolkit.fluxcd.io
+      version: v2
+    path: ./patch-helmrelease.yaml

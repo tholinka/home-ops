@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - ./certificate.yaml
+  - ./ks.yaml
+  - ./secret.yaml
+configMapGenerator:
+  - name: dragonfly-stunnel
+    files:
+      - ./stunnel.conf
+    options:
+      disableNameSuffixHash: true

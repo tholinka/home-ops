@@ -34,13 +34,9 @@ spec:
       targetPath: immich.configuration.notifications.smtp.from
       valuesKey: EMAIL_FROM
   values:
-    valkey:
-      enabled: false
-
     global:
       annotations:
         reloader.stakater.com/auto: 'true'
-
     controllers:
       main:
         containers:
@@ -49,9 +45,7 @@ spec:
               # renovate: datasource=github-releases depName=immich-app/immich
               tag: v2.6.1
             env:
-              REDIS_HOSTNAME: dragonfly-cluster.database.svc.cluster.local
-              REDIS_PORT: '6379'
-              REDIS_DBINDEX: '2'
+              REDIS_HOSTNAME: localhost
 
               LOG_LEVEL: verbose
 
@@ -116,6 +110,10 @@ spec:
     server:
       controllers:
         main:
+          pod:
+            securityContext:
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
           containers:
             main:
               resources:
@@ -135,6 +133,9 @@ spec:
     machine-learning:
       controllers:
         main:
+          strategy: Recreate
+          labels:
+            dragonfly.enable.custom/no-stunnel: 'true'
           containers:
             main:
               resources:

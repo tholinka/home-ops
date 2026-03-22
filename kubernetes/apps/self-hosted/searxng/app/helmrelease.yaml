@@ -69,6 +69,8 @@ spec:
         runAsNonRoot: true
         runAsUser: 977
         runAsGroup: 977
+        fsGroup: 977
+        fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:

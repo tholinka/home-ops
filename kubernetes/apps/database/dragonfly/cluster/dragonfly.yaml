@@ -5,6 +5,9 @@ kind: Dragonfly
 metadata:
   name: dragonfly-cluster
 spec:
+  annotations:
+    reloader.stakater.com/auto: 'true'
+
   image: ghcr.io/dragonflydb/dragonfly:v1.37.0@sha256:84b1009aee0b68327758bce8e99ed514f782d713353acc46caf5738feaa481d6
 
   replicas: 2
@@ -50,3 +53,15 @@ spec:
       labelSelector:
         matchLabels:
           app.kubernetes.io/part-of: dragonfly
+
+  aclFromSecret:
+    key: acl.conf
+    name: dragonfly-acls
+
+  authentication:
+    clientCaCertSecret:
+      name: dragonfly-client-ca
+      key: ca.crt
+
+  tlsSecretRef:
+    name: dragonfly-server-cert

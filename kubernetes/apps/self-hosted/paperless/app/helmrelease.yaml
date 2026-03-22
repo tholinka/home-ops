@@ -51,7 +51,11 @@ spec:
               PAPERLESS_OCR_LANGUAGE: eng
 
               # Configure redis integration
-              PAPERLESS_REDIS: redis://dragonfly-cluster.database.svc.cluster.local:6379/1
+              PAPERLESS_REDIS:
+                valueFrom:
+                  secretKeyRef:
+                    name: '{{ .Release.Name }}-dragonfly'
+                    key: url
 
               # Postgres
               PAPERLESS_DBHOST: postgres-cluster-rw.database.svc.cluster.local

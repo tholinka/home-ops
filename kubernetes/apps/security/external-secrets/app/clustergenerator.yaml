@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/generators.external-secrets.io/clustergenerator_v1alpha1.json
+apiVersion: generators.external-secrets.io/v1alpha1
+kind: ClusterGenerator
+metadata:
+  name: pw
+spec:
+  kind: Password
+  generator:
+    passwordSpec:
+      length: 32
+      noUpper: false
+      allowRepeat: false
+      encoding: 'hex'
