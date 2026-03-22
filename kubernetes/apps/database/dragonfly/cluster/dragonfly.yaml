@@ -1,0 +1,52 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/dragonflydb.io/dragonfly_v1alpha1.json
+apiVersion: dragonflydb.io/v1alpha1
+kind: Dragonfly
+metadata:
+  name: dragonfly-cluster
+spec:
+  image: ghcr.io/dragonflydb/dragonfly:v1.37.0@sha256:84b1009aee0b68327758bce8e99ed514f782d713353acc46caf5738feaa481d6
+
+  replicas: 2
+
+  snapshot:
+    cron: '*/5 * * * *'
+    persistentVolumeClaimSpec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+
+  env:
+    - name: MAX_MEMORY
+      valueFrom:
+        resourceFieldRef:
+          resource: limits.memory
+          divisor: 1Mi
+
+  args:
+    - '--bind=::'
+    - '--admin_bind=::'
+    - --maxmemory=$(MAX_MEMORY)Mi
+    - --proactor_threads=2
+    - --cluster_mode=emulated
+    - --dbfilename=persistentState
+    # immich needs this for bullmq, this has some pretty big performance implications though
+    - --default_lua_flags=allow-undeclared-keys
+    # this gets some performance back, however
+    - --lock_on_hashtags
+
+  resources:
+    requests:
+      cpu: 100m
+    limits:
+      memory: 512Mi
+
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/part-of: dragonfly

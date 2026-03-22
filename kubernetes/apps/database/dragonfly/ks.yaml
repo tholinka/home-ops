@@ -37,12 +37,6 @@ spec:
   dependsOn:
     - name: dragonfly-operator
       namespace: *namespace
-  postBuild:
-    substitute:
-      APP: cluster
-      DRAGONFLY_REQUESTS_MEMORY: 256Mi
-  components:
-    - ../../../../components/dragonfly
   healthChecks:
     - apiVersion: &dragonflyVersion dragonflydb.io/v1alpha1
       kind: &dragonflyKind Dragonfly
