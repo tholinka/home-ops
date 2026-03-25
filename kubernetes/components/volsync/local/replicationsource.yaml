@@ -15,10 +15,10 @@ spec:
     cacheStorageClassName: '${VOLSYNC_CACHE_STORAGECLASS:=ceph-block}'
     copyMethod: Snapshot
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:=1000}
-      runAsGroup: ${VOLSYNC_PGID:=1000}
-      fsGroup: ${VOLSYNC_PGID:=1000}
-      fsGroupChangePolicy: ${VOLSYNC_GROUP_CHANGE_POLICY:=Always}
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
     parallelism: 2
     moverVolumes:
       - mountPath: repository

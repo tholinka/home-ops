@@ -18,9 +18,9 @@ spec:
           server: nas.servers.internal
           path: /backups/VolsyncKopia
   podSecurityContext:
-    runAsUser: 0
+    runAsUser: 1000
     runAsGroup: 1000
-    runAsNonRoot: false
+    fsGroup: 1000
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/volsync.backube/kopiamaintenance_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
