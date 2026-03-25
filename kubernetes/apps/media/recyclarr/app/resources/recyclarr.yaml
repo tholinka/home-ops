@@ -92,7 +92,7 @@ radarr:
       type: sqp-uhd
 
     quality_profiles:
-      - trash_id: &sqp 5128baeb2b081b72126bc8482b2a86a0 # [SQP] SQP-1 (1080p)
+      - trash_id: &sqp 5128baeb2b081b72126bc8482b2a86a0 # [SQP] SQP-1 (2160p)
         reset_unmatched_scores:
           enabled: true
       - trash_id: &anime 722b624f9af1e492284c4bc842153a38 # [Anime] Remux-1080p
@@ -125,6 +125,12 @@ radarr:
             score: -200
           - trash_id: *anime
             score: -200
+
+      - trash_ids: # sqp gives this -10k for some reason
+          - a5d148168c4506b55cf53984107c396e # 10bit
+        assign_scores_to:
+          - trash_id: *sqp
+            score: 0
 
       # anime
       - trash_ids:
