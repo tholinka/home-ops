@@ -122,8 +122,11 @@ spec:
               - toEndpoints:
                   - matchLabels:
                       k8s:io.kubernetes.pod.namespace: kube-system
-                      app.kubernetes.io/instance: coredns
-                      app.kubernetes.io/name: coredns
+                      k8s-app: coredns
                 toPorts:
                   - ports:
                       - port: '53'
+                        protocol: ANY
+                    rules:
+                      dns:
+                        - matchPattern: '*'
