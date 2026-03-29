@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: ghcr.io/audionut/upload-assistant
-              tag: v7.1.1@sha256:17a5e029fa1e07a94ef08189a4965ff1a66376e6eab911ae3638bf6887ab4be4
+              tag: v7.1.2@sha256:00fa2eba7613687396afda0361165dd42cdb433c0bcbde19820547048989f766
             args:
               - --webui
               - 0.0.0.0:80
