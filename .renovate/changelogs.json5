@@ -48,5 +48,25 @@
 			],
 			sourceUrl: "https://github.com/atuinsh/atuin",
 		},
+		{
+			description: "Set prompp source",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"mirror.gcr.io/prompp/prompp"
+			],
+			sourceUrl: "https://github.com/deckhouse/prompp"
+		},
+		{
+			description: "Set cnpg postgres source",
+			matchDatasources: [
+				"docker"
+			],
+			matchPackageNames: [
+				"ghcr.io/cloudnative-pg/postgresql"
+			],
+			sourceUrl: "https://github.com/cloudnative-pg/postgres-containers"
+		}
 	],
 }
