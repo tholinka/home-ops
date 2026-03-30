@@ -20,10 +20,8 @@ spec:
         containers:
           app:
             image:
-              # need nightly for slskd plugin support
-              #repository: ghcr.io/home-operations/lidarr
-              repository: ghcr.io/linuxserver/lidarr
-              tag: 3.1.2-nightly@sha256:0fc8d169a0740a77e03ec0e5eaee1ce2db0d882fc0bb8d0a26fd77a8beaad8e9
+              repository: ghcr.io/home-operations/lidarr
+              tag: 3.1.2.4938@sha256:9df1e14c8e09745f23a36c0cc6adcf69665b379aae60e5a7cb9bda27961ef4e7
             env:
               LIDARR__APP__INSTANCENAME: Lidarr
               LIDARR__APP__THEME: dark
@@ -33,14 +31,6 @@ spec:
               LIDARR__LOG__LEVEL: info
               LIDARR__SERVER__PORT: &port 80
               LIDARR__UPDATE__BRANCH: develop
-
-              # just s6-overlay things
-              PUID: 1000
-              GUID: 1000
-              S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: 1
-              S6_READ_ONLY_ROOT: 1
-              LSIO_READ_ONLY_FS: 1
-              LSIO_NON_ROOT_USER: 1
             envFrom:
               - secretRef:
                   name: lidarr
