@@ -55,7 +55,7 @@ spec:
               path: "/spec/template/spec/initContainers/-",
               value: Object.spec.template.spec.initContainers{
                 name: "dragonfly-stunnel",
-                image: "cgr.dev/chainguard/stunnel:latest@sha256:c6cfab8adb6c62ecd94fee193b9352515359a64c2393b5ae8361dace17c3fab7",
+                image: "cgr.dev/chainguard/stunnel:latest@sha256:bd75c58ee97c9139081a177509734b2aa1beaead0afe784d9d74741eb5a44451",
                 args: ["/etc/stunnel/stunnel.conf"],
                 restartPolicy: "Always",
                 volumeMounts: [
