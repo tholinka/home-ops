@@ -8,7 +8,8 @@ metadata:
 spec:
   provider:
     name: github
-  discoveryFilter: tholinka/*
+  discoveryFilters:
+    - tholinka/*
   extraEnv:
     - name: LOG_LEVEL
       value: debug
