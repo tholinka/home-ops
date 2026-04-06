@@ -97,7 +97,7 @@ spec:
           gotenberg:
             image:
               repository: mirror.gcr.io/gotenberg/gotenberg
-              tag: 8.29.1
+              tag: 8.30.1
             ports:
               - containerPort: 3000
             command:
