@@ -44,7 +44,7 @@ spec:
       secret:
         secretName: dragonfly-renovate-operator-jobs-cert
         defaultMode: 288
-  image: ghcr.io/renovatebot/renovate:43.111.3
+  image: ghcr.io/renovatebot/renovate:43.112.0
   parallelism: 5
   resources:
     requests:
