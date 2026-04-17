@@ -10,6 +10,6 @@ spec:
     - client auth
   commonName: ${DATABASE_OWNER:=${APP}}
   issuerRef:
-    name: postgres-cluster-client-ca-issuer
+    name: postgres-cluster-client-ca
     kind: ClusterIssuer
     group: cert-manager.io

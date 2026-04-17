@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name postgres-cluster-server-ca
+spec:
+  isCA: true
+  commonName: postgres-cluster-ca
+  secretName: *name
+  subject:
+    countries:
+      - US
+    organizations:
+      - homelab-cluster
+    organizationalUnits:
+      - postgres
+  usages:
+    - cert sign
+    - crl sign
+  nameConstraints:
+    critical: true
+    permitted:
+      dnsDomains:
+        - .postgres-cluster.svc.cluster.local
+        - .postgres-cluster.svc
+        - postgres-cluster-rw
+        - postgres-cluster-rw.database
+        - postgres-cluster-rw.database.svc
+        - postgres-cluster-rw.database.svc.cluster.local
+        - postgres-cluster-r
+        - postgres-cluster-r.database
+        - postgres-cluster-r.database.svc
+        - postgres-cluster-r.database.svc.cluster.local
+        - postgres-cluster-ro
+        - postgres-cluster-ro.database
+        - postgres-cluster-ro.database.svc
+        - postgres-cluster-ro.database.svc.cluster.local
+  duration: 8766h # 1 year
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Always
+  issuerRef:
+    name: cluster-signed-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/issuer_v1.json
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: &name postgres-cluster-server-ca
+spec:
+  ca:
+    secretName: *name

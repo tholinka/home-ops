@@ -1,47 +1,11 @@
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
-# base of CNPG Issuer for CNPG usage
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: postgres-cluster-ca
+  name: &name postgres-cluster-server-cert
 spec:
-  isCA: true
-  commonName: postgres-cluster-ca
-  secretName: postgres-cluster-ca-secret
-  secretTemplate:
-    labels:
-      cnpg.io/reload: ''
-  privateKey:
-    algorithm: ECDSA
-    size: 256
-  issuerRef:
-    name: cluster-signed-issuer
-    kind: ClusterIssuer
-    group: cert-manager.io
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/issuer_v1.json
-# used by CNPG itself
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: postgres-cluster-ca-issuer
-spec:
-  ca:
-    secretName: postgres-cluster-ca-secret
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: postgres-cluster-server-cert
-spec:
-  secretName: postgres-cluster-server-cert
-  secretTemplate:
-    labels:
-      cnpg.io/reload: ''
-  usages:
-    - server auth
+  secretName: *name
   dnsNames:
     - postgres-cluster-rw
     - postgres-cluster-rw.database
@@ -55,8 +19,24 @@ spec:
     - postgres-cluster-ro.database
     - postgres-cluster-ro.database.svc
     - postgres-cluster-ro.database.svc.cluster.local
+  subject:
+    countries:
+      - US
+    organizations:
+      - homelab-cluster
+  usages:
+    - server auth
+  duration: 720h # 1 month
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Always
+  secretTemplate:
+    labels:
+      cnpg.io/reload: ''
   issuerRef:
-    name: postgres-cluster-ca-issuer
+    name: postgres-cluster-server-ca
     kind: Issuer
     group: cert-manager.io
 ---
@@ -64,9 +44,9 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: postgres-cluster-client-cert
+  name: &name postgres-cluster-client-cert
 spec:
-  secretName: postgres-cluster-client-cert
+  secretName: *name
   secretTemplate:
     labels:
       cnpg.io/reload: ''
@@ -74,6 +54,6 @@ spec:
     - client auth
   commonName: streaming_replica
   issuerRef:
-    name: postgres-cluster-client-ca-issuer
+    name: postgres-cluster-client-ca
     kind: ClusterIssuer
     group: cert-manager.io

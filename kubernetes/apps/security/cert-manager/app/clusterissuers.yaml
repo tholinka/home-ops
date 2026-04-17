@@ -62,11 +62,11 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: postgres-cluster-client-ca
+  name: &name postgres-cluster-client-ca
 spec:
   isCA: true
   commonName: Postgres Authentication Certificate Authority
-  secretName: postgres-cluster-client-ca-secret
+  secretName: *name
   subject:
     countries:
       - US
@@ -102,10 +102,10 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: postgres-cluster-client-ca-issuer
+  name: &name postgres-cluster-client-ca
 spec:
   ca:
-    secretName: postgres-cluster-client-ca-secret
+    secretName: *name
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
