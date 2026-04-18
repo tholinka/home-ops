@@ -13,5 +13,9 @@
 			"./kubeconfig"
 		]
 	},
-	"yaml.format.singleQuote": true
+	"prettier.singleQuote": true,
+	"prettier.useTabs": true,
+	"[yaml]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
 }

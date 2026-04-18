@@ -14,3 +14,4 @@ indent_style = tab
 [*.{md,yml,yaml,toml,md.j2,yml.j2,yaml.j2,toml.j2}]
 indent_style = space
 indent_size = 2
+quote_type = single

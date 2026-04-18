@@ -6,5 +6,6 @@
 		"blueglassblock.better-json5",
 		"yzhang.markdown-all-in-one",
 		"redhat.vscode-yaml",
+		"esbenp.prettier-vscode"
 	]
 }
