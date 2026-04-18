@@ -22,8 +22,6 @@ spec:
     critical: true
     permitted:
       dnsDomains:
-        - .postgres-cluster.svc.cluster.local
-        - .postgres-cluster.svc
         - postgres-cluster-rw
         - postgres-cluster-rw.database
         - postgres-cluster-rw.database.svc
