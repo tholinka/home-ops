@@ -107,6 +107,19 @@ tasks:
     preconditions:
       - which jq talosctl
 
+  upgrade-cluster:
+    desc: Upgrade Talos across the whole cluster
+    cmds:
+      - for: { var: IP_ADDRS }
+        task: upgrade-node
+        vars:
+          IP: '{{.ITEM}}'
+    vars:
+      IP_ADDRS:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    preconditions:
+      - which jq talosctl
+
   reboot-cluster:
     desc: Reboot Talos on a single node [IP=required] [MODE=default]
     cmds:

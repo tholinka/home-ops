@@ -35,14 +35,13 @@ nodes:
       useUKI: true
     schematic: &x64schematic
       customization:
-        extraKernelArgs:
-          - intel_iommu=on # PCI Passthrough
-          - iommu=pt # PCI Passthrough
+        # extraKernelArgs:
+        #   - intel_iommu=on # PCI Passthrough
+        #   - iommu=pt # PCI Passthrough
         systemExtensions:
           officialExtensions:
             - siderolabs/i915
             - siderolabs/intel-ucode
-            - siderolabs/mei
             - siderolabs/nut-client
     controlPlane: false
     extensionServices: &extensionServices
