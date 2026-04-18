@@ -1,0 +1,91 @@
+{
+	$schema: "https://docs.renovatebot.com/renovate-schema.json",
+	customDatasources: {
+		"grafana-dashboards": {
+			defaultRegistryUrlTemplate: "https://grafana.com/api/dashboards/{{packageName}}",
+			format: "json",
+			transformTemplates: [
+				'{"releases":[{"version": $string(revision)}], "sourceDirectory": $string(name)}',
+			],
+		},
+		"grafana-plugins": {
+			defaultRegistryUrlTemplate: "https://grafana.com/api/plugins/{{packageName}}",
+			format: "json",
+			transformTemplates: [
+				// overcomplicated only because m00nwtchr insisted on actually translating the schema lol
+				'{"releases":[$merge([{"version":$string(version),"releaseTimestamp":updatedAt,"sourceUrl":repositoryUrl ? repositoryUrl : url},$exists(packages.any.sha256) ? {"digest":packages.any.sha256} : {}])],"sourceUrl":repositoryUrl ? repositoryUrl : url}',
+			],
+		},
+	},
+	customManagers: [
+		{
+			description: "Process Grafana dashboards",
+			customType: "regex",
+			managerFilePatterns: [
+				"/grafanadashboard\\.yaml(?:\\.j2)?$/",
+			],
+			matchStrings: [
+				"dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download",
+			],
+			datasourceTemplate: "custom.grafana-dashboards",
+			versioningTemplate: "regex:^(?<major>\\d+)$",
+		},
+		{
+			description: "Process Grafana plugins",
+			customType: "regex",
+			managerFilePatterns: [
+				"/grafanadashboard\\.yaml(?:\\.j2)?$/",
+				"/grafanadatasource\\.yaml(?:\\.j2)?$/",
+			],
+			matchStrings: [
+				"-\\s*name:\\s*(?<depName>[^\\s]+)\\s*\\n\\s*version:\\s*(?<currentValue>[^\\s]+)",
+			],
+			datasourceTemplate: "custom.grafana-plugins",
+			versioningTemplate: "semver-coerced",
+		},
+	],
+	packageRules: [
+		{
+			addLabels: [
+				"renovate/grafana-dashboard"
+			],
+			automerge: true,
+			automergeType: "branch",
+			commitMessageExtra: "({{currentVersion}} → {{newVersion}})",
+			commitMessageTopic: "dashboard {{sourceDirectory}}",
+			ignoreTests: true,
+			matchDatasources: [
+				"custom.grafana-dashboards"
+			],
+			matchUpdateTypes: [
+				"major"
+			],
+			semanticCommitScope: "grafana-dashboards",
+			semanticCommitType: "chore",
+		},
+		{
+			addLabels: [
+				"renovate/grafana-plugin"
+			],
+			commitMessageExtra: "({{currentVersion}} → {{newVersion}})",
+			commitMessageTopic: "plugin {{packageName}}",
+			matchDatasources: [
+				"custom.grafana-plugins"
+			],
+			semanticCommitScope: "grafana-plugins",
+			semanticCommitType: "chore",
+		},
+		{
+			automerge: true,
+			automergeType: "branch",
+			ignoreTests: true,
+			matchDatasources: [
+				"custom.grafana-plugins"
+			],
+			matchUpdateTypes: [
+				"minor",
+				"patch"
+			],
+		},
+	],
+}
