@@ -26,9 +26,19 @@ spec:
                         configMap:
                           name: dragonfly-stunnel
                       - name: dragonfly-certs
-                        secret:
-                          secretName: dragonfly-${APP}-cert
-                          defaultMode: 0440
+                        csi:
+                          driver: csi.cert-manager.io
+                          readOnly: true
+                          volumeAttributes:
+                            csi.cert-manager.io/issuer-name: dfguard-client-ca
+                            csi.cert-manager.io/issuer-kind: ClusterIssuer
+                            csi.cert-manager.io/key-algorithm: ECDSA
+                            csi.cert-manager.io/key-size: "384"
+                            csi.cert-manager.io/key-encoding: PKCS8
+                            csi.cert-manager.io/key-usages: client auth
+                            csi.cert-manager.io/common-name: ${DATABASE_OWNER:=${APP}}
+                            csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}
+
 
                     initContainers:
                       - name: dragonfly-stunnel
@@ -76,9 +86,18 @@ spec:
                         configMap:
                           name: dragonfly-stunnel
                       - name: dragonfly-certs
-                        secret:
-                          secretName: dragonfly-${APP}-cert
-                          defaultMode: 0440
+                        csi:
+                          driver: csi.cert-manager.io
+                          readOnly: true
+                          volumeAttributes:
+                            csi.cert-manager.io/issuer-name: dfguard-client-ca
+                            csi.cert-manager.io/issuer-kind: ClusterIssuer
+                            csi.cert-manager.io/key-algorithm: ECDSA
+                            csi.cert-manager.io/key-size: "384"
+                            csi.cert-manager.io/key-encoding: PKCS8
+                            csi.cert-manager.io/key-usages: client auth
+                            csi.cert-manager.io/common-name: ${DATABASE_OWNER:=${APP}}
+                            csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}
 
                     initContainers:
                       - name: dragonfly-stunnel
