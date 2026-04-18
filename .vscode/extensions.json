@@ -1,11 +1,15 @@
 {
 	"recommendations": [
-		"fcrespo82.markdown-table-formatter",
-		"irongeek.vscode-env",
 		"EditorConfig.editorconfig",
 		"blueglassblock.better-json5",
 		"yzhang.markdown-all-in-one",
+		"DavidAnson.vscode-markdownlint",
 		"redhat.vscode-yaml",
-		"esbenp.prettier-vscode"
+		"esbenp.prettier-vscode",
+		"bierner.markdown-mermaid",
+		"samuelcolvin.jinjahtml",
+		"mads-hartmann.bash-ide-vscode",
+		"timonwong.shellcheck",
+		"streetsidesoftware.code-spell-checker"
 	]
 }
