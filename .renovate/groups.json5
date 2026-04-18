@@ -127,7 +127,7 @@
 			}
 		},
 		{
-			description: "Ignore back upload assistant version",
+			description: "Ignore bad upload assistant version",
 			groupName: "Upload Assistant",
 			matchDatasources: [
 				"docker"
