@@ -40,9 +40,18 @@ spec:
           mountPath: /var/run/secrets/postgresql
       volumes:
         - name: postgres-certs
-          secret:
-            defaultMode: 0440
-            secretName: postgres-authentik-cert
+          csi:
+            driver: csi.cert-manager.io
+            readOnly: true
+            volumeAttributes:
+              csi.cert-manager.io/issuer-name: postgres-cluster-client-ca
+              csi.cert-manager.io/issuer-kind: ClusterIssuer
+              csi.cert-manager.io/key-algorithm: ECDSA
+              csi.cert-manager.io/key-size: '384'
+              csi.cert-manager.io/key-encoding: PKCS8
+              csi.cert-manager.io/key-usages: client auth
+              csi.cert-manager.io/common-name: ${DATABASE_OWNER:=${APP}}
+              csi.cert-manager.io/dns-names: $${POD_NAME}.$${POD_NAMESPACE}.svc.cluster.local
     authentik:
       postgresql:
         host: postgres-cluster-rw.database.svc.cluster.local
