@@ -42,6 +42,9 @@ spec:
         existingSecret: *name
         secretKey: RENOVATE_OPERATOR_CLIENT_SECRET
         sessionSecretKey: RENOVATE_OPERATOR_SESSION_SECRET
+    valkey:
+      existingSecret: renovate-operator-jobs-dragonfly
+      existingSecretKey: url
   valuesFrom:
     - targetPath: auth.oidc.clientId
       kind: Secret
