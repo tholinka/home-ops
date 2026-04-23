@@ -11,7 +11,7 @@ spec:
     name: *app
   values:
     remoteWrite:
-      - url: http://victoria-logs-server.observability.svc.cluster.local:9428
+      - url: http://victoria-logs-server.{{ .Release.Namespace }}.svc.cluster.local:9428
     image:
       registry: mirror.gcr.io
     resources:
@@ -19,5 +19,8 @@ spec:
         cpu: 100m
         memory: 128Mi
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 10m
+        memory: 64Mi
+    podMonitor:
+      enabled: true
+      vm: false # set to true to use VMPodScrape instead of PodMonitor
