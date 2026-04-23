@@ -1,0 +1,9 @@
+---
+nameReference:
+  - kind: ConfigMap
+    version: v1
+    fieldSpecs:
+      - path: &path spec/kopia/policyConfig/configMapName
+        kind: ReplicationSource
+      - path: *path
+        kind: ReplicationDestination

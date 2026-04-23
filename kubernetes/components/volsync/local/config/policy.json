@@ -1,0 +1,12 @@
+{
+	"compression": {
+		"compressorName": "zstd-fastest"
+	},
+	"metadataCompression": {
+		"compressorName": "zstd-fastest"
+	},
+	"upload": {
+		"maxParallelSnapshots": 8,
+		"maxParallelFileReads": 100
+	}
+}

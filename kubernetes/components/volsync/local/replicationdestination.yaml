@@ -32,6 +32,5 @@ spec:
       sourceName: ${APP}
     storageClassName: '${VOLSYNC_STORAGECLASS:=ceph-block}'
     volumeSnapshotClassName: '${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}'
-    # additionalArgs:
-    #   - --parallel=100
-    #   - --write-sparse-files
+    policyConfig:
+      configMapName: 'volsync-kopia-${APP}-policy'

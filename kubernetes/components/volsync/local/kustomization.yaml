@@ -6,3 +6,10 @@ resources:
   - ./externalsecret.yaml
   - ./replicationsource.yaml
   - ./replicationdestination.yaml
+configMapGenerator:
+  - name: volsync-kopia-${APP}-policy
+    files:
+      - global-policy.json=./config/policy.json
+      - repository.config=./config/policy.json
+configurations:
+  - ./config/kustomizeconfig.yaml
