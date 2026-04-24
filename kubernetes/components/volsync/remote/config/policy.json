@@ -6,7 +6,7 @@
 		"compressorName": "zstd-best-compression"
 	},
 	"upload": {
-		"maxParallelSnapshots": 8,
-		"maxParallelFileReads": 100
+		"maxParallelSnapshots": 4,
+		"maxParallelFileReads": 8
 	}
 }
