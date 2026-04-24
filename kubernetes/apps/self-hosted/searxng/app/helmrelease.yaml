@@ -24,7 +24,7 @@ spec:
             image:
               repository: ghcr.io/searxng/searxng
               # very annoying version scheme, so we'll just use the latest tag + pin digest
-              tag: latest@sha256:37c616a774b90fb5df9239eb143f1b11866ddf7b830cd1ebcca6ba11b38cc2bf
+              tag: latest@sha256:c9100c29c14a77d5289263a671580226c3b8a396a1a0130d2f500f57076a0119
             command: [/usr/local/searxng/.venv/bin/granian, searx.webapp:app]
             env:
               SEARXNG_BASE_URL: https://search.tholinka.dev
