@@ -36,7 +36,7 @@ spec:
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 3
+                  failureThreshold: 10 # when loading history, it hard freezes the app for a while
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
