@@ -87,7 +87,7 @@ tasks:
       IP_ADDRS:
         sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(",")'
     preconditions:
-      - talosctl --nodes {{.NODES}} get machineconfig
+      - talosctl get machineconfig
       - talosctl config info
       - test -f {{.ROOT_DIR}}/talos/clusterconfig/talosconfig
       - which jq talosctl

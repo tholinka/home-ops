@@ -1,14 +1,14 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/mutatingadmissionpolicybinding-admissionregistration-v1beta1.json
-apiVersion: admissionregistration.k8s.io/v1beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/mutatingadmissionpolicybinding-admissionregistration-v1.json
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingAdmissionPolicyBinding
 metadata:
   name: renovate-job-stunnel
 spec:
   policyName: renovate-job-stunnel
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/mutatingadmissionpolicy-admissionregistration-v1beta1.json
-apiVersion: admissionregistration.k8s.io/v1beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/mutatingadmissionpolicy-admissionregistration-v1.json
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingAdmissionPolicy
 metadata:
   name: renovate-job-stunnel
