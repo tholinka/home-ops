@@ -8,10 +8,13 @@ metadata:
 spec:
   interval: 1h
   components:
+    - ../../../../components/volsync
     - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: keda
       namespace: observability
+    - name: storage-ready
+      namespace: flux-system
   path: ./kubernetes/apps/media/shelfmark/app
   postBuild:
     substitute:

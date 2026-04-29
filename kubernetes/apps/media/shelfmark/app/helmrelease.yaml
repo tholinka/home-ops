@@ -129,16 +129,22 @@ spec:
 
     persistence:
       config:
+        existingClaim: *app
+        advancedMounts:
+          *app :
+            app:
+              - path: /config
+
+      downloads:
+        forceRename: '{{ .Release.Name }}-downloads'
         storageClass: ceph-block
         accessMode: ReadWriteOnce
         size: 2Gi
         advancedMounts:
           *app :
             app:
-              - path: /config
-                subPath: config
               - path: /app/downloaded_files
-                subPath: download
+
       tmpfs:
         type: emptyDir
         advancedMounts:
