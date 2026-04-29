@@ -29,6 +29,7 @@ spec:
               - secretRef:
                   name: *app
             args:
+              - --refresh-interval=5m
               - --without-password
             probes:
               liveness: &probes
