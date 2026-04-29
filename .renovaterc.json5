@@ -7,6 +7,9 @@
 		'github>tholinka/home-ops//.renovate/grafana.json5',
 		'github>tholinka/home-ops//.renovate/groups.json5',
 	],
+	registryAliases: {
+		"mirror.gcr.io": "docker.io",
+	},
 	ignorePaths: [
 		'**/*.sops.*',
 		'**/resources/**',
