@@ -9,10 +9,8 @@ spec:
   interval: 1h
   components:
     - ../../../../components/volsync
-    - ../../../../components/keda/nfs-scaler
+    - ../../../../components/scaler/nfs
   dependsOn:
-    - name: keda
-      namespace: observability
     - name: storage-ready
       namespace: flux-system
   path: ./kubernetes/apps/media/plex/app

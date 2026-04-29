@@ -2,5 +2,14 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
-resources:
-  - ./securitypolicy.yaml
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/targetRefs/-
+        value:
+          group: ${EXT_AUTH_GROUP_2:-gateway.networking.k8s.io}
+          kind: ${EXT_AUTH_KIND_2:-HTTPRoute}
+          name: ${EXT_AUTH_TARGET_2:-${APP}}
+    target:
+      group: gateway.envoyproxy.io
+      kind: SecurityPolicy

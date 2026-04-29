@@ -7,9 +7,6 @@ metadata:
   namespace: &namespace system
 spec:
   interval: 1h
-  dependsOn:
-    - name: keda
-      namespace: observability
   path: ./kubernetes/apps/system/volsync/app
   prune: true
   sourceRef:
@@ -28,12 +25,9 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/keda/nfs-scaler
+    - ../../../../components/scaler/nfs
     - ../../../../components/ext-auth
     - ../../../../components/ext-auth/two
-  dependsOn:
-    - name: keda
-      namespace: observability
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease

@@ -8,11 +8,9 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/keda/nfs-scaler
+    - ../../../../components/scaler/nfs
     - ../../../../components/ext-auth
   dependsOn:
-    - name: keda
-      namespace: observability
     - name: storage-ready
       namespace: flux-system
   path: ./kubernetes/apps/media/slskd/app

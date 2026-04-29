@@ -9,7 +9,7 @@ spec:
   interval: 1h
   components:
     - ../../../../components/volsync
-    - ../../../../components/keda/nfs-scaler
+    - ../../../../components/scaler/nfs
     - ../../../../components/ext-auth
   dependsOn:
     - name: storage-ready

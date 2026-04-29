@@ -19,9 +19,6 @@ spec:
       # NOTE: Enable the driver and shapshotter if you want to use CephFS
       enableCephfsDriver: false
       enableCephfsSnapshotter: false
-      enableLiveness: true
-      serviceMonitor:
-        enabled: true
       csiRBDProvisionerResource: |
         - name : csi-rbdplugin
           resource:
@@ -81,6 +78,8 @@ spec:
               cpu: 50m # default
             limits:
               memory: 256Mi # default
+    image:
+      repository: ghcr.io/rook/ceph
     monitoring:
       enabled: true
     resources:

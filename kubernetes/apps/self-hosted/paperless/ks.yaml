@@ -9,12 +9,10 @@ spec:
   interval: 1h
   components:
     - ../../../../components/volsync
-    - ../../../../components/keda/nfs-scaler
+    - ../../../../components/scaler/nfs
     - ../../../../components/cnpg/app
     - ../../../../components/dragonfly/app-template
   dependsOn:
-    - name: keda
-      namespace: observability
     - name: storage-ready
       namespace: flux-system
     - name: dragonfly-cluster

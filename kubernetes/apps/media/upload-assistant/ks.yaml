@@ -8,10 +8,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/keda/nfs-scaler
-  dependsOn:
-    - name: keda
-      namespace: observability
+    - ../../../../components/scaler/nfs
   path: ./kubernetes/apps/media/upload-assistant/app
   postBuild:
     substitute:

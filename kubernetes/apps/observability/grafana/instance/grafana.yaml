@@ -5,7 +5,7 @@ kind: Grafana
 metadata:
   name: grafana
   labels:
-    grafana.internal/instance: grafana
+    dashboards: grafana
 spec:
   config:
     analytics:
@@ -102,10 +102,6 @@ spec:
       parentRefs:
         - name: envoy-internal
           namespace: network
-      rules:
-        - backendRefs:
-            - name: grafana-service
-              port: 3000
   persistentVolumeClaim:
     spec:
       accessModes:

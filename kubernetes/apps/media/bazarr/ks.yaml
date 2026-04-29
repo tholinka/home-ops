@@ -10,10 +10,8 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
-    - ../../../../components/keda/nfs-scaler
+    - ../../../../components/scaler/nfs
   dependsOn:
-    - name: keda
-      namespace: observability
     - name: storage-ready
       namespace: flux-system
   path: ./kubernetes/apps/media/bazarr/app

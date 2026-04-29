@@ -29,7 +29,7 @@ kubernetes/
 │   ├── ext-auth/                    # Authentik external auth SecurityPolicy
 │   ├── cnpg/{app,app-template}      # CloudNativePG database provisioning
 │   ├── dragonfly/                   # Dragonfly (Redis alternative) — see its README for type selection
-│   └── keda/                        # KEDA scaler variants (nfs-scaler, nfs-cpu-scaler, prometheus-scaler)
+│   └── scaler/                      # HPA scale to zero variants (scales to zero if required service is missing) (nfs, metrics)
 talos/
 ├── talconfig.yaml                   # Single source of truth — talhelper generates clusterconfig/ from this
 ├── talsecret.yaml                   # Encrypted secrets
@@ -156,7 +156,7 @@ Each category directory maps to a namespace. The `common` component auto-creates
 | `kube-system`           | Cilium, CoreDNS, metrics-server                                  |
 | `media`                 | Plex, \*arr stack, qBittorrent, SABnzbd, etc.                    |
 | `network`               | Pihole, Cloudflare Tunnel, dnscrypt-proxy, Envoy Gateway, Multus |
-| `observability`         | Prometheus stack, Grafana, Victoria Logs, KEDA, Gatus            |
+| `observability`         | Victoria Metrics stack, Grafana, Victoria Logs, Gatus            |
 | `openebs-system`        | OpenEBS storage                                                  |
 | `renovate`              | Dependency update automation                                     |
 | `rook-ceph`             | Rook/Ceph distributed storage                                    |
@@ -174,15 +174,15 @@ When adding a new app, choose the namespace that best matches its purpose. Revie
 
 All components are Kustomize Components (`kind: Component`). They are referenced either from category-level `kustomization.yaml` or from app-level `ks.yaml` depending on scope.
 
-| Component                         | Referenced from               | Purpose                                                                        |
-| --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------ |
-| `common`                          | Category `kustomization.yaml` | Creates namespace, common alerts, substitution ExternalSecret                  |
-| `repos/app-template`              | Category `kustomization.yaml` | Provides the `app-template` OCIRepository                                      |
-| `volsync`                         | App `ks.yaml`                 | PVC backup/restore via VolSync                                                 |
-| `ext-auth`                        | App `ks.yaml`                 | Authentik proxy auth SecurityPolicy                                            |
-| `cnpg/app` or `cnpg/app-template` | App `ks.yaml`                 | PostgreSQL database provisioning                                               |
-| `dragonfly/*`                     | App `ks.yaml`                 | Dragonfly instance (see `components/dragonfly/readme.md` for type selection)   |
-| `keda/*`                          | App `ks.yaml`                 | KEDA autoscaler variants (`nfs-scaler`, `nfs-cpu-scaler`, `prometheus-scaler`) |
+| Component                         | Referenced from               | Purpose                                                                      |
+| --------------------------------- | ----------------------------- | ---------------------------------------------------------------------------- |
+| `common`                          | Category `kustomization.yaml` | Creates namespace, common alerts, substitution ExternalSecret                |
+| `repos/app-template`              | Category `kustomization.yaml` | Provides the `app-template` OCIRepository                                    |
+| `volsync`                         | App `ks.yaml`                 | PVC backup/restore via VolSync                                               |
+| `ext-auth`                        | App `ks.yaml`                 | Authentik proxy auth SecurityPolicy                                          |
+| `cnpg/app` or `cnpg/app-template` | App `ks.yaml`                 | PostgreSQL database provisioning                                             |
+| `dragonfly/*`                     | App `ks.yaml`                 | Dragonfly instance (see `components/dragonfly/readme.md` for type selection) |
+| `scaler/*`                        | App `ks.yaml`                 | HPA Scale to zero variants (`nfs`, `metrics`)                                |
 
 ---
 
@@ -226,7 +226,7 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 
 ### Monitoring
 
-- **PrometheusRule** for alerts; **KEDA** for autoscaling
+- **PrometheusRule** for alerts; **HorizontalPodAutoscaler** for autoscaling
 
 ### Certificates
 
@@ -314,7 +314,7 @@ Verify schema URLs resolve before using them.
 
 - Look at existing apps in the same category for patterns
 - `kubernetes/apps/self-hosted/homepage/` is a good simple reference
-- `kubernetes/apps/self-hosted/paperless/` shows a complex app (volsync + cnpg + dragonfly + keda)
+- `kubernetes/apps/self-hosted/paperless/` shows a complex app (volsync + cnpg + dragonfly + HPA scale to zero)
 - `kubernetes/apps/database/cnpg/ks.yaml` shows multi-document ks.yaml pattern
 - Review `kubernetes/flux/cluster/ks.yaml` to understand auto-patching
 - Check component READMEs (`components/dragonfly/readme.md`, `components/ext-auth/readme.md`)

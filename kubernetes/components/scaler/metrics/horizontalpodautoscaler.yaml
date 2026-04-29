@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/horizontalpodautoscaler-autoscaling-v2.json
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ${SCALER_SILENT:=silent-}${APP}
+spec:
+  minReplicas: ${SCALER_MIN_REPLICAS:=0}
+  maxReplicas: ${SCALER_MAX_REPLICAS:=1}
+  scaleTargetRef:
+    apiVersion: ${SCALER_API_VERSION:=apps/v1}
+    kind: ${SCALER_TYPE:=Deployment}
+    name: ${SCALER_NAME:=${APP}}
+  metrics:
+    - type: External
+      external:
+        metric:
+          name: ${SCALER_METRIC_NAME:=probe_success}
+          # patch in selector
+          # selector:
+          #   matchLabels:
+          #     instance: ${SCALER_INSTANCE:="nas.servers.internal:2049"}
+        target:
+          type: Value
+          value: '${SCALER_VALUE:=1}'
+  behavior:
+    scaleDown:
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 15
+      selectPolicy: Max
+      stabilizationWindowSeconds: 0
+    scaleUp:
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 15
+      selectPolicy: Max
+      stabilizationWindowSeconds: 0

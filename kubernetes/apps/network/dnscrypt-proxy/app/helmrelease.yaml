@@ -121,14 +121,15 @@ spec:
           gethomepage.dev/name: Dnscrypt Proxy
           gethomepage.dev/icon: azure-dns.svg
 
-    serviceMonitor:
-      app:
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
+    # victoria can't consume: cannot unmarshal tags: missing comma after tag
+    # serviceMonitor:
+    #   app:
+    #     endpoints:
+    #       - port: http
+    #         scheme: http
+    #         path: /metrics
+    #         interval: 1m
+    #         scrapeTimeout: 10s
 
     persistence:
       tmpfs:

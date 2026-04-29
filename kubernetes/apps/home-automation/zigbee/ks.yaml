@@ -10,10 +10,8 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
-    - ../../../../components/keda/prometheus-scaler
+    - ../../../../components/scaler/metrics
   dependsOn:
-    - name: keda
-      namespace: observability
     - name: storage-ready
       namespace: flux-system
   path: ./kubernetes/apps/home-automation/zigbee/app
@@ -21,8 +19,8 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
-      SCALER_QUERY: max_over_time(probe_success{instance=~"zigbee.iot.internal"}[1m])
-      SCALER_SILENT: silent-
+      SCALER_METRIC_NAME: probe_success
+      SCALER_INSTANCE: zigbee.iot.internal
   prune: true
   sourceRef:
     kind: GitRepository

@@ -11,16 +11,25 @@ spec:
     name: *app
   values:
     fullnameOverride: *app
+    global:
+      image:
+        registry: quay.io
     server:
       persistentVolume:
         enabled: true
         storageClassName: ceph-block
-        size: 20Gi
-      retentionPeriod: 14d
+        size: 50Gi
+      retentionPeriod: 90d
       route:
         enabled: true
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Observability
+          gethomepage.dev/name: Victoria Logs
+          gethomepage.dev/icon: victorialogs.svg
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=victoria-logs-single
         hostnames:
-          - victoria-logs.tholinka.dev
+          - logs.tholinka.dev
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -40,3 +49,5 @@ spec:
         enabled: true
     dashboards:
       enabled: true
+      grafanaOperator:
+        enabled: true

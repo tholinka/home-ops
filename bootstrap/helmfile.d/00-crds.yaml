@@ -30,12 +30,7 @@ releases:
     chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
     version: 5.22.2
 
-  - name: keda
+  - name: prometheus-operator-crds
     namespace: observability
-    chart: oci://ghcr.io/home-operations/charts-mirror/keda
-    version: 2.19.0
-
-  - name: kube-prometheus-stack
-    namespace: observability
-    chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
-    version: 84.1.0
+    chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
+    version: 28.0.1

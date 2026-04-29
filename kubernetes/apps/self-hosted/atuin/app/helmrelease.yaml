@@ -121,7 +121,8 @@ spec:
               - fromEndpoints:
                   - matchLabels:
                       k8s:io.kubernetes.pod.namespace: observability
-                      prometheus: kube-prometheus-stack
+                      app.kubernetes.io/name: vmagent
+                      app.kubernetes.io/instance: victoria-metrics-cluster
                 toPorts:
                   - ports:
                       - port: '8081'

@@ -9,19 +9,27 @@ spec:
   interval: 1h
   targetNamespace: *namespace
   components:
-    - ../../../../components/keda/prometheus-scaler
+    - ../../../../components/scaler/metrics
   dependsOn:
-    - name: keda
-      namespace: observability
     - name: pihole
   path: ./kubernetes/apps/network/pihole-external-dns/app
   prune: true
   postBuild:
     substitute:
       APP: *app
-      SCALER_QUERY: kube_statefulset_status_replicas_ready{statefulset="pihole"}
-      SCALER_SILENT: silent-
+      SCALER_METRIC_NAME: kube_statefulset_status_replicas_ready
+      SCALER_VALUE: '3'
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  patches:
+    - patch: |-
+        - op: add
+          path: /spec/metrics/0/external/metric/selector
+          value:
+            matchLabels:
+              statefulset: pihole
+      target:
+        group: autoscaling
+        kind: HorizontalPodAutoscaler

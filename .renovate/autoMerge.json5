@@ -29,7 +29,6 @@
 				"patch",
 			],
 			matchPackageNames: [
-				"/kube-prometheus-stack/",
 				"ghcr.io/renovatebot/renovate"
 			],
 			ignoreTests: false,

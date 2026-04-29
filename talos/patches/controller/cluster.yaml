@@ -37,3 +37,4 @@ cluster:
   apiServer:
     extraArgs:
       enable-aggregator-routing: true
+      feature-gates: HPAScaleToZero=true

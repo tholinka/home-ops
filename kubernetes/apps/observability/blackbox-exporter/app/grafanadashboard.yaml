@@ -8,8 +8,8 @@ spec:
   allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
-      grafana.internal/instance: grafana
+      dashboards: grafana
   datasources:
-    - datasourceName: prometheus
-      inputName: DS_PROMETHEUS
+    - datasourceName: VictoriaMetrics
+      inputName: DS_SIGNCL-PROMETHEUS
   url: https://grafana.com/api/dashboards/7587/revisions/3/download
