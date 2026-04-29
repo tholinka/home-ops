@@ -10,5 +10,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.14.1
+    tag: 0.14.1@sha256:01e467a50fdceeb54f981d1eaff327e4f8aa1c652bc326e5de7c6f1f69626690
   url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
