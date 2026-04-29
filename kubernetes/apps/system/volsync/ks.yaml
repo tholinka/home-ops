@@ -25,7 +25,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/scaler/nfs
+    - ../../../../components/scaler/instance
     - ../../../../components/ext-auth
     - ../../../../components/ext-auth/two
   healthChecks:

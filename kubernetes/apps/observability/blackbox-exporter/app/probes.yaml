@@ -36,3 +36,7 @@ spec:
     staticConfig:
       static:
         - nas.servers.internal:2049
+  metricRelabelings:
+    - targetLabel: instance
+      replacement: nas.servers.internal # HPA external can't handle :'s in a label
+      action: replace

@@ -29,7 +29,7 @@ kubernetes/
 │   ├── ext-auth/                    # Authentik external auth SecurityPolicy
 │   ├── cnpg/{app,app-template}      # CloudNativePG database provisioning
 │   ├── dragonfly/                   # Dragonfly (Redis alternative) — see its README for type selection
-│   └── scaler/                      # HPA scale to zero variants (scales to zero if required service is missing) (nfs, metrics)
+│   └── scaler/                      # HPA scale to zero variants (scales to zero if required service is missing) (instance, metrics, statefulset)
 talos/
 ├── talconfig.yaml                   # Single source of truth — talhelper generates clusterconfig/ from this
 ├── talsecret.yaml                   # Encrypted secrets
@@ -182,7 +182,7 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 | `ext-auth`                        | App `ks.yaml`                 | Authentik proxy auth SecurityPolicy                                          |
 | `cnpg/app` or `cnpg/app-template` | App `ks.yaml`                 | PostgreSQL database provisioning                                             |
 | `dragonfly/*`                     | App `ks.yaml`                 | Dragonfly instance (see `components/dragonfly/readme.md` for type selection) |
-| `scaler/*`                        | App `ks.yaml`                 | HPA Scale to zero variants (`nfs`, `metrics`)                                |
+| `scaler/*`                        | App `ks.yaml`                 | HPA Scale to zero variants (`instance`, `metrics`, `statefulset`)            |
 
 ---
 

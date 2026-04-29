@@ -22,3 +22,9 @@ spec:
           name:
             as: probe_success
           metricsQuery: max_over_time(<<.Series>>{<<.LabelMatchers>>}[1m])
+        - seriesQuery: '{__name__="kube_statefulset_status_replicas_ready"}'
+          resources:
+            namespaced: false
+          name:
+            as: kube_statefulset_status_replicas_ready
+          metricsQuery: <<.Series>>{<<.LabelMatchers>>}

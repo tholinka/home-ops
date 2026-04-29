@@ -10,7 +10,7 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
-    - ../../../../components/scaler/nfs
+    - ../../../../components/scaler/instance
   dependsOn:
     - name: storage-ready
       namespace: flux-system

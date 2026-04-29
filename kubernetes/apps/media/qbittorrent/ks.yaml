@@ -9,7 +9,7 @@ spec:
   interval: 1h
   components:
     - ../../../../components/volsync
-    - ../../../../components/scaler/nfs
+    - ../../../../components/scaler/instance
   dependsOn:
     - name: storage-ready
       namespace: flux-system

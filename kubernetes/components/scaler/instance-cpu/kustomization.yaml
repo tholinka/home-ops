@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../instance
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/metrics/-
+        value:
+          type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: ${SCALER_CPU_TARGET:=60}
+    target: &target
+      group: autoscaling
+      kind: HorizontalPodAutoscaler
+  - patch: |-
+      # don't default to silent
+      - op: replace
+        path: /metadata/name
+        value: ${SCALER_SILENT}${APP}
+    target: *target

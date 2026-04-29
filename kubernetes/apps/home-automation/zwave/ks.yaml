@@ -10,7 +10,7 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/ext-auth
-    - ../../../../components/scaler/metrics
+    - ../../../../components/scaler/instance
   dependsOn:
     - name: storage-ready
       namespace: flux-system
@@ -19,7 +19,6 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
-      SCALER_METRIC_NAME: probe_success
       SCALER_INSTANCE: zwave.iot.internal
   prune: true
   sourceRef:

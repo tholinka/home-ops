@@ -19,10 +19,10 @@ spec:
           # patch in selector
           # selector:
           #   matchLabels:
-          #     instance: ${SCALER_INSTANCE:="nas.servers.internal:2049"}
+          #     instance: ${SCALER_INSTANCE:="nas.servers.internal"}
         target:
           type: Value
-          value: '${SCALER_VALUE:=1}'
+          value: ${SCALER_VALUE:=1}
   behavior:
     scaleDown:
       policies:

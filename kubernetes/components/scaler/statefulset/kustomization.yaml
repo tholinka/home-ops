@@ -9,10 +9,10 @@ patches:
       - op: replace
         path: /spec/metrics/0/external/metric
         value:
-          name: probe_success
+          name: ${SCALER_METRIC_NAME:=kube_statefulset_status_replicas_ready}
           selector:
             matchLabels:
-              instance: nas.servers.internal:2049
+              statefulset: ${SCALER_STATEFULSET}
     target:
       group: autoscaling
       kind: HorizontalPodAutoscaler

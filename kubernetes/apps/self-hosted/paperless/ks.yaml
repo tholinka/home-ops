@@ -9,7 +9,7 @@ spec:
   interval: 1h
   components:
     - ../../../../components/volsync
-    - ../../../../components/scaler/nfs
+    - ../../../../components/scaler/instance
     - ../../../../components/cnpg/app
     - ../../../../components/dragonfly/app-template
   dependsOn:
