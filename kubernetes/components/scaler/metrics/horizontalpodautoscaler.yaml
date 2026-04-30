@@ -29,12 +29,12 @@ spec:
         - type: Pods
           value: 1
           periodSeconds: 15
-      selectPolicy: Max
+      selectPolicy: ${SCALER_DOWN_POLICY:=Max}
       stabilizationWindowSeconds: 0
     scaleUp:
       policies:
         - type: Pods
           value: 1
           periodSeconds: 15
-      selectPolicy: Max
+      selectPolicy: ${SCALER_UP_POLICY:=Max}
       stabilizationWindowSeconds: 0

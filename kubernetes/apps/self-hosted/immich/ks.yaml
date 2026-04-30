@@ -10,7 +10,7 @@ spec:
   components:
     # also cpu scales the api, which is fine, but theoretically only really need to scale the microservices
     # needs https://github.com/immich-app/immich-charts/issues/94
-    - ../../../../components/scaler/instance-cpu
+    - ../../../../components/scaler/instance
     - ../../../../components/cnpg/app-template
     - ../../../../components/dragonfly/app-template-stunnel
   dependsOn:
@@ -23,7 +23,6 @@ spec:
     substitute:
       APP: *app
       SCALER_NAME: immich-server
-      SCALER_MAX_REPLICAS: '5'
 
       DATABASE_EXTENSIONS: |
         [
