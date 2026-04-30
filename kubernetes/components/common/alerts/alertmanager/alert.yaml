@@ -25,5 +25,6 @@ spec:
     - error.*lookup github\\.com
     - error.*lookup raw\\.githubusercontent\\.com
     - dial.*tcp.*timeout
+    - dial.*tcp.*unreachable
     - waiting.*socket
   suspend: false
