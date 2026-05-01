@@ -47,6 +47,8 @@ spec:
                   value: /
       serviceMonitor:
         enabled: true
+    vector:
+      enabled: false
     dashboards:
       enabled: true
       grafanaOperator:
