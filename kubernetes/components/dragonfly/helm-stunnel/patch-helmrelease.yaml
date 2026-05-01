@@ -42,7 +42,7 @@ spec:
 
                     initContainers:
                       - name: dragonfly-stunnel
-                        image: cgr.dev/chainguard/stunnel:latest@sha256:10c02fb22362e1a536cbe77c4fc58cd81048d507a2c60082dcbd3fd2b35cf12d
+                        image: cgr.dev/chainguard/stunnel:latest@sha256:b3de56403b867441e2eb39248d864f7faa68bba9b9729a397a2cf51c52b3f6ed
                         args:
                           - /etc/stunnel/stunnel.conf
                         restartPolicy: Always
@@ -101,7 +101,7 @@ spec:
 
                     initContainers:
                       - name: dragonfly-stunnel
-                        image: cgr.dev/chainguard/stunnel:latest@sha256:10c02fb22362e1a536cbe77c4fc58cd81048d507a2c60082dcbd3fd2b35cf12d
+                        image: cgr.dev/chainguard/stunnel:latest@sha256:b3de56403b867441e2eb39248d864f7faa68bba9b9729a397a2cf51c52b3f6ed
                         args:
                           - /etc/stunnel/stunnel.conf
                         restartPolicy: Always
