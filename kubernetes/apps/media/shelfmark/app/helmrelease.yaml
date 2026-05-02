@@ -118,6 +118,11 @@ spec:
         globalMounts:
           - path: /tmp
             subPath: tmp
+          # stupid script doesn't try creating the folder, just a file inside of it -.-
+          - path: /tmp/shelfmark
+            subPath: tmp-shelfmark
+          - path: /home/shelfmark
+            subPath: home
           - path: /var/log
             subPath: log
       media:
