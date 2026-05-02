@@ -9,6 +9,8 @@ resources:
   - ./grafana/ks.yaml
   - ./json-exporter/ks.yaml
   - ./kromgo/ks.yaml
+  - ./kube-state-metrics/ks.yaml
+  - ./node-exporter/ks.yaml
   - ./nut-exporter/ks.yaml
   - ./prometheus-adapter/ks.yaml
   - ./prometheus-operator-crds/ks.yaml

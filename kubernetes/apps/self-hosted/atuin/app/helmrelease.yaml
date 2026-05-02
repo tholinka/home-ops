@@ -122,7 +122,7 @@ spec:
                   - matchLabels:
                       k8s:io.kubernetes.pod.namespace: observability
                       app.kubernetes.io/name: vmagent
-                      app.kubernetes.io/instance: victoria-metrics-cluster
+                      app.kubernetes.io/instance: victoria-metrics
                 toPorts:
                   - ports:
                       - port: '8081'

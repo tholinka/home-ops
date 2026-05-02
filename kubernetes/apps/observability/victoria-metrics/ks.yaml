@@ -3,41 +3,25 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: victoria-metrics
-spec:
-  interval: 1h
-  path: ./kubernetes/apps/observability/victoria-metrics/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: observability
-  wait: true
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app victoria-metrics-cluster
+  name: &app victoria-metrics
 spec:
   dependsOn:
-    - name: victoria-metrics
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: storage-ready
+      namespace: flux-system
   components:
     - ../../../../components/ext-auth
     - ../../../../components/ext-auth/two
     - ../../../../components/ext-auth/three
   interval: 1h
-  path: ./kubernetes/apps/observability/victoria-metrics/cluster
+  path: ./kubernetes/apps/observability/victoria-metrics/app
   prune: true
   postBuild:
     substitute:
       APP: *app
-      EXT_AUTH_TARGET: vmsingle-victoria-metrics-cluster
-      EXT_AUTH_TARGET_2: vmalert-victoria-metrics-cluster
-      EXT_AUTH_TARGET_3: vmalertmanager-victoria-metrics-cluster
+      EXT_AUTH_TARGET: vmsingle-victoria-metrics
+      EXT_AUTH_TARGET_2: vmalert-victoria-metrics
+      EXT_AUTH_TARGET_3: vmalertmanager-victoria-metrics
+
   sourceRef:
     kind: GitRepository
     name: flux-system
