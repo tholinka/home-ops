@@ -18,23 +18,11 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
 
-        initContainers:
-          init:
-            image: &image
-              repository: ghcr.io/calibrain/shelfmark
-              tag: v1.2.1@sha256:5e00d47cccaa3b67234855d950d016c50691b78197a68adf15a624f6c08acee2
-            command:
-              - bash
-              - -c
-              - 'exec cp -r /usr/local/lib/python3.14/site-packages/seleniumbase/drivers/* /mnt'
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
-
         containers:
           app:
-            image: *image
+            image:
+              repository: ghcr.io/calibrain/shelfmark
+              tag: v1.2.3@sha256:bd6cb4bfa14a917e76945c22ed2c376d64cf7fdb74632435db713d42ca597b20
             env:
               FLASK_PORT: &port 80
               DEBUG: false
@@ -69,23 +57,6 @@ spec:
             envFrom:
               - secretRef:
                   name: *app
-            command: # don't run annoying init script
-              - gunicorn
-              - --log-level
-              - info
-              - --access-logfile
-              - '-'
-              - --error-logfile
-              - '-'
-              - --worker-class
-              - geventwebsocket.gunicorn.workers.GeventWebSocketWorker
-              - --workers
-              - '1'
-              - -t
-              - '300'
-              - -b
-              - 0.0.0.0:80
-              - shelfmark.main:app
             probes:
               liveness: &probe
                 enabled: true
@@ -96,7 +67,10 @@ spec:
                     port: *port
               readiness: *probe
               startup: *probe
-            securityContext: *securityContext
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
             resources:
               requests:
                 cpu: 5m
@@ -130,45 +104,26 @@ spec:
     persistence:
       config:
         existingClaim: *app
-        advancedMounts:
-          *app :
-            app:
-              - path: /config
-
+        globalMounts:
+          - path: /config
       downloads:
         forceRename: '{{ .Release.Name }}-downloads'
         storageClass: ceph-block
         accessMode: ReadWriteOnce
         size: 2Gi
-        advancedMounts:
-          *app :
-            app:
-              - path: /app/downloaded_files
-
+        globalMounts:
+          - path: /app/downloaded_files
       tmpfs:
         type: emptyDir
-        advancedMounts:
-          *app :
-            app:
-              # chromium needs the XDG_CONFIG_HOME created
-              # because user 1000 doesn't exist, ~ = /
-              - path: /.config
-                subPath: config
-              - path: /tmp
-                subPath: tmp
-              - path: /var/log
-                subPath: log
-              - path: /usr/local/lib/python3.10/site-packages/seleniumbase/drivers
-                subPath: drivers
-            init:
-              - path: /mnt
-                subPath: drivers
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+          - path: /var/log
+            subPath: log
       media:
         type: nfs
         server: nas.servers.internal
         path: /media
-        advancedMounts:
-          *app :
-            app:
-              - path: *ingest
-                subPath: book
+        globalMounts:
+          - path: *ingest
+            subPath: book
