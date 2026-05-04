@@ -22,10 +22,10 @@ stage_fixed = true
 
 [pre-commit.commands.lint-action]
 run = "actionlint {staged_files}"
-glob = ["*.yaml"]
+glob = [".github/workflows/*.yaml"]
 stage_fixed = true
 
 [pre-commit.commands.lint-markdown]
 run = "markdownlint-cli2 {staged_files}"
-glob = ["*.yaml"]
+glob = ["*.md"]
 stage_fixed = true
