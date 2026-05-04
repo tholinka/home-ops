@@ -11,7 +11,7 @@ spec:
     name: app-template
   values:
     controllers:
-      echo:
+      *app :
         replicas: 1
         strategy: RollingUpdate
         containers:
@@ -46,20 +46,25 @@ spec:
                 cpu: 10m
               limits:
                 memory: 64Mi
+
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
+
     service:
       app:
         ports:
           http:
             port: *port
+
     serviceMonitor:
       app:
         endpoints:
           - port: http
+
     route:
       app:
         hostnames:

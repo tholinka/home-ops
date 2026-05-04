@@ -10,13 +10,6 @@ spec:
     kind: OCIRepository
     name: app-template
   values:
-    defaultPodOptions:
-      automountServiceAccountToken: false
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65532
-        runAsGroup: 65532
-        fsGroup: 65532
     controllers:
       *app :
         annotations:
@@ -61,6 +54,15 @@ spec:
                   - ALL
               seccompProfile:
                 type: RuntimeDefault
+
+    defaultPodOptions:
+      hostUsers: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+
     service:
       app:
         controller: *app
@@ -100,9 +102,9 @@ spec:
 
     rawResources:
       netpol:
-        apiVersion: cilium.io/v2
-        kind: CiliumNetworkPolicy
-        spec:
+        manifest:
+          apiVersion: cilium.io/v2
+          kind: CiliumNetworkPolicy
           spec:
             endpointSelector:
               matchLabels:

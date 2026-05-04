@@ -10,8 +10,6 @@ spec:
     kind: OCIRepository
     name: app-template
   values:
-    defaultPodOptions:
-      hostUsers: false
     controllers:
       homepage:
         replicas: 1
@@ -45,13 +43,17 @@ spec:
               capabilities:
                 drop:
                   - ALL
+
+    defaultPodOptions:
+      automountServiceAccountToken: true
+      hostUsers: false
+
     service:
       app:
         ports:
           http:
             port: 3000
-    serviceAccount:
-      *app : {}
+
     rbac:
       roles:
         homepage:
@@ -131,6 +133,7 @@ spec:
           #   namespace: network
           - name: envoy-internal-root
             namespace: network
+
     persistence:
       config:
         type: configMap

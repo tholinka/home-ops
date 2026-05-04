@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: unpackerr
+  name: &app unpackerr
 spec:
   interval: 1h
   chartRef:
@@ -14,7 +14,7 @@ spec:
       - paths: [/spec/replicas]
   values:
     controllers:
-      unpackerr:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:

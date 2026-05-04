@@ -37,6 +37,7 @@ spec:
                 cpu: 10m
               limits:
                 memory: 100Mi
+
     defaultPodOptions:
       hostUsers: false
       securityContext:
@@ -44,11 +45,13 @@ spec:
         runAsUser: 65534
         runAsGroup: 65534
         seccompProfile: { type: RuntimeDefault }
+
     service:
       app:
         ports:
           metrics:
             port: 9199
+
     serviceMonitor:
       app:
         endpoints:

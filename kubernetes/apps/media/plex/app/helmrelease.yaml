@@ -54,6 +54,7 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 16Gi
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -66,6 +67,7 @@ spec:
       resourceClaims:
         - name: gpu
           resourceClaimTemplateName: *app
+
     service:
       app:
         type: LoadBalancer
@@ -77,6 +79,7 @@ spec:
         ports:
           http:
             port: *port
+
     route:
       app:
         annotations:
@@ -98,6 +101,7 @@ spec:
                   type: PathPrefix
                   value: /library/streams
           - backendRefs: [{}]
+
     persistence:
       config:
         existingClaim: '{{ .Release.Name }}'

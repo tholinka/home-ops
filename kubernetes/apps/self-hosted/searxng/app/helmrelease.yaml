@@ -65,6 +65,7 @@ spec:
                   - DAC_OVERRIDE
 
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 977

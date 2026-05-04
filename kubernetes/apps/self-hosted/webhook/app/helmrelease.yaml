@@ -48,18 +48,22 @@ spec:
                 cpu: 10m
               limits:
                 memory: 256Mi
+
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     route:
       app:
         hostnames:
@@ -67,6 +71,7 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+
     persistence:
       config:
         type: configMap

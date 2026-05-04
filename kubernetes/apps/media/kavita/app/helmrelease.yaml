@@ -14,7 +14,7 @@ spec:
       - paths: [/spec/replicas]
   values:
     controllers:
-      kavita:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -36,6 +36,7 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ['ALL'] }
+
     defaultPodOptions:
       securityContext:
         fsGroup: 1000
@@ -43,11 +44,13 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: 5000
+
     route:
       app:
         hostnames:
@@ -55,6 +58,7 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+
     persistence:
       config:
         existingClaim: *app

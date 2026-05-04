@@ -67,6 +67,7 @@ spec:
               limits:
                 memory: 512Mi
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

@@ -14,7 +14,7 @@ spec:
       - paths: [/spec/replicas]
   values:
     controllers:
-      sonarr:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -56,6 +56,7 @@ spec:
                 cpu: 100m
               limits:
                 memory: 4Gi
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -63,11 +64,13 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     route:
       app:
         hostnames:
@@ -75,9 +78,10 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+
     persistence:
       config:
-        existingClaim: sonarr
+        existingClaim: *app
       config-cache:
         existingClaim: sonarr-cache
         globalMounts:

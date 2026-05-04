@@ -13,8 +13,6 @@ spec:
     ignore:
       - paths: [/spec/replicas]
   values:
-    defaultPodOptions:
-      hostUsers: false
     controllers:
       *app :
         containers:
@@ -45,8 +43,10 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 256Mi
-        pod:
-          hostUsers: false
+
+    defaultPodOptions:
+      hostUsers: false
+
     service:
       app:
         ports:
@@ -54,6 +54,7 @@ spec:
             port: *port
           websocket:
             port: 3000
+
     route:
       app:
         hostnames:
@@ -66,6 +67,7 @@ spec:
           gethomepage.dev/name: Z-Wave
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/icon: z-wave-js-ui.svg
+
     persistence:
       config:
         existingClaim: *app

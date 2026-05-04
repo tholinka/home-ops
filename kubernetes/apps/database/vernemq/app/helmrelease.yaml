@@ -91,6 +91,8 @@ spec:
                   - ALL
 
     defaultPodOptions:
+      automountServiceAccountToken: true
+      hostUsers: false
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -185,9 +187,6 @@ spec:
             path: /metrics
             interval: 10s
             scrapeTimeout: 1s
-
-    serviceAccount:
-      *app : {}
 
     rbac:
       roles:
