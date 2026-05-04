@@ -18,4 +18,10 @@
 	"[yaml]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+	"[json5]": {
+		"editor.defaultFormatter": "BlueGlassBlock.better-json5"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "yzhang.markdown-all-in-one",
+	}
 }

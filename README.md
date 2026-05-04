@@ -115,15 +115,15 @@ graph TD
 
 ### 🏘️ VLANs
 
-| Name             | ID | CIDR IPv4       |
-|------------------|----|-----------------|
-| WAS-110          | -  | 192.168.11.0/24 |
-| T-Mobile Gateway | -  | 192.168.12.0/24 |
-| Default          | 1  | 192.168.5.0/24  |
-| servers          | 20 | 192.168.20.0/24 |
-| services         | 21 | 192.168.21.0/24 |
-| iot              | 30 | 192.168.30.0/24 |
-| guest            | 40 | 192.168.40.0/24 |
+| Name             | ID  | CIDR IPv4       |
+| ---------------- | --- | --------------- |
+| WAS-110          | -   | 192.168.11.0/24 |
+| T-Mobile Gateway | -   | 192.168.12.0/24 |
+| Default          | 1   | 192.168.5.0/24  |
+| servers          | 20  | 192.168.20.0/24 |
+| services         | 21  | 192.168.21.0/24 |
+| iot              | 30  | 192.168.30.0/24 |
+| guest            | 40  | 192.168.40.0/24 |
 
 ### 🌎 DNS
 
@@ -148,7 +148,7 @@ While most of my infrastructure and workloads are self-hosted I do rely upon the
 Alternative solutions to the first two of these problems would be to host a Kubernetes cluster in the cloud and deploy applications like [HCVault](https://www.vaultproject.io/), [Vaultwarden](https://github.com/dani-garcia/vaultwarden), [ntfy](https://ntfy.sh/), and [Gatus](https://gatus.io/); however, maintaining another cluster and monitoring another group of workloads would be more work and probably be more or equal out to the same costs as described below.
 
 | Service                                            | Use                                                            | Cost            |
-|----------------------------------------------------|----------------------------------------------------------------|-----------------|
+| -------------------------------------------------- | -------------------------------------------------------------- | --------------- |
 | [Bitwarden Secret Manager](https://1password.com/) | Secrets with [External Secrets](https://external-secrets.io/)  | Free            |
 | [Cloudflare](https://www.cloudflare.com/)          | Domain and S3                                                  | ~$50/yr         |
 | [GCP](https://cloud.google.com/)                   | Voice interactions with Home Assistant over Google Assistant   | Free            |
@@ -160,7 +160,7 @@ Alternative solutions to the first two of these problems would be to host a Kube
 ## 🖥️ Hardware
 
 | Num | Device                           | CPU      | RAM           | OS Disk                       | Data Disks                                                                                          | OS                 | Function                                           |
-|-----|----------------------------------|----------|---------------|-------------------------------|-----------------------------------------------------------------------------------------------------|--------------------|----------------------------------------------------|
+| --- | -------------------------------- | -------- | ------------- | ----------------------------- | --------------------------------------------------------------------------------------------------- | ------------------ | -------------------------------------------------- |
 | 3   | Lenovo ThinkCentre M700 Tiny     | i5-6400T | 16GB of DDR4  | 512 GB SSD                    | 512 GB SATA NVMe                                                                                    | Talos              | Kubernetes                                         |
 | 1   | HP EliteDesk 800 G5 Desktop Mini | i5-9500T | 64 GB of DDR4 | 256 GB PCIe 3 NVMe            | 512 GB PCIe 3 NVMe                                                                                  | Talos              | Kubernetes                                         |
 | 1   | HP ProDesk 400 G4 Desktop Mini   | i5-8500T | 16 GB of DDR4 | 256 GB SSD                    | 512 GB PCIe 3 NVMe                                                                                  | Talos              | Kubernetes                                         |

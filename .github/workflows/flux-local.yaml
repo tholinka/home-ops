@@ -4,7 +4,7 @@ name: Flux Local
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -51,8 +51,11 @@ jobs:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           args: >-
-            test --all-namespaces --enable-helm --path
-            /github/workspace/kubernetes/flux/cluster --verbose
+            test
+            --all-namespaces
+            --enable-helm
+            --path /github/workspace/kubernetes/flux/cluster
+            --verbose
 
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
@@ -64,7 +67,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        resource: [ helmrelease, kustomization ]
+        resource: [helmrelease, kustomization]
       fail-fast: false
     steps:
       - name: Generate Token
@@ -95,11 +98,14 @@ jobs:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           args: >-
-            diff ${{ matrix.resource }} --unified 6 --path
-            /github/workspace/pull/kubernetes/flux/cluster --path-orig
-            /github/workspace/default/kubernetes/flux/cluster --strip-attrs
-            "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
-            --limit-bytes 10000 --all-namespaces --sources "flux-system"
+            diff ${{ matrix.resource }}
+            --unified 6
+            --path /github/workspace/pull/kubernetes/flux/cluster
+            --path-orig /github/workspace/default/kubernetes/flux/cluster
+            --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart,caBundle"
+            --limit-bytes 10000
+            --all-namespaces
+            --sources "flux-system"
             --output-file diff.patch
 
       - name: Generate Diff
@@ -116,8 +122,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
         with:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-          header: ${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resource
-            }}
+          header: ${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resource }}
           message: |-
             ```diff
             ${{ steps.diff.outputs.diff }}
@@ -125,7 +130,7 @@ jobs:
 
   success:
     if: ${{ !cancelled() }}
-    needs: [ test, diff ]
+    needs: [test, diff]
     name: Flux Local - Success
     runs-on: ubuntu-latest
     steps:
