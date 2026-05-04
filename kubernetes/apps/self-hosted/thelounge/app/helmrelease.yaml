@@ -37,6 +37,7 @@ spec:
               capabilities: { drop: [ALL] }
 
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: 'OnRootMismatch'
@@ -68,9 +69,9 @@ spec:
 
     rawResources:
       netpol:
-        apiVersion: cilium.io/v2
-        kind: CiliumNetworkPolicy
-        spec:
+        manifest:
+          apiVersion: cilium.io/v2
+          kind: CiliumNetworkPolicy
           spec:
             endpointSelector:
               matchLabels:

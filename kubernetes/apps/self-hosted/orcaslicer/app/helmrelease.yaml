@@ -50,6 +50,7 @@ spec:
                 memory: 8Gi
 
     defaultPodOptions:
+      hostUsers: false
       resourceClaims:
         - name: gpu
           resourceClaimTemplateName: *app

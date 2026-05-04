@@ -11,15 +11,6 @@ spec:
     kind: OCIRepository
     name: app-template
   values:
-    defaultPodOptions:
-      priorityClassName: system-cluster-critical
-      hostUsers: false
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
     controllers:
       *app :
         annotations:
@@ -50,3 +41,12 @@ spec:
                 cpu: 10m
               limits:
                 memory: 64Mi
+    defaultPodOptions:
+      priorityClassName: system-cluster-critical
+      hostUsers: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch

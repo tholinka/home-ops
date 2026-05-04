@@ -58,7 +58,9 @@ spec:
                 memory: 16Mi
               limits:
                 memory: 64Mi
+
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -101,9 +103,9 @@ spec:
 
     rawResources:
       netpol:
-        apiVersion: cilium.io/v2
-        kind: CiliumNetworkPolicy
-        spec:
+        manifest:
+          apiVersion: cilium.io/v2
+          kind: CiliumNetworkPolicy
           spec:
             endpointSelector:
               matchLabels:

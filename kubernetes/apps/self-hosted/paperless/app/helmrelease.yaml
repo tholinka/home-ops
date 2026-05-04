@@ -13,11 +13,6 @@ spec:
     ignore:
       - paths: [/spec/replicas]
   values:
-    defaultPodOptions:
-      securityContext:
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-
     controllers:
       *app :
         annotations:
@@ -123,6 +118,12 @@ spec:
               requests:
                 cpu: 10m
                 memory: 256Mi
+
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
@@ -183,9 +184,9 @@ spec:
 
     rawResources:
       netpol:
-        apiVersion: cilium.io/v2
-        kind: CiliumNetworkPolicy
-        spec:
+        manifest:
+          apiVersion: cilium.io/v2
+          kind: CiliumNetworkPolicy
           spec:
             endpointSelector:
               matchLabels:

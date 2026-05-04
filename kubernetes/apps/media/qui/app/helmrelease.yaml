@@ -57,6 +57,7 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ['ALL'] }
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -64,11 +65,13 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     route:
       app:
         hostnames:

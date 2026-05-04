@@ -11,17 +11,9 @@ spec:
     name: app-template
   values:
     controllers:
-      prowlarr:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
-
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            runAsNonRoot: true
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
 
         containers:
           app:
@@ -66,6 +58,14 @@ spec:
                 drop:
                   - ALL
 
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
@@ -82,4 +82,4 @@ spec:
 
     persistence:
       config:
-        existingClaim: prowlarr
+        existingClaim: *app

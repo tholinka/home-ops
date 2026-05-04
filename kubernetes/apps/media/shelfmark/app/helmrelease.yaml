@@ -78,8 +78,8 @@ spec:
               limits: # some of the cloudflare attempts can really spike usage
                 cpu: 1
                 memory: 1Gi
+
     defaultPodOptions:
-      automountServiceAccountToken: false
       enableServiceLinks: false
       securityContext:
         runAsNonRoot: true

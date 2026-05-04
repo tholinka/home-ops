@@ -59,6 +59,7 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 12Gi
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -66,11 +67,13 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     route:
       app:
         hostnames:
@@ -78,6 +81,7 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+
     persistence:
       config:
         existingClaim: sabnzbd

@@ -11,7 +11,7 @@ spec:
     name: app-template
   values:
     controllers:
-      autobrr:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -59,13 +59,16 @@ spec:
                 cpu: 10m
               limits:
                 memory: 1Gi
+
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
@@ -73,10 +76,12 @@ spec:
             port: *port
           metrics:
             port: *metricsPort
+
     serviceMonitor:
       app:
         endpoints:
           - port: metrics
+
     route:
       app:
         hostnames:
@@ -84,6 +89,7 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+
     persistence:
       config:
         existingClaim: autobrr

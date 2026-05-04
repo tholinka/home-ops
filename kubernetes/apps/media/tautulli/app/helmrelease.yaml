@@ -11,7 +11,7 @@ spec:
     name: app-template
   values:
     controllers:
-      tautulli:
+      *app :
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -47,18 +47,22 @@ spec:
                 cpu: 10m
               limits:
                 memory: 1Gi
+
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     route:
       app:
         hostnames:
@@ -66,9 +70,10 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+
     persistence:
       config:
-        existingClaim: tautulli
+        existingClaim: *app
       config-cache:
         existingClaim: tautulli-cache
         globalMounts:

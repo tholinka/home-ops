@@ -62,6 +62,8 @@ spec:
                 memory: 256Mi
 
     defaultPodOptions:
+      automountServiceAccountToken: true
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -95,9 +97,6 @@ spec:
           gethomepage.dev/icon: gatus.svg
           gethomepage.dev/widget.type: *app
           gethomepage.dev/widget.url: 'http://{{ .Release.Name }}.observability.svc.cluster.local.:80'
-
-    serviceAccount:
-      *app : {}
 
     persistence:
       config:

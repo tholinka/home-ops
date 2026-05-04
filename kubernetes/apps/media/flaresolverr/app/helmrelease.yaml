@@ -3,17 +3,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: flaresolverr
+  name: &app flaresolverr
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
     name: app-template
   values:
-    defaultPodOptions:
-      hostUsers: false
     controllers:
-      flaresolverr:
+      *app :
         type: deployment
         strategy: RollingUpdate
         annotations:
@@ -34,8 +32,12 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false # uv and browserforge make readOnly annoying
               capabilities: { drop: [ALL] }
+
+    defaultPodOptions:
+      hostUsers: false
+
     service:
-      flaresolverr:
+      *app :
         ports:
           http:
             port: 8191

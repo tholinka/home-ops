@@ -48,18 +48,22 @@ spec:
                 cpu: 100m
               limits:
                 memory: 256Mi
+
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     persistence:
       config:
         type: configMap

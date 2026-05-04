@@ -36,6 +36,7 @@ spec:
                 memory: 8G
 
     defaultPodOptions:
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

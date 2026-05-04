@@ -11,9 +11,6 @@ spec:
     kind: OCIRepository
     name: app-template
   values:
-    defaultPodOptions:
-      hostUsers: false
-
     controllers:
       *app :
         type: statefulset
@@ -170,6 +167,9 @@ spec:
             env:
               <<: *exporterEnv
               PIHOLE_HOSTNAME: nas.servers.internal.
+
+    defaultPodOptions:
+      hostUsers: false
 
     service:
       app:
