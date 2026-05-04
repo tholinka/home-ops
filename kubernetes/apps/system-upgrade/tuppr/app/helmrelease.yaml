@@ -20,3 +20,5 @@ spec:
         enabled: true
         grafanaOperator:
           enabled: true
+          matchLabels:
+            dashboards: grafana
