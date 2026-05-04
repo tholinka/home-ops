@@ -11,6 +11,10 @@ trim_trailing_whitespace = true
 [Makefile]
 indent_style = tab
 
+[*.{just,justfile}]
+indent_style = space
+indent_size = 4
+
 [*.{md,yml,yaml,toml,md.j2,yml.j2,yaml.j2,toml.j2}]
 indent_style = space
 indent_size = 2

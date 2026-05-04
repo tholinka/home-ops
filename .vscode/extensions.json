@@ -10,6 +10,7 @@
 		"samuelcolvin.jinjahtml",
 		"mads-hartmann.bash-ide-vscode",
 		"timonwong.shellcheck",
-		"streetsidesoftware.code-spell-checker"
+		"streetsidesoftware.code-spell-checker",
+		"nefrob.vscode-just-syntax"
 	]
 }

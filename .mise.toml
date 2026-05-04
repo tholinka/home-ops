@@ -1,0 +1,30 @@
+[env]
+KUBECONFIG = "{{config_root}}/kubeconfig"
+MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
+TALOSCONFIG = "{{config_root}}/talos/talosconfig"
+JUST_UNSTABLE = "1"
+LEFTHOOK_OUTPUT = "false"
+
+_.file = ["{{config_root}}/.secrets.env"]
+
+[tools]
+uv = "latest"
+"pipx:flux-local" = "latest"
+"pipx:yamllint" = "latest"
+
+"aqua:helmfile/helmfile" = "latest"
+"aqua:fluxcd/flux2" = "latest"
+"aqua:go-task/task" = "latest"
+"aqua:kubernetes-sigs/krew" = "latest"
+"aqua:cilium/cilium-cli" = "latest"
+"aqua:siderolabs/talos" = "latest"
+"aqua:yannh/kubeconform" = "latest"
+"aqua:kubernetes-sigs/kustomize" = "latest"
+"aqua:stern/stern" = "latest"
+"aqua:mitsuhiko/minijinja" = "latest"
+"aqua:evilmartians/lefthook" = "latest"
+"aqua:google/yamlfmt" = "latest"
+"aqua:rhysd/actionlint" = "latest"
+"aqua:budimanjojo/talhelper" = "latest"
+
+"npm:markdownlint-cli2" = "latest"
