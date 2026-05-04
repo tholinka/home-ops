@@ -13,7 +13,7 @@ spec:
           annotations:
             summary: VerneMQ component has disappeared from Prometheus target discovery.
           expr: |
-            absent(up{job="vernemq-http"})
+            absent(up{service="vernemq-http"})
           for: 2m
           labels:
             severity: critical
