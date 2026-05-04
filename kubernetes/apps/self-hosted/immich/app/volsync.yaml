@@ -27,7 +27,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: immich
+  name: immich-photos-s3
 spec:
   sourcePVC: immich-photos
   trigger:
