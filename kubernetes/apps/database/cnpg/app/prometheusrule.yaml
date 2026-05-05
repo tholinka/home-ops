@@ -91,4 +91,4 @@ spec:
             description: No object store backup within the last 48 hours
             summary: Checks for recent object store backups
           expr: |-
-            (barman_cloud_cloudnative_pg_io_last_failed_backup_timestamp != 0) and (time() - barman_cloud_cloudnative_pg_io_last_failed_backup_timestamp > 172800)
+            (barman_cloud_cloudnative_pg_io_last_available_backup_timestamp != 0) and (time() - barman_cloud_cloudnative_pg_io_last_available_backup_timestamp > 172800)
