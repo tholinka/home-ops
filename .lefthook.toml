@@ -29,3 +29,6 @@ stage_fixed = true
 run = "markdownlint-cli2 {staged_files}"
 glob = ["*.md"]
 stage_fixed = true
+
+[pre-commit.commands.ggshield]
+run = "ggshield secret scan pre-commit"

@@ -12,6 +12,7 @@ uv = "latest"
 "pipx:flux-local" = "latest"
 "pipx:yamllint" = "latest"
 
+"aqua:ggshield" = "latest"
 "aqua:evilmartians/lefthook" = "latest"
 "aqua:google/yamlfmt" = "latest"
 "aqua:rhysd/actionlint" = "latest"
