@@ -27,8 +27,11 @@ node-shell node:
 
 [doc('Prune pods in Failed, Pending, or Succeeded state')]
 prune-pods:
+    for phase in successful; do \
+        kubectl delete jobs --all-namespaces --field-selector status."$phase"=1 --ignore-not-found=true; \
+    done
+
     for phase in Failed Pending Succeeded; do \
-        kubectl delete jobs -A --field-selector status.phase="$phase" --ignore-not-found=true; \
         kubectl delete pods -A --field-selector status.phase="$phase" --ignore-not-found=true; \
     done
 
