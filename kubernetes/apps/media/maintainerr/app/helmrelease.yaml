@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: ghcr.io/maintainerr/maintainerr
-              tag: 3.11.0@sha256:64180be4ceb4e64cba2c1087ef5183192759277923f1d2ab467b03d958b29408
+              tag: 3.11.2@sha256:bd71ca33bc1133437adf4bc4f4c074e1fc2905c5a6c640aa237cfe14d0f249db
             probes:
               liveness:
                 enabled: true
