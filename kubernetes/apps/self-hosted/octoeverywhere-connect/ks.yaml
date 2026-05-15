@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app octoeverywhere-connect-cc
+  name: &app octoeverywhere-connect
   namespace: &namespace self-hosted
 spec:
   interval: 1h
@@ -12,7 +12,7 @@ spec:
   dependsOn:
     - name: storage-ready
       namespace: flux-system
-  path: ./kubernetes/apps/self-hosted/octoeverywhere-connect-cc/app
+  path: ./kubernetes/apps/self-hosted/octoeverywhere-connect/app
   postBuild:
     substitute:
       APP: *app
