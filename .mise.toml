@@ -14,7 +14,6 @@ uv = "latest"
 
 "aqua:ggshield" = "latest"
 "aqua:evilmartians/lefthook" = "latest"
-"aqua:google/yamlfmt" = "latest"
 "aqua:rhysd/actionlint" = "latest"
 "aqua:budimanjojo/talhelper" = "latest"
 
