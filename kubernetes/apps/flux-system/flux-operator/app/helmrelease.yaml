@@ -13,17 +13,18 @@ spec:
     serviceMonitor:
       create: true
     web:
-      # TODO switch to this after next release
-      #configSecretName: flux-operator-web-config-secret
+      configSecretName: flux-operator-web-config-secret
+      httpRoute:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/name: Flux Operator
+          gethomepage.dev/icon: flux-cd.svg
+        hostnames:
+          - flux-operator.tholinka.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
       networkPolicy:
         create: false
-    extraArgs:
-      - '--web-config=/etc/flux-operator/web/config.yaml'
-    extraVolumeMounts:
-      - name: web-config
-        mountPath: /etc/flux-operator/web
-        readOnly: true
-    extraVolumes:
-      - name: web-config
-        secret:
-          secretName: flux-operator-web-config-secret
