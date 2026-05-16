@@ -26,6 +26,7 @@ spec:
   targetNamespace: *namespace
   dependsOn:
     - name: &substitute cloudflare-tunnel-substitute
+    - name: cloudflare-external-dns
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   prune: true
   sourceRef:

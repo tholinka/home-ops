@@ -4,8 +4,16 @@ set lazy
 set quiet
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
+# Bootstrap Recipes
+[group: 'Bootstrap']
 mod bootstrap "bootstrap"
+
+# Kube Recipes
+[group: 'Kube']
 mod kube "kubernetes"
+
+# Talos Recipes
+[group: 'Talos']
 mod talos "talos"
 
 [private]
