@@ -20,3 +20,6 @@ uv = "latest"
 "aqua:budimanjojo/talhelper" = "latest"
 
 "npm:markdownlint-cli2" = "latest"
+
+[hooks]
+postinstall = "lefthook install"
