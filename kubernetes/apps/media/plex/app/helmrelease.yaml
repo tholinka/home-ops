@@ -84,7 +84,7 @@ spec:
       app:
         annotations:
           gatus.home-operations.com/endpoint: |-
-            conditions: ["[STATUS] == 401"]
+            url: http://{{ .Release.Name }}.tholinka.dev/identity
         hostnames:
           - '{{ .Release.Name }}.tholinka.dev'
         parentRefs:

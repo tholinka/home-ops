@@ -7,6 +7,7 @@ metadata:
   annotations:
     gatus.home-operations.com/endpoint: |-
       conditions: ["[STATUS] == 404"]
+      url: "https://flux-webhook.tholinka.dev/"
 spec:
   hostnames:
     - flux-webhook.tholinka.dev
