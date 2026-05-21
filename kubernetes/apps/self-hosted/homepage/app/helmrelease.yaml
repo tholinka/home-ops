@@ -121,10 +121,6 @@ spec:
 
     route:
       app:
-        annotations:
-          gatus.home-operations.com/endpoint: |-
-            group: internal
-            guarded: true
         hostnames:
           # - '{{ .Release.Name }}.tholinka.dev'
           - tholinka.dev
