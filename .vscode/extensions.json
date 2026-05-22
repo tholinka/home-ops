@@ -2,6 +2,7 @@
 	"recommendations": [
 		"EditorConfig.editorconfig",
 		"blueglassblock.better-json5",
+		"hverlin.mise-vscode",
 		"yzhang.markdown-all-in-one",
 		"DavidAnson.vscode-markdownlint",
 		"redhat.vscode-yaml",
