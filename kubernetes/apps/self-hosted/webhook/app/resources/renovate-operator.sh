@@ -13,4 +13,4 @@ NAMESPACE=${2:-}
 curl -s -X POST \
   "http://renovate-operator.renovate.svc.cluster.local:8082/webhook/v1/github?job=${JOB}&namespace=${NAMESPACE}" \
   -H "Content-Type: application/json" \
-  --data-binary "@/tmp/payload.json"
+  --data-binary "@${HOOK_PAYLOAD}"
