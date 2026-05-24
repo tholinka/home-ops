@@ -1,12 +1,12 @@
 [env]
 _.python.venv = { path = "{{config_root}}/.venv", create = true }
+
+_.file = ["{{config_root}}/.secrets.env"]
 KUBECONFIG = "{{config_root}}/kubeconfig"
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
 JUST_UNSTABLE = "1"
 LEFTHOOK_OUTPUT = "false"
-
-_.file = ["{{config_root}}/.secrets.env"]
 
 [tools]
 python = "latest"
@@ -18,6 +18,8 @@ uv = "latest"
 "aqua:evilmartians/lefthook" = "latest"
 "aqua:rhysd/actionlint" = "latest"
 "aqua:budimanjojo/talhelper" = "latest"
+"aqua:koalaman/shellcheck" = "latest"
+"aqua:zizmorcore/zizmor" = "latest"
 
 "npm:markdownlint-cli2" = "latest"
 

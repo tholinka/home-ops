@@ -2,11 +2,7 @@
 parallel = true
 
 [pre-commit.commands.format-just]
-run = """
-for file in {staged_files}; do
-    just --justfile "$file" --fmt
-done
-"""
+run = "for f in {staged_files}; do just --justfile $f --fmt; done"
 glob = ["*.just", ".justfile"]
 stage_fixed = true
 
@@ -17,7 +13,7 @@ stage_fixed = true
 
 [pre-commit.commands.lint-action]
 run = "actionlint {staged_files}"
-glob = [".github/workflows/*.yml", ".github/workflows/*.yaml"]
+glob = [".github/workflows/*.yaml"]
 stage_fixed = true
 
 [pre-commit.commands.lint-markdown]
@@ -25,5 +21,13 @@ run = "markdownlint-cli2 {staged_files}"
 glob = ["*.md"]
 stage_fixed = true
 
+[pre-commit.commands.shellcheck]
+run = "shellcheck {staged_files}"
+glob = ["*.sh"]
+
 [pre-commit.commands.ggshield]
 run = "ggshield secret scan pre-commit"
+
+[pre-commit.commands.zizmor]
+run = "zizmor --offline {staged_files}"
+glob = [".github/workflows/*.yaml"]
