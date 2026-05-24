@@ -18,4 +18,3 @@ spec:
     - name: storage-ready
       namespace: flux-system
   wait: true
-  postBuild:

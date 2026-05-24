@@ -168,7 +168,7 @@
 - Infrastructure:
     - Unifi:
         icon: unifi.svg
-        href: https://router.internal
+        href: https://router.tholinka.dev
         #description: Unifi Network Application
         namespace: network
 
