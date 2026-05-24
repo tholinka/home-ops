@@ -46,8 +46,8 @@ spec:
               CALIBRE_WEB_URL: https://kavita.tholinka.dev
               BOOKS_OUTPUT_MODE: folder
               INGEST_DIR: &ingest /ingest
-              FILE_ORGANIZATION: organize
-              FILE_ORGANIZATION_AUDIOBOOK: organize
+              FILE_ORGANIZATION: rename #organize
+              FILE_ORGANIZATION_AUDIOBOOK: rename #organize
               TEMPLATE_ORGANIZE: '{Author}/{Title}/{Author} - {Title} ({Year})'
               TEMPLATE_AUDIOBOOK_ORGANIZE: '{Author}/{Title}/{Author} - {Title} ({Year}) {PartNumber}'
               HARDLINK_TORRENTS: true
@@ -131,4 +131,4 @@ spec:
         path: /media
         globalMounts:
           - path: *ingest
-            subPath: book
+            subPath: books/bookdrop
