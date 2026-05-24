@@ -149,6 +149,11 @@
           key: '{{HOMEPAGE_VAR_TAUTULLI_TOKEN}}'
           enableNowPlaying: true
     ### no widgets at bottom of list
+    - Bookboss:
+        href: https://books.tholinka.dev
+        icon: booklogr.svg
+        app: bookboss
+        namespace: media
     - Shelfmark:
         href: https://shelfmark.tholinka.dev
         icon: calibre.svg

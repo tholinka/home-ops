@@ -1,0 +1,107 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app bookboss
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  interval: 1h
+  values:
+    controllers:
+      *app :
+        annotations:
+          secret.reloader.stakater.com/reload: *app
+        containers:
+          app:
+            image:
+              repository: ghcr.io/szinn/bookboss
+              tag: v0.8.28
+            env:
+              BOOKBOSS__DATABASE__DATABASE_URL: sqlite:///data/bookboss.db?mode=rwc
+              BOOKBOSS__FRONTEND__BASE_URL: https://books.tholinka.dev
+              BOOKBOSS__FRONTEND__LISTEN_PORT: &httpPort 80
+              BOOKBOSS__LIBRARY__LIBRARY_PATH: /library/books
+              BOOKBOSS__IMPORT__BOOKDROP_PATH: /library/bookdrop
+              BOOKBOSS__IMPORT__POLL_INTERVAL_SECS: 60
+              BOOKBOSS__IMPORT__WORKER_POLL_INTERVAL_SECS: 5
+
+              BOOKBOSS__OIDC__DISCOVERY_URL: https://auth.tholinka.dev/application/o/bookboss/
+              BOOKBOSS__OIDC__BUTTON_LABEL: Sign in with Authentik
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec: &httpProbe
+                  httpGet:
+                    path: /healthz
+                    port: *httpPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  <<: *httpProbe
+                  httpGet:
+                    path: /readyz
+                    port: *httpPort
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: [ALL] }
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 1000
+        runAsUser: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        ports:
+          http:
+            port: *httpPort
+
+    route:
+      app:
+        hostnames:
+          - books.tholinka.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+
+    persistence:
+      data:
+        existingClaim: *app
+        globalMounts:
+          - path: /data
+            subPath: data
+
+      media:
+        type: nfs
+        server: nas.servers.internal
+        path: /media
+        globalMounts:
+          - path: /library/books
+            subPath: books/bookboss
+          - path: /library/bookdrop
+            subPath: books/bookdrop
+
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
