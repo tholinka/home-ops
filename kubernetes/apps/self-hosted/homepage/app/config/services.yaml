@@ -39,15 +39,6 @@
           type: bazarr
           url: http://bazarr.media.svc.cluster.local:6767
           key: '{{HOMEPAGE_VAR_BAZARR_TOKEN}}'
-    - Kavita:
-        href: https://kavita.tholinka.dev
-        icon: kavita.svg
-        app: kavita
-        namespace: media
-        widget:
-          type: kavita
-          url: http://kavita.media.svc.cluster.local.:5000
-          key: '{{HOMEPAGE_VAR_KAVITA_TOKEN}}'
     - Lidarr:
         href: https://lidarr.tholinka.dev
         icon: lidarr.svg

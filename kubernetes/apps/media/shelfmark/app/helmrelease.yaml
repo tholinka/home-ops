@@ -43,7 +43,7 @@ spec:
               DISABLE_LOCAL_AUTH: true
               OIDC_AUTO_REDIRECT: true
 
-              CALIBRE_WEB_URL: https://kavita.tholinka.dev
+              CALIBRE_WEB_URL: https://books.tholinka.dev
               BOOKS_OUTPUT_MODE: folder
               INGEST_DIR: &ingest /ingest
               FILE_ORGANIZATION: rename #organize
