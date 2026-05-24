@@ -61,7 +61,7 @@ spec:
   monitoring:
     enablePodMonitor: false # deprecated - https://github.com/cloudnative-pg/cloudnative-pg/pull/8753
 
-  plugins:
+  plugins: # comment when doing for a temporary cluster for a single db restore
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
@@ -69,10 +69,11 @@ spec:
         serverName: *name
 
   bootstrap:
-    # recoveryTarget:
-    #   targetTime: "2025-05-23 19:00:00.000000-05:00"
     recovery:
       source: source
+      # recoveryTarget:
+      #   targetTime: '2026-05-22T10:00:00.000000-05:00'
+
   externalClusters:
     - name: source
       plugin:
