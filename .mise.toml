@@ -9,19 +9,19 @@ JUST_UNSTABLE = "1"
 LEFTHOOK_OUTPUT = "false"
 
 [tools]
-python = "latest"
-uv = "latest"
-"pipx:flux-local" = "latest"
-"pipx:yamllint" = "latest"
+python = "3.14.5"
+uv = "0.11.16"
+"pipx:flux-local" = "8.2.0"
+"pipx:yamllint" = "1.38.0"
 
-"aqua:ggshield" = "latest"
-"aqua:evilmartians/lefthook" = "latest"
-"aqua:rhysd/actionlint" = "latest"
-"aqua:budimanjojo/talhelper" = "latest"
-"aqua:koalaman/shellcheck" = "latest"
-"aqua:zizmorcore/zizmor" = "latest"
+"aqua:ggshield" = "1.50.4"
+"aqua:evilmartians/lefthook" = "2.1.8"
+"aqua:rhysd/actionlint" = "1.7.12"
+"aqua:budimanjojo/talhelper" = "3.1.10"
+"aqua:koalaman/shellcheck" = "0.11.0"
+"aqua:zizmorcore/zizmor" = "1.25.2"
 
-"npm:markdownlint-cli2" = "latest"
+"npm:markdownlint-cli2" = "0.22.1"
 
 [hooks]
 postinstall = "lefthook install"
