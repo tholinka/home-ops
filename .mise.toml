@@ -9,9 +9,6 @@ JUST_UNSTABLE = "1"
 LEFTHOOK_OUTPUT = "false"
 
 [tools]
-python = "3.14.5"
-uv = "0.11.16"
-"pipx:flux-local" = "8.2.0"
 "pipx:yamllint" = "1.38.0"
 
 "aqua:ggshield" = "1.50.4"
@@ -22,6 +19,8 @@ uv = "0.11.16"
 "aqua:zizmorcore/zizmor" = "1.25.2"
 
 "npm:markdownlint-cli2" = "0.22.1"
+
+"github:home-operations/flate" = "0.1.13"
 
 [hooks]
 postinstall = "lefthook install"
