@@ -8,10 +8,9 @@ set -euo pipefail
 # Incoming arguments
 JOB=${1:-}
 NAMESPACE=${2:-}
-BODY=${3:-}
 
 # in github webhooks, enable: pull requests and issues
 curl -s -X POST \
   "http://renovate-operator.renovate.svc.cluster.local:8082/webhook/v1/github?job=${JOB}&namespace=${NAMESPACE}" \
   -H "Content-Type: application/json" \
-  --data-raw "${BODY}"
+  --data-binary "@/tmp/payload.json"

@@ -1,6 +1,7 @@
 ---
 - id: github-tholinka-renovate
   execute-command: /config/renovate-operator.sh
+  command-working-directory: /tmp
   pass-arguments-to-command:
     - # job name
       source: string
@@ -10,6 +11,10 @@
       name: renovate
     - # body
       source: raw-request-body
+  pass-file-to-command:
+    - # body, passing as arguments can result in `error occurred: fork/exec /config/renovate-operator.sh: argument list too long`
+      source: raw-request-body
+      name: payload.json
   trigger-rule:
     and:
       - # Validate the webhook secret

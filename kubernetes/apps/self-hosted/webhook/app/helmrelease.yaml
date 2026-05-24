@@ -79,3 +79,8 @@ spec:
         defaultMode: 0775
         globalMounts:
           - readOnly: true
+
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
