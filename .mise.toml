@@ -20,7 +20,7 @@ LEFTHOOK_OUTPUT = "false"
 
 "npm:markdownlint-cli2" = "0.22.1"
 
-"github:home-operations/flate" = "0.1.13"
+"github:home-operations/flate" = "0.1.14"
 
 [hooks]
 postinstall = "lefthook install"
