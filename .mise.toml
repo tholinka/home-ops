@@ -11,7 +11,6 @@ LEFTHOOK_OUTPUT = "false"
 [tools]
 "pipx:yamllint" = "1.38.0"
 
-"aqua:ggshield" = "1.50.4"
 "aqua:evilmartians/lefthook" = "2.1.8"
 "aqua:rhysd/actionlint" = "1.7.12"
 "aqua:budimanjojo/talhelper" = "3.1.10"
@@ -20,6 +19,7 @@ LEFTHOOK_OUTPUT = "false"
 
 "npm:markdownlint-cli2" = "0.22.1"
 
+"github:gitguardian/ggshield" = "1.50.4"
 "github:home-operations/flate" = "0.1.20"
 
 [hooks]
