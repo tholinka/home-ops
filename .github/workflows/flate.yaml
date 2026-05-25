@@ -70,10 +70,11 @@ jobs:
         id: diff
         env:
           KIND: ${{ matrix.kind }}
+        # only really want to skip `victoria-metrics-victoria-metrics-operator-admission`, but can only skip the entire kind
         run: |
           {
             echo 'diff<<EOF'
-            flate diff "$KIND" --path ./pull --path-orig ./default
+            flate diff "$KIND" --path ./pull --path-orig ./default --skip-kinds ValidatingWebhookConfiguration
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
@@ -99,9 +100,6 @@ jobs:
             const label = { helmrelease: "HelmRelease", kustomization: "Kustomization" }[KIND];
             const { owner, repo } = context.repo;
             const issue_number = context.issue.number;
-            const pr = context.payload.pull_request;
-            const sha = pr.head.sha;
-            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
             const marker = `<!-- Sticky Pull Request Comment${issue_number}/kubernetes/${KIND} -->`;
             const body = [
               marker,
@@ -113,7 +111,7 @@ jobs:
               ``,
               `</details>`,
               ``,
-              `<sub>Generated for [\`${sha.slice(0, 7)}\`](${pr.html_url}/commits/${sha}) · [workflow run](${runUrl})</sub>`,
+              `<sub>[Workflow run](${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId})</sub>`,
             ].join("\n");
 
             const comments = await github.paginate(github.rest.issues.listComments, {
@@ -129,7 +127,8 @@ jobs:
 
   success:
     if: ${{ !cancelled() }}
-    needs: [flate]
+    needs:
+      - flate
     name: Flate - Success
     runs-on: ubuntu-latest
     steps:
