@@ -109,7 +109,7 @@ spec:
           tika:
             image:
               repository: mirror.gcr.io/apache/tika
-              tag: 3.3.0.0-full@sha256:ecdd37e204308266b1f8e28569f8516ebd5b96d7a4518a71d3904710b20c03b3
+              tag: 3.3.1.0-full@sha256:d8e6ed96260ad89307a93195a1b856102987a818ac648502f8efbaf313d32470
             ports:
               - containerPort: 9998
             resources:
