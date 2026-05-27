@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/linuxserver/orcaslicer
-              tag: 2.3.2@sha256:bfd3c91bb82884521b289895ca4bed3519c9622568a1e48853d91529de475a0f
+              tag: 2.3.2@sha256:159ee84619503888c518a02bc35604e6ee4284e70d0d12876524ea8143519bf0
             env:
               DRINODE: /dev/dri/renderD128
               GTK_THEME: Adwaita:dark # segfaults if no theme is set
