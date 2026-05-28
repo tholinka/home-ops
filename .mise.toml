@@ -20,7 +20,7 @@ LEFTHOOK_OUTPUT = "false"
 "npm:markdownlint-cli2" = "0.22.1"
 
 "github:gitguardian/ggshield" = "1.51.0"
-"github:home-operations/flate" = "0.1.27"
+"github:home-operations/flate" = "0.1.28"
 
 [hooks]
 postinstall = "lefthook install"
