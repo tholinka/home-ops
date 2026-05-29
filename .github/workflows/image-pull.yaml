@@ -40,12 +40,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup Mise
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+      - name: Install flate
+        uses: home-operations/flate/action@47758c3a4b028e8f68ddcdd7f2223423849cf8b2 # v0.1.31
         with:
-          cache: false
-          tool_versions: |
-            github:home-operations/flate latest
+          cache: true
 
       - name: Extract Images
         id: extract
@@ -70,12 +68,8 @@ jobs:
       max-parallel: 4
       fail-fast: false
     steps:
-      - name: Setup Mise
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
-        with:
-          cache: false
-          tool_versions: |
-            talosctl latest
+      - name: Install talosctl
+        run: curl -fsSL https://talos.dev/install | sh
 
       - name: Pull Image
         env:
