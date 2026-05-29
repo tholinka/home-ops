@@ -49,10 +49,13 @@ jobs:
 
       - name: Extract Images
         id: extract
+        env:
+          FLATE_OUTPUT: json
+          FLATE_PATH: ./kubernetes/flux/cluster
         run: |
           {
             echo 'images<<EOF'
-            flate diff images --output json --path ./kubernetes
+            flate diff images --allow-missing-secrets >> "$GITHUB_OUTPUT"
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
