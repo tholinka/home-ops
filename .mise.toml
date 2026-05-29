@@ -11,7 +11,7 @@ LEFTHOOK_OUTPUT = "false"
 [tools]
 "pipx:yamllint" = "1.38.0"
 
-"aqua:evilmartians/lefthook" = "2.1.8"
+"aqua:evilmartians/lefthook" = "2.1.9"
 "aqua:rhysd/actionlint" = "1.7.12"
 "aqua:budimanjojo/talhelper" = "3.1.10"
 "aqua:koalaman/shellcheck" = "0.11.0"
