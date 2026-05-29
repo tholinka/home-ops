@@ -58,7 +58,11 @@ spec:
       cpu: 100m
       memory: 128Mi
   schedule: 0 * * * *
-  secretRef: lab-assistant-tholinka
+  githubAppReference:
+    secretName: lab-assistant-tholinka
+    appIdSecretKey: appID
+    installationIdSecretKey: installID
+    pemSecretKey: pem
   webhook:
     enabled: true
     authentication:
