@@ -168,6 +168,9 @@ spec:
           enabled: false
       operator:
         enable_converter_ownership: true
+      env:
+        - name: VM_ENABLETCP6
+          value: 'true'
     vmagent:
       spec:
         extraArgs:
