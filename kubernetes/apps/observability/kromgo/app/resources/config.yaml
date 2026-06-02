@@ -1,76 +1,72 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/home-operations/kromgo/main/config.schema.json
-defaults:
-  badge:
-    size: 12
-
 badges:
   - id: talos_version
     title: Talos
     icon: si:talos
     query: label_replace(node_os_info{name="Talos"}, "version_id", "$1", "version_id", "v(.+)")
-    value: labels["version_id"]
+    valueExpr: labels["version_id"]
 
   - id: kubernetes_version
     title: Kubernetes
     icon: si:kubernetes
     query: label_replace(kubernetes_build_info{service="kubernetes"}, "git_version", "$1", "git_version", "v(.+)")
-    value: labels["git_version"]
+    valueExpr: labels["git_version"]
 
   - id: flux_version
     title: Flux
     icon: si:flux
     query: label_replace(flux_instance_info, "revision", "$1", "revision", "v(.+)@sha256:.+")
-    value: labels["revision"]
+    valueExpr: labels["revision"]
 
   - id: cluster_node_count
     title: Nodes
     query: count(count by (node) (kube_node_status_condition{condition="Ready"}))
-    color: '"green"'
+    colorExpr: '"green"'
 
   - id: cluster_pod_count
     title: Pods
     query: sum(kube_pod_status_phase{phase="Running"})
-    value: humanizeNumber(result)
-    color: '"green"'
+    valueExpr: humanizeCommas(result)
+    colorExpr: '"green"'
 
   - id: cluster_cpu_usage
     title: CPU
     query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
-    value: string(result) + "%"
-    color: 'result <= 40 ? "green" : result <= 75 ? "orange" : "red"'
+    valueExpr: string(result) + "%"
+    colorExpr: 'colorScale(result, [40.0, 75.0], ["green", "orange", "red"])'
 
   - id: cluster_memory_usage
     title: Memory
     query: round(sum(node_memory_MemTotal_bytes{pod!=""} - node_memory_MemAvailable_bytes{pod!=""}) / sum(node_memory_MemTotal_bytes{pod!=""}) * 100, 0.1)
-    value: string(result) + "%"
-    color: 'result <= 40 ? "green" : result <= 75 ? "orange" : "red"'
+    valueExpr: string(result) + "%"
+    colorExpr: 'colorScale(result, [40.0, 75.0], ["green", "orange", "red"])'
 
   - id: cluster_power_usage
     title: Cluster Power
     query: round(unpoller_device_outlet_ac_power_consumption, 0.1)
-    value: humanizeNumber(math.round(result)) + "w"
-    color: 'result <= 350 ? "green" : result <= 500 ? "orange" : "red"'
+    valueExpr: humanizeCommas(math.round(result)) + "w"
+    colorExpr: 'colorScale(result, [350.0, 500.0], ["green", "orange", "red"])'
 
   - id: internet_power_usage
     title: Internet Power
     query: round(ha_sensor_power_w{entity="sensor.internet_outlet_current_consumption"}, 0.1)
-    value: humanizeNumber(math.round(result)) + "w"
-    color: 'result <= 70 ? "green" : result <= 100 ? "orange" : "red"'
+    valueExpr: humanizeCommas(math.round(result)) + "w"
+    colorExpr: 'colorScale(result, [70.0, 100.0], ["green", "orange", "red"])'
 
   - id: cluster_age
     title: Age
     query: round(time() - min(kube_node_created))
-    value: humanizeDays(result)
-    color: 'result <= 15552000 ? "green" : result <= 31104000 ? "orange" : "red"'
+    valueExpr: humanizeDurationDays(result)
+    colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
 
   - id: cluster_uptime
     title: Uptime
     query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}))
-    value: humanizeDays(result)
-    color: 'result <= 15552000 ? "green" : result <= 31104000 ? "orange" : "red"'
+    valueExpr: humanizeDurationDays(result)
+    colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
 
   - id: cluster_alert_count
     title: Alerts
     query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
-    color: 'result < 1 ? "green" : "red"'
+    colorExpr: 'colorScale(result, [1.0], ["green", "red"])'
