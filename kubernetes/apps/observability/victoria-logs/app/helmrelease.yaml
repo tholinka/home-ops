@@ -15,6 +15,8 @@ spec:
       image:
         registry: quay.io
     server:
+      extraArgs:
+        enableTCP6: true
       persistentVolume:
         enabled: true
         storageClassName: ceph-block

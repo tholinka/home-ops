@@ -22,6 +22,7 @@ spec:
         - kubernetes.pod_labels.app.kubernetes.io/name
     extraArgs:
       'kubernetesCollector.decolorizeFields': _msg
+      enableTCP6: true
     global:
       image:
         registry: quay.io
