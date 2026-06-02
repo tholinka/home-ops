@@ -17,7 +17,7 @@ JUST_UNSTABLE = "1"
 "npm:markdownlint-cli2" = "0.22.1"
 
 "github:gitguardian/ggshield" = "1.51.0"
-"github:home-operations/flate" = "0.1.36"
+"github:home-operations/flate" = "0.1.38"
 
 [hooks]
 postinstall = "lefthook install"
