@@ -3,54 +3,30 @@
 	packageRules: [
 		{
 			description: "Auto-merge trusted OCI digests",
-			matchDatasources: [
-				"docker",
-			],
+			matchDatasources: ["docker"],
 			automerge: true,
 			automergeType: "pr",
-			matchUpdateTypes: [
-				"digest",
-			],
-			matchPackageNames: [
-				"/tholinka/",
-				"/home-operations/",
-			],
+			matchUpdateTypes: ["digest"],
+			matchPackageNames: ["/tholinka/", "/home-operations/"],
 			ignoreTests: false,
 		},
 		{
 			description: "Auto-merge high-cadence OCI packages weekly",
-			matchDatasources: [
-				"docker",
-			],
+			matchDatasources: ["docker"],
 			automerge: true,
 			automergeType: "pr",
-			matchUpdateTypes: [
-				"minor",
-				"patch",
-			],
-			matchPackageNames: [
-				"ghcr.io/renovatebot/renovate"
-			],
+			matchUpdateTypes: ["minor", "patch"],
+			matchPackageNames: ["ghcr.io/renovatebot/renovate"],
 			ignoreTests: false,
-			schedule: [
-				"before 6am on Sunday"
-			],
+			schedule: ["before 6am on Sunday"],
 		},
 		{
 			description: "Auto-merge trusted GitHub Actions",
-			matchManagers: [
-				"github-actions"
-			],
-			matchPackageNames: [
-				"/^actions\//",
-			],
+			matchManagers: ["github-actions"],
+			matchPackageNames: ["/^actions\//"],
 			automerge: true,
 			automergeType: "branch",
-			matchUpdateTypes: [
-				"minor",
-				"patch",
-				"digest"
-			],
+			matchUpdateTypes: ["minor", "patch", "digest"],
 			minimumReleaseAge: "1 minute",
 			ignoreTests: true,
 		},

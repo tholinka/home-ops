@@ -28,8 +28,7 @@ spec:
             severity: warning
         - alert: UpsLowRuntime
           annotations:
-            description:
-              UPS {{ $labels.instance }} battery is low and the system is getting
+            description: UPS {{ $labels.instance }} battery is low and the system is getting
               ready to shutdown.
             summary: UPS battery is low.
           expr: |

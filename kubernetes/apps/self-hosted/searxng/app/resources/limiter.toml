@@ -11,14 +11,14 @@ ipv6_prefix = 64
 # used if SearXNG is behind a reverse proxy or load balancer.
 
 trusted_proxies = [
-	'127.0.0.0/8',
-	'::1',
-	'192.168.0.0/16',
-	'172.16.0.0/12',
-	'10.0.0.0/8',
-	'fd00::/8',
-	'fc00::/8',
-	'fd83:43a4:6dab:21::/64',
+  '127.0.0.0/8',
+  '::1',
+  '192.168.0.0/16',
+  '172.16.0.0/12',
+  '10.0.0.0/8',
+  'fd00::/8',
+  'fc00::/8',
+  'fd83:43a4:6dab:21::/64',
 ]
 
 [botdetection.ip_limit]
@@ -39,9 +39,9 @@ link_token = true
 block_ip = []
 
 pass_ip = [
-	'192.168.0.0/16',         # IPv4 private network
-	'${IPV6_PREFIX}::/56',    # IPv6 local network
-	'fd83:43a4:6dab:21::/48', # IPv6 ULA
+  '192.168.0.0/16', # IPv4 private network
+  '${IPV6_PREFIX}::/56', # IPv6 local network
+  'fd83:43a4:6dab:21::/48', # IPv6 ULA
 ]
 
 # Activate passlist of (hardcoded) IPs from the SearXNG organization,

@@ -21,9 +21,7 @@
 		{
 			description: "Process Grafana dashboards",
 			customType: "regex",
-			managerFilePatterns: [
-				"/grafanadashboard\\.yaml(?:\\.j2)?$/",
-			],
+			managerFilePatterns: ["/grafanadashboard\\.yaml(?:\\.j2)?$/"],
 			matchStrings: [
 				"dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download",
 			],
@@ -46,32 +44,22 @@
 	],
 	packageRules: [
 		{
-			addLabels: [
-				"renovate/grafana-dashboard"
-			],
+			addLabels: ["renovate/grafana-dashboard"],
 			automerge: true,
 			automergeType: "branch",
 			commitMessageExtra: "({{currentVersion}} → {{newVersion}})",
 			commitMessageTopic: "dashboard {{sourceDirectory}}",
 			ignoreTests: true,
-			matchDatasources: [
-				"custom.grafana-dashboards"
-			],
-			matchUpdateTypes: [
-				"major"
-			],
+			matchDatasources: ["custom.grafana-dashboards"],
+			matchUpdateTypes: ["major"],
 			semanticCommitScope: "grafana-dashboards",
 			semanticCommitType: "chore",
 		},
 		{
-			addLabels: [
-				"renovate/grafana-plugin"
-			],
+			addLabels: ["renovate/grafana-plugin"],
 			commitMessageExtra: "({{currentVersion}} → {{newVersion}})",
 			commitMessageTopic: "plugin {{packageName}}",
-			matchDatasources: [
-				"custom.grafana-plugins"
-			],
+			matchDatasources: ["custom.grafana-plugins"],
 			semanticCommitScope: "grafana-plugins",
 			semanticCommitType: "chore",
 		},
@@ -79,13 +67,8 @@
 			automerge: true,
 			automergeType: "branch",
 			ignoreTests: true,
-			matchDatasources: [
-				"custom.grafana-plugins"
-			],
-			matchUpdateTypes: [
-				"minor",
-				"patch"
-			],
+			matchDatasources: ["custom.grafana-plugins"],
+			matchUpdateTypes: ["minor", "patch"],
 		},
 	],
 }

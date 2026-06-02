@@ -6,17 +6,11 @@ TALOSCONFIG = "{{config_root}}/talos/talosconfig"
 JUST_UNSTABLE = "1"
 
 [tools]
-"pipx:yamllint" = "1.38.0"
-
 "aqua:evilmartians/lefthook" = "2.1.9"
-"aqua:rhysd/actionlint" = "1.7.12"
 "aqua:budimanjojo/talhelper" = "3.1.10"
 "aqua:koalaman/shellcheck" = "0.11.0"
 "aqua:zizmorcore/zizmor" = "1.25.2"
 
-"npm:markdownlint-cli2" = "0.22.1"
-
-"github:gitguardian/ggshield" = "1.51.0"
 "github:home-operations/flate" = "0.1.38"
 
 [hooks]

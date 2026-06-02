@@ -4,13 +4,8 @@
 		{
 			description: "Actions Runner Controller Group",
 			groupName: "Actions Runner Controller",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/gha-runner-scale-set-controller/",
-				"/gha-runner-scale-set/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
@@ -19,12 +14,8 @@
 		{
 			description: "Cert-Manager Group",
 			groupName: "Cert-Manager",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/cert-manager/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/cert-manager/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
@@ -32,12 +23,8 @@
 		{
 			description: "Cilium Group",
 			groupName: "Cilium",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/cilium/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/cilium/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
@@ -45,12 +32,8 @@
 		{
 			description: "CoreDNS Group",
 			groupName: "CoreDNS",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/coredns/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/coredns/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
@@ -58,12 +41,8 @@
 		{
 			description: "External Secrets Operator Group",
 			groupName: "External Secrets Operator",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/external-secrets/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/external-secrets/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
@@ -71,28 +50,18 @@
 		{
 			description: "Flux Operator Group",
 			groupName: "Flux Operator",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/flux-operator/",
-				"/flux-instance/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/flux-operator/", "/flux-instance/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
-			minimumGroupSize: 2
+			minimumGroupSize: 2,
 		},
 		{
 			description: "Rook-Ceph Group",
 			groupName: "Rook-Ceph",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/rook-ceph/",
-				"/rook-ceph-cluster/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
@@ -101,12 +70,8 @@
 		{
 			description: "Spegel Group",
 			groupName: "Spegel",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/spegel/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/spegel/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
@@ -115,25 +80,17 @@
 		{
 			description: "Volsync Group",
 			groupName: "Volsync",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/volsync/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/volsync/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
-			}
+			},
 		},
 		{
 			description: "Ignore bad upload assistant version",
 			groupName: "Upload Assistant",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"/audionut/upload-assistant/"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/audionut/upload-assistant/"],
 			allowedVersions: "<31.0.0",
 		},
 		{
@@ -141,13 +98,8 @@
 			// and also don't wait the standard time before merging actions
 			description: "Flate Group",
 			groupName: "Flate",
-			matchManagers: [
-				"github-actions",
-				"mise",
-			],
-			matchPackageNames: [
-				"/flate/"
-			],
+			matchManagers: ["github-actions", "mise"],
+			matchPackageNames: ["/flate/"],
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},

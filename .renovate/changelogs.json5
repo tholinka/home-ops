@@ -3,70 +3,44 @@
 	packageRules: [
 		{
 			description: "Changelog URL for cloudflared",
-			matchPackageNames: [
-				"cloudflare"
-			],
+			matchPackageNames: ["cloudflare"],
 			changelogUrl: "https://github.com/cloudflare/cloudflared/blob/master/RELEASE_NOTES",
 		},
 		{
 			description: "Set saerxng source",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"ghcr.io/searxng/searxng"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/searxng/searxng"],
 			sourceUrl: "https://github.com/searxng/searxng",
 		},
 		{
 			description: "Set seerr source",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"ghcr.io/seerrr-team/seerr"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/seerrr-team/seerr"],
 			sourceUrl: "https://github.com/seer-team/seer",
 		},
 		{
 			description: "Set talos-installer source",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"ghcr.io/siderolabs/installer"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/siderolabs/installer"],
 			sourceUrl: "https://github.com/siderolabs/talos",
 		},
 		{
 			description: "Set atuin source",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"ghcr.io/atuinsh/atuin"
-			],
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/atuinsh/atuin"],
 			sourceUrl: "https://github.com/atuinsh/atuin",
 		},
 		{
 			description: "Set prompp source",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"mirror.gcr.io/prompp/prompp"
-			],
-			sourceUrl: "https://github.com/deckhouse/prompp"
+			matchDatasources: ["docker"],
+			matchPackageNames: ["mirror.gcr.io/prompp/prompp"],
+			sourceUrl: "https://github.com/deckhouse/prompp",
 		},
 		{
 			description: "Set cnpg postgres source",
-			matchDatasources: [
-				"docker"
-			],
-			matchPackageNames: [
-				"ghcr.io/cloudnative-pg/postgresql"
-			],
-			sourceUrl: "https://github.com/cloudnative-pg/postgres-containers"
-		}
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/cloudnative-pg/postgresql"],
+			sourceUrl: "https://github.com/cloudnative-pg/postgres-containers",
+		},
 	],
 }

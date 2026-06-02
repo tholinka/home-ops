@@ -9,22 +9,26 @@
 	},
 	"vs-kubernetes": {
 		"vs-kubernetes.kubeconfig": "./kubeconfig",
-		"vs-kubernetes.knownKubeconfigs": [
-			"./kubeconfig"
-		]
+		"vs-kubernetes.knownKubeconfigs": ["./kubeconfig"]
 	},
 	"prettier.singleQuote": true,
 	"prettier.useTabs": true,
-	"[yaml]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[json5]": {
-		"editor.defaultFormatter": "BlueGlassBlock.better-json5"
-	},
-	"[markdown]": {
-		"editor.defaultFormatter": "yzhang.markdown-all-in-one",
-	},
 	"[just]": {
 		"editor.defaultFormatter": "nefrob.vscode-just-syntax"
 	},
+	"[yaml]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	},
+	"[json5]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
+	}
 }

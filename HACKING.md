@@ -49,7 +49,7 @@ line vty
 
 SSH into router, then run:
 
->[!NOTE]
+> [!NOTE]
 > This installs the on boot script, and then sets up the healthchecks.io ping.
 >
 > You can leave the `05-` and `06-` scripts that are installed by default if you use them, I don't.
@@ -81,33 +81,33 @@ task talos:reset # --force
 
 1. Install Talos:
 
-    >[!NOTE]
-     _It might take a while for the cluster to be setup (10+ minutes is normal). During which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. 'Ready' will remain "False" as no CNI is deployed yet. **This is a normal.** If this step gets interrupted, e.g. by pressing `Ctrl` + `C`, you likely will need to [reset the cluster](#-reset) before trying again_
+   > [!NOTE]
+   > _It might take a while for the cluster to be setup (10+ minutes is normal). During which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. 'Ready' will remain "False" as no CNI is deployed yet. **This is a normal.** If this step gets interrupted, e.g. by pressing `Ctrl` + `C`, you likely will need to [reset the cluster](#-reset) before trying again_
 
-    ```sh
-    task talos:generate-config
-    task bootstrap:talos
-    ```
+   ```sh
+   task talos:generate-config
+   task bootstrap:talos
+   ```
 
 2. Push your changes to git:
 
-    ```sh
-    git add -A
-    git commit -m "chore: add talhelper encrypted secret :lock:"
-    git push
-    ```
+   ```sh
+   git add -A
+   git commit -m "chore: add talhelper encrypted secret :lock:"
+   git push
+   ```
 
 3. Install cilium, coredns, cert-manager, external-secrets, flux and sync the cluster to the repository state:
 
-    ```sh
-    task bootstrap:apps
-    ```
+   ```sh
+   task bootstrap:apps
+   ```
 
 4. Watch the rollout of your cluster happen:
 
-    ```sh
-    watch kubectl get pods --all-namespaces
-    ```
+   ```sh
+   watch kubectl get pods --all-namespaces
+   ```
 
 ### 🪝 Github Webhook
 
@@ -115,18 +115,18 @@ By default Flux will periodically check your git repository for changes. In orde
 
 1. Obtain the webhook path:
 
-    > [!NOTE]
-    _Hook id and path should look like `/hook/12ebd1e363c641dc3c2e430ecf3cee2b3c7a5ac9e1234506f6f5f3ce1230e123`_
+   > [!NOTE]
+   > _Hook id and path should look like `/hook/12ebd1e363c641dc3c2e430ecf3cee2b3c7a5ac9e1234506f6f5f3ce1230e123`_
 
-    ```sh
-    kubectl -n flux-system get receiver github-receiver -o jsonpath='{.status.webhookPath}'
-    ```
+   ```sh
+   kubectl -n flux-system get receiver github-receiver -o jsonpath='{.status.webhookPath}'
+   ```
 
 2. Piece together the full URL with the webhook path appended:
 
-    ```text
-    https://flux-webhook.${cloudflare.domain}/hook/12ebd1e363c641dc3c2e430ecf3cee2b3c7a5ac9e1234506f6f5f3ce1230e123
-    ```
+   ```text
+   https://flux-webhook.${cloudflare.domain}/hook/12ebd1e363c641dc3c2e430ecf3cee2b3c7a5ac9e1234506f6f5f3ce1230e123
+   ```
 
 3. Navigate to the settings of your repository on Github, under "Settings/Webhooks" press the "Add webhook" button. Fill in the webhook URL and your `${github.webhook_token}` secret from the [secret](kubernetes/apps/flux-system/flux-operator/instance/github/webhooks/secret.sops.yaml), Content type: `application/json`, Events: Choose Just the push event, and save.
 
@@ -172,52 +172,52 @@ Below is a general guide on trying to debug an issue with an resource or applica
 
 1. Verify the Git Repository is up-to-date and in a ready state.
 
-    ```sh
-    flux get sources git -A
-    ```
+   ```sh
+   flux get sources git -A
+   ```
 
-    Force Flux to sync your repository to your cluster:
+   Force Flux to sync your repository to your cluster:
 
-    ```sh
-    flux -n flux-system reconcile ks flux-system --with-source
-    ```
+   ```sh
+   flux -n flux-system reconcile ks flux-system --with-source
+   ```
 
 2. Verify all the Flux kustomizations are up-to-date and in a ready state.
 
-    ```sh
-    flux get ks -A
-    ```
+   ```sh
+   flux get ks -A
+   ```
 
 3. Verify all the Flux helm releases are up-to-date and in a ready state.
 
-    ```sh
-    flux get hr -A
-    kubectl get hr -A
-    kubectl describe hr -n namespace release-name # look at the bottom, for the recent helm logs
-    ```
+   ```sh
+   flux get hr -A
+   kubectl get hr -A
+   kubectl describe hr -n namespace release-name # look at the bottom, for the recent helm logs
+   ```
 
 4. Do you see the pod of the workload you are debugging?
 
-    ```sh
-    kubectl -n <namespace> get pods -o wide
-    ```
+   ```sh
+   kubectl -n <namespace> get pods -o wide
+   ```
 
 5. Check the logs of the pod if its there.
 
-    ```sh
-    kubectl -n <namespace> logs <pod-name> -f
-    ```
+   ```sh
+   kubectl -n <namespace> logs <pod-name> -f
+   ```
 
 6. If a resource exists try to describe it to see what problems it might have.
 
-    ```sh
-    kubectl -n <namespace> describe <resource> <name>
-    ```
+   ```sh
+   kubectl -n <namespace> describe <resource> <name>
+   ```
 
 7. Check the namespace events
 
-    ```sh
-    kubectl -n <namespace> get events --sort-by='.metadata.creationTimestamp'
-    ```
+   ```sh
+   kubectl -n <namespace> get events --sort-by='.metadata.creationTimestamp'
+   ```
 
 Resolving problems that you have could take some tweaking of your YAML manifests in order to get things working, other times it could be a external factor like permissions on a NFS server. If you are unable to figure out your problem see the support sections below.
