@@ -135,6 +135,27 @@
 				"/audionut/upload-assistant/"
 			],
 			allowedVersions: "<31.0.0",
-		}
+		},
+		{
+			// Merge Flate updates for mise and github action together,
+			// and also don't wait the standard time before merging actions
+			description: "Flate Group",
+			groupName: "Flate",
+			matchManagers: [
+				"github-actions",
+				"mise",
+			],
+			matchPackageNames: [
+				"/flate/"
+			],
+			group: {
+				commitMessageTopic: "{{{groupName}}} group",
+			},
+			minimumGroupSize: 3,
+			minimumReleaseAge: "1m",
+			automerge: true,
+			automergeType: "branch",
+			ignoreTests: true,
+		},
 	],
 }
