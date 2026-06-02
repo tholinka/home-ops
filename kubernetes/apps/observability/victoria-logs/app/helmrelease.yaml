@@ -18,7 +18,7 @@ spec:
       persistentVolume:
         enabled: true
         storageClassName: ceph-block
-        size: 50Gi
+        size: 100Gi
       retentionPeriod: 90d
       route:
         enabled: true
