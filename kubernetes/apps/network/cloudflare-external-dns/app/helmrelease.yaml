@@ -34,7 +34,7 @@ spec:
       - gateway-tlsroute
       - gateway-tcproute
       - gateway-udproute
-    txtPrefix: k8s.
+    txtPrefix: k8s.%{record_type}-
     txtOwnerId: default
     domainFilters: [tholinka.dev]
     serviceMonitor:
