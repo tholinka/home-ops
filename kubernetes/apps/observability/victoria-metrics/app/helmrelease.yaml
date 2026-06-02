@@ -21,28 +21,25 @@ spec:
           repeat_interval: 12h
           routes:
             - receiver: blackhole
-              matchers:
-                - alertname = InfoInhibitor
+              matchers: [alertname = "InfoInhibitor"]
             - receiver: heartbeat
-              matchers:
-                - alertname = "Watchdog"
+              matchers: [alertname = "Watchdog"]
               group_interval: 5m
               group_wait: 0s
               repeat_interval: 5m
-          group_by:
-            - alertname
-            - cluster
-            - job
+          group_by: [alertname, cluster, job]
           group_interval: 5m
           group_wait: 1m
         inhibit_rules:
-          - equal:
-              - alertname
-              - namespace
-            source_matchers:
-              - severity = "critical"
-            target_matchers:
-              - severity = "warning"
+          - source_matchers: [severity = "critical"]
+            target_matchers: [severity =~ "warning|info"]
+            equal: [namespace, alertname]
+          - source_matchers: [severity = "warning"]
+            target_matchers: [severity = "info"]
+            equal: [namespace, alertname]
+          - source_matchers: [alertname = "InfoInhibitor"]
+            target_matchers: [severity = "info"]
+            equal: [namespace]
         receivers:
           - name: blackhole
           - name: heartbeat
