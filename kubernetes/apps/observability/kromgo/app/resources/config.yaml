@@ -1,93 +1,76 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/kashalls/kromgo/main/config.schema.json
-badge:
-  font: Verdana.ttf
-  size: 12
+# yaml-language-server: $schema=https://raw.githubusercontent.com/home-operations/kromgo/main/config.schema.json
+defaults:
+  badge:
+    size: 12
 
-metrics:
-  - name: talos_version
-    query: label_replace(node_os_info{name="Talos"}, "version_id", "$1", "version_id", "v(.+)")
-    label: version_id
+badges:
+  - id: talos_version
     title: Talos
+    icon: si:talos
+    query: label_replace(node_os_info{name="Talos"}, "version_id", "$1", "version_id", "v(.+)")
+    value: labels["version_id"]
 
-  - name: kubernetes_version
-    query: label_replace(kubernetes_build_info{service="kubernetes"}, "git_version", "$1", "git_version", "v(.+)")
-    label: git_version
+  - id: kubernetes_version
     title: Kubernetes
+    icon: si:kubernetes
+    query: label_replace(kubernetes_build_info{service="kubernetes"}, "git_version", "$1", "git_version", "v(.+)")
+    value: labels["git_version"]
 
-  - name: flux_version
-    query: label_replace(flux_instance_info, "revision", "$1", "revision", "v(.+)@sha256:.+")
-    label: revision
+  - id: flux_version
     title: Flux
+    icon: si:flux
+    query: label_replace(flux_instance_info, "revision", "$1", "revision", "v(.+)@sha256:.+")
+    value: labels["revision"]
 
-  - name: cluster_node_count
-    query: count(count by (node) (kube_node_status_condition{condition="Ready"}))
-    colors:
-      - { color: 'green', min: 0, max: 9999 }
+  - id: cluster_node_count
     title: Nodes
+    query: count(count by (node) (kube_node_status_condition{condition="Ready"}))
+    color: '"green"'
 
-  - name: cluster_pod_count
-    query: sum(kube_pod_status_phase{phase="Running"})
-    colors:
-      - { color: 'green', min: 0, max: 9999 }
+  - id: cluster_pod_count
     title: Pods
+    query: sum(kube_pod_status_phase{phase="Running"})
+    value: humanizeNumber(result)
+    color: '"green"'
 
-  - name: cluster_cpu_usage
-    query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
+  - id: cluster_cpu_usage
     title: CPU
-    suffix: '%'
-    colors:
-      - { color: 'green', min: 0, max: 50 }
-      - { color: 'orange', min: 51, max: 75 }
-      - { color: 'red', min: 76, max: 9999 }
+    query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
+    value: string(result) + "%"
+    color: 'result <= 40 ? "green" : result <= 75 ? "orange" : "red"'
 
-  - name: cluster_memory_usage
-    query: round(sum(node_memory_MemTotal_bytes{pod!=""} - node_memory_MemAvailable_bytes{pod!=""}) / sum(node_memory_MemTotal_bytes{pod!=""}) * 100, 0.1)
+  - id: cluster_memory_usage
     title: Memory
-    suffix: '%'
-    colors:
-      - { color: green, min: 0, max: 50 }
-      - { color: orange, min: 51, max: 75 }
-      - { color: red, min: 76, max: 9999 }
+    query: round(sum(node_memory_MemTotal_bytes{pod!=""} - node_memory_MemAvailable_bytes{pod!=""}) / sum(node_memory_MemTotal_bytes{pod!=""}) * 100, 0.1)
+    value: string(result) + "%"
+    color: 'result <= 40 ? "green" : result <= 75 ? "orange" : "red"'
 
-  - name: cluster_power_usage
+  - id: cluster_power_usage
+    title: Cluster Power
     query: round(unpoller_device_outlet_ac_power_consumption, 0.1)
-    title: Power
-    suffix: 'w'
-    colors:
-      - { color: 'green', min: 0, max: 350 }
-      - { color: 'orange', min: 351, max: 500 }
-      - { color: 'red', min: 501, max: 9999 }
+    value: humanizeNumber(math.round(result)) + "w"
+    color: 'result <= 350 ? "green" : result <= 500 ? "orange" : "red"'
 
-  - name: internet_power_usage
+  - id: internet_power_usage
+    title: Internet Power
     query: round(ha_sensor_power_w{entity="sensor.internet_outlet_current_consumption"}, 0.1)
-    title: Power
-    suffix: 'w'
-    colors:
-      - { color: 'green', min: 0, max: 70 }
-      - { color: 'orange', min: 71, max: 100 }
-      - { color: 'red', min: 101, max: 9999 }
+    value: humanizeNumber(math.round(result)) + "w"
+    color: 'result <= 70 ? "green" : result <= 100 ? "orange" : "red"'
 
-  - name: cluster_age_days
-    query: round((time() - min(kube_node_created) ) / 86400)
+  - id: cluster_age
     title: Age
-    suffix: 'd'
-    colors:
-      - { color: 'green', min: 31, max: 9999 }
-      - { color: 'orange', min: 11, max: 30 }
-      - { color: 'red', min: 0, max: 10 }
+    query: round(time() - min(kube_node_created))
+    value: humanizeDays(result)
+    color: 'result <= 15552000 ? "green" : result <= 31104000 ? "orange" : "red"'
 
-  - name: cluster_uptime_days
-    query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}) / 86400)
-    suffix: 'd'
-    colors:
-      - { color: 'green', min: 7, max: 9999 }
-      - { color: 'orange', min: 3, max: 6 }
-      - { color: 'red', min: 0, max: 2 }
+  - id: cluster_uptime
+    title: Uptime
+    query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}))
+    value: humanizeDays(result)
+    color: 'result <= 15552000 ? "green" : result <= 31104000 ? "orange" : "red"'
 
-  - name: cluster_alert_count
-    query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
-    colors:
-      - { color: 'green', min: 0, max: 0 }
-      - { color: 'red', min: 1, max: 9999 }
+  - id: cluster_alert_count
     title: Alerts
+    query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
+    color: 'result < 1 ? "green" : "red"'
