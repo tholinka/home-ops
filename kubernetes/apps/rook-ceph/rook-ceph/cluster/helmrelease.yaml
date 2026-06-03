@@ -42,6 +42,10 @@ spec:
           disabled: true
         CephNodeNetworkPacketDrops:
           disabled: true
+        CephPoolGrowthWarning:
+          # the default doesn't consider the `pod` label, which leads to a `duplicate time series on the left side of` error
+          # can probably be removed after the bad time series have been gone for 2 days
+          expr: (predict_linear(ceph_pool_percent_used[2d], 3600 * 24 * 5) * on(cluster,pool_id,instance,pod) group_right() ceph_pool_metadata) >= 95
     toolbox:
       enabled: true
     route:
