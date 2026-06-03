@@ -13,6 +13,8 @@ spec:
     drivers:
       cephfs:
         enabled: false
+        # kernelMountOptions:
+        #   ms_mode: prefer-crc
       nfs:
         enabled: false
       nvmeof:

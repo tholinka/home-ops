@@ -10,74 +10,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: rook-ceph
-  dependsOn:
-    - name: snapshot-controller
-      namespace: system-controllers
   values:
-    csi:
-      # NOTE: Enable the driver and shapshotter if you want to use CephFS
-      #cephFSKernelMountOptions: ms_mode=prefer-crc
-      enableCephfsDriver: false
-      enableCephfsSnapshotter: false
-      csiRBDProvisionerResource: |
-        - name : csi-rbdplugin
-          resource:
-            requests:
-              memory: 128Mi # 512Mi is default
-            limits:
-              memory: 1Gi # Default
-      csiRBDPluginResource: |
-        - name : driver-registrar
-          resource:
-            requests:
-              memory: 16Mi # 128Mi is default
-              cpu: 50m # default
-            limits:
-              memory: 256Mi # default
-        - name : csi-rbdplugin
-          resource:
-            requests:
-              memory: 128Mi # 512Mi is default
-              cpu: 250m # default
-            limits:
-              memory: 1Gi # Default
-        - name : liveness-prometheus
-          resource:
-            requests:
-              memory: 64Mi # 128Mi is default
-              cpu: 50m # default
-            limits:
-              memory: 256Mi # default
-      csiCephFSProvisionerResource: |
-        - name : csi-cephfsplugin
-          resource:
-            requests:
-              memory: 128Mi # 512Mi is default
-              cpu: 250m # default
-            limits:
-              memory: 1Gi # default
-      csiCephFSPluginResource: |
-        - name : driver-registrar
-          resource:
-            requests:
-              memory: 16Mi # 128Mi is default
-              cpu: 50m # default
-            limits:
-              memory: 256Mi # default
-        - name : csi-cephfsplugin
-          resource:
-            requests:
-              memory: 128Mi # 512Mi is default
-              cpu: 250m # default
-            limits:
-              memory: 1Gi # default
-        - name : liveness-prometheus
-          resource:
-            requests:
-              memory: 64Mi # 128Mi is default
-              cpu: 50m # default
-            limits:
-              memory: 256Mi # default
     image:
       repository: ghcr.io/rook/ceph
     monitoring:
