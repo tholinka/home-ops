@@ -26,8 +26,8 @@ spec:
   interval: 1h
   dependsOn:
     - name: grafana
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: storage-ready
+      namespace: flux-system
   path: ./kubernetes/apps/observability/grafana/instance
   prune: true
   sourceRef:
