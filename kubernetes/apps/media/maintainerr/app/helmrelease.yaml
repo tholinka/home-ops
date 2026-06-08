@@ -20,11 +20,22 @@ spec:
             probes:
               liveness:
                 enabled: true
+                spec:
+                  httpGet:
+                    path: /api/health/live
+                    port: &port 6246
               readiness:
                 enabled: true
+                spec:
+                  httpGet:
+                    path: /api/health/ready
+                    port: *port
               startup:
                 enabled: true
                 spec:
+                  httpGet:
+                    path: /api/health
+                    port: &port 6246
                   failureThreshold: 30
                   periodSeconds: 5
             securityContext:
@@ -50,7 +61,7 @@ spec:
       app:
         ports:
           http:
-            port: 6246
+            port: *port
 
     route:
       app:
