@@ -51,7 +51,7 @@ jobs:
         env:
           KIND: ${{ matrix.kind }}
         run: |
-          flate diff "$KIND" --allow-missing-secrets --path ./kubernetes/flux/cluster --output github > "$KIND.diff"
+          flate diff "$KIND" --allow-missing-secrets --skip-field webhooks --path ./kubernetes/flux/cluster --output github > "$KIND.diff"
           [ -s "$KIND.diff" ] || rm "$KIND.diff"
 
       - if: ${{ hashFiles(format('{0}.diff', matrix.kind)) != '' }}
