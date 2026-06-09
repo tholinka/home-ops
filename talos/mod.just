@@ -45,6 +45,20 @@ apply-cluster mode="auto":
         echo
     done
 
+[confirm('Upgrade Talos config to ' + node + ' [y|N] ?')]
+[doc('Upgrade Talos config to a node')]
+upgrade-node node mode="auto":
+    talhelper gencommand upgrade --node {{ node }} --extra-flags '--mode={{ mode }}' | bash
+    just talos healthy-nodes
+
+[doc('Upgrade Talos config to the entire cluster')]
+[script]
+upgrade-cluster mode="auto":
+    for node in $(just talos get-nodes); do
+        just --yes talos upgrade-node "$node" "{{ mode }}"
+        echo
+    done
+
 [doc('Download Talos machine image')]
 [script]
 download-image version schematic:
