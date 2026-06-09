@@ -59,7 +59,11 @@ The reconciliation chain works as follows:
 
 ## Adding a New App
 
-### 1. Create the app directory
+### 1. Search kubesearch.dev
+
+Before creating any manifests, **always search kubesearch.dev** using the `mcp_kubesearch-mc` tools (like `kubesearch_search_releases` and `kubesearch_get_release`) to discover how the community deploys the app and identify best practices.
+
+### 2. Create the app directory
 
 ```
 kubernetes/apps/{category}/{app-name}/
@@ -69,7 +73,7 @@ kubernetes/apps/{category}/{app-name}/
     └── helmrelease.yaml
 ```
 
-### 2. Write the Flux Kustomization (`ks.yaml`)
+### 3. Write the Flux Kustomization (`ks.yaml`)
 
 ```yaml
 ---
@@ -107,7 +111,7 @@ Key rules:
 - Components are referenced with relative paths from the ks.yaml location (`../../../../components/...`)
 - `sourceRef` always points to `flux-system`
 
-### 3. Write the app Kustomization (`app/kustomization.yaml`)
+### 4. Write the app Kustomization (`app/kustomization.yaml`)
 
 ```yaml
 ---
@@ -118,11 +122,11 @@ resources:
   - helmrelease.yaml
 ```
 
-### 4. Register the app in the category kustomization
+### 5. Register the app in the category kustomization
 
 Add `- ./{app-name}/ks.yaml` to the `resources:` list in `kubernetes/apps/{category}/kustomization.yaml`.
 
-### 5. HelmRelease defaults (auto-patched — don't repeat these)
+### 6. HelmRelease defaults (auto-patched — don't repeat these)
 
 The cluster-level Flux Kustomization automatically patches every HelmRelease with:
 
@@ -263,23 +267,31 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 
 ## Available Tasks
 
-Run `task --list` for the full list. Key tasks:
+Run `just --list {bootstrap,kube,talos}` to see all available recipes. The justfile is organized into modular files under `bootstrap/`, `kubernetes/`, and `talos/` directories.
 
-| Task                                              | Description                                   | Notes                                     |
-| ------------------------------------------------- | --------------------------------------------- | ----------------------------------------- |
-| `task bootstrap:default`                          | Bootstrap Talos nodes and cluster apps        | **⚠️ ONLY run when explicitly requested** |
-| `task talos:generate-config`                      | Generate Talos configs from talconfig.yaml    |                                           |
-| `task talos:apply-node IP=<ip>`                   | Apply Talos config to one node                |                                           |
-| `task talos:apply-cluster`                        | Apply Talos config to all nodes               |                                           |
-| `task talos:upgrade-node IP=<ip>`                 | Upgrade Talos on a node (drains + reboots)    | Only run if required                      |
-| `task talos:upgrade-node IP=<ip>`                 | Upgrade Talos on all nodes (drains + reboots) | Only run if required                      |
-| `task talos:reboot-node IP=<ip>`                  | Reboot a single node                          |                                           |
-| `task talos:shutdown-cluster`                     | Shutdown entire cluster                       |                                           |
-| `task kubernetes:browse-pvc NS=<ns> CLAIM=<name>` | Mount a PVC to a temp container               |                                           |
-| `task kubernetes:node-shell NODE=<name>`          | Shell into a node                             |                                           |
-| `task kubernetes:sync-secrets`                    | Force-sync all ExternalSecrets                |                                           |
-| `task kubernetes:cleanse-pods`                    | Delete Failed/Pending/Succeeded pods          |                                           |
-| `task reconcile`                                  | Force Flux to pull from git                   |                                           |
+| Command                               | Description                                                        |
+| ------------------------------------- | ------------------------------------------------------------------ |
+| `just bootstrap cluster`              | Bootstrap Talos, Kubernetes, and Flux - **⚠️ Only when requested** |
+| `just talos generate-config`          | Generate Talos configs from talconfig.yaml                         |
+| `just talos apply-node <ip>`          | Apply Talos config to a single node                                |
+| `just talos apply-cluster`            | Apply Talos config to all nodes                                    |
+| `just talos upgrade-node <ip>`        | Upgrade Talos on a single node                                     |
+| `just talos upgrade-cluster`          | Upgrade Talos on all nodes                                         |
+| `just talos reboot-node <ip>`         | Reboot a single node                                               |
+| `just talos reboot-cluster`           | Reboot entire cluster                                              |
+| `just talos shutdown-node <ip>`       | Shutdown a single node                                             |
+| `just talos shutdown-cluster`         | Shutdown entire cluster                                            |
+| `just talos reset-node <ip>`          | Reset a node to factory state                                      |
+| `just talos reset-cluster`            | Reset entire cluster                                               |
+| `just talos healthy-nodes`            | Wait for all nodes to be healthy                                   |
+| `just kube browse-pvc <ns> <name>`    | Mount a PVC to a temporary container                               |
+| `just kube node-shell <node>`         | Open a shell on a cluster node                                     |
+| `just kube prune-pods`                | Delete Failed/Pending/Succeeded pods                               |
+| `just kube snapshot`                  | Trigger VolSync snapshots for all PVCs                             |
+| `just kube volsync <suspend\|resume>` | Suspend or resume VolSync                                          |
+| `just kube restore <ns> <app>`        | Restore a PVC from VolSync backup                                  |
+| `just kube sync <resource>`           | Force sync a Flux or ExternalSecrets resource (hr/ks/es/etc)       |
+| `just kube view-secret <ns> <secret>` | View a Kubernetes secret value                                     |
 
 ---
 
@@ -295,12 +307,18 @@ Verify schema URLs resolve before using them.
 
 ---
 
+## Testing
+
+Use `flate build ks` and `flate build hr` to test that Flux will reconcile the manifests without errors.
+
+---
+
 ## Common Mistakes
 
 1. **Wrong file for the edit** — Category `kustomization.yaml` lists apps; app `ks.yaml` defines Flux behavior; app `app/kustomization.yaml` lists resources
 2. **Hardcoding values** — Use `postBuild.substitute` in `ks.yaml`
 3. **Repeating auto-patched HelmRelease defaults** — They're applied globally by `kubernetes/flux/cluster/ks.yaml`
-4. **Editing `clusterconfig/` files** — Edit `talconfig.yaml` and run `task talos:generate-config`
+4. **Editing `clusterconfig/` files** — Edit `talconfig.yaml` and run `just talos generate-config`
 5. **Missing `dependsOn`** — Declare dependencies for proper ordering (databases, storage, CRDs)
 6. **Missing `APP` substitution** — Required when using any component
 7. **Using Ingress** — Always use HTTPRoutes
@@ -312,6 +330,7 @@ Verify schema URLs resolve before using them.
 
 ## When in Doubt
 
+- Search kubesearch using the `mcp_kubesearch-mc` tools to see how others deploy the app
 - Look at existing apps in the same category for patterns
 - `kubernetes/apps/self-hosted/homepage/` is a good simple reference
 - `kubernetes/apps/self-hosted/paperless/` shows a complex app (volsync + cnpg + dragonfly + HPA scale to zero)
