@@ -68,7 +68,7 @@ spec:
                   },
                   Object.spec.template.spec.initContainers.env{
                     name: "DFGUARD_TUNNEL_CA",
-                    value: "/var/run/secrets/root-ca/ca.crt"
+                    value: "/var/run/secrets/dragonfly/ca.crt"
                   },
                   Object.spec.template.spec.initContainers.env{
                     name: "DFGUARD_TUNNEL_UPSTREAM",
