@@ -9,7 +9,7 @@ spec:
   interval: 1h
   components:
     - ../../../../components/ext-auth
-    - ../../../../components/dragonfly/app-template-stunnel
+    - ../../../../components/dragonfly/app-template-tunnel
   path: ./kubernetes/apps/self-hosted/searxng/app
   postBuild:
     substitute:

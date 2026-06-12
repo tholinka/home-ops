@@ -35,9 +35,6 @@ spec:
     - name: RENOVATE_CACHE_PRIVATE_PACKAGES
       value: 'true'
   extraVolumes:
-    - name: dragonfly-stunnel
-      configMap:
-        name: dragonfly-stunnel
     - name: dragonfly-certs
       csi:
         driver: csi.cert-manager.io

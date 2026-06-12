@@ -12,7 +12,7 @@ spec:
     # needs https://github.com/immich-app/immich-charts/issues/94
     - ../../../../components/scaler/instance
     - ../../../../components/cnpg/app-template
-    - ../../../../components/dragonfly/app-template-stunnel
+    - ../../../../components/dragonfly/app-template-tunnel
   dependsOn:
     - name: dragonfly-cluster
       namespace: database

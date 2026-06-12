@@ -5,9 +5,3 @@ kind: Component
 resources:
   - ./ks.yaml
   - ./secret.yaml
-configMapGenerator:
-  - name: dragonfly-stunnel
-    files:
-      - ./stunnel.conf
-    options:
-      disableNameSuffixHash: true

@@ -12,7 +12,7 @@ spec:
               group: apps
               version: v1
               kind: Deployment
-              labelSelector: 'dragonfly.enable.custom/no-stunnel!=true'
+              labelSelector: 'dragonfly.enable.custom/no-tunnel!=true'
             patch: |-
               apiVersion: apps/v1
               kind: Deployment
@@ -22,9 +22,6 @@ spec:
                 template:
                   spec:
                     volumes:
-                      - name: dragonfly-stunnel
-                        configMap:
-                          name: dragonfly-stunnel
                       - name: dragonfly-certs
                         csi:
                           driver: csi.cert-manager.io
@@ -39,18 +36,23 @@ spec:
                             csi.cert-manager.io/common-name: ${DATABASE_OWNER:=${APP}}
                             csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}
 
-
                     initContainers:
-                      - name: dragonfly-stunnel
-                        image: cgr.dev/chainguard/stunnel:latest@sha256:ce1d6307e13f8c485e500250a24ade5867f2a82164786e957cc46bbcec7045a2
-                        args:
-                          - /etc/stunnel/stunnel.conf
+                      - name: dragonfly-tunnel
                         restartPolicy: Always
+                        image: ghcr.io/m00nwtchr/dfguard:rolling@sha256:c4486379074041f40e485443239d787ed1fc25e097d9b1813a7f3de218ddb93d
+                        args: ["tunnel"]
+                        env:
+                          - name: DFGUARD_TUNNEL_CERT
+                            value: /var/run/secrets/dragonfly/tls.crt
+                          - name: DFGUARD_TUNNEL_KEY
+                            value: /var/run/secrets/dragonfly/tls.key
+                          - name: DFGUARD_TUNNEL_CA
+                            value: /var/run/secrets/dragonfly/ca.crt
+                          - name: DFGUARD_TUNNEL_UPSTREAM
+                            value: dfguard.database.svc.cluster.local.:6379
+                          - name: DFGUARD_TUNNEL_TCP_NODELAY
+                            value: "true"
                         volumeMounts:
-                          - name: dragonfly-stunnel
-                            mountPath: /etc/stunnel/stunnel.conf
-                            subPath: stunnel.conf
-                            readOnly: true
                           - name: dragonfly-certs
                             mountPath: /var/run/secrets/dragonfly
                             readOnly: true
@@ -72,7 +74,7 @@ spec:
               group: apps
               version: v1
               kind: StatefulSet
-              labelSelector: 'dragonfly.enable.custom/no-stunnel!=true'
+              labelSelector: 'dragonfly.enable.custom/no-tunnel!=true'
             patch: |-
               apiVersion: apps/v1
               kind: StatefulSet
@@ -82,9 +84,6 @@ spec:
                 template:
                   spec:
                     volumes:
-                      - name: dragonfly-stunnel
-                        configMap:
-                          name: dragonfly-stunnel
                       - name: dragonfly-certs
                         csi:
                           driver: csi.cert-manager.io
@@ -100,16 +99,22 @@ spec:
                             csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}
 
                     initContainers:
-                      - name: dragonfly-stunnel
-                        image: cgr.dev/chainguard/stunnel:latest@sha256:ce1d6307e13f8c485e500250a24ade5867f2a82164786e957cc46bbcec7045a2
-                        args:
-                          - /etc/stunnel/stunnel.conf
+                      - name: dragonfly-tunnel
                         restartPolicy: Always
+                        image: ghcr.io/m00nwtchr/dfguard:rolling@sha256:c4486379074041f40e485443239d787ed1fc25e097d9b1813a7f3de218ddb93d
+                        args: ["tunnel"]
+                        env:
+                          - name: DFGUARD_TUNNEL_CERT
+                            value: /var/run/secrets/dragonfly/tls.crt
+                          - name: DFGUARD_TUNNEL_KEY
+                            value: /var/run/secrets/dragonfly/tls.key
+                          - name: DFGUARD_TUNNEL_CA
+                            value: /var/run/secrets/dragonfly/ca.crt
+                          - name: DFGUARD_TUNNEL_UPSTREAM
+                            value: dfguard.database.svc.cluster.local.:6379
+                          - name: DFGUARD_TUNNEL_TCP_NODELAY
+                            value: "true"
                         volumeMounts:
-                          - name: dragonfly-stunnel
-                            mountPath: /etc/stunnel/stunnel.conf
-                            subPath: stunnel.conf
-                            readOnly: true
                           - name: dragonfly-certs
                             mountPath: /var/run/secrets/dragonfly
                             readOnly: true

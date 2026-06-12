@@ -135,7 +135,7 @@ spec:
         main:
           strategy: Recreate
           labels:
-            dragonfly.enable.custom/no-stunnel: 'true'
+            dragonfly.enable.custom/no-tunnel: 'true'
           containers:
             main:
               resources:

@@ -3,10 +3,10 @@
 ## Usage
 
 - use `app-template` to auto-mount the secrets to app-template + `manual`
-- use `helm-stunnel` to auto inject stunnel sidecar
-- use `app-template-stunnel` to do both of the above
+- use `helm-tunnel` to auto inject dfguard tunnel sidecar
+- use `app-template-tunnel` to do both of the above
 - use `manual` for manual mounting
-- use secret inside `manual` if the app can handle directly connecting without stunnel
+- use secret inside `manual` if the app can handle directly connecting without dfguard tunnel
 
 ## Reminders
 
