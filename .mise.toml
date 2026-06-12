@@ -11,7 +11,7 @@ JUST_UNSTABLE = "1"
 "aqua:koalaman/shellcheck" = "0.11.0"
 "aqua:zizmorcore/zizmor" = "1.25.2"
 
-"github:home-operations/flate" = "v0.4.1"
+"github:home-operations/flate" = "v0.4.3"
 
 [hooks]
 postinstall = "lefthook install"
