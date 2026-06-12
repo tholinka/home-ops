@@ -309,7 +309,9 @@ Verify schema URLs resolve before using them.
 
 ## Testing
 
-Use `flate build ks` and `flate build hr` to test that Flux will reconcile the manifests without errors.
+Use `flate test ks`, `flate test hr`, `flate build ks -n [namespace] [kustomization name]` and `flate build hr -n [namespace] [helm release name]` to test that Flux will reconcile the manifests without errors.
+
+`flate` is installed by `mise`, and as such is available from `~/.local/share/mise/installs/github-home-operations-flate/latest/flate` if `mise` is not already in the `PATH`.
 
 ---
 
