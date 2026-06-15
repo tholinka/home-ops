@@ -50,7 +50,7 @@ jobs:
         run: |
           {
             echo 'images<<EOF'
-            flate diff images --allow-missing-secrets --path ./kubernetes/flux/cluster --output json >> "$GITHUB_OUTPUT"
+            flate diff images --path ./kubernetes/flux/cluster --output json >> "$GITHUB_OUTPUT"
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
