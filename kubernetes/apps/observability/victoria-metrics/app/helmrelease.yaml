@@ -168,6 +168,13 @@ spec:
       env:
         - name: VM_ENABLETCP6
           value: 'true'
+      resources:
+        requests:
+          cpu: 80m
+          memory: 768Mi
+        limits:
+          cpu: 120m
+          memory: 1Gi
     vmagent:
       spec:
         extraArgs:
