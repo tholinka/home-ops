@@ -48,5 +48,11 @@
 			matchPackageNames: ["ghcr.io/home-operations/gatus-sidecar"],
 			sourceUrl: "https://github.com/home-operations/gatus-sidecar",
 		},
+		{
+			description: "Set wyoming-whisper source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["mirror.gcr.io/rhasspy/wyoming-whisper"],
+			sourceUrl: "https://github.com/rhasspy/wyoming-faster-whisper",
+		},
 	],
 }
