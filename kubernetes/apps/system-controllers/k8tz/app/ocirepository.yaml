@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.19.0
+    digest: sha256:fab0f36a04ddb81392897641a8c736c3480d5e73277058498a072442798ce994
   url: oci://ghcr.io/k8tz/k8tz/charts/k8tz

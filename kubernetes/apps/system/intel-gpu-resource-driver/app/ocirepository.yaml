@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.11.0
+    digest: sha256:a927938c242e39787e87d0c85d1733f5f4d35c1e581cee758fc9d0ac8f76f30b
   url: oci://ghcr.io/intel/intel-resource-drivers-for-kubernetes/intel-gpu-resource-driver-chart

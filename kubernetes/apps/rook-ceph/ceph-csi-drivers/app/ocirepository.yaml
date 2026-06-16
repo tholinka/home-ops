@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 1.0.1
+    digest: sha256:d4bc2a2bb878c9ce9ddc5b7bb4e6bac1c83e7a02f4e77cd139b8f510a7ba7b06
   url: oci://ghcr.io/home-operations/charts-mirror/ceph-csi-drivers

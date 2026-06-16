@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.12.0
+    digest: sha256:6a49267b33a385b9610f0b7009fc1452e44d6b4be83c3a72e05befa90f5ce879
   url: oci://ghcr.io/immich-app/immich-charts/immich

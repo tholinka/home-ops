@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 4.55.0
+    digest: sha256:a0e0d89c5a4036722282dc94c91cea1309e53b56a5b48276f48c280d617dafab
   url: oci://ghcr.io/prometheus-community/charts/prometheus-node-exporter

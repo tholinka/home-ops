@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 4.12.1
+    digest: sha256:87210b211df2fbcf34c51b95c37e7a2f0ae98aeed4d9069322ecf8a3e0723380
   url: oci://ghcr.io/mogenius/helm-charts/renovate-operator

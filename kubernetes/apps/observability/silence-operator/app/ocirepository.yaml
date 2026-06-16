@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.20.1
+    digest: sha256:93883e6415571a734525369c58d9c21f57fee3ad61b30a88b6fff0222c3260f9
   url: oci://gsoci.azurecr.io/charts/giantswarm/silence-operator

@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.19.2
+    digest: sha256:e1fb97f7bdb9d078b248082e9f85fc3325631f84a783d8a22e0e341f27fee864
   url: oci://ghcr.io/prometheus-community/charts/prometheus-json-exporter

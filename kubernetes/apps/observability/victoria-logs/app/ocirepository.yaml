@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.13.7
+    digest: sha256:6e5b929b00253707f6868e71010d0691a0bc2c34fba028669f9c2421dcc20e52
   url: oci://ghcr.io/victoriametrics/helm-charts/victoria-logs-single

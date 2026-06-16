@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.14.8
+    digest: sha256:10785deefc4e6a3e94689b897a84a8ecb45319d5ac80acc8c07e5454a65f0294
   url: oci://ghcr.io/home-operations/charts/kromgo

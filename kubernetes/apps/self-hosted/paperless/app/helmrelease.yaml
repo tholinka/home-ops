@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.20.15
+              tag: 2.20.15@sha256:6c86cad803970ea782683a8e80e7403444c5bf3cf70de63b4d3c8e87500db92f
             env:
               # Configure application
               PAPERLESS_URL: https://{{ .Release.Name }}.tholinka.dev
@@ -92,7 +92,7 @@ spec:
           gotenberg:
             image:
               repository: mirror.gcr.io/gotenberg/gotenberg
-              tag: 8.34.0
+              tag: 8.34.0@sha256:67097317623a503ba2a6a7e9ae8db6929a1f7e1bbd88077bacf2d325fbdab923
             ports:
               - containerPort: 3000
             command:

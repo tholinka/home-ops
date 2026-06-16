@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 7.5.1
+    digest: sha256:61cc211e4bc6fc94670a29a8b6104c96e249bbbba293db2ea37b239c539d77d4
   url: oci://ghcr.io/prometheus-community/charts/kube-state-metrics

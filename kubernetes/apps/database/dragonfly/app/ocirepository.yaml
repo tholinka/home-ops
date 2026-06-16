@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: v1.6.1
+    digest: sha256:a2e9f431f46b0dfb4aee426b70efb4394f970525516ea3f51c8d60a345bbc260
   url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator

@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.3.2
+    digest: sha256:6f51ae8e4a85d363b00064ff2b348127e5241fe8397579ff72789584fe62b492
   url: oci://ghcr.io/home-operations/charts/gatus-sidecar

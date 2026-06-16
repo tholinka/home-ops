@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 4.5.0
+    digest: sha256:b682e4262317a29dd15b6210ac3944110447f0d7c3b121ec04a65dda679c46f4
   url: oci://ghcr.io/openebs/charts/openebs

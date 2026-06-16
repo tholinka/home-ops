@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.16.1
+    digest: sha256:7303a7be5de13c521b98cf62a6f95ac3266b94e5d5f7cc97ca18ee15adbc5ef5
   url: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
