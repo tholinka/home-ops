@@ -234,6 +234,13 @@ spec:
           - name: envoy-internal
             namespace: network
       spec:
+        resources:
+          requests:
+            cpu: 250m
+            memory: 1Gi
+          limits:
+            cpu: 2
+            memory: 2Gi
         retentionPeriod: 400d
         storage:
           accessModes:
