@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.18.5
+    digest: sha256:1f23c55e3a595eac992d568a3bb23934944f553b245d14d5a8bfd5c7e0409eff
   url: oci://ghcr.io/home-operations/charts-mirror/volsync-perfectra1n
