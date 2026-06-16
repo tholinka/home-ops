@@ -11,4 +11,5 @@ spec:
     operation: copy
   ref:
     tag: 0.14.2
+    digest: sha256:579e3a1bdf4032b3c3de3e9b0880a4a6d3c1989a67c06010f680c1cc49524d11
   url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
