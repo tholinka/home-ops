@@ -51,7 +51,7 @@
 		{
 			description: "Set wyoming-whisper source",
 			matchDatasources: ["docker"],
-			matchPackageNames: ["mirror.gcr.io/rhasspy/wyoming-whisper"],
+			matchPackageNames: ["docker.io/rhasspy/wyoming-whisper"],
 			sourceUrl: "https://github.com/rhasspy/wyoming-faster-whisper",
 		},
 		{
