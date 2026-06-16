@@ -54,5 +54,11 @@
 			matchPackageNames: ["mirror.gcr.io/rhasspy/wyoming-whisper"],
 			sourceUrl: "https://github.com/rhasspy/wyoming-faster-whisper",
 		},
+		{
+			description: "Set code-server source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/coder/code-server"],
+			sourceUrl: "https://github.com/coder/code-server",
+		},
 	],
 }
