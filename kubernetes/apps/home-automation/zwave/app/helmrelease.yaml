@@ -36,7 +36,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
+              capabilities: { drop: [ALL] }
             resources:
               requests:
                 cpu: 50m
@@ -46,6 +46,12 @@ spec:
 
     defaultPodOptions:
       hostUsers: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
+        fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
