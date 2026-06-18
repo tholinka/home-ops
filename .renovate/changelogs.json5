@@ -60,5 +60,11 @@
 			matchPackageNames: ["ghcr.io/coder/code-server"],
 			sourceUrl: "https://github.com/coder/code-server",
 		},
+		{
+			description: "Set spegel source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/spegel-org/helm-charts/spegel"],
+			sourceUrl: "https://github.com/spegel-org/spegel",
+		},
 	],
 }
