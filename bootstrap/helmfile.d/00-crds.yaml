@@ -13,19 +13,19 @@ releases:
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 2.6.0@sha256:0531cf1f2a35a6cc41a96ad141d3510d213fcbf7c46b77773c4009dd4bd7d95d
+    version: 2.6.0
 
   - name: envoy-gateway
     namespace: network
     chart: oci://mirror.gcr.io/envoyproxy/gateway-helm
-    version: v1.8.1@sha256:8787cad786bea27ce5d091db38a513c62a3ef38d2a6ec768e798805fae44a39b
+    version: v1.8.1
 
   - name: grafana-operator
     namespace: observability
     chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
-    version: 5.24.0@sha256:4f69cdaecfed2cc61d4e5f4a8e7142795e9b00997e4bcbd37a8c154a225a2f1f
+    version: 5.24.0
 
   - name: prometheus-operator-crds
     namespace: observability
     chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
-    version: 29.0.0@sha256:36bab74f99bb3c3a1ab7003b8ab8651592fab7563067294336d2706e2dba137f
+    version: 29.0.0
