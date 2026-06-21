@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.14.9
-    digest: sha256:4d2e69686a285c1f3aea2032ae5238f607267d08483fee1152d58bf8bd085edb
+    tag: 0.14.10
+    digest: sha256:fde51f9e212e7182f3807889daeb1783266969078463634c89d62b11dbd708e9
   url: oci://ghcr.io/home-operations/charts/kromgo
