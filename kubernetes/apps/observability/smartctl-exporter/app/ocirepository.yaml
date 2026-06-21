@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.16.1
-    digest: sha256:7303a7be5de13c521b98cf62a6f95ac3266b94e5d5f7cc97ca18ee15adbc5ef5
+    tag: 0.17.1
+    digest: sha256:3b205562ffcb1fc6228c9216b3f1b1d6451e647cb73d02548c402e780ac8289f
   url: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
