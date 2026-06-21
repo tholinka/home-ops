@@ -48,7 +48,7 @@ spec:
           csi.cert-manager.io/key-usages: client auth
           csi.cert-manager.io/common-name: ${APP}
           csi.cert-manager.io/dns-names: ${APP}
-  image: ghcr.io/renovatebot/renovate:43.227.0@sha256:47831f7e188622346ab29716a01b03b7c178d46febc5bedd283d40a86732c5b8
+  image: ghcr.io/renovatebot/renovate:43.233.4@sha256:6a173a90f5382bd60c46329ae7ee019107b69c6bdcd61829aa58eeb42202b35d
   parallelism: 5
   resources:
     requests:
