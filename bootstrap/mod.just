@@ -1,3 +1,4 @@
+set default-script
 set no-exit-message
 set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
@@ -15,7 +16,6 @@ default:
 cluster: talos kube (kubeconfig "node") wait-for-nodes crds resources apps kubeconfig
 
 [private]
-[script]
 talos:
     just log info "Running stage..." "stage" "$(basename $0)"
 
@@ -33,7 +33,6 @@ talos:
     done
 
 [private]
-[script]
 kube:
     just log info "Running stage..." "stage" "$(basename $0)"
     until op=$(talosctl -n "{{ controller }}" bootstrap 2>&1 || true) && [[ "$op" == *"AlreadyExists"* ]]; do
@@ -42,7 +41,6 @@ kube:
     done
 
 [doc('Fetch kubeconfig')]
-[script]
 kubeconfig lb="cilium":
     just log info "Running stage..." "stage" "$(basename $0)"
     if ! talosctl kubeconfig -n "{{ controller }}" -f --force-context-name main {{ justfile_dir() }}; then
@@ -59,7 +57,6 @@ kubeconfig lb="cilium":
     fi
 
 [private]
-[script]
 wait-for-nodes:
     just log info "Running stage..." "stage" "$(basename $0)"
     if ! kubectl wait nodes --for=condition=Ready=True --all --timeout=1s &>/dev/null; then
@@ -70,7 +67,6 @@ wait-for-nodes:
     fi
 
 [private]
-[script]
 crds:
     just log info "Running stage..." "stage" "$(basename $0)"
 
@@ -79,7 +75,6 @@ crds:
     fi
 
 [private]
-[script]
 resources:
     just log info "Running stage..." "stage" "$(basename $0)"
     if ! just template "{{ source_directory() }}/resources.yaml.j2" | kubectl apply --server-side --force-conflicts -f -; then
@@ -87,7 +82,6 @@ resources:
     fi
 
 [private]
-[script]
 apps:
     just log info "Running stage..." "stage" "$(basename $0)"
     if ! helmfile -f "{{ source_directory() }}/helmfile.d/01-apps.yaml" sync --hide-notes; then

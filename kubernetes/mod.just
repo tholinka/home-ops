@@ -1,3 +1,4 @@
+set default-script
 set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
 set shell := ['bash', '-euo', 'pipefail', '-c']
@@ -24,7 +25,6 @@ node-shell node:
     kubectl delete pod -n default -l app.kubernetes.io/managed-by=kubectl-debug
 
 [doc('Prune pods in Failed, Pending, or Succeeded state')]
-[script]
 prune-pods:
     for phase in successful; do
         kubectl delete jobs --all-namespaces --field-selector status."$phase"=1 --ignore-not-found=true
@@ -35,7 +35,6 @@ prune-pods:
     done
 
 [doc('Snapshot VolSync PVCs')]
-[script]
 snapshot:
     kubectl get replicationsources --no-headers -A | while read -r ns name _; do
         kubectl -n "$ns" patch replicationsources "$name" --type merge -p '{"spec":{"trigger":{"manual":"$(date +%s)"}}}'
@@ -49,7 +48,6 @@ volsync state:
     kubectl -n volsync-system scale deployment volsync --replicas {{ if state != "suspend" { "1" } else { "0" } }}
 
 [doc('Restore a PVC from VolSync')]
-[script]
 restore ns app previous='0':
     flux -n {{ ns }} suspend kustomization {{ app }}
     flux -n {{ ns }} suspend helmrelease {{ app }}
@@ -73,7 +71,6 @@ restore ns app previous='0':
 
 [arg('resource', pattern='hr|ks|gitrepo|ocirepo|es')]
 [doc('Sync a resource')]
-[script]
 sync resource:
     kubectl get {{ resource }} --no-headers -A | while read -r ns name _; do
         kubectl -n "$ns" annotate --field-manager flux-client-side-apply --overwrite {{ resource }} "$name" \

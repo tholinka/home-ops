@@ -1,3 +1,4 @@
+set default-script
 set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
 set shell := ['bash', '-euo', 'pipefail', '-c']
@@ -18,7 +19,6 @@ get-nodes:
     talosctl config info --output json 2>/dev/null | jq --exit-status --raw-output '.nodes | join(" ")'
 
 [doc('Wait for all nodes to be healthy')]
-[script]
 healthy-nodes:
     # shuffle a random ip, that way if the node being upgraded is the one picked we eventually pick one that's up
     controller="$(just talos get-controller)"
@@ -38,7 +38,6 @@ apply-node node mode="auto":
     just talos healthy-nodes
 
 [doc('Apply Talos config to the entire cluster')]
-[script]
 apply-cluster mode="auto":
     for node in $(just talos get-nodes); do
         just --yes talos apply-node "$node" "{{ mode }}"
@@ -52,7 +51,6 @@ upgrade-node node mode="auto":
     just talos healthy-nodes
 
 [doc('Upgrade Talos config to the entire cluster')]
-[script]
 upgrade-cluster mode="auto":
     for node in $(just talos get-nodes); do
         just --yes talos upgrade-node "$node" "{{ mode }}"
@@ -60,7 +58,6 @@ upgrade-cluster mode="auto":
     done
 
 [doc('Download Talos machine image')]
-[script]
 download-image version schematic:
     curl -fL --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors --progress-bar \
         -o "talos-{{ version }}-{{ replace_regex(schematic, '^(.{8}).*', '$1') }}.iso" \
@@ -75,7 +72,6 @@ reboot-node node:
 
 [confirm('Reboot entire cluster? [y|N] ?')]
 [doc('Reboot entire cluster')]
-[script]
 reboot-cluster:
     for node in $(just talos get-nodes); do
         just --yes talos reboot-node "$node"
@@ -83,13 +79,11 @@ reboot-cluster:
 
 [confirm('Shutdown node ' + node + ' [y|N] ?')]
 [doc('Shutdown a node')]
-[script]
 shutdown-node node *args:
     talosctl -n "$(just talos get-nodes)" shutdown --force {{ args }} || exit 0
 
 [confirm('Shutdown entire cluster? [y|N] ?')]
 [doc('Shutdown entire cluster')]
-[script]
 shutdown-cluster *args:
     for node in $(just talos get-nodes); do
         just --yes talos shutdown-node $node {{ args }} || exit 0
@@ -97,7 +91,6 @@ shutdown-cluster *args:
 
 [confirm('Reset node ' + node + ' [y|N] ?')]
 [doc('Reset a node')]
-[script]
 reset-node node CLI_FORCE="":
     if [[ "{{ CLI_FORCE }}" != "true" ]]; then
         flags="--system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL"
@@ -106,7 +99,6 @@ reset-node node CLI_FORCE="":
 
 [confirm('Reset entire cluster? [y|N] ?')]
 [doc('Reset entire cluster')]
-[script]
 reset-cluster CLI_FORCE="":
     for node in $(just talos get-nodes); do
         just --yes talos reset-node "$node" {{ CLI_FORCE }}
