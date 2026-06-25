@@ -155,6 +155,20 @@ spec:
 apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
+  name: victoria-metrics-kube-prometheus-general
+spec:
+  matchers:
+    - name: alertname
+      value: RecordingRulesNoData
+    - name: group
+      value: kube-prometheus-general.rules
+    - name: recording
+      value: count:up0
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
   name: renovate-job-failed
 spec:
   matchers:
