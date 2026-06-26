@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.85.5
-    digest: sha256:7d4be0c90bdacfa674f3c3f4c5428c0560bcc4c7c7f67d805c104691d47c38ae
+    tag: 0.85.6
+    digest: sha256:501fd1409699009e48952ff02723c006af20e7c693e5fe74e5a20e5336bc5a35
   url: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack
