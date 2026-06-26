@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/octoeverywhere/octoeverywhere
-              tag: 5.1.0@sha256:310da918feaa734dce12a8635dd891f7f8b1980e3bed956ae9f6a7486e961454
+              tag: 5.1.0@sha256:bed515901a81622d3554152a83078f40bab90dedb16010a2a20fcefea5249274
             env:
               COMPANION_MODE: klipper
               PRINTER_IP: cc.3dprinter.iot.internal
