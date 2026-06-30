@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.52.0
-    digest: sha256:abad7f3640346f2d44493005801b5da4dc1266ee1e540baee8faf48762b5ba8b
+    tag: 0.53.0
+    digest: sha256:d2fb07956c8919c28cd1c5c2aa4ac875c0ca6fcaefa5e0a8035ba59a72a0b4eb
   url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
