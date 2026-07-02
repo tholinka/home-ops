@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.12.0
-    digest: sha256:6a49267b33a385b9610f0b7009fc1452e44d6b4be83c3a72e05befa90f5ce879
+    tag: 0.12.1
+    digest: sha256:baacb6772e8d8ea3b910e73ee5d87183359a0f67b5ee7cc1fd7bfd247d6a4380
   url: oci://ghcr.io/immich-app/immich-charts/immich
