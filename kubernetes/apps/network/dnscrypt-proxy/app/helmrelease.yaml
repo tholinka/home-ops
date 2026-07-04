@@ -38,9 +38,10 @@ spec:
               readiness: *dnscrypt-probes
             resources:
               requests:
-                cpu: 25m
-              limits:
+                cpu: 20m
                 memory: 32Mi
+              limits:
+                memory: 64Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFileSystem: true
