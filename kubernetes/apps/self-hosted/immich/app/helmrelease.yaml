@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://flux.tholinka.dev/helmrelease/v2/github/immich-app/immich-charts/main/charts/immich
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
