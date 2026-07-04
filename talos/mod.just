@@ -1,3 +1,4 @@
+set default-list
 set default-script
 set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
@@ -5,10 +6,6 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 
 # Default ipv6_prefix, overridden by bws when generating config
 export ipv6_prefix := "fd00"
-
-[private]
-default:
-    just -l talos
 
 [doc('Get a controller node ip')]
 get-controller:

@@ -1,3 +1,4 @@
+set default-list
 set default-script
 set no-exit-message
 set quiet
@@ -6,10 +7,6 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 
 controller := `just talos get-controller`
 nodes := `just talos get-nodes`
-
-[private]
-default:
-    just -l bootstrap
 
 [confirm('Bootstrap cluster? [y|N]')]
 [doc('Bootstrap Talos and Kubernetes')]
