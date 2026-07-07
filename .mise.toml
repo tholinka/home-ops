@@ -11,7 +11,7 @@ JUST_UNSTABLE = "1"
 "aqua:koalaman/shellcheck" = "0.11.0"
 "aqua:zizmorcore/zizmor" = "1.26.1"
 
-"npm:oxfmt" = "0.57.0"
+"npm:oxfmt" = "0.58.0"
 
 "github:home-operations/flate" = "v0.4.10"
 
