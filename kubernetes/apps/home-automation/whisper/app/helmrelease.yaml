@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/rhasspy/wyoming-whisper
-              tag: 3.3.1@sha256:258956d1508a042ae52ceca04da85f6e74e7fab81676e3678619b8047e88c721
+              tag: 3.5.0@sha256:308b7959a925d0cca381c3e6e77292fed87822695635db39c24199d6b7a9e610
             args:
               # - --stt-library=faster-whisper
               # - --model=distil-small.en
