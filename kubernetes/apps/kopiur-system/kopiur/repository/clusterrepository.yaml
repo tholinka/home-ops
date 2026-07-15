@@ -18,29 +18,21 @@ spec:
     passwordSecretRef:
       name: kopiur-nas
       namespace: &namespace kopiur-system
-  moverDefaults:
-    securityContext: &sc
-      runAsUser: 1000
-      runAsGroup: 1000
-    podSecurityContext:
-      fsGroup: 1000
   scheduleDefaults:
     timezone: America/Chicago
   # server:
   #   auth:
-  #     # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
+  #     # we netpol the service so only the gateway can reach it, and put it behind authentik
   #     insecure:
   #       acknowledgeInsecure: true
   #   namespace: *namespace
   #   readOnly: true
-  #   securityContext: *sc
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kopiur.home-operations.com/clusterrepository_v1alpha1.json
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: ClusterRepository
 metadata:
   name: s3
-  namespace:
 spec:
   allowedNamespaces:
     all: true
@@ -66,7 +58,7 @@ spec:
     timezone: America/Chicago
   # server:
   #   auth:
-  #     # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
+  #     # we netpol the service so only the gateway can reach it, and put it behind authentik
   #     insecure:
   #       acknowledgeInsecure: true
   #   namespace: *namespace
