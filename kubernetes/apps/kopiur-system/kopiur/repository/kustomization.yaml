@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./clusterrepository.yaml
   - ./httproute.yaml
-  - ./mutatingadmissionpolicy.yaml
   - ./networkpolicy.yaml

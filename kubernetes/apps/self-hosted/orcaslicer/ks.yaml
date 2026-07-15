@@ -17,6 +17,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      KOPIUR_PUID: '911'
+      KOPIUR_PGID: '911'
   prune: true
   sourceRef:
     kind: GitRepository

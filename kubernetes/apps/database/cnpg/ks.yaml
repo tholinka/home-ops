@@ -115,6 +115,8 @@ spec:
     substitute:
       APP: *app
       KOPIUR_CAPACITY: 2Gi
+      KOPIUR_PUID: '5050'
+      KOPIUR_PGID: '5050'
   components:
     - ../../../../components/kopiur
   dependsOn:

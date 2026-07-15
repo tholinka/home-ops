@@ -77,9 +77,9 @@ spec:
       hostUsers: false
       securityContext:
         runAsNonRoot: true
-        runAsUser: 5050
-        runAsGroup: 5050
-        fsGroup: 5050
+        runAsUser: ${KOPIUR_PUID}
+        runAsGroup: ${KOPIUR_PGID}
+        fsGroup: ${KOPIUR_PGID}
         fsGroupChangePolicy: OnRootMismatch
 
     service:

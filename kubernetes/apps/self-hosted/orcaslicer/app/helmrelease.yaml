@@ -23,8 +23,8 @@ spec:
               DRINODE: /dev/dri/renderD128
               GTK_THEME: Adwaita:dark # segfaults if no theme is set
               S6_READ_ONLY_ROOT: '1'
-              PGID: '911' # default for this image
-              PUID: '911' # default for this image
+              PGID: ${KOPIUR_PGID} # 911 is the default for this image
+              PUID: ${KOPIUR_PUID} # 911 is the default for this image
               SELKIES_MANUAL_WIDTH: 2560
               SELKIES_MANUAL_HEIGHT: 1440
               MAX_RESOLUTION: 2560x1440
