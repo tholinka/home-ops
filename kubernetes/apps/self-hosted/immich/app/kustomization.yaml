@@ -8,4 +8,4 @@ resources:
   - ./httproute.yaml
   - ./ocirepository.yaml
   - ./pvc.yaml
-  - ./volsync.yaml
+  - ./kopiur.yaml

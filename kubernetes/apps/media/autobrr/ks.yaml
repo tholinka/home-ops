@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   dependsOn:
     - name: storage-ready
       namespace: flux-system
@@ -16,7 +16,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository

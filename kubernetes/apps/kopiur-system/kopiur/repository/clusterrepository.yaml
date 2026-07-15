@@ -1,0 +1,73 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kopiur.home-operations.com/clusterrepository_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: ClusterRepository
+metadata:
+  name: nas
+spec:
+  allowedNamespaces:
+    all: true
+  backend:
+    filesystem:
+      path: /repo
+      volume:
+        nfs:
+          server: nas.servers.internal
+          path: /backups/kopiur
+  encryption:
+    passwordSecretRef:
+      name: kopiur-nas
+      namespace: &namespace kopiur-system
+  moverDefaults:
+    securityContext: &sc
+      runAsUser: 1000
+      runAsGroup: 1000
+    podSecurityContext:
+      fsGroup: 1000
+  scheduleDefaults:
+    timezone: America/Chicago
+  server:
+    auth:
+      # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
+      insecure:
+        acknowledgeInsecure: true
+    namespace: *namespace
+    readOnly: true
+    securityContext: *sc
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kopiur.home-operations.com/clusterrepository_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: ClusterRepository
+metadata:
+  name: s3
+  namespace:
+spec:
+  allowedNamespaces:
+    all: true
+  backend:
+    s3:
+      bucket: '${AWS_S3_BUCKET}'
+      endpoint: '${AWS_S3_ENDPOINT}'
+      auth:
+        secretRef: &secret
+          name: kopiur-s3
+          namespace: &namespace kopiur-system
+  encryption:
+    passwordSecretRef: *secret
+  maintenance:
+    schedule:
+      quick:
+        cron: '0 3 * * */2'
+        jitter: 1h
+      full:
+        cron: '0 5 * * 0'
+        jitter: 1h
+  scheduleDefaults:
+    timezone: America/Chicago
+  server:
+    auth:
+      # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
+      insecure:
+        acknowledgeInsecure: true
+    namespace: *namespace
+    readOnly: true

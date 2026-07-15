@@ -58,7 +58,7 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [Bitwarden Secrets Manager](https://github.com/external-secrets/bitwarden-sdk-server/).
 - [rook](https://github.com/rook/rook): Distributed block storage for persistent storage.
 - [spegel](https://github.com/spegel-org/spegel): Stateless cluster local OCI registry mirror. No more image pull backoff.
-- [volsync](https://github.com/backube/volsync): Automatic backup and recovery of persistent volume claims to NFS and Cloudflare R2. Lose nothing when the cluster blows up!
+- [kopiur](https://github.com/home-operations/kopiur): Automatic backup and recovery of persistent volume claims to NFS and Cloudflare R2. Lose nothing when the cluster blows up!
 
 ### GitOps
 

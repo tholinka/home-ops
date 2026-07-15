@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
     - ../../../../components/scaler/instance
     - ../../../../components/cnpg/app
     - ../../../../components/dragonfly/app-template
@@ -23,7 +23,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 50Gi
+      KOPIUR_CAPACITY: 50Gi
   prune: true
   sourceRef:
     kind: GitRepository

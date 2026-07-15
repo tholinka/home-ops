@@ -18,9 +18,11 @@ spec:
     - &crds
       apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
-      name: replicationsources.volsync.backube
+      name: snapshotpolicies.kopiur.home-operations.com
     - <<: *crds
-      name: replicationdestinations.volsync.backube
+      name: snapshotschedules.kopiur.home-operations.com
+    - <<: *crds
+      name: restores.kopiur.home-operations.com
     - <<: *crds
       name: externalsecrets.external-secrets.io
     - <<: *crds
@@ -60,14 +62,16 @@ spec:
       namespace: rook-ceph
     - apiVersion: apps/v1
       kind: Deployment
-      name: volsync
-      namespace: system
+      name: kopiur-controller
+      namespace: kopiur-system
     - &crd
       apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
-      name: replicationsources.volsync.backube
+      name: snapshotpolicies.kopiur.home-operations.com
     - <<: *crd
-      name: replicationdestinations.volsync.backube
+      name: snapshotschedules.kopiur.home-operations.com
+    - <<: *crd
+      name: restores.kopiur.home-operations.com
     - <<: *crd
       name: externalsecrets.external-secrets.io
   healthCheckExprs:
@@ -75,3 +79,7 @@ spec:
       kind: *cephKind
       failed: status.ceph.health == 'HEALTH_ERR'
       current: status.ceph.health in ['HEALTH_OK', 'HEALTH_WARN']
+    - apiVersion: kopiur.home-operations.com/v1alpha1
+      kind: ClusterRepository
+      current: status.phase in ['Ready']
+      failed: status.phase in ['Degraded', 'Failed']

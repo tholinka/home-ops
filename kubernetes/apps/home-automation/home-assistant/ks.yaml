@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
     - ../../../../components/ext-auth
   dependsOn:
     - name: multus-networks
@@ -19,7 +19,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 50Gi
+      KOPIUR_CAPACITY: 50Gi
       EXT_AUTH_TARGET: home-assistant-code
     substituteFrom:
       - kind: Secret

@@ -1,0 +1,40 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kopia-nas
+  namespace: apps
+  annotations:
+    gethomepage.dev/enabled: 'true'
+    gethomepage.dev/name: Kopia NAS
+    gethomepage.dev/group: Infrastructure
+    gethomepage.dev/icon: kopia.svg
+spec:
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+  hostnames: [kopia.tholinka.dev]
+  rules:
+    - backendRefs:
+        - name: nas-kopia-ui
+          port: 51515
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kopia-s3
+  namespace: apps
+  annotations:
+    gethomepage.dev/enabled: 'true'
+    gethomepage.dev/name: Kopia S3
+    gethomepage.dev/group: Infrastructure
+    gethomepage.dev/icon: kopia.svg
+spec:
+  parentRefs:
+    - name: envoy-internal
+      namespace: network
+  hostnames: [kopia-s3.tholinka.dev]
+  rules:
+    - backendRefs:
+        - name: s3-kopia-ui
+          port: 51515

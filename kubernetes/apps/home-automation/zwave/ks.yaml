@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
     - ../../../../components/ext-auth
     - ../../../../components/scaler/instance
   dependsOn:
@@ -18,7 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 1Gi
+      KOPIUR_CAPACITY: 1Gi
       SCALER_INSTANCE: zwave.iot.internal
   prune: true
   sourceRef:

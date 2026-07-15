@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kopiur.home-operations.com/snapshotpolicy_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: ${APP}
+spec:
+  compression:
+    compressor: zstd-fastest
+  mover:
+    cache:
+      capacity: ${KOPIUR_CAPACITY:=5Gi}
+      mode: Persistent
+      storageClassName: ceph-block
+    podSecurityContext:
+      fsGroupChangePolicy: ${KOPIUR_FS_GROUP_CHANGE_POLICY:=OnRootMismatch}
+  repository:
+    kind: ClusterRepository
+    name: nas
+  retention:
+    keepLatest: 3
+    keepHourly: 12
+    keepDaily: 7
+    keepWeekly: 4
+    keepMonthly: 12
+  sources:
+    - pvc:
+        name: ${APP}
+  volumeSnapshotClassName: ${KOPIUR_SNAPSHOTCLASS:=csi-ceph-blockpool}

@@ -22,7 +22,7 @@ spec:
             env:
               # https://github.com/jammsen/docker-palworld-dedicated-server/blob/develop/docs/ENV_VARS.md
               ## Container Settings
-              BACKUP_ENABLED: false #volsync is backing up the PVC
+              BACKUP_ENABLED: false #kopiur is backing up the PVC
               RESTART_ENABLED: false #no one is playing right now.
               RESTART_CRON_EXPRESSION: 0 5 * * * #5am daily
               COMMUNITY_SERVER: false

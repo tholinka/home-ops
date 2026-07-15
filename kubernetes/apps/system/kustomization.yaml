@@ -8,7 +8,6 @@ resources:
   - ./intel-gpu-resource-driver/ks.yaml
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
-  - ./volsync/ks.yaml
 components:
   - ../../components/common
   - ../../components/repos/app-template

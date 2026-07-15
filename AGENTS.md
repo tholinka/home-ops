@@ -25,7 +25,7 @@ kubernetes/
 ├── components/                      # Reusable Kustomize Components (kind: Component)
 │   ├── common/                      # Namespace creation, alerts, ExternalSecret for substitutions
 │   ├── repos/app-template/          # OCIRepository for bjw-s app-template Helm chart
-│   ├── volsync/                     # VolSync backup/restore (PVC + ReplicationSource/Destination)
+│   ├── kopiur/                     # Kopiur backup/restore (PVC + ReplicationSource/Destination)
 │   ├── ext-auth/                    # Authentik external auth SecurityPolicy
 │   ├── cnpg/{app,app-template}      # CloudNativePG database provisioning
 │   ├── dragonfly/                   # Dragonfly (Redis alternative) — see its README for type selection
@@ -86,7 +86,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/volsync # if app needs backup
+    - ../../../../components/kopiur # if app needs backup
     - ../../../../components/ext-auth # if app needs authentication
     - ../../../../components/cnpg/app # if app needs PostgreSQL
   dependsOn:
@@ -143,7 +143,7 @@ Only override these if you need different behavior.
 
 - **Categories/namespaces**: lowercase, descriptive (`media`, `network`, `home-automation`)
 - **Apps**: lowercase with hyphens (`home-assistant`, `cloudflare-tunnel`)
-- **PostBuild variables**: UPPERCASE (`APP`, `VOLSYNC_CAPACITY`)
+- **PostBuild variables**: UPPERCASE (`APP`, `KOPIUR_CAPACITY`)
 
 ---
 
@@ -166,7 +166,7 @@ Each category directory maps to a namespace. The `common` component auto-creates
 | `rook-ceph`             | Rook/Ceph distributed storage                                    |
 | `security`              | Authentik, cert-manager, External Secrets                        |
 | `self-hosted`           | Homepage, Immich, Paperless, ownCloud, Atuin, etc.               |
-| `system`                | Reloader, Spegel, Descheduler, VolSync, Intel GPU driver         |
+| `system`                | Reloader, Spegel, Descheduler, Kopiur, Intel GPU driver          |
 | `system-controllers`    | k8tz, snapshot-controller                                        |
 | `system-upgrade`        | Tuppr (system upgrade controller)                                |
 
@@ -182,7 +182,7 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 | --------------------------------- | ----------------------------- | ---------------------------------------------------------------------------- |
 | `common`                          | Category `kustomization.yaml` | Creates namespace, common alerts, substitution ExternalSecret                |
 | `repos/app-template`              | Category `kustomization.yaml` | Provides the `app-template` OCIRepository                                    |
-| `volsync`                         | App `ks.yaml`                 | PVC backup/restore via VolSync                                               |
+| `kopiur`                          | App `ks.yaml`                 | PVC backup/restore via Kopiur                                                |
 | `ext-auth`                        | App `ks.yaml`                 | Authentik proxy auth SecurityPolicy                                          |
 | `cnpg/app` or `cnpg/app-template` | App `ks.yaml`                 | PostgreSQL database provisioning                                             |
 | `dragonfly/*`                     | App `ks.yaml`                 | Dragonfly instance (see `components/dragonfly/readme.md` for type selection) |
@@ -200,8 +200,8 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 
 ### Storage
 
-- **VolSync**: Add `../../../../components/volsync` to `ks.yaml` for any data that should survive cluster failure
-- Set `VOLSYNC_CAPACITY` in `postBuild.substitute` if more than the default amount (`5Gi`) of backup storage is needed
+- **Kopiur**: Add `../../../../components/kopiur` to `ks.yaml` for any data that should survive cluster failure
+- Set `KOPIUR_CAPACITY` in `postBuild.substitute` if more than the default amount (`5Gi`) of backup storage is needed
 
 ### Databases
 
@@ -287,9 +287,6 @@ Run `just --list {bootstrap,kube,talos}` to see all available recipes. The justf
 | `just kube browse-pvc <ns> <name>`    | Mount a PVC to a temporary container                               |
 | `just kube node-shell <node>`         | Open a shell on a cluster node                                     |
 | `just kube prune-pods`                | Delete Failed/Pending/Succeeded pods                               |
-| `just kube snapshot`                  | Trigger VolSync snapshots for all PVCs                             |
-| `just kube volsync <suspend\|resume>` | Suspend or resume VolSync                                          |
-| `just kube restore <ns> <app>`        | Restore a PVC from VolSync backup                                  |
 | `just kube sync <resource>`           | Force sync a Flux or ExternalSecrets resource (hr/ks/es/etc)       |
 | `just kube view-secret <ns> <secret>` | View a Kubernetes secret value                                     |
 
@@ -335,7 +332,7 @@ Use `flate test ks`, `flate test hr`, `flate build ks -n [namespace] [kustomizat
 - Search kubesearch using the `mcp_kubesearch-mc` tools to see how others deploy the app
 - Look at existing apps in the same category for patterns
 - `kubernetes/apps/self-hosted/homepage/` is a good simple reference
-- `kubernetes/apps/self-hosted/paperless/` shows a complex app (volsync + cnpg + dragonfly + HPA scale to zero)
+- `kubernetes/apps/self-hosted/paperless/` shows a complex app (kopiur + cnpg + dragonfly + HPA scale to zero)
 - `kubernetes/apps/database/cnpg/ks.yaml` shows multi-document ks.yaml pattern
 - Review `kubernetes/flux/cluster/ks.yaml` to understand auto-patching
 - Check component READMEs (`components/dragonfly/readme.md`, `components/ext-auth/readme.md`)

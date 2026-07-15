@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kopiur
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.7.3
+    digest: sha256:2f5db925245f15ff93ae5201a3f5d1c32463f4ee1732ee7c09ac626961ca9516
+  url: oci://ghcr.io/home-operations/charts/kopiur

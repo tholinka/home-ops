@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/persistentvolumeclaim-v1.json
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ${APP}
+spec:
+  accessModes:
+    - ${KOPIUR_ACCESSMODES:=ReadWriteOnce}
+  dataSourceRef:
+    # todo switch on bootstrap
+    # apiGroup: kopiur.home-operations.com
+    # kind: Restore
+    # name: ${APP}
+    dataSourceRef:
+    apiGroup: volsync.backube
+    kind: ReplicationDestination
+    name: ${APP}-dst
+  resources:
+    requests:
+      storage: ${KOPIUR_CAPACITY:=5Gi}
+  storageClassName: ${KOPIUR_STORAGECLASS:=ceph-block}

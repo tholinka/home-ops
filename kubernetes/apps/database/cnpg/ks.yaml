@@ -114,6 +114,9 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 2Gi
+      KOPIUR_CAPACITY: 2Gi
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
+  dependsOn:
+    - name: storage-ready
+      namespace: flux-system

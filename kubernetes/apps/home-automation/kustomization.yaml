@@ -13,4 +13,5 @@ resources:
   - ./zwave/ks.yaml
 components:
   - ../../components/common
+  - ../../components/kopiur/namespace
   - ../../components/repos/app-template

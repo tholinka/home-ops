@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
     - ../../../../components/scaler/instance
   dependsOn:
     - name: storage-ready

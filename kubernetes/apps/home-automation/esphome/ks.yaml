@@ -9,7 +9,7 @@ spec:
   interval: 1h
   targetNamespace: *namespace
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
     - ../../../../components/ext-auth
   path: ./kubernetes/apps/home-automation/esphome/app
   prune: true
@@ -25,7 +25,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 5Gi
     substituteFrom:
       - kind: Secret
         name: ipv6

@@ -18,6 +18,8 @@ spec:
       namespace: database
     - name: postgres-cluster
       namespace: database
+    - name: storage-ready
+      namespace: flux-system
   path: ./kubernetes/apps/self-hosted/immich/app
   postBuild:
     substitute:

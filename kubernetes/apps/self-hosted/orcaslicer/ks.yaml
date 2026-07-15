@@ -9,7 +9,7 @@ spec:
   interval: 1h
   components:
     - ../../../../components/ext-auth
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
   dependsOn:
     - name: storage-ready
       namespace: flux-system

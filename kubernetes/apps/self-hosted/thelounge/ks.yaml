@@ -8,7 +8,10 @@ metadata:
 spec:
   interval: 1h
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur
+  dependsOn:
+    - name: storage-ready
+      namespace: flux-system
   path: ./kubernetes/apps/self-hosted/thelounge/app
   postBuild:
     substitute:

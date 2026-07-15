@@ -16,6 +16,8 @@ spec:
     - <<: *policy
       namespace: home-automation
     - <<: *policy
+      namespace: kopiur-system
+    - <<: *policy
       namespace: media
     - <<: *policy
       namespace: network
@@ -25,8 +27,6 @@ spec:
       namespace: renovate
     - <<: *policy
       namespace: self-hosted
-    - <<: *policy
-      namespace: system
   to:
     - group: ''
       kind: Service

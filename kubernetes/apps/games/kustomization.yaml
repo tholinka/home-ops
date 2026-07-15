@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: games
 components:
   - ../../components/common
+  - ../../components/kopiur/namespace
   - ../../components/repos/app-template
 resources:
   - ./palworld/ks.yaml
