@@ -26,14 +26,14 @@ spec:
       fsGroup: 1000
   scheduleDefaults:
     timezone: America/Chicago
-  server:
-    auth:
-      # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
-      insecure:
-        acknowledgeInsecure: true
-    namespace: *namespace
-    readOnly: true
-    securityContext: *sc
+  # server:
+  #   auth:
+  #     # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
+  #     insecure:
+  #       acknowledgeInsecure: true
+  #   namespace: *namespace
+  #   readOnly: true
+  #   securityContext: *sc
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kopiur.home-operations.com/clusterrepository_v1alpha1.json
 apiVersion: kopiur.home-operations.com/v1alpha1
@@ -64,10 +64,10 @@ spec:
         jitter: 1h
   scheduleDefaults:
     timezone: America/Chicago
-  server:
-    auth:
-      # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
-      insecure:
-        acknowledgeInsecure: true
-    namespace: *namespace
-    readOnly: true
+  # server:
+  #   auth:
+  #     # it's behind authentik, and we netpol the service so only the gateway can reach it (through authentik)
+  #     insecure:
+  #       acknowledgeInsecure: true
+  #   namespace: *namespace
+  #   readOnly: true
