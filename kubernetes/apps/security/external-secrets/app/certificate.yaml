@@ -8,7 +8,6 @@ spec:
   secretName: *name
   dnsNames:
     - bitwarden-sdk-server.security.svc.cluster.local
-    - localhost
   ipAddresses:
     - 127.0.0.1
     - ::1
