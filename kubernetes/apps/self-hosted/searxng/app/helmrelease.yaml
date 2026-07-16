@@ -92,14 +92,14 @@ spec:
           gethomepage.dev/name: SearXNG Search
           gethomepage.dev/icon: searxng.svg
           gethomepage.dev/pod-selector: app.kubernetes.io/name={{ .Release.Name }}
-      external:
-        hostnames:
-          - search.tholinka.dev
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-        annotations:
-          externaldns.enable.custom/internal: 'false'
+      # external:
+      #   hostnames:
+      #     - search.tholinka.dev
+      #   parentRefs:
+      #     - name: envoy-external
+      #       namespace: network
+      #   annotations:
+      #     externaldns.enable.custom/internal: 'false'
     persistence:
       config:
         type: configMap

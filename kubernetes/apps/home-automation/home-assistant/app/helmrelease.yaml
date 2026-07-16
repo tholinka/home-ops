@@ -88,7 +88,7 @@ spec:
         hostnames:
           - ha.tholinka.dev
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
       code: # split so it's not external, and we can ext-auth it as well
         hostnames:

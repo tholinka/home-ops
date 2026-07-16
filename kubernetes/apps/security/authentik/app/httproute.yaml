@@ -18,7 +18,7 @@ spec:
   hostnames:
     - auth.tholinka.dev
   parentRefs:
-    - name: envoy-external
+    - name: envoy-internal
       namespace: network
   rules:
     - backendRefs:
