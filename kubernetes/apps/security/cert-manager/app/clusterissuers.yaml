@@ -34,15 +34,37 @@ kind: Certificate
 metadata:
   name: &name cluster-signed-issuer
 spec:
+  secretName: *name
   isCA: true
   commonName: *name
   subject:
+    countries:
+      - US
     organizations:
-      - tholinka.dev
-  secretName: cluster-signed-issuer-secret
+      - homelab-cluster
+  usages:
+    - cert sign
+    - crl sign
+  nameConstraints:
+    critical: true
+    permitted:
+      dnsDomains: &domains
+        - .svc.cluster.local
+        - .cluster.local
+        - .svc
+        - postgres-cluster-rw
+        - postgres-cluster-ro
+        - postgres-cluster-r
+      uriDomains: *domains
+  duration: 87660h # 10 years
   privateKey:
+    # .net core somehow still doesn't support Ed25519, despite there being multiple
+    # decade-old requests for it. C# service cannot verify cert chains that contain
+    # ANY Ed25519 certs, so it can't be used for the root CA.
     algorithm: ECDSA
-    size: 256
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Never
   issuerRef:
     name: cluster-selfsigned-issuer
     kind: ClusterIssuer
@@ -52,10 +74,10 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: cluster-signed-issuer
+  name: &name cluster-signed-issuer
 spec:
   ca:
-    secretName: cluster-signed-issuer-secret
+    secretName: *name
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/certificate_v1.json
 # base of CNPG ClusterIssuer for clients
