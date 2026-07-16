@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: &app dfguard
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: app-template
@@ -14,6 +14,7 @@ spec:
       *app :
         annotations:
           reloader.stakater.com/auto: 'true'
+
         containers:
           app:
             image:
@@ -23,7 +24,7 @@ spec:
               DFGUARD_UPSTREAM: dragonfly-cluster.database.svc.cluster.local:6379
               DFGUARD_SERVER_CERT: /tls/server/tls.crt
               DFGUARD_SERVER_KEY: /tls/server/tls.key
-              DFGUARD_SERVER_CA: /tls/client/ca.crt
+              DFGUARD_SERVER_CA: /tls/server/ca.crt
               DFGUARD_UPSTREAM_CERT: /tls/dragonfly/tls.crt
               DFGUARD_UPSTREAM_KEY: /tls/dragonfly/tls.key
               DFGUARD_UPSTREAM_CA: /tls/dragonfly/ca.crt
@@ -57,6 +58,7 @@ spec:
 
     defaultPodOptions:
       hostUsers: false
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 65532
@@ -81,24 +83,36 @@ spec:
             readOnly: true
 
       tls:
-        type: secret
-        name: dfguard-server-cert
+        type: custom
         globalMounts:
           - path: /tls/server
             readOnly: true
-      client-ca:
-        type: secret
-        name: dfguard-client-ca
-        globalMounts:
-          - path: /tls/client
+        volumeSpec:
+          csi:
+            driver: csi.cert-manager.io
             readOnly: true
+            volumeAttributes:
+              csi.cert-manager.io/issuer-name: dfguard-client-ca
+              csi.cert-manager.io/issuer-kind: ClusterIssuer
+              csi.cert-manager.io/key-algorithm: Ed25519
+              csi.cert-manager.io/key-usages: server auth
+              csi.cert-manager.io/dns-names: dfguard.${POD_NAMESPACE}.svc.cluster.local,${POD_NAME}.${POD_NAMESPACE}.svc.cluster.local
 
       dragonfly-cert:
-        type: secret
-        name: dfguard-client-cert
+        type: custom
         globalMounts:
           - path: /tls/dragonfly
             readOnly: true
+        volumeSpec:
+          csi:
+            driver: csi.cert-manager.io
+            readOnly: true
+            volumeAttributes:
+              csi.cert-manager.io/issuer-name: dragonfly-client-ca
+              csi.cert-manager.io/issuer-kind: Issuer
+              csi.cert-manager.io/key-algorithm: Ed25519
+              csi.cert-manager.io/key-usages: client auth
+              csi.cert-manager.io/dns-names: ${POD_NAME}.${POD_NAMESPACE}.svc.cluster.local
 
     rawResources:
       netpol:

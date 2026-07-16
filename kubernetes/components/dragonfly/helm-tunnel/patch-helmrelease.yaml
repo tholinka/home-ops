@@ -33,8 +33,7 @@ spec:
                             csi.cert-manager.io/key-size: "384"
                             csi.cert-manager.io/key-encoding: PKCS8
                             csi.cert-manager.io/key-usages: client auth
-                            csi.cert-manager.io/common-name: ${DATABASE_OWNER:=${APP}}
-                            csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}
+                            csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}.cluster.local
 
                     initContainers:
                       - name: dragonfly-tunnel
@@ -95,8 +94,7 @@ spec:
                             csi.cert-manager.io/key-size: "384"
                             csi.cert-manager.io/key-encoding: PKCS8
                             csi.cert-manager.io/key-usages: client auth
-                            csi.cert-manager.io/common-name: ${DATABASE_OWNER:=${APP}}
-                            csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}
+                            csi.cert-manager.io/dns-names: ${DATABASE_OWNER:=${APP}}.cluster.local
 
                     initContainers:
                       - name: dragonfly-tunnel

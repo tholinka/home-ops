@@ -13,4 +13,4 @@ spec:
   type: Static
   defaultValues:
     users:
-      - ${OWNER}
+      - ${OWNER}.cluster.local
