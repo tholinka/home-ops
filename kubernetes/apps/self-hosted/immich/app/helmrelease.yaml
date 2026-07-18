@@ -61,7 +61,7 @@ spec:
         enabled: true
       persistence:
         library:
-          existingClaim: immich-photos
+          existingClaim: ${APP}-photos
 
       configuration: # see https://immich.app/docs/install/config-file/
         backup:
@@ -148,4 +148,4 @@ spec:
       persistence:
         cache:
           type: persistentVolumeClaim
-          existingClaim: immich-ml-cache
+          existingClaim: ${APP}-ml-cache

@@ -3,7 +3,7 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotPolicy
 metadata:
-  name: immich-photos-s3
+  name: ${APP}-photos-s3
 spec:
   compression:
     compressor: zstd-best-compression
@@ -25,15 +25,15 @@ spec:
     keepMonthly: 2
   sources:
     - pvc:
-        name: immich-photos
+        name: ${APP}-photos
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kopiur.home-operations.com/snapshotschedule_v1alpha1.json
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: SnapshotSchedule
 metadata:
-  name: ${APP}-s3
+  name: &name ${APP}-photos-s3
 spec:
   policyRef:
-    name: ${APP}-s3
+    name: *name
   schedule:
     cron: 'H 3 * * *'
