@@ -28,9 +28,10 @@ spec:
               COMMUNITY_SERVER: false
               SERVER_SETTINGS_MODE: auto
               ## Server Gameplay Settings
-              #DEATH_PENALTY: None
-              #BASE_CAMP_WORKER_MAXNUM: 20
-              #PAL_EGG_DEFAULT_HATCHING_TIME: '2.000000' #Default for Normal Mode
+              DEATH_PENALTY: None
+              EXP_RATE: '0.500000'
+              BASE_CAMP_WORKER_MAXNUM: 20
+              PAL_EGG_DEFAULT_HATCHING_TIME: '0.500000'
               ENABLE_NON_LOGIN_PENALTY: false
               ## Server Settings
               SERVER_NAME: Cabbages
