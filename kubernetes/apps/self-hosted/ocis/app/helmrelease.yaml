@@ -18,7 +18,7 @@ spec:
           init-config:
             image:
               repository: mirror.gcr.io/owncloud/ocis
-              tag: 8.1.0@sha256:088e4ab1af2aeb9f8933f819f98d73c9cfcbbe654a32d7a3816ca7142bd88110
+              tag: 8.1.0@sha256:2c712f9056fd9beac2f4aa6b8fea2d784c9cbf4c9ea67f2778ee52bc66a952fd
             command:
               - /bin/sh
               - -c
@@ -32,7 +32,7 @@ spec:
           *app :
             image:
               repository: mirror.gcr.io/owncloud/ocis
-              tag: 8.1.0@sha256:088e4ab1af2aeb9f8933f819f98d73c9cfcbbe654a32d7a3816ca7142bd88110
+              tag: 8.1.0@sha256:2c712f9056fd9beac2f4aa6b8fea2d784c9cbf4c9ea67f2778ee52bc66a952fd
             env:
               OCIS_INSECURE: false
               OCIS_URL: https://files.tholinka.dev
