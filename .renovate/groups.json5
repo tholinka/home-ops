@@ -100,16 +100,5 @@
 			automergeType: "branch",
 			ignoreTests: true,
 		},
-		{
-			// fix talos group
-			description: "Talos Group",
-			groupName: "Talos",
-			matchManagers: ["docker"],
-			matchPackageNames: ["/siderolabs\/installer/"],
-			group: {
-				commitMessageTopic: "{{groupName}}",
-			},
-			minimumGroupSize: 2,
-		},
 	],
 }

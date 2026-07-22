@@ -19,9 +19,9 @@
 			sourceUrl: "https://github.com/seer-team/seer",
 		},
 		{
-			description: "Set talos-installer source",
-			matchDatasources: ["docker"],
-			matchPackageNames: ["ghcr.io/siderolabs/installer"],
+			description: "Set talos  source",
+			matchDatasources: ["custom.talos-factory"],
+			matchPackageNames: ["siderolabs/talos"],
 			sourceUrl: "https://github.com/siderolabs/talos",
 		},
 		{
