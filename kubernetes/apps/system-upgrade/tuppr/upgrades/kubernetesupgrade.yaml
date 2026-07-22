@@ -9,11 +9,11 @@ spec:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
     version: v1.36.2
   healthChecks:
-    - apiVersion: kopiur.home-operations.com/v1alpha1
+    - apiVersion: &kopiur kopiur.home-operations.com/v1alpha1
       kind: Snapshot
       expr: |-
         status.phase != 'Running'
-    - apiVersion: kopiur.home-operations.com/v1alpha1
+    - apiVersion: *kopiur
       kind: Restore
       expr: |-
         !(status.phase in ['Resolving', 'Restoring'])
