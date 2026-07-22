@@ -100,5 +100,11 @@
 			automergeType: "branch",
 			ignoreTests: true,
 		},
+		{
+			// block apps with bad digest updates
+			matchPackageNames: ["/ocis/", "/octoeverywhere/"],
+			matchUpdateTypes: ["digest"],
+			enabled: false,
+		},
 	],
 }
