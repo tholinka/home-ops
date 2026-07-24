@@ -11,6 +11,10 @@ spec:
     name: *app
   values:
     replicaCount: 2
+    silences:
+      enabled: true
+      alertmanager:
+        address: http://vmalertmanager-victoria-metrics.observability.svc.cluster.local:9093
     monitoring:
       serviceMonitor:
         enabled: true

@@ -23,3 +23,8 @@ spec:
       kind: CephCluster
       expr: |-
         status.ceph.health in ['HEALTH_OK']
+  silences:
+    - matchers:
+        - name: alertname
+          value: ^(CephDaemonSlowOps|CephHealthWarning|CephMonDown|CephMonDownQuorumAtRisk|CephOSDDown|CephOSDDownHigh|CephOSDHostDown|CephSlowOps|KubeNodeEviction|KubeNodeNotReady|KubeNodeReadinessFlapping|KubeNodeUnreachable|TargetDown)$
+          matchType: '=~'
