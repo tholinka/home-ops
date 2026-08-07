@@ -102,7 +102,11 @@
 		},
 		{
 			// block apps with bad digest updates
-			matchPackageNames: ["/ocis/", "/octoeverywhere/"],
+			matchPackageNames: [
+				"/ocis/",
+				"/octoeverywhere/",
+				"ghcr.io/goauthentik/helm-charts/authentik",
+			],
 			matchUpdateTypes: ["digest"],
 			enabled: false,
 		},
