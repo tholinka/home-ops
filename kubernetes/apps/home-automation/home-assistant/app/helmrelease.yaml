@@ -28,9 +28,6 @@ spec:
             image:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2026.8.0@sha256:99c0293b3ad103151a9d8b860232fd1c6db425eadb9eb4905c0ecbef65b27363
-            env:
-              HASS_HTTP_TRUSTED_PROXY_1: 192.168.20.0/24
-              HASS_HTTP_TRUSTED_PROXY_2: 10.69.0.0/16
             envFrom:
               - secretRef:
                   name: home-assistant-secret
@@ -80,7 +77,7 @@ spec:
           http:
             primary: true
             appProtocol: kubernetes.io/ws
-            port: 8123
+            port: 80
           code-server:
             port: &code 12321
     route:
