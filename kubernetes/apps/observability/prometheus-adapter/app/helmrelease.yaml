@@ -10,6 +10,7 @@ spec:
     name: *app
   interval: 1h
   values:
+    logLevel: 1
     prometheus:
       url: http://vmsingle-victoria-metrics.observability.svc.cluster.local
       port: 8428
