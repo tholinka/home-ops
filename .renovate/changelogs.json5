@@ -66,5 +66,11 @@
 			matchPackageNames: ["ghcr.io/spegel-org/helm-charts/spegel"],
 			sourceUrl: "https://github.com/spegel-org/spegel",
 		},
+		{
+			description: "Set vernemq source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["mirror.gcr.io/vernemq/vernemq"],
+			sourceUrl: "https://github.com/vernemq/vernemq",
+		},
 	],
 }
