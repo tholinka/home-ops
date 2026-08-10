@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/vernemq/vernemq
-              tag: 2.1.2-alpine@sha256:8dd22d25b24d2876298b65ca5649e5c8410b0efc38d588df76b5ca9e948d34af
+              tag: 2.2.0-alpine@sha256:34d9e122dde587312539ed57de7b378e8e28bec3f7c076cc74dcdc6a7c9480fc
             env:
               MY_POD_NAME:
                 valueFrom:
