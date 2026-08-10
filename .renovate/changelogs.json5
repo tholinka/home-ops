@@ -31,12 +31,6 @@
 			sourceUrl: "https://github.com/atuinsh/atuin",
 		},
 		{
-			description: "Set prompp source",
-			matchDatasources: ["docker"],
-			matchPackageNames: ["mirror.gcr.io/prompp/prompp"],
-			sourceUrl: "https://github.com/deckhouse/prompp",
-		},
-		{
 			description: "Set cnpg postgres source",
 			matchDatasources: ["docker"],
 			matchPackageNames: ["ghcr.io/cloudnative-pg/postgresql"],
@@ -69,7 +63,7 @@
 		{
 			description: "Set vernemq source",
 			matchDatasources: ["docker"],
-			matchPackageNames: ["mirror.gcr.io/vernemq/vernemq"],
+			matchPackageNames: ["docker.io/vernemq/vernemq"],
 			sourceUrl: "https://github.com/vernemq/vernemq",
 		},
 	],
