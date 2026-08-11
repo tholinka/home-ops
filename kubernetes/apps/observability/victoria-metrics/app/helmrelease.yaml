@@ -122,6 +122,15 @@ spec:
         enabled: true
         spec:
           allowCrossNamespaceImport: true
+    defaultRules:
+      sources:
+        # these are deployed as a separate HR, so we need to enable the rules that VM doesn't know about
+        kube-state-metrics:
+          enabled: true
+        node-exporter:
+          enabled: true
+        victorialogs:
+          enabled: true
     grafana:
       enabled: false
       forceDeployDatasource: true
