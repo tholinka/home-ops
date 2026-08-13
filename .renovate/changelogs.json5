@@ -49,6 +49,12 @@
 			sourceUrl: "https://github.com/rhasspy/wyoming-faster-whisper",
 		},
 		{
+			description: "Set wyoming-whisper source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["docker.io/rhasspy/wyoming-piper"],
+			sourceUrl: "https://github.com/OHF-Voice/wyoming-piper",
+		},
+		{
 			description: "Set code-server source",
 			matchDatasources: ["docker"],
 			matchPackageNames: ["ghcr.io/coder/code-server"],
