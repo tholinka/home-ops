@@ -22,7 +22,13 @@ spec:
               repository: ghcr.io/gethomepage/homepage
               tag: v2.0.0@sha256:638dacf5c844e908dc06c1fd57a2b5694f8efd91f91f152829ea0c2f547458f2
             env:
-              HOMEPAGE_ALLOWED_HOSTS: 'tholinka.dev,{{ .Release.Name }}.tholinka.dev'
+              HOMEPAGE_ALLOWED_HOSTS: tholinka.dev
+
+              # Auth
+              HOMEPAGE_AUTH_ENABLED: true
+              HOMEPAGE_EXTERNAL_URL: https://tholinka.dev/
+              HOMEPAGE_OIDC_ISSUER: https://auth.tholinka.dev/application/o/homepage/
+              HOMEPAGE_OIDC_NAME: Authentik
             envFrom:
               - secretRef:
                   name: homepage-secret
