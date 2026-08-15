@@ -16,14 +16,21 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/rhasspy/wyoming-whisper
-              tag: 3.5.0@sha256:308b7959a925d0cca381c3e6e77292fed87822695635db39c24199d6b7a9e610
+              tag: 3.6.0@sha256:b7da5869ac9caba5f8db1c0dec373fb46a58d31f4aee1855faa7b49b7c0d4b49
             args:
               # - --stt-library=faster-whisper
               # - --model=distil-small.en
               # # - --compute-type=int8 # faster, but seems to make more errors
-              - --stt-library=sherpa
-              - --model=sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 # v2 is better for english
+              # - --stt-library=sherpa
+              # - --model=sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 # v2 is better for english
+              - --sst-library=qwen3-asr
+              - --vad-clip=qwen3-asr
               - --language=en
+              - --hass-token=$(HASS_LONG_LIVED_TOKEN)
+              - --hass-api=http://home-assistant.home-automation.svc.cluster.local/api
+            envFrom:
+              - secretRef:
+                  name: *app
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
