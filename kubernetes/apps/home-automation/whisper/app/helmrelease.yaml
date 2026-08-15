@@ -60,7 +60,7 @@ spec:
 
     persistence:
       data:
-        size: 1Gi
+        size: 5Gi
         accessMode: ReadWriteOnce
 
       tmpfs:
