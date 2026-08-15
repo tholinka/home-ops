@@ -21,8 +21,10 @@ spec:
               # - --stt-library=faster-whisper
               # - --model=distil-small.en
               # # - --compute-type=int8 # faster, but seems to make more errors
-              - --stt-library=sherpa
-              - --model=sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 # v2 is better for english
+              # - --stt-library=sherpa
+              # - --model=sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 # v2 is better for english
+              - --sst-library=qwen3-asr
+              - --vad-clip=qwen3-asr
               - --language=en
               - --hass-token=$(HASS_LONG_LIVED_TOKEN)
               - --hass-api=http://home-assistant.home-automation.svc.cluster.local/api
