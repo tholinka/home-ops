@@ -19,8 +19,7 @@ spec:
         replicas: 3
         strategy: RollingUpdate
         rollingUpdate:
-          unavailable: 1
-          surge: 1
+          maxUnavailable: 1
         pod:
           annotations:
             kubectl.kubernetes.io/default-container: pihole
