@@ -18,7 +18,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      KOPIUR_CAPACITY: 1Gi
       SCALER_INSTANCE: zigbee.iot.internal
   prune: true
   sourceRef:
