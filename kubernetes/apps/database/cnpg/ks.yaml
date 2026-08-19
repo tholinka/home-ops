@@ -92,7 +92,6 @@ spec:
   healthCheckExprs:
     - apiVersion: *postgresVersion
       kind: *postgresKind
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
 
 ---

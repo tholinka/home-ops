@@ -31,7 +31,6 @@ spec:
   healthCheckExprs:
     - apiVersion: *apiVersion
       kind: *kind
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json

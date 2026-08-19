@@ -30,14 +30,13 @@
 ## HealthChecks
 
 ```yaml
-  healthChecks:
-    - apiVersion: &postgresVersion postgresql.cnpg.io/v1
-      kind: &postgresKind Cluster
-      name: postgres-APPNAME
-      namespace: *namespace
-  healthCheckExprs:
-    - apiVersion: *postgresVersion
-      kind: *postgresKind
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+healthChecks:
+  - apiVersion: &postgresVersion postgresql.cnpg.io/v1
+    kind: &postgresKind Cluster
+    name: postgres-APPNAME
+    namespace: *namespace
+healthCheckExprs:
+  - apiVersion: *postgresVersion
+    kind: *postgresKind
+    current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
 ```
