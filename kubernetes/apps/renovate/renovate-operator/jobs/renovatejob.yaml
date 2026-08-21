@@ -4,7 +4,6 @@ apiVersion: renovate-operator.mogenius.com/v1alpha1
 kind: RenovateJob
 metadata:
   name: renovate-tholinka
-  namespace: renovate
 spec:
   provider:
     name: github

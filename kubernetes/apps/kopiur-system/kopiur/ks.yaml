@@ -4,7 +4,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: kopiur
-  namespace: &namespace kopiur-system
 spec:
   interval: 1h
   path: ./kubernetes/apps/kopiur-system/kopiur/app
@@ -13,7 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: kopiur-system
   wait: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -21,7 +20,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: kopiur-repository
-  namespace: &namespace kopiur-system
 spec:
   interval: 1h
   components:
@@ -45,4 +43,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: kopiur-system

@@ -4,10 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: pihole
-  namespace: &namespace network
 spec:
   interval: 1h
-  targetNamespace: *namespace
+  targetNamespace: network
   path: ./kubernetes/apps/network/pihole/app
   prune: true
   sourceRef:

@@ -4,10 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cert-manager
-  namespace: &namespace security
 spec:
   interval: 1h
-  targetNamespace: *namespace
+  targetNamespace: &namespace security
   path: ./kubernetes/apps/security/cert-manager/app
   prune: true
   sourceRef:
@@ -38,7 +37,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app cert-manager-csi-driver
-  namespace: &namespace security
 spec:
   interval: 1h
   path: ./kubernetes/apps/security/cert-manager/csi-driver
@@ -50,7 +48,7 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
-      namespace: *namespace
+      namespace: &namespace security
       name: *app
   targetNamespace: *namespace
   dependsOn:

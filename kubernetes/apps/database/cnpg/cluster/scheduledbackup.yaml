@@ -4,7 +4,6 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: 'postgres-${APP}-daily-backup'
-  namespace: database
 spec:
   immediate: true
   backupOwnerReference: self

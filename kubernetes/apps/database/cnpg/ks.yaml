@@ -4,10 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cnpg-crds
-  namespace: &namespace database
 spec:
   interval: 1h
-  targetNamespace: *namespace
+  targetNamespace: database
   prune: true
   sourceRef:
     kind: GitRepository
@@ -27,7 +26,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cnpg
-  namespace: &namespace database
 spec:
   interval: 1h
   path: ./kubernetes/apps/database/cnpg/app
@@ -36,7 +34,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: database
   wait: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -44,7 +42,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: plugin-barman-cloud
-  namespace: &namespace database
 spec:
   interval: 1h
   path: ./kubernetes/apps/database/cnpg/plugin-barman-cloud
@@ -53,7 +50,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: database
   wait: true
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -61,7 +58,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app postgres-cluster
-  namespace: &namespace database
 spec:
   interval: 1h
   path: ./kubernetes/apps/database/cnpg/cluster
@@ -70,7 +66,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: &namespace database
   dependsOn:
     - name: cnpg-crds
       namespace: database
@@ -97,7 +93,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app pgadmin
-  namespace: &namespace database
 spec:
   interval: 1h
   path: ./kubernetes/apps/database/cnpg/pgadmin
@@ -106,7 +101,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: database
   postBuild:
     substitute:
       APP: *app

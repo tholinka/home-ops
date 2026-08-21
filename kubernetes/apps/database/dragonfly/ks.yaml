@@ -4,7 +4,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: dragonfly-operator
-  namespace: &namespace database
 spec:
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/app
@@ -13,7 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: database
   healthChecks:
     - apiVersion: apiextensions.k8s.io/v1
       kind: CustomResourceDefinition
@@ -24,7 +23,6 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app dragonfly-cluster
-  namespace: &namespace database
 spec:
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
@@ -33,7 +31,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: &namespace database
   dependsOn:
     - name: dragonfly-operator
   healthChecks:

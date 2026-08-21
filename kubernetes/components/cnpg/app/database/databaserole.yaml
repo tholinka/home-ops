@@ -4,7 +4,6 @@ apiVersion: postgresql.cnpg.io/v1
 kind: DatabaseRole
 metadata:
   name: postgres-${OWNER}
-  namespace: postgres
 spec:
   cluster:
     name: postgres-cluster
