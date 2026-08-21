@@ -72,6 +72,11 @@ spec:
           bluestore_slow_ops_warn_lifetime: '10' # https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-slow-op-alert default is 86400 (24 hrs)
           bdev_stalled_read_warn_lifetime: '10' # https://docs.ceph.com/en/latest/rados/operations/health-checks/#block-device-stalled-read-alert
           mon_data_avail_warn: '10' # default is 30%
+      security:
+        cephx:
+          daemon:
+            KeyRotationPolicy: KeyGeneration
+            keyGeneration: 2 # the value doesn't matter, just needs to be higher than the current value (except if it's a new cluster, then it can be 1 or commented)
         mon:
           mon_cluster_log_level: info
       cleanupPolicy:
@@ -79,6 +84,8 @@ spec:
       crashCollector:
         disable: false
       csi:
+        cephfs:
+          kernelMountOptions: ms_mode=prefer-crc
         readAffinity:
           enabled: true
       dashboard:
@@ -86,6 +93,16 @@ spec:
         urlPrefix: /
         ssl: false
         prometheusEndpoint: http://vmsingle-victoria-metrics.observability.svc.cluster.local:8428
+      healthCheck: # aes256k requires kernel 7.0+
+        muteHealthWarning:
+          AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_CLIENT_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_KEYS_ALLOWED:
+            policy: mute
+          AUTH_INSECURE_KEYS_CREATABLE:
+            policy: mute
       mgr:
         modules:
           - name: pg_autoscaler
