@@ -12,7 +12,7 @@ spec:
     - ../../../../components/ext-auth
     - ../../../../components/scaler/instance
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   path: ./kubernetes/apps/home-automation/zwave/app
   postBuild:

@@ -18,10 +18,10 @@ spec:
       EXTENSIONS: ${q:='}${DATABASE_EXTENSIONS:=}${q:='}
       emptyArray: '[]'
   healthChecks:
-    - name: postgres-${APP}
+    - kind: Database
       namespace: *namespace
-      kind: Database
       apiVersion: postgresql.cnpg.io/v1
+      name: postgres-${APP}
   prune: true
   retryInterval: 2m
   sourceRef:

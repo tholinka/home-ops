@@ -36,12 +36,11 @@ spec:
   targetNamespace: *namespace
   dependsOn:
     - name: dragonfly-operator
-      namespace: *namespace
   healthChecks:
     - apiVersion: &dragonflyVersion dragonflydb.io/v1alpha1
       kind: &dragonflyKind Dragonfly
-      name: *app
       namespace: *namespace
+      name: *app
   healthCheckExprs:
     - apiVersion: *dragonflyVersion
       kind: *dragonflyKind

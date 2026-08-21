@@ -17,8 +17,8 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
-      name: cert-manager
       namespace: *namespace
+      name: cert-manager
     - apiVersion: &apiVersion cert-manager.io/v1
       kind: &kind ClusterIssuer
       name: letsencrypt
@@ -50,8 +50,8 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
-      name: *app
       namespace: *namespace
+      name: *app
   targetNamespace: *namespace
   dependsOn:
     - name: cert-manager

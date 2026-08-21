@@ -22,8 +22,8 @@ spec:
   healthChecks:
     - apiVersion: &certApiVersion cert-manager.io/v1
       kind: &certKind Certificate
-      name: bitwarden-tls-certs
       namespace: *namespace
+      name: bitwarden-tls-certs
     - apiVersion: &secretApiVersion external-secrets.io/v1
       kind: &secretKind ClusterSecretStore
       name: bitwarden

@@ -5,9 +5,6 @@
 ```yaml
   dependsOn:
     - name: cnpg-crds
-      namespace: *namespace
-    - name: openebs
-      namespace: openebs-system
   postBuild:
     substitute:
       APP: *app # required

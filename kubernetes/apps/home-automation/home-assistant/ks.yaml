@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: multus-networks
       namespace: network
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   path: ./kubernetes/apps/home-automation/home-assistant/app
   postBuild:

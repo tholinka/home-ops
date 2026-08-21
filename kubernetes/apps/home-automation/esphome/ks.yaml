@@ -20,7 +20,7 @@ spec:
   dependsOn:
     - name: multus-networks
       namespace: network
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   postBuild:
     substitute:

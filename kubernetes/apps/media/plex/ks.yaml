@@ -11,7 +11,7 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/scaler/instance
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   path: ./kubernetes/apps/media/plex/app
   postBuild:

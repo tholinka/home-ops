@@ -33,4 +33,3 @@ spec:
   targetNamespace: *namespace
   dependsOn:
     - name: silence-operator
-      namespace: *namespace

@@ -13,7 +13,7 @@ spec:
     - ../../../../components/cnpg/app
     - ../../../../components/dragonfly/app-template
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
     - name: dragonfly-cluster
       namespace: database

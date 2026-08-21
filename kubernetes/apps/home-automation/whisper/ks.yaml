@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   path: ./kubernetes/apps/home-automation/whisper/app
   prune: true

@@ -20,7 +20,6 @@ spec:
       kind: CustomResourceDefinition
       name: clusters.postgresql.cnpg.io
     - <<: *crds
-      apiVersion: apiextensions.k8s.io/v1
       name: objectstores.barmancloud.cnpg.io
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -75,8 +74,6 @@ spec:
   dependsOn:
     - name: cnpg-crds
       namespace: database
-    - name: openebs
-      namespace: openebs-system
   postBuild:
     substitute:
       APP: cluster
@@ -87,8 +84,8 @@ spec:
   healthChecks:
     - apiVersion: &postgresVersion postgresql.cnpg.io/v1
       kind: &postgresKind Cluster
-      name: *app
       namespace: *namespace
+      name: *app
   healthCheckExprs:
     - apiVersion: *postgresVersion
       kind: *postgresKind
@@ -119,5 +116,5 @@ spec:
   components:
     - ../../../../components/kopiur
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system

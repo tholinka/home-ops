@@ -15,7 +15,7 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   components:
     - ../../../../components/kopiur

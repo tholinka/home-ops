@@ -26,7 +26,7 @@ spec:
   interval: 1h
   dependsOn:
     - name: grafana
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   path: ./kubernetes/apps/observability/grafana/instance
   prune: true

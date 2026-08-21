@@ -20,7 +20,7 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json

@@ -6,7 +6,7 @@ metadata:
   name: &app victoria-metrics
 spec:
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   components:
     - ../../../../components/ext-auth

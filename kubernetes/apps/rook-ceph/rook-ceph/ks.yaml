@@ -24,18 +24,16 @@ spec:
   interval: 1h
   dependsOn:
     - name: ceph-csi-drivers
-      namespace: &namespace rook-ceph
     - name: rook-ceph
-      namespace: *namespace
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
+      namespace: &namespace rook-ceph
       name: rook-ceph-cluster
-      namespace: *namespace
     - apiVersion: &cephApiVersion ceph.rook.io/v1
       kind: &cephKind CephCluster
-      name: rook-ceph
       namespace: *namespace
+      name: rook-ceph
   healthCheckExprs:
     - apiVersion: *cephApiVersion
       kind: *cephKind

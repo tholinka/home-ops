@@ -29,7 +29,6 @@ spec:
     - ../../../../components/ext-auth/two
   dependsOn:
     - name: &app kopiur
-      namespace: *namespace
   path: ./kubernetes/apps/kopiur-system/kopiur/repository
   postBuild:
     substitute:

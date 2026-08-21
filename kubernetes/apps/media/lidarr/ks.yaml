@@ -12,7 +12,7 @@ spec:
     - ../../../../components/scaler/instance
     - ../../../../components/ext-auth
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
   path: ./kubernetes/apps/media/lidarr/app
   postBuild:

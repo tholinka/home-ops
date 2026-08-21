@@ -11,10 +11,8 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/scaler/instance
   dependsOn:
-    - name: storage-ready
+    - name: crds-ready
       namespace: flux-system
-    - name: authentik # does not like the oidc provider not being available at startup
-      namespace: security
   path: ./kubernetes/apps/media/qui/app
   postBuild:
     substitute:
