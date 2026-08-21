@@ -74,9 +74,11 @@ spec:
           mon_data_avail_warn: '10' # default is 30%
       security:
         cephx:
-          daemon:
+          # TODO remove on rebuild
+          daemon: &cephx
             KeyRotationPolicy: KeyGeneration
-            keyGeneration: 2 # the value doesn't matter, just needs to be higher than the current value (except if it's a new cluster, then it can be 1 or commented)
+            keyGeneration: 2
+          csi: *cephx
         mon:
           mon_cluster_log_level: info
       cleanupPolicy:
