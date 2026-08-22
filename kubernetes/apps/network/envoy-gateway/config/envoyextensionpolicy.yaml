@@ -14,7 +14,7 @@ spec:
       code:
         type: Image
         image:
-          url: oci://ghcr.io/ishioni/eep:0.2.1 # can't digest tag this, because envoy checks the digest vs module checksum not the image hash
+          url: oci://ghcr.io/ishioni/eep:0.3.0 # can't digest tag this, because envoy checks the digest vs module checksum not the image hash
       config:
         theme: connection
         showDetails: false
