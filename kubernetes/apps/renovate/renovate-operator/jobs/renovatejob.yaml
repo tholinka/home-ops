@@ -46,7 +46,7 @@ spec:
           csi.cert-manager.io/key-encoding: PKCS8
           csi.cert-manager.io/key-usages: client auth
           csi.cert-manager.io/dns-names: ${APP}.cluster.local
-  image: ghcr.io/renovatebot/renovate:44.30.4@sha256:e28fae22baff685b0c4d00277500b41886ff457bb6f89d7d08eaf82c95fae442
+  image: ghcr.io/renovatebot/renovate:44.39.2@sha256:e6b93e709ca64495ab9307350b260064276ee02d15c6886387fd2d42c926623b
   parallelism: 5
   resources:
     requests:
