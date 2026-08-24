@@ -72,5 +72,11 @@
 			matchPackageNames: ["docker.io/vernemq/vernemq"],
 			sourceUrl: "https://github.com/vernemq/vernemq",
 		},
+		{
+			description: "Set grafana operator source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/grafana/helm-charts/grafana-operator"],
+			sourceUrl: "https://github.com/grafana/grafana-operator",
+		},
 	],
 }
