@@ -31,6 +31,8 @@ spec:
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
               SONARR__UPDATE__BRANCH: develop
+              SONARR__SERVER__ALLOWEDHOSTS: sonarr.tholinka.dev,sonarr.default.svc.cluster.local
+              SONARR__SERVER__TRUSTEDNETWORKS: 10.69.0.0/16,fc69::/108
             envFrom:
               - secretRef:
                   name: sonarr-secret
