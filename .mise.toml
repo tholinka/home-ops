@@ -13,7 +13,7 @@ JUST_UNSTABLE = "1"
 
 "npm:oxfmt" = "0.65.0"
 
-"github:home-operations/flate" = "v0.6.0"
+"github:home-operations/flate" = "v0.6.1"
 
 [hooks]
 postinstall = "lefthook install"
