@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 6.2.0
-    digest: sha256:c7a0d919fa98da147ca06f39ebb745d1099b1caaf514a0edaa12980592426c71
+    tag: 6.3.0
+    digest: sha256:f82d88812ad9d40fb6d9390f80cf8898c9f0eef5a4cceaed4b862fb649676f53
   url: oci://ghcr.io/mogenius/helm-charts/renovate-operator
