@@ -1,9 +1,0 @@
----
-machine:
-  systemDiskEncryption:
-    ephemeral: &encrypt
-      provider: luks2
-      keys:
-        - slot: 0
-          tpm: {}
-    state: *encrypt

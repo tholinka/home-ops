@@ -4,7 +4,7 @@ Thumbs.db
 # k8s
 kubeconfig
 talosconfig
-clusterconfig/
+talos/output/
 .decrypted~*.yaml
 .config.env
 *.agekey

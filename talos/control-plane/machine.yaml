@@ -5,3 +5,6 @@ machine:
       enabled: true
       allowedRoles: ['os:admin']
       allowedKubernetesNamespaces: ['actions-runner-system', 'system-upgrade']
+  nodeLabels:
+    node.kubernetes.io/exclude-from-external-load-balancers:
+      $patch: delete

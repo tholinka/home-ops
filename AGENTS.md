@@ -31,10 +31,11 @@ kubernetes/
 │   ├── dragonfly/                   # Dragonfly (Redis alternative) — see its README for type selection
 │   └── scaler/                      # HPA scale to zero variants (scales to zero if required service is missing) (instance, metrics, statefulset)
 talos/
-├── talconfig.yaml                   # Single source of truth — talhelper generates clusterconfig/ from this
-├── talsecret.yaml                   # Encrypted secrets
-├── patches/{global,controller}/     # Composable machine patches
-└── clusterconfig/                   # GENERATED — never edit directly
+├── topf.yaml                        # Single source of truth — topf generates output/ from this
+├── secrets.yaml                     # val-protected secrets
+├── all                              # Patches to apply to all nodes
+├── control-plane                    # Patches to apply to control-plane nodes
+└── output/                          # GENERATED — never edit directly
 bootstrap/
 ├── bootstrap-cluster.sh             # Main bootstrap entry point
 ├── lib/common.sh                    # Shared logging/talosctl helpers
@@ -239,7 +240,7 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 
 ## Talos Configuration
 
-`talos/talconfig.yaml` is the single source of truth. `talhelper` generates per-node configs into `clusterconfig/` — **never edit generated files**.
+`talos/topf.yaml` is the single source of truth. `topf` generates per-node configs into `output/` — **never edit generated files**.
 
 ### Node inventory
 

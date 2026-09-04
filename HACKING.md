@@ -71,39 +71,25 @@ chmod a+x /data/on_boot.d/20-healthchecksio.sh
 
 ### 💣 Reset
 
-There might be a situation where you want to destroy your Kubernetes cluster. The following command will reset your nodes back to maintenance mode, append `--force` to completely format your the Talos installation. Either way the nodes should reboot after the command has successfully ran.
+There might be a situation where you want to destroy your Kubernetes cluster. The following command will reset your nodes back to maintenance mode. The nodes should reboot after the command has successfully ran.
 
 ```sh
-task talos:reset # --force
+just talos reset
 ```
 
 ### Bootstrap Talos, Kubernetes, and Flux
 
-1. Install Talos:
+1. Bootstrap Talos, cilium, flux, and etc.
 
    > [!NOTE]
    > _It might take a while for the cluster to be setup (10+ minutes is normal). During which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. 'Ready' will remain "False" as no CNI is deployed yet. **This is a normal.** If this step gets interrupted, e.g. by pressing `Ctrl` + `C`, you likely will need to [reset the cluster](#-reset) before trying again_
 
    ```sh
-   task talos:generate-config
-   task bootstrap:talos
+   just talos generate-config
+   just bootstrap cluster
    ```
 
-2. Push your changes to git:
-
-   ```sh
-   git add -A
-   git commit -m "chore: add talhelper encrypted secret :lock:"
-   git push
-   ```
-
-3. Install cilium, coredns, cert-manager, external-secrets, flux and sync the cluster to the repository state:
-
-   ```sh
-   task bootstrap:apps
-   ```
-
-4. Watch the rollout of your cluster happen:
+2. Watch the rollout of your cluster happen:
 
    ```sh
    watch kubectl get pods --all-namespaces
@@ -139,32 +125,14 @@ By default Flux will periodically check your git repository for changes. In orde
 
 ```sh
 # (Re)generate the Talos config
-task talos:generate-config
-# Apply the config to the node
-task talos:apply-node IP=? MODE=?
-# e.g. task talos:apply-node IP=10.10.10.10 MODE=auto
+just talos generate-config
+# Apply the config to the cluster
+just talos apply-cluster
 ```
 
 ### ⬆️ Updating Talos and Kubernetes versions
 
-> [!IMPORTANT]
-> Ensure the `talosVersion` and `kubernetesVersion` in `talconfig.yaml` are up-to-date with the version you wish to upgrade to.
-
-The `system-upgrade-controller` should handle this now, just update the versions in its ks.yaml.
-
-It is however a good idea to manually run apply-cluster afterward so the in cluster config update.
-
-```sh
-# Upgrade node to a newer Talos version
-task talos:upgrade-node IP=?
-# e.g. task talos:upgrade-node IP=10.10.10.10
-```
-
-```sh
-# Upgrade cluster to a newer Kubernetes version
-task talos:upgrade-k8s
-# e.g. task talos:upgrade-k8s
-```
+Version upgrades are handled entirely by [Tuppr](https://github.com/home-operations/tuppr).
 
 ## 🐛 Debugging
 

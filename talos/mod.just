@@ -4,9 +4,6 @@ set quiet
 set script-interpreter := ['bash', '-euo', 'pipefail']
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
-# Default ipv6_prefix, overridden by bws when generating config
-export ipv6_prefix := "fd00"
-
 [doc('Get a controller node ip')]
 get-controller:
     talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | shuf -n 1
@@ -26,33 +23,19 @@ healthy-nodes:
 
 [doc('Generate Talos config for all nodes')]
 generate-config:
-    bws run --no-inherit-env -- talhelper genconfig
+    topf render
 
-[confirm('Apply Talos config to ' + node + ' [y|N] ?')]
-[doc('Apply Talos config to a node')]
-apply-node node mode="auto":
-    talhelper gencommand apply --node {{ node }} --extra-flags '--mode={{ mode }}' | bash
-    just talos healthy-nodes
-
+[confirm('Apply Talos config for cluster? [y|N] ?')]
 [doc('Apply Talos config to the entire cluster')]
-apply-cluster mode="auto":
-    for node in $(just talos get-nodes); do
-        just --yes talos apply-node "$node" "{{ mode }}"
-        echo
-    done
-
-[confirm('Upgrade Talos config to ' + node + ' [y|N] ?')]
-[doc('Upgrade Talos config to a node')]
-upgrade-node node mode="auto":
-    talhelper gencommand upgrade --node {{ node }} --extra-flags '--mode={{ mode }}' | bash
+apply-cluster:
+    topf apply
     just talos healthy-nodes
 
+[confirm('Upgrade Talos config for cluster [y|N] ?')]
 [doc('Upgrade Talos config to the entire cluster')]
-upgrade-cluster mode="auto":
-    for node in $(just talos get-nodes); do
-        just --yes talos upgrade-node "$node" "{{ mode }}"
-        echo
-    done
+upgrade-cluster:
+    topf upgrade
+    just talos healthy-nodes
 
 [doc('Download Talos machine image')]
 download-image version schematic:
@@ -88,15 +71,12 @@ shutdown-cluster *args:
 
 [confirm('Reset node ' + node + ' [y|N] ?')]
 [doc('Reset a node')]
-reset-node node CLI_FORCE="":
-    if [[ "{{ CLI_FORCE }}" != "true" ]]; then
-        flags="--system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL"
-    fi
-    talhelper gencommand reset --extra-flags="--reboot $flags --graceful=false --wait=false" | bash
+reset-node node:
+    topf reset --nodes-filter {{ node }}
 
 [confirm('Reset entire cluster? [y|N] ?')]
 [doc('Reset entire cluster')]
-reset-cluster CLI_FORCE="":
+reset-cluster:
     for node in $(just talos get-nodes); do
-        just --yes talos reset-node "$node" {{ CLI_FORCE }}
+        just --yes talos reset-node "$node"
     done

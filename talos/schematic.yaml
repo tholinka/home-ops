@@ -1,0 +1,9 @@
+customization:
+  # extraKernelArgs:
+  #   - intel_iommu=on # PCI Passthrough
+  #   - iommu=pt # PCI Passthrough
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/i915
+      - siderolabs/intel-ucode
+      - siderolabs/nut-client

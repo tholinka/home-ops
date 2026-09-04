@@ -27,4 +27,4 @@ log lvl msg *args:
 
 [private]
 template file *args:
-    bws run --no-inherit-env -- minijinja-cli --env "{{ file }}" {{ args }}
+    minijinja-cli "{{ file }}" {{ args }} | vals flatten

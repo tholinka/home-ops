@@ -1,0 +1,63 @@
+---
+# renovate: datasource=custom.talos-factory depName=siderolabs/talos
+talosVersion: v1.13.9
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.36.4
+
+clusterName: kubernetes
+clusterEndpoint: https://cluster.servers.internal:6443
+schematicId: '@schematic.yaml'
+
+platform: metal
+secureboot: true
+
+nodes:
+  - host: l1 #lenovo-m700-1
+    ip: 192.168.20.61
+    role: worker
+    data: &data
+      cpu: i5-6400T
+      gpu: 'true'
+      installDisk: /dev/sda
+  - host: l2 #lenovo-m700-2
+    ip: 192.168.20.62
+    role: worker
+    data: *data
+  - host: l3 #lenovo-m700-3
+    ip: 192.168.20.63
+    role: worker
+    data: *data
+  - host: h1 #hp-800-g5-1
+    ip: 192.168.20.71
+    role: control-plane
+    data:
+      # set outside of the data anchor
+      installDiskSelectorSerial: 1922DD470802
+      <<: &data
+        cpu: i5-9500T
+        gpu: 'true'
+        encryption: true
+  - host: h2 #hp-400-g5-1
+    ip: 192.168.20.72
+    role: control-plane
+    data:
+      <<: *data
+      installDiskSelectorSerial: S4GNNF0N211290
+  - host: h3 #hp-400-g4-1
+    ip: 192.168.20.73
+    role: control-plane
+    data:
+      <<: *data
+      cpu: i5-8500T
+      installDiskSelectorSerial: S4GNNF0N206772
+  - host: h4 #hp-400-g5-2
+    ip: 192.168.20.74
+    role: worker
+    data:
+      <<: *data
+      installDisk: /dev/sda
+
+data:
+  nutUsername: ref+onepasswordconnect://home-ops/nut-secondary#username
+  nutPassword: ref+onepasswordconnect://home-ops/nut-secondary#password
+  ipv6Prefix: ref+onepasswordconnect://home-ops/ipv6#-.servers

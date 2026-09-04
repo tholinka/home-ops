@@ -15,8 +15,10 @@ metadata:
   namespace: security
   labels:
     reconcile.external-secrets.io/managed: 'true'
-stringData:
-  {{ ENV['bitwarden'] | indent(2) | safe }}
+data:
+  BITWARDEN_MACHINE_KEY: ref+onepasswordconnect://home-ops/bitwarden#-.machine_key
+  BITWARDEN_ORGANIZATION_ID: ref+onepasswordconnect://home-ops/bitwarden#-.organization_id
+  BITWARDEN_PROJECT_ID: ref+onepasswordconnect://home-ops/bitwarden#-.project_id
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
 apiVersion: v1

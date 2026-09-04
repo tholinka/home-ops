@@ -1,6 +1,16 @@
 ---
 cluster:
   allowSchedulingOnControlPlanes: true
+  apiServer:
+    admissionControl:
+      $patch: delete
+    extraArgs:
+      enable-aggregator-routing: true
+      feature-gates: HPAScaleToZero=true
+    certSANs:
+      - cluster.servers.internal
+      - 127.0.0.1
+
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
@@ -35,7 +45,3 @@ cluster:
                   - maxSkew: 1
                     topologyKey: kubernetes.io/hostname
                     whenUnsatisfiable: ScheduleAnyway
-  apiServer:
-    extraArgs:
-      enable-aggregator-routing: true
-      feature-gates: HPAScaleToZero=true
