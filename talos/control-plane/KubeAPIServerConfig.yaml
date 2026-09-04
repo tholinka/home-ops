@@ -1,0 +1,7 @@
+---
+apiVersion: v1alpha1
+kind: KubeAPIServerConfig
+certExtraSANs:
+  - cluster.servers.internal
+extraArgs:
+  enable-aggregator-routing: 'true'

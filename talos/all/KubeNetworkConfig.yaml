@@ -1,0 +1,11 @@
+---
+apiVersion: v1alpha1
+kind: KubeNetworkConfig
+dnsDomain: cluster.local
+podSubnets:
+  - 10.69.0.0/16
+  - fc69::/108
+serviceSubnets:
+  - 10.96.0.0/16
+  - fc96::/108
+nodeCIDRMaskSizeIPv6: 112

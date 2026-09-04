@@ -1,8 +1,8 @@
 ---
 # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-talosVersion: v1.13.9
+talosVersion: v1.14.0
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.36.4
+kubernetesVersion: v1.37.0
 
 clusterName: kubernetes
 clusterEndpoint: https://cluster.servers.internal:6443
@@ -18,7 +18,7 @@ nodes:
     data: &data
       cpu: i5-6400T
       gpu: 'true'
-      installDisk: /dev/sda
+      disk: &sda disk.dev_path == "/dev/sda"
   - host: l2 #lenovo-m700-2
     ip: 192.168.20.62
     role: worker
@@ -32,7 +32,7 @@ nodes:
     role: control-plane
     data:
       # set outside of the data anchor
-      installDiskSelectorSerial: 1922DD470802
+      disk: disk.serial == "1922DD470802"
       <<: &data
         cpu: i5-9500T
         gpu: 'true'
@@ -42,20 +42,20 @@ nodes:
     role: control-plane
     data:
       <<: *data
-      installDiskSelectorSerial: S4GNNF0N211290
+      disk: disk.serial == "S4GNNF0N211290"
   - host: h3 #hp-400-g4-1
     ip: 192.168.20.73
     role: control-plane
     data:
       <<: *data
       cpu: i5-8500T
-      installDiskSelectorSerial: S4GNNF0N206772
+      disk: disk.serial == "S4GNNF0N206772"
   - host: h4 #hp-400-g5-2
     ip: 192.168.20.74
     role: worker
     data:
       <<: *data
-      installDisk: /dev/sda
+      disk: *sda
 
 data:
   nutUsername: ref+onepasswordconnect://home-ops/nut-secondary#username
