@@ -150,13 +150,11 @@ spec:
               readiness: *exporter-probes
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFileSystem: true
+              readOnlyRootFilesystem: true
               capabilities: { drop: ['ALL'] }
               runAsNonRoot: true
               runAsUser: 1000
               runAsGroup: 1000
-              fsGroup: 1000
-              fsGroupChangePolicy: OnRootMismatch
 
       nas-exporter: # also setup exporter for nas' pihole instance
         containers:

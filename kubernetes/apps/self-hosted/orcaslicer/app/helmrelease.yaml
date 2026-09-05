@@ -38,7 +38,7 @@ spec:
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFileSystem: true
+              readOnlyRootFilesystem: false # lot of random directories it wants to write to
             resources:
               claims:
                 - name: gpu

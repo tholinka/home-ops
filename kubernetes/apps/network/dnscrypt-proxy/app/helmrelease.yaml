@@ -43,7 +43,7 @@ spec:
                 memory: 64Mi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFileSystem: true
+              readOnlyRootFilesystem: true
               capabilities: { drop: ['ALL'] }
 
     defaultPodOptions:

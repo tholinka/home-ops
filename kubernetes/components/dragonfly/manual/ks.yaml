@@ -9,9 +9,6 @@ spec:
     labels:
       app.kubernetes.io/name: &app ${APP}
       dragonflydb.io/acl: 'true' # seems to be dropped when directly on the resourcesetinputprovider? weird
-  dependsOn:
-    - name: dragonfly-cluster
-      namespace: database
   interval: 1h
   path: ./kubernetes/components/dragonfly/manual/database
   postBuild:

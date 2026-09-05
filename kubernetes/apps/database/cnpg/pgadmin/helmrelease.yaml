@@ -35,7 +35,6 @@ spec:
               runAsNonRoot: false
               runAsUser: 0
               runAsGroup: 0
-              fsGroup: 0
         containers:
           main:
             image: *image

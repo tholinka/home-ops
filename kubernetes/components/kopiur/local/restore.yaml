@@ -6,6 +6,9 @@ metadata:
   name: ${APP}
 spec:
   mover:
+    resources:
+      limits:
+        memory: 4Gi
     podSecurityContext:
       fsGroup: ${KOPIUR_PGID:=1000}
     securityContext:
