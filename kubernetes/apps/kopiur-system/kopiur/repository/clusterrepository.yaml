@@ -25,6 +25,18 @@ spec:
         memory: 1Gi
       limits:
         memory: 2Gi
+  maintenance:
+    schedule:
+      quick: # close the current epoch
+        cron: 0 * * * *
+        jitter: 10m
+      full:
+        cron: 0 3 * * *
+        jitter: 1h
+  parameters:
+    epoch:
+      # literally the absolute minimum, but should prevent index blobs from getting to large
+      minDuration: 1h
   scheduleDefaults:
     timezone: America/Chicago
   # server:
@@ -56,11 +68,12 @@ spec:
   maintenance:
     schedule:
       quick:
-        cron: '0 3 * * */2'
+        # close the current epoch
+        cron: '0 6 * * *'
         jitter: 1h
       full:
-        cron: '0 5 * * 0'
-        jitter: 1h
+        cron: '0 12 * * 0'
+        jitter: 4h
   moverDefaults:
     resources:
       requests:
@@ -68,6 +81,10 @@ spec:
         memory: 1Gi
       limits:
         memory: 2Gi
+  parameters:
+    epoch:
+      # default
+      minDuration: 24h
   scheduleDefaults:
     timezone: America/Chicago
   # server:
