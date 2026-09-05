@@ -29,6 +29,8 @@ spec:
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 80
               PROWLARR__UPDATE__BRANCH: develop
+              PROWLARR__SERVER__ALLOWEDHOSTS: '{{ .Release.Name }}.tholinka.dev,{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local'
+              PROWLARR__SERVER__TRUSTEDNETWORKS: 10.69.0.0/16,fc69::/108
             envFrom:
               - secretRef:
                   name: prowlarr-secret
@@ -40,6 +42,9 @@ spec:
                   httpGet:
                     path: /ping
                     port: *port
+                    httpHeaders:
+                      - name: Host
+                        value: localhost
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
