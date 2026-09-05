@@ -15,7 +15,7 @@ metadata:
   namespace: security
   labels:
     reconcile.external-secrets.io/managed: 'true'
-data:
+stringData:
   BITWARDEN_MACHINE_KEY: ref+onepasswordconnect://home-ops/bitwarden#-.machine_key
   BITWARDEN_ORGANIZATION_ID: ref+onepasswordconnect://home-ops/bitwarden#-.organization_id
   BITWARDEN_PROJECT_ID: ref+onepasswordconnect://home-ops/bitwarden#-.project_id
@@ -28,7 +28,7 @@ metadata:
   namespace: flux-system
   labels:
     reconcile.external-secrets.io/managed: 'true'
-data:
+stringData:
   # no auth on bootstrap, once the external-secret takes over, will use oauth
   config.yaml: |
       apiVersion: web.fluxcd.controlplane.io/v1

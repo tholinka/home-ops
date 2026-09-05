@@ -7,3 +7,4 @@ customization:
       - siderolabs/i915
       - siderolabs/intel-ucode
       - siderolabs/nut-client
+  bootloader: sd-boot

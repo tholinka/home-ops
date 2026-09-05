@@ -21,28 +21,11 @@ healthy-nodes:
         controller="$(just talos get-controller)"
     done
 
-[doc('Generate Talos config for all nodes')]
-generate-config:
-    topf render
-
 [confirm('Apply Talos config for cluster? [y|N] ?')]
 [doc('Apply Talos config to the entire cluster')]
 apply-cluster:
     topf apply
     just talos healthy-nodes
-
-[confirm('Upgrade Talos config for cluster [y|N] ?')]
-[doc('Upgrade Talos config to the entire cluster')]
-upgrade-cluster:
-    topf upgrade
-    just talos healthy-nodes
-
-[doc('Download Talos machine image')]
-download-image version schematic:
-    curl -fL --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors --progress-bar \
-        -o "talos-{{ version }}-{{ replace_regex(schematic, '^(.{8}).*', '$1') }}.iso" \
-        "https://factory.talos.dev/image/{{ schematic }}/{{ version }}/metal-amd64.iso"
-    just log info "Downloaded Talos" version "{{ version }}" schematic "{{ schematic }}"
 
 [confirm('Reboot node ' + node + ' [y|N] ?')]
 [doc('Reboot a node')]
@@ -69,14 +52,9 @@ shutdown-cluster *args:
         just --yes talos shutdown-node $node {{ args }} || exit 0
     done
 
-[confirm('Reset node ' + node + ' [y|N] ?')]
-[doc('Reset a node')]
-reset-node node:
-    topf reset --nodes-filter {{ node }}
-
-[confirm('Reset entire cluster? [y|N] ?')]
-[doc('Reset entire cluster')]
 reset-cluster:
-    for node in $(just talos get-nodes); do
-        just --yes talos reset-node "$node"
-    done
+    topf reset --full=false --wait-for-maintenance
+
+[doc('Wrapper around topf to run in the talos folder')]
+topf *args:
+    topf {{ args }}

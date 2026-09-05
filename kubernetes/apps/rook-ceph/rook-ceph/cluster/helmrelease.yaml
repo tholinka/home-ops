@@ -72,13 +72,6 @@ spec:
           bluestore_slow_ops_warn_lifetime: '10' # https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-slow-op-alert default is 86400 (24 hrs)
           bdev_stalled_read_warn_lifetime: '10' # https://docs.ceph.com/en/latest/rados/operations/health-checks/#block-device-stalled-read-alert
           mon_data_avail_warn: '10' # default is 30%
-      security:
-        cephx:
-          # TODO remove on rebuild
-          daemon: &cephx
-            KeyRotationPolicy: KeyGeneration
-            keyGeneration: 2
-          csi: *cephx
         mon:
           mon_cluster_log_level: info
       cleanupPolicy:

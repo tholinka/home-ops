@@ -36,3 +36,5 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: observability
+  dependsOn:
+    - name: victoria-logs

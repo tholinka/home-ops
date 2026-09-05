@@ -13,3 +13,5 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: rook-ceph
+  dependsOn:
+    - name: rook-ceph
