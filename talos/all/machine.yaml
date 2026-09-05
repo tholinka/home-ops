@@ -3,12 +3,3 @@ machine:
   certSANs:
     - cluster.servers.internal
     - 127.0.0.1
-  kubelet: # TODO need to migrate this to multi-doc, but how?
-    extraMounts:
-      - destination: /var/openebs/local
-        type: bind
-        source: /var/openebs/local
-        options:
-          - bind
-          - rshared
-          - rw
