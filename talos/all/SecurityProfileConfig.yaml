@@ -1,0 +1,4 @@
+---
+apiVersion: v1alpha1
+kind: SecurityProfileConfig
+workloadIsolation: false # breaks node exporter, ceph node plugin, etc
