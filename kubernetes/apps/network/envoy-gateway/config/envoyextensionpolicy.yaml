@@ -20,6 +20,7 @@ spec:
         showDetails: false
         locale: en # slim down size vs auto, otherwise get response_payload_too_large errors from envoy
         #logLevel: debug
-        filterCodes: []
+        # Plex, etc use 401 to indicate a redirect to login, so we don't want to break that
+        filterCodes: [404, '500-510']
         excludeDomains: []
       failOpen: false
