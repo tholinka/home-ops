@@ -134,6 +134,9 @@ spec:
     grafana:
       enabled: false
       forceDeployDatasource: true
+      plugins:
+        - victoriametrics-metrics-datasource
+        - victoriametrics-logs-datasource
     kube-state-metrics:
       enabled: false
     kubeControllerManager:
