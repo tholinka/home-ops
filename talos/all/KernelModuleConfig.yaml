@@ -2,3 +2,7 @@
 apiVersion: v1alpha1
 kind: KernelModuleConfig
 name: nbd
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: cachefiles

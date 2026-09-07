@@ -4,6 +4,7 @@ customization:
   #   - iommu=pt # PCI Passthrough
   systemExtensions:
     officialExtensions:
+      - siderolabs/cachefilesd
       - siderolabs/i915
       - siderolabs/intel-ucode
       - siderolabs/nut-client

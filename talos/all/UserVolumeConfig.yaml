@@ -3,3 +3,8 @@ apiVersion: v1alpha1
 kind: UserVolumeConfig
 name: local
 volumeType: directory
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: fscache
+volumeType: directory
