@@ -18,9 +18,9 @@ mode: 0o644
 contents: |
   dir /var/mnt/fscache
   tag mycache
-  brun 10%
-  bcull 7%
-  bstop 3%
-  frun 10%
-  fcull 7%
-  fstop 3%
+  brun 25%
+  bcull 20%
+  bstop 15%
+  frun 25%
+  fcull 20%
+  fstop 15%
