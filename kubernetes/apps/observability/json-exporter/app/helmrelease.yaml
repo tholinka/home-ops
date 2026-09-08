@@ -115,7 +115,7 @@ spec:
             summary: |-
               {{`{{ $labels.target }}`}}'s' PLOAM state is not Associated State 51
         - alert: PonRxPowerBad # https://pon.wiki/guides/troubleshoot-connectivity-issues-with-the-was-110-or-x-onu-sfpp/#mikrotik-routeros-ddmi
-          expr: pon_rx_power_dbm > -8 or pon_rx_power_dbm < -24
+          expr: pon_rx_power_dbm > -8 or pon_rx_power_dbm < -27
           for: 5m
           labels:
             severity: warning
@@ -123,9 +123,9 @@ spec:
             description: |-
               {{`{{ $labels.target }}`}}'s Rx dBm is {{`{{ $value }}`}}
             summary: |-
-              {{`{{ $labels.target }}`}}'s Rx dBm is Fair or Poor
+              {{`{{ $labels.target }}`}}'s Rx dBm is Poor
         - alert: PonTxPowerBad # https://pon.wiki/guides/troubleshoot-connectivity-issues-with-the-was-110-or-x-onu-sfpp/#mikrotik-routeros-ddmi
-          expr: pon_tx_power_dba > 7 or pon_tx_power_dbm < 1
+          expr: pon_tx_power_dba > 8 or pon_tx_power_dbm < 1
           for: 5m
           labels:
             severity: warning
@@ -133,4 +133,4 @@ spec:
             description: |-
               {{`{{ $labels.target }}`}}'s Tx dBm is {{`{{ $value }}`}}
             summary: |-
-              {{`{{ $labels.target }}`}}'s Tx dBm is Fair or Poor
+              {{`{{ $labels.target }}`}}'s Tx dBm is Poor
