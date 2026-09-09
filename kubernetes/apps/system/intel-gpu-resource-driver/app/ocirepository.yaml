@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.11.0
-    digest: sha256:a927938c242e39787e87d0c85d1733f5f4d35c1e581cee758fc9d0ac8f76f30b
+    tag: 0.12.0
+    digest: sha256:d596da6951326c1ad971089423c60a8bb59d212dd932f95ced5bd131cce32a10
   url: oci://ghcr.io/intel/intel-resource-drivers-for-kubernetes/intel-gpu-resource-driver-chart
