@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app kguardian
+spec:
+  interval: 1h
+  components:
+    - ../../../../components/ext-auth
+  path: ./kubernetes/apps/kguardian/kguardian/app
+  postBuild:
+    substitute:
+      APP: *app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: kguardian
+  wait: true

@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app kguardian
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  interval: 1h
+  values:
+    controller:
+      excludedNamespaces:
+        - *app
+
+    database:
+      persistence:
+        storageClassName: openebs-hostpath
+        size: 10Gi
+      resources:
+        limits:
+          cpu: 4
+          memory: 1Gi
+
+    seccomp:
+      distribute: true
+
+    telemetry:
+      enabled: false

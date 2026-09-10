@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kguardian
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 1.22.0
+    digest: sha256:1883deaf4e7539512f9e30fc4a5870ba4a500165cd01c17086cb2226985a01d9
+  url: oci://ghcr.io/kguardian-dev/charts/kguardian

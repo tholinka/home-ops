@@ -16,6 +16,8 @@ spec:
     - <<: *policy
       namespace: home-automation
     - <<: *policy
+      namespace: kguardian
+    - <<: *policy
       namespace: kopiur-system
     - <<: *policy
       namespace: media
