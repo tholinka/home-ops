@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 4.6.0
-    digest: sha256:d1d1d7bd063bb9d1e457e6a13124385bd5ba612af1d1930fa254e31b4e1a1629
+    tag: 4.6.1
+    digest: sha256:7e22babd055db1058f4325e6e13230eb75945f3623ceb71b4d2060ffab4ba379
   url: oci://ghcr.io/openebs/charts/openebs
