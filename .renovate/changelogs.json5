@@ -78,5 +78,11 @@
 			matchPackageNames: ["ghcr.io/grafana/helm-charts/grafana-operator"],
 			sourceUrl: "https://github.com/grafana/grafana-operator",
 		},
+		{
+			description: "Set ceph-csi-drivers source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/home-operations/charts-mirror/ceph-csi-drivers"],
+			sourceUrl: "https://github.com/ceph/ceph-csi-operator",
+		},
 	],
 }
