@@ -75,7 +75,7 @@ spec:
         ipFamilyPolicy: PreferDualStack
         externalTrafficPolicy: Local
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: go2rtc-streams.tholinka.dev.
+          external-dns.kubernetes.io/hostname: go2rtc-streams.tholinka.dev.
           lbipam.cilium.io/ips: 192.168.21.9, fd83:43a4:6dab:21::9
         ports:
           http:
