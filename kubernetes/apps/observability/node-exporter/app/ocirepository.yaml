@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 4.56.3
-    digest: sha256:7892bc8444e40a77ce14ea9002dc9ff56e51bf44852f01c47ac9ecbbd779c9c0
+    tag: 4.57.0
+    digest: sha256:542aa0066eca42668c4592c53513aea7229b5dabac059e97c2d4ac55c96ab601
   url: oci://ghcr.io/prometheus-community/charts/prometheus-node-exporter
