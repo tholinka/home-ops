@@ -5,7 +5,7 @@ TALOSCONFIG = "{{config_root}}/talos/talosconfig"
 JUST_UNSTABLE = "1"
 
 [tools]
-"aqua:evilmartians/lefthook" = "2.1.12"
+"aqua:evilmartians/lefthook" = "2.1.13"
 "aqua:postfinance/topf" = "0.6.0"
 "aqua:helmfile/vals" = "0.46.1"
 "aqua:helmfile/helmfile" = "1.8.0"
