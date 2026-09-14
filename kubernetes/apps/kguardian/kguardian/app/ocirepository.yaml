@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.23.0
-    digest: sha256:51da5e72f4ff654790f3226a451e798d098e5df94f7a28fedadbbc19a4af14aa
+    tag: 1.23.1
+    digest: sha256:eb6196e3991bb10394a1574181c3d637cd801354b0695c77345d42be8566ac06
   url: oci://ghcr.io/kguardian-dev/charts/kguardian
