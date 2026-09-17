@@ -23,8 +23,8 @@ spec:
               LOG_LEVEL: 'info'
               PORT: &port 80
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -87,3 +87,17 @@ spec:
             subPath: logs
           - path: /tmp
             subPath: tmp
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              API_KEY: '{{ .SEERR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app

@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template-4.5.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -34,8 +34,8 @@ spec:
               LIDARR__SERVER__ALLOWEDHOSTS: '{{ .Release.Name }}.tholinka.dev,{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local'
               LIDARR__SERVER__TRUSTEDNETWORKS: 10.69.0.0/16,fc69::/108
             envFrom:
-              - secretRef:
-                  name: lidarr
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -107,3 +107,17 @@ spec:
             subPath: logs
           - path: /run
             subPath: run
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              LIDARR__AUTH__APIKEY: '{{ .LIDARR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app

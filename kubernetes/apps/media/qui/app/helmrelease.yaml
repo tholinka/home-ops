@@ -36,8 +36,8 @@ spec:
               QUI__OIDC_REDIRECT_URL: https://qui.tholinka.dev/api/auth/oidc/callback
               QUI__OIDC_DISABLE_BUILT_IN_LOGIN: true
             envFrom:
-              - secretRef:
-                  name: '{{ .Release.Name }}'
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -98,3 +98,20 @@ spec:
         path: /media
         globalMounts:
           - path: /media
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              QUI__SESSION_SECRET: '{{ .QUI_SESSION_SECRET }}'
+              QUI__OIDC_CLIENT_ID: '{{ .QUI_OIDC_CLIENT_ID }}'
+              QUI__OIDC_CLIENT_SECRET: '{{ .QUI_OIDC_CLIENT_SECRET }}'
+
+        dataFrom:
+          - extract:
+              key: *app

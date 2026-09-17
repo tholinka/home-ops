@@ -101,31 +101,28 @@ spec:
       config:
         type: emptyDir
 
-    rawResources:
-      netpol:
-        manifest:
-          apiVersion: cilium.io/v2
-          kind: CiliumNetworkPolicy
-          spec:
-            endpointSelector:
-              matchLabels:
-                app.kubernetes.io/name: *app
-                app.kubernetes.io/instance: *app
-            ingress:
-              - fromEndpoints:
-                  - matchLabels:
-                      gateway.networking.k8s.io/gateway-name: *gateway
-                      k8s:io.kubernetes.pod.namespace: *gatewayns
-                toPorts:
-                  - ports:
-                      - port: '80'
-                        protocol: TCP
-              - fromEndpoints:
-                  - matchLabels:
-                      k8s:io.kubernetes.pod.namespace: observability
-                      app.kubernetes.io/name: vmagent
-                      app.kubernetes.io/instance: victoria-metrics
-                toPorts:
-                  - ports:
-                      - port: '8081'
-                        protocol: TCP
+    networkpolicies:
+      main:
+        type: cilium
+        endpointSelector:
+          matchLabels:
+            app.kubernetes.io/name: *app
+            app.kubernetes.io/instance: *app
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  gateway.networking.k8s.io/gateway-name: *gateway
+                  k8s:io.kubernetes.pod.namespace: *gatewayns
+            toPorts:
+              - ports:
+                  - port: '80'
+                    protocol: TCP
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: observability
+                  app.kubernetes.io/name: vmagent
+                  app.kubernetes.io/instance: victoria-metrics
+            toPorts:
+              - ports:
+                  - port: '8081'
+                    protocol: TCP

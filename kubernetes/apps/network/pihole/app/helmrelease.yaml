@@ -93,11 +93,9 @@ spec:
               FTLCONF_webserver_interface_boxed: false
               FTLCONF_webserver_interface_theme: default-auto
               FTLCONF_webserver_port: &pihole-port 80
-              FTLCONF_webserver_api_password: &pihole-password
-                valueFrom:
-                  secretKeyRef:
-                    name: pihole-secret
-                    key: password
+            envFrom: &envFrom
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &pihole-probes
                 enabled: true
@@ -128,7 +126,7 @@ spec:
                   fieldRef:
                     fieldPath: status.podIP
               PIHOLE_PORT: *pihole-port
-              PIHOLE_PASSWORD: *pihole-password
+            envFrom: *envFrom
             resources:
               requests:
                 cpu: 10m
@@ -270,3 +268,18 @@ spec:
               - path: /etc/dnsmasq.d/03-hosts.conf
                 subPath: 03-hosts.conf
                 readOnly: true
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              FTLCONF_webserver_api_password: &password '{{ .PASSWORD }}'
+              PIHOLE_PASSWORD: *password
+        dataFrom:
+          - extract:
+              key: *app

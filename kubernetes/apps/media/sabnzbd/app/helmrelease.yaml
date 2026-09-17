@@ -34,8 +34,8 @@ spec:
                 sab.tholinka.dev
               PUSHOVER_ENABLED: true
             envFrom:
-              - secretRef:
-                  name: sabnzbd-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -107,3 +107,19 @@ spec:
                 subPath: logs
               - path: /tmp
                 subPath: tmp
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              QUI_API_KEY: '{{ .SABNZBD_QUI_API_KEY }}'
+              SABNZBD__API_KEY: &apiKey '{{ .SABNZBD_API_KEY }}'
+              SABNZBD__NZB_KEY: *apiKey
+        dataFrom:
+          - extract:
+              key: *app

@@ -28,8 +28,8 @@ spec:
             env:
               RECYCLARR_DATA_DIR: /tmp
             envFrom:
-              - secretRef:
-                  name: recyclarr-secret
+              - externalSecretRef:
+                  identifier: env
             args: [sync]
             securityContext:
               allowPrivilegeEscalation: false
@@ -70,3 +70,20 @@ spec:
             subPath: repos
           - path: /tmp
             subPath: tmp
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              RADARR_API_KEY: '{{ .RADARR_API_KEY }}'
+              SONARR_API_KEY: '{{ .SONARR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: radarr
+          - extract:
+              key: sonarr

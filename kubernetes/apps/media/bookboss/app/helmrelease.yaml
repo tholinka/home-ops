@@ -31,8 +31,8 @@ spec:
               BOOKBOSS__OIDC__DISCOVERY_URL: https://auth.tholinka.dev/application/o/bookboss/
               BOOKBOSS__OIDC__BUTTON_LABEL: Sign in with Authentik
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness:
                 enabled: true
@@ -105,3 +105,20 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              BOOKBOSS__ENCRYPTION_SECRET: '{{ .BOOKBOSS_ENCRYPTION_SECRET }}'
+              BOOKBOSS__METADATA__HARDCOVER_API_TOKEN: '{{ .HARDCOVER_API_TOKEN }}'
+              BOOKBOSS__OIDC__CLIENT_ID: '{{ .BOOKBOSS_OIDC_CLIENT_ID }}'
+              BOOKBOSS__OIDC__CLIENT_SECRET: '{{ .BOOKBOSS_OIDC_CLIENT_SECRET }}'
+        dataFrom:
+          - extract:
+              key: *app

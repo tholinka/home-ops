@@ -29,8 +29,8 @@ spec:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2026.9.2@sha256:83decfe1f940120bd7ecbb2c7d72d5b2723dfddb39de3f4e9914c19ead1f721f
             envFrom:
-              - secretRef:
-                  name: home-assistant-secret
+              - externalSecretRef:
+                  identifier: env
             args:
               - --log-file
               - /config/logs/home-assistant.log
@@ -113,7 +113,7 @@ spec:
             scrapeTimeout: 10s
             authorization:
               credentials:
-                name: home-assistant-auth-secret
+                name: home-assistant-auth
                 key: HASS_LONG_LIVED_TOKEN
     persistence:
       config:
@@ -140,3 +140,29 @@ spec:
             subPath: vscode-logs
           - path: /config/.vscode/User/caches
             subPath: vscode-caches
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              HASS_ELEVATION: '{{ .HASS_ELEVATION }}'
+              HASS_GOOGLE_PROJECT_ID: '{{ .HASS_GOOGLE_PROJECT_ID }}'
+              HASS_GOOGLE_SECURE_DEVICES_PIN: '{{ .HASS_GOOGLE_SECURE_DEVICES_PIN }}'
+              HASS_LATITUDE: '{{ .HASS_LATITUDE }}'
+              HASS_LONGITUDE: '{{ .HASS_LONGITUDE }}'
+        dataFrom:
+          - extract:
+              key: &secret home_assistant
+      auth:
+        target:
+          template:
+            data:
+              HASS_LONG_LIVED_TOKEN: '{{ .HASS_LONG_LIVED_TOKEN }}'
+        dataFrom:
+          - extract:
+              key: *secret

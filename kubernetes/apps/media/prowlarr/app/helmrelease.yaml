@@ -32,8 +32,8 @@ spec:
               PROWLARR__SERVER__ALLOWEDHOSTS: '{{ .Release.Name }}.tholinka.dev,{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local'
               PROWLARR__SERVER__TRUSTEDNETWORKS: 10.69.0.0/16,fc69::/108
             envFrom:
-              - secretRef:
-                  name: prowlarr-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -88,3 +88,17 @@ spec:
     persistence:
       config:
         existingClaim: *app
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              PROWLARR__AUTH__APIKEY: '{{ .PROWLARR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: prowlarr

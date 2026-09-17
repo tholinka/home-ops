@@ -30,8 +30,8 @@ spec:
               HOMEPAGE_OIDC_ISSUER: https://auth.tholinka.dev/application/o/homepage/
               HOMEPAGE_OIDC_NAME: Authentik
             envFrom:
-              - secretRef:
-                  name: homepage-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness:
                 enabled: true
@@ -153,3 +153,81 @@ spec:
             path: /app/config/settings.yaml
           - subPath: widgets.yaml
             path: /app/config/widgets.yaml
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              ## Auth
+              HOMEPAGE_AUTH_SECRET: '{{ .HOMEPAGE_AUTH_SECRET }}'
+              HOMEPAGE_OIDC_CLIENT_ID: '{{ .HOMEPAGE_CLIENT_ID }}'
+              HOMEPAGE_OIDC_CLIENT_SECRET: '{{ .HOMEPAGE_CLIENT_SECRET }}'
+
+              ## Generic
+              HOMEPAGE_VAR_LATITUDE: '{{ .HASS_LATITUDE }}'
+              HOMEPAGE_VAR_LONGITUDE: '{{ .HASS_LONGITUDE }}'
+
+              ## Home
+              HOMEPAGE_VAR_HA_TOKEN: '{{ .HASS_LONG_LIVED_TOKEN }}'
+
+              ## Media
+              HOMEPAGE_VAR_AUTOBRR_TOKEN: '{{ .AUTOBRR_HOMEPAGE_API_KEY }}'
+              HOMEPAGE_VAR_BAZARR_TOKEN: '{{ .BAZARR_API_KEY }}'
+              HOMEPAGE_VAR_LIDARR_TOKEN: '{{ .LIDARR_API_KEY }}'
+              HOMEPAGE_VAR_PLEX_TOKEN: '{{ .PLEX_TOKEN }}'
+              HOMEPAGE_VAR_PROWLARR_TOKEN: '{{ .PROWLARR_API_KEY }}'
+              HOMEPAGE_VAR_QBITTORRENT_PROXY: 'https://qui.tholinka.dev/proxy/{{ .QBITTORRENT_PROXY }}'
+              HOMEPAGE_VAR_RADARR_TOKEN: '{{ .RADARR_API_KEY }}'
+              HOMEPAGE_VAR_SABNZBD_TOKEN: '{{ .SABNZBD_API_KEY }}'
+              HOMEPAGE_VAR_SEERR_TOKEN: '{{ .SEERR_API_KEY }}'
+              HOMEPAGE_VAR_SLSKD_TOKEN: '{{ .SLSKD_API_KEY }}'
+              HOMEPAGE_VAR_SONARR_TOKEN: '{{ .SONARR_API_KEY }}'
+              HOMEPAGE_VAR_TAUTULLI_TOKEN: '{{ .TAUTULLI_API_KEY }}'
+
+              ## Security
+              HOMEPAGE_VAR_AUTHENTIK_TOKEN: '{{ .AUTHENTIK_TOKEN }}'
+
+              ## Self Hosted
+              HOMEPAGE_VAR_IMMICH_TOKEN: '{{ .IMMICH_API_KEY }}'
+              HOMEPAGE_VAR_PAPERLESS_TOKEN: '{{ .PAPERLESS_API_KEY }}'
+        dataFrom:
+          ## generic
+          - extract:
+              key: *app
+          ## home
+          - extract:
+              key: home_assistant
+          ## Media
+          - extract:
+              key: autobrr
+          - extract:
+              key: bazarr
+          - extract:
+              key: lidarr
+          - extract:
+              key: plex
+          - extract:
+              key: prowlarr
+          - extract:
+              key: radarr
+          - extract:
+              key: sabnzbd
+          - extract:
+              key: seerr
+          - extract:
+              key: slskd
+          - extract:
+              key: sonarr
+          ## Security
+          - extract:
+              key: authentik
+          ## Self Hosted
+          - extract:
+              key: immich
+          - extract:
+              key: paperless

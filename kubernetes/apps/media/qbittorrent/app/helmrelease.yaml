@@ -18,7 +18,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
         initContainers:
-          gluetun:
+          &gluetun gluetun:
             image:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.41.3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027
@@ -47,8 +47,8 @@ spec:
               WIREGUARD_MTU: 1400
               OPENVPN_MSSFIX: 1320
             envFrom:
-              - secretRef:
-                  name: wireguard
+              - externalSecretRef:
+                  identifier: gluetun-env
             probes:
               liveness:
                 enabled: true
@@ -133,8 +133,8 @@ spec:
               QBT_WEBUI_PORT: &port 80
               PUSHOVER_ENABLED: true
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               startup:
                 enabled: true
@@ -162,8 +162,8 @@ spec:
               CRON_SCHEDULE: '*/5 * * * *'
               LOG_TIMESTAMP: false
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             resources:
               requests:
                 cpu: 5m
@@ -187,8 +187,8 @@ spec:
           http:
             primary: true
             port: *port
-      gluetun:
-        suffix: gluetun
+      *gluetun :
+        suffix: *gluetun
         ports:
           socks-proxy:
             port: *proxy-port
@@ -243,10 +243,10 @@ spec:
 
       gluetun-auth:
         type: secret
-        name: '{{ .Release.Name }}-gluetun'
+        externalSecretRef: gluetun-files
         advancedMounts:
           *app :
-            gluetun:
+            *gluetun :
               - path: *gluetunAuthPath
                 subPath: auth.toml
       media:
@@ -264,5 +264,65 @@ spec:
         hostPathType: CharDevice
         advancedMounts:
           *app :
-            gluetun:
+            *gluetun :
               - path: /dev/net/tun
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              GLUETUN_CONTROL_SERVER_API_KEY: '{{ .GLUETUN_API_KEY }}'
+              QBITTORRENT_HOST: qui.media.svc.cluster.local
+              # abusing the port sync script so it does what I want
+              QBITTORRENT_WEBUI_PORT: 80/proxy/{{ .GLUETUN_QB_PORT_SYNC_PROXY }}
+        dataFrom:
+          - extract:
+              key: *gluetun
+      gluetun-env:
+        target:
+          template:
+            data:
+              # wireguard
+              WIREGUARD_PRIVATE_KEY: '{{ .WIREGUARD_PRIVATE_KEY }}'
+              # WIREGUARD_ADDRESSES: '{{ .WIREGUARD_ADDRESSES }}' # no longer needed - default works fine
+
+              # openvpn
+              OPENVPN_USER: '{{ .OPENVPN_USER }}'
+              OPENVPN_PASSWORD: '{{ .OPENVPN_PASSWORD }}'
+
+              # service provider config
+              VPN_SERVICE_PROVIDER: '{{ .VPN_SERVICE_PROVIDER }}'
+              VPN_PORT_FORWARDING_PROVIDER: '{{ .VPN_SERVICE_PROVIDER }}'
+              # UPDATER_VPN_SERVICE_PROVIDERS: '{{ .VPN_SERVICE_PROVIDER }}' # requires user/password
+
+              HEALTH_TARGET_ADDRESSES: '{{ .HEALTH_TARGET_ADDRESS }}'
+
+              SERVER_COUNTRIES: '{{ .SERVER_COUNTRIES }}'
+              SERVER_CITIES: '{{ .SERVER_CITIES }}'
+
+              # for healthchecks
+              GLUETUN_CONTROL_SERVER_API_KEY: '{{ .GLUETUN_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *gluetun
+      gluetun-files:
+        target:
+          template:
+            data:
+              auth.toml: |
+                [[roles]]
+                name = "gluetun-qb-port-sync"
+                routes = [
+                  "GET /v1/publicip/ip",
+                  "GET /v1/portforward"
+                ]
+                auth = "apikey"
+                apikey = "{{ .GLUETUN_API_KEY }}"
+        dataFrom:
+          - extract:
+              key: *gluetun

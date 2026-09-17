@@ -29,8 +29,8 @@ spec:
               - --hass-token=$(HASS_LONG_LIVED_TOKEN)
               - --hass-api=http://home-assistant.home-automation.svc.cluster.local/api
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -71,3 +71,17 @@ spec:
             subPath: cache
           - path: tmp
             subPath: tmp
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              HASS_LONG_LIVED_TOKEN: '{{ .HASS_LONG_LIVED_TOKEN }}'
+        dataFrom:
+          - extract:
+              key: home_assistant

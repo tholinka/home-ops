@@ -34,8 +34,8 @@ spec:
               RADARR__SERVER__ALLOWEDHOSTS: '{{ .Release.Name }}.tholinka.dev,{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local'
               RADARR__SERVER__TRUSTEDNETWORKS: 10.69.0.0/16,fc69::/108
             envFrom:
-              - secretRef:
-                  name: radarr-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -99,3 +99,17 @@ spec:
           - path: /media
       tmp:
         type: emptyDir
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              RADARR__AUTH__APIKEY: '{{ .RADARR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app
