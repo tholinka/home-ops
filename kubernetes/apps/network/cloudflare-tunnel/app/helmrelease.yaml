@@ -85,15 +85,52 @@ spec:
     persistence:
       config:
         type: configMap
-        name: cloudflared-configmap
+        identifier: config
         globalMounts:
           - path: /etc/cloudflared/config/config.yaml
             subPath: config.yaml
             readOnly: true
       creds:
         type: secret
-        name: cloudflared-tunnel-secret
+        externalSecretRef: files
         globalMounts:
           - path: /etc/cloudflared/creds/credentials.json
             subPath: credentials.json
             readOnly: true
+
+    configMaps:
+      config:
+        data:
+          config.yaml: |-
+            ---
+            originRequest:
+              http2Origin: true
+              keepAliveTimeout: 3600s
+              originServerName: external.tholinka.dev
+              tcpKeepAlive: 7200s
+
+            ingress:
+              - hostname: tholinka.dev
+                service: &svc https://envoy-external.network.svc.cluster.local
+              - hostname: '*.tholinka.dev'
+                service: *svc
+              - service: http_status:404
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      files:
+        target:
+          template:
+            data:
+              credentials.json: |
+                {
+                  "AccountTag": "{{ .CLOUDFLARE_ACCOUNT_TAG }}",
+                  "TunnelSecret": "{{ .CLOUDFLARE_TUNNEL_SECRET }}",
+                  "TunnelID": "{{ .CLOUDFLARE_TUNNEL_ID }}"
+                }
+        dataFrom:
+          - extract:
+              key: cloudflare

@@ -35,8 +35,8 @@ spec:
               AUTOBRR__OIDC_REDIRECT_URL: https://autobrr.tholinka.dev/api/auth/oidc/callback
               AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: true
             envFrom:
-              - secretRef:
-                  name: autobrr-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -100,3 +100,19 @@ spec:
             subPath: log
           - path: /tmp
             subPath: tmp
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              AUTOBRR__SESSION_SECRET: '{{ .AUTOBRR_SESSION_SECRET }}'
+              AUTOBRR__OIDC_CLIENT_ID: '{{ .AUTOBRR_CLIENT_ID }}'
+              AUTOBRR__OIDC_CLIENT_SECRET: '{{ .AUTOBRR_CLIENT_SECRET }}'
+        dataFrom:
+          - extract:
+              key: *app

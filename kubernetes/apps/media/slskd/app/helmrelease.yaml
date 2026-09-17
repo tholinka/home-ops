@@ -30,8 +30,8 @@ spec:
               SLSKD_METRICS: true
               SLSKD_METRICS_NO_AUTH: true
             envFrom:
-              - secretRef:
-                  name: '{{ .Release.Name }}'
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness:
                 enabled: true
@@ -157,3 +157,19 @@ spec:
             readOnly: true
       tmp:
         type: emptyDir
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              SLSKD_SLSK_USERNAME: '{{ .SLSKD_SLSK_USERNAME }}'
+              SLSKD_SLSK_PASSWORD: '{{ .SLSKD_SLSK_PASSWORD }}'
+              SLSKD_API_KEY: '{{ .SLSKD_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app

@@ -31,8 +31,8 @@ spec:
               GRANIAN_PORT: &port 8080
               GRANIAN_BLOCKING_THREADS: '1'
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -119,3 +119,17 @@ spec:
             subPath: tmp
           - path: /etc/searxng
             subPath: searxng
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              SEARXNG_SECRET: '{{ .SEARXNG_SECRET_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app

@@ -46,8 +46,8 @@ spec:
               repository: ghcr.io/bjw-s-labs/wrangler
               tag: 4.78.0@sha256:bb9450fce0992b13b3b399f08a93e41af2d6e933c3597e9460916967763096f5
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             args:
               - pages
               - deploy
@@ -127,3 +127,18 @@ spec:
             identifier: *app
           subjects:
             - identifier: *app
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              CLOUDFLARE_ACCOUNT_ID: '{{ .CLOUDFLARE_ACCOUNT_ID }}'
+              CLOUDFLARE_API_TOKEN: '{{ .CLOUDFLARE_K8S_SCHEMAS }}'
+        dataFrom:
+          - extract:
+              key: cloudflare

@@ -34,8 +34,8 @@ spec:
               SONARR__SERVER__ALLOWEDHOSTS: '{{ .Release.Name }}.tholinka.dev,{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local'
               SONARR__SERVER__TRUSTEDNETWORKS: 10.69.0.0/16,fc69::/108
             envFrom:
-              - secretRef:
-                  name: sonarr-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -99,3 +99,17 @@ spec:
           - path: /media
       tmp:
         type: emptyDir
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              SONARR__AUTH__APIKEY: '{{ .SONARR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app

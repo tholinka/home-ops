@@ -71,8 +71,8 @@ spec:
               PAPERLESS_DISABLE_REGULAR_LOGIN: 'true'
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness:
                 enabled: true
@@ -198,3 +198,36 @@ spec:
               - ports:
                   - port: '80'
                     protocol: TCP
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              # Paperless
+              PAPERLESS_ADMIN_USER: '{{ .PAPERLESS_ADMIN_USER }}'
+              PAPERLESS_ADMIN_PASSWORD: '{{ .PAPERLESS_ADMIN_PASSWORD }}'
+              PAPERLESS_SECRET_KEY: '{{ .PAPERLESS_SECRET_KEY }}'
+              PAPERLESS_SOCIALACCOUNT_PROVIDERS: >
+                {
+                  "openid_connect": {
+                    "APPS": [
+                      {
+                        "provider_id": "authentik",
+                        "name": "Authentik",
+                        "client_id": "{{ .PAPERLESS_OAUTH_CLIENT_ID }}",
+                        "secret": "{{ .PAPERLESS_OAUTH_CLIENT_SECRET }}",
+                        "settings": {
+                          "server_url": "https://auth.tholinka.dev/application/o/paperless/.well-known/openid-configuration"
+                        }
+                      }
+                    ]
+                  }
+                }
+        dataFrom:
+          - extract:
+              key: *app

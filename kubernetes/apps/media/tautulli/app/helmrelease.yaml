@@ -23,8 +23,8 @@ spec:
               TAUTULLI_HTTP_BASE_URL: https://tautulli.tholinka.dev
               TAUTULLI_HTTP_PORT: &port 80
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -85,3 +85,17 @@ spec:
             subPath: logs
           - path: tmp
             subPath: tmp
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              TAUTULLI_API_KEY: '{{ .TAUTULLI_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app

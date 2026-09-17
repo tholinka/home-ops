@@ -55,8 +55,8 @@ spec:
 
               AUTO_OPEN_DOWNLOADS_SIDEBAR: true
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probe
                 enabled: true
@@ -132,3 +132,23 @@ spec:
         globalMounts:
           - path: *ingest
             subPath: books/bookdrop
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              PROWLARR_API_KEY: '{{ .PROWLARR_API_KEY }}'
+              QBITTORRENT_URL: 'http://qui.media.svc.cluster.local/proxy/{{ .QBITTORRENT_PROXY_ID }}'
+              SABNZBD_API_KEY: '{{ .SABNZBD_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app
+          - extract:
+              key: prowlarr
+          - extract:
+              key: sabnzbd

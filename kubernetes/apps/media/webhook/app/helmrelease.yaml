@@ -24,8 +24,8 @@ spec:
             env:
               WEBHOOK__PORT: &port 80
             envFrom:
-              - secretRef:
-                  name: webhook-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -71,3 +71,26 @@ spec:
         defaultMode: 0775
         globalMounts:
           - readOnly: true
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              RADARR_PUSHOVER_URL: pover://{{ .PUSHOVER_USER_KEY }}@{{ .RADARR_PUSHOVER_TOKEN }}
+              SEERR_PUSHOVER_URL: pover://{{ .PUSHOVER_USER_KEY }}@{{ .SEERR_PUSHOVER_TOKEN }}
+              SONARR_PUSHOVER_URL: pover://{{ .PUSHOVER_USER_KEY }}@{{ .SONARR_PUSHOVER_TOKEN }}
+              SONARR_API_KEY: '{{ .SONARR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: radarr
+          - extract:
+              key: seerr
+          - extract:
+              key: sonarr
+          - extract:
+              key: pushover

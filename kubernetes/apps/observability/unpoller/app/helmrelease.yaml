@@ -26,8 +26,8 @@ spec:
               UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
               UP_INFLUXDB_DISABLE: true
             envFrom:
-              - secretRef:
-                  name: unpoller-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -68,3 +68,17 @@ spec:
       app:
         endpoints:
           - port: http
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              UP_UNIFI_DEFAULT_API_KEY: '{{ .UNIFI_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: *app

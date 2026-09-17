@@ -34,8 +34,8 @@ spec:
               UN_RADARR_0_PATHS_0: /media/downloads/qbittorrent/complete/movies
               UN_RADARR_0_PATHS_1: /media/downloads/qbittorrent/complete/anime-movies
             envFrom:
-              - secretRef:
-                  name: unpackerr-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness:
                 enabled: true
@@ -74,3 +74,20 @@ spec:
         globalMounts:
           - path: /media/downloads/qbittorrent
             subPath: downloads/qbittorrent
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              UN_RADARR_0_API_KEY: '{{ .RADARR_API_KEY }}'
+              UN_SONARR_0_API_KEY: '{{ .SONARR_API_KEY }}'
+        dataFrom:
+          - extract:
+              key: radarr
+          - extract:
+              key: sonarr

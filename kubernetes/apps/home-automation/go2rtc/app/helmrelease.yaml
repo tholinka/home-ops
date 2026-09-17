@@ -34,8 +34,8 @@ spec:
               repository: ghcr.io/alexxit/go2rtc
               tag: 1.9.14@sha256:675c318b23c06fd862a61d262240c9a63436b4050d177ffc68a32710d9e05bae
             envFrom:
-              - secretRef:
-                  name: *app
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness: &probes
                 enabled: true
@@ -102,11 +102,67 @@ spec:
           gethomepage.dev/name: go2rtc
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/icon: go2rtc.webp
+
     persistence:
       config:
         type: configMap
-        name: *app
+        identifier: config
         globalMounts:
           - path: /config/go2rtc.yaml
             subPath: go2rtc.yaml
             readOnly: true
+
+    configMaps:
+      config:
+        data:
+          go2rtc.yaml: |-
+            ---
+            api:
+              listen: :80
+              origin: '*'
+
+            rtsp:
+              listen: :554
+
+            webrtc:
+              listen: :8555
+              candidates:
+                - 192.168.21.9:8555
+                - stun:8555
+              ice_servers:
+                - urls:
+                    - stun:stun.cloudflare.com:3478
+
+            log:
+              output: 'stdout'
+
+            streams:
+              doorbell:
+                - ffmpeg:https://doorbell.iot.internal/flv?port=1935&app=bcs&stream=channel0_main.bcs&user=${NVR_USERNAME}&password=${NVR_PASSWORD}#video=copy#audio=copy#audio=opus # required for 2 way audio
+                - ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_main#video=copy#audio=copy#audio=opus
+              doorbell_low:
+                - ffmpeg:https://doorbell.iot.internal/flv?port=1935&app=bcs&stream=channel0_sub.bcs&user=${NVR_USERNAME}&password=${NVR_PASSWORD}#video=copy#audio=copy#audio=opus # required for 2 way audio
+                - ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@doorbell.iot.internal/Preview_01_sub#video=copy#audio=copy#audio=opus
+              front_north: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_main#video=copy#audio=copy#audio=opus
+              front_north_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_04_sub#video=copy#audio=copy#audio=opus
+              front_south: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_main#video=copy#audio=copy#audio=opus
+              front_south_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_02_sub#video=copy#audio=copy#audio=opus
+              alley: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_main#video=copy#audio=copy#audio=opus
+              alley_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_03_sub#video=copy#audio=copy#audio=opus
+              backyard: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_main#video=copy#audio=copy#audio=opus
+              backyard_low: ffmpeg:rtsp://${NVR_USERNAME}:${NVR_PASSWORD}@nvr.iot.internal/Preview_05_sub#video=copy#audio=copy#audio=opus
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              NVR_USERNAME: '{{ .NVR_USERNAME }}'
+              NVR_PASSWORD: '{{ .NVR_PASSWORD }}'
+        dataFrom:
+          - extract:
+              key: *app

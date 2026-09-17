@@ -47,8 +47,8 @@ spec:
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
               # DEBUG: "zigbee-herdsman*"
             envFrom:
-              - secretRef:
-                  name: zigbee-secret
+              - externalSecretRef:
+                  identifier: env
             probes:
               liveness:
                 enabled: true
@@ -96,3 +96,23 @@ spec:
     persistence:
       config:
         existingClaim: *app
+
+    defaultExternalSecretStoreRef:
+      kind: ClusterSecretStore
+      name: bitwarden
+
+    externalSecrets:
+      env:
+        target:
+          template:
+            data:
+              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: '{{ .ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID }}'
+              ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: '{{ .ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID }}'
+              ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: '{{ .ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY }}'
+              ZIGBEE2MQTT_CONFIG_MQTT_USER: '{{ .EMQX_MQTT_USERNAME }}'
+              ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD: '{{ .EMQX_MQTT_PASSWORD }}'
+        dataFrom:
+          - extract:
+              key: emqx
+          - extract:
+              key: *app
