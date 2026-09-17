@@ -180,7 +180,7 @@ spec:
           gethomepage.dev/icon: paperless-ngx.png
           gethomepage.dev/widget.type: paperlessngx
           gethomepage.dev/widget.url: http://{{ .Release.Name }}.self-hosted.svc.cluster.local:80
-          gethomepage.dev/widget.key: '{{`{{ "{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}" }}`}}'
+          gethomepage.dev/widget.key: '{{`{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}`}}'
 
     networkpolicies:
       main:
