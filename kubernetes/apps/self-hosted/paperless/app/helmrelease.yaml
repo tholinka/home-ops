@@ -182,22 +182,19 @@ spec:
           gethomepage.dev/widget.url: http://{{ .Release.Name }}.self-hosted.svc.cluster.local:80
           gethomepage.dev/widget.key: '{{`{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}`}}'
 
-    rawResources:
-      netpol:
-        manifest:
-          apiVersion: cilium.io/v2
-          kind: CiliumNetworkPolicy
-          spec:
-            endpointSelector:
-              matchLabels:
-                app.kubernetes.io/name: *app
-                app.kubernetes.io/instance: *app
-            ingress:
-              - fromEndpoints:
-                  - matchLabels:
-                      gateway.networking.k8s.io/gateway-name: *gateway
-                      k8s:io.kubernetes.pod.namespace: *gatewayns
-                toPorts:
-                  - ports:
-                      - port: '80'
-                        protocol: TCP
+    networkpolicies:
+      main:
+        type: cilium
+        endpointSelector:
+          matchLabels:
+            app.kubernetes.io/name: *app
+            app.kubernetes.io/instance: *app
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  gateway.networking.k8s.io/gateway-name: *gateway
+                  k8s:io.kubernetes.pod.namespace: *gatewayns
+            toPorts:
+              - ports:
+                  - port: '80'
+                    protocol: TCP
