@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 5.2.0
-    digest: sha256:6c37bc9ca9ee8f8cb4c3a56ce0e6669bb7065bb7a3535a65b50199ee7cc1ec4e
+    tag: 5.2.1
+    digest: sha256:f32d40ce76b5378acc96783424e3c5b7ec0274240484968a868b2256983514c3
   url: oci://ghcr.io/bjw-s-labs/helm/app-template
