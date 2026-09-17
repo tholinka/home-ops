@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.20.1
-    digest: sha256:93883e6415571a734525369c58d9c21f57fee3ad61b30a88b6fff0222c3260f9
+    tag: 0.21.0
+    digest: sha256:99509222f3a165e01913f23f684b36c352d5795fbe082812f5b3603cbb76bbea
   url: oci://gsoci.azurecr.io/charts/giantswarm/silence-operator
