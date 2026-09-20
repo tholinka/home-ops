@@ -3,5 +3,3 @@ apiVersion: v1alpha1
 kind: KubeletConfig
 config:
   serializeImagePulls: false
-  memorySwap:
-    swapBehavior: LimitedSwap

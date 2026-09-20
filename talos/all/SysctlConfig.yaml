@@ -29,7 +29,3 @@ params:
   # multus will handle it on the pods that need it
   net.ipv6.conf.bond0/30.accept_ra: 0
   net.ipv6.conf.bond0.accept_ra: 2 # this didn't use to be required, but /proc/sys/net/ipv6/conf/bond0/forwarding seems to be set now
-
-  # zswap
-  vm.swappiness: '130' # increase swappiness, zswap is fast
-  vm.page-cluster: '0' # decrease read-ahead, zswap is fast

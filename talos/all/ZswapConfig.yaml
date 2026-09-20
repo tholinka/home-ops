@@ -1,5 +1,0 @@
----
-apiVersion: v1alpha1
-kind: ZswapConfig
-maxPoolPercent: 20
-shrinkerEnabled: true
