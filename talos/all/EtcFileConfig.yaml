@@ -10,17 +10,3 @@ contents: |
   nconnect=16
   noatime=True
   fsc=True
----
-apiVersion: v1alpha1
-kind: EtcFileConfig
-name: cachefilesd.conf
-mode: 0o644
-contents: |
-  dir /var/mnt/fscache
-  tag mycache
-  brun 25%
-  bcull 20%
-  bstop 15%
-  frun 25%
-  fcull 20%
-  fstop 15%
