@@ -207,7 +207,7 @@ spec:
   datasources:
     - datasourceName: VictoriaMetrics
       inputName: DS_VICTORIAMETRICS
-  url: https://grafana.com/api/dashboards/22236/revisions/4/download
+  url: https://grafana.com/api/dashboards/22236/revisions/5/download
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/grafana.integreatly.org/grafanadashboard_v1beta1.json
 apiVersion: grafana.integreatly.org/v1beta1
