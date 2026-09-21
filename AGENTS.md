@@ -248,7 +248,6 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 | -------- | ------------- | ---------------------- | ---------- |
 | `l1`     | 192.168.20.61 | Lenovo M700 (i5-6400T) | Worker     |
 | `l2`     | 192.168.20.62 | Lenovo M700 (i5-6400T) | Worker     |
-| `l3`     | 192.168.20.63 | Lenovo M700 (i5-6400T) | Worker     |
 | `h1`     | 192.168.20.71 | HP 800 G5 (i5-9500T)   | Controller |
 | `h2`     | 192.168.20.72 | HP 400 G5 (i5-9500T)   | Controller |
 | `h3`     | 192.168.20.73 | HP 400 G4 (i5-8500T)   | Controller |

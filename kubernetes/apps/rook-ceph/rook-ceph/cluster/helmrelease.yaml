@@ -110,8 +110,6 @@ spec:
         nodes:
           - name: l1
           - name: l2
-          - name: l3
-          - name: h1
           - name: h4
         useAllDevices: false
         devicePathFilter: ^/dev/disk/by-id/(ata-SPCC_M.2_SSD_|nvme-SPCC_M.2_PCIe_SSD_).*

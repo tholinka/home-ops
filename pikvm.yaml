@@ -20,9 +20,6 @@ kvmd:
       wol_c2:
         type: wol
         mac: c4:62:37:00:3d:fe
-      wol_c3:
-        type: wol
-        mac: c4:62:37:00:3b:d2
       wol_w1:
         type: wol
         mac: 6c:1f:f7:1a:c3:b7
@@ -46,11 +43,6 @@ kvmd:
         switch: false
       wol_l2:
         driver: wol_c2
-        pin: 0
-        mode: output
-        switch: false
-      wol_l3:
-        driver: wol_c3
         pin: 0
         mode: output
         switch: false
@@ -124,17 +116,10 @@ kvmd:
       l2_switch:
         <<: *switch
         pin: 6
-      l3_led:
-        <<: *led
-        pin: 7
-      l3_switch:
-        <<: *switch
-        pin: 7
     view:
       table:
         - ['#l1', wol_l1|WoL, l1_led, l1_switch|Switch]
         - ['#l2', wol_l2|WoL, l2_led, l2_switch|Switch]
-        - ['#l3', wol_l3|WoL, l3_led, l3_switch|Switch]
         - ['#h1', wol_h1|WoL, h1_led, h1_switch|Switch]
         - ['#h2', wol_h2|WoL, h2_led, h2_switch|Switch]
         - ['#h3', wol_h3|WoL, h3_led, h3_switch|Switch]

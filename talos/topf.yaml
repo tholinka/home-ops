@@ -23,16 +23,12 @@ nodes:
     ip: 192.168.20.62
     role: worker
     data: *data
-  - host: l3 #lenovo-m700-3
-    ip: 192.168.20.63
-    role: worker
-    data: *data
   - host: h1 #hp-800-g5-1
     ip: 192.168.20.71
     role: control-plane
     data:
       # set outside of the data anchor
-      disk: disk.serial == "1922DD470802"
+      disk: disk.serial == "FF32074B151800025619"
       <<: &data
         cpu: i5-9500T
         gpu: 'true'
