@@ -91,13 +91,13 @@ spec:
       healthCheck: # aes256k requires kernel 7.0+
         muteHealthWarning:
           AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE:
-            policy: mute
+            policy: unmute
           AUTH_INSECURE_CLIENT_KEY_TYPE:
-            policy: mute
+            policy: unmute
           AUTH_INSECURE_KEYS_ALLOWED:
-            policy: mute
+            policy: unmute
           AUTH_INSECURE_KEYS_CREATABLE:
-            policy: mute
+            policy: unmute
       mgr:
         modules:
           - name: pg_autoscaler
@@ -113,7 +113,6 @@ spec:
           csi:
             keyRotationPolicy: KeyGeneration
             keyGeneration: 2
-            keepPriorKeyCountMax: 1 # don't break running
             keyType: aes256k # Talos 1.14+ backports the kernel 7.0 aes256k support
           rbdMirrorPeer: # unused in this cluster
             keyRotationPolicy: KeyGeneration
