@@ -88,16 +88,6 @@ spec:
         urlPrefix: /
         ssl: false
         prometheusEndpoint: http://vmsingle-victoria-metrics.observability.svc.cluster.local:8428
-      healthCheck: # aes256k requires kernel 7.0+
-        muteHealthWarning:
-          AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE:
-            policy: unmute
-          AUTH_INSECURE_CLIENT_KEY_TYPE:
-            policy: unmute
-          AUTH_INSECURE_KEYS_ALLOWED:
-            policy: unmute
-          AUTH_INSECURE_KEYS_CREATABLE:
-            policy: unmute
       mgr:
         modules:
           - name: pg_autoscaler
@@ -107,7 +97,8 @@ spec:
           requireMsgr2: true
       security:
         cephx:
-          daemon:
+          allowedCiphers: [aes256k]
+          daemon: # TODO remove on cluster rebuild
             keyRotationPolicy: KeyGeneration
             keyGeneration: 2
           csi:
