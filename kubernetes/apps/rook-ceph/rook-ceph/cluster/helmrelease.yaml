@@ -105,6 +105,20 @@ spec:
       network:
         connections:
           requireMsgr2: true
+      security:
+        cephx:
+          daemon:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+          csi:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+            keepPriorKeyCountMax: 1 # don't break running
+            keyType: aes256k # Talos 1.14+ backports the kernel 7.0 aes256k support
+          rbdMirrorPeer: # unused in this cluster
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+            keyType: aes256k
       storage:
         useAllNodes: false
         nodes:
