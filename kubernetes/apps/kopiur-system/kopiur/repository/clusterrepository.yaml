@@ -28,7 +28,6 @@ spec:
       metadataCacheSizeMb: 1024
     resources:
       requests:
-        cpu: 150m
         memory: 1Gi
       limits:
         memory: 2Gi
@@ -91,7 +90,6 @@ spec:
       metadataCacheSizeMb: 1024
     resources:
       requests:
-        cpu: 150m
         memory: 1Gi
       limits:
         memory: 2Gi
