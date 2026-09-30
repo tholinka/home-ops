@@ -5,6 +5,7 @@ apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 encryption:
+  allowDiscards: true
   provider: luks2
   keys:
   - slot: 0
@@ -14,6 +15,7 @@ apiVersion: v1alpha1
 kind: VolumeConfig
 name: STATE
 encryption:
+  allowDiscards: true
   provider: luks2
   keys:
   - slot: 0
