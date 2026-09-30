@@ -84,5 +84,11 @@
 			matchPackageNames: ["ghcr.io/home-operations/charts-mirror/ceph-csi-drivers"],
 			sourceUrl: "https://github.com/ceph/ceph-csi-operator",
 		},
+		{
+			description: "Set dragonfly-operator source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator"],
+			sourceUrl: "https://github.com/dragonflydb/dragonfly-operator",
+		},
 	],
 }
