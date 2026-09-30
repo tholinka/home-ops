@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: dragonfly-cluster-allow-prometheus
+  name: dragonfly-cluster
 spec:
   ingress:
     - ports:
@@ -17,6 +17,26 @@ spec:
             matchLabels:
               app.kubernetes.io/name: vmagent
               app.kubernetes.io/instance: victoria-metrics
+        - namespaceSelector: &dbNamespace
+            matchLabels:
+              kubernetes.io/metadata.name: database
+          podSelector:
+            matchLabels:
+              control-plane: controller-manager
+        - namespaceSelector: *dbNamespace
+          podSelector:
+            matchLabels:
+              app: dragonfly-cluster
+              app.kubernetes.io/name: dragonfly
+              app.kubernetes.io/part-of: dragonfly
+    - ports:
+        - port: 6379
+          protocol: TCP
+      from:
+        - namespaceSelector: *dbNamespace
+          podSelect:
+            matchLabels:
+              app.kubernetes.io/name: dfguard
   podSelector:
     matchLabels:
       app: dragonfly-cluster
