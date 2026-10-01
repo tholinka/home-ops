@@ -16,11 +16,19 @@ spec:
     numRetries: 2
     retryOn:
       triggers:
-        - reset
+        # reset can have idempotent issues on e.g. POST calls,
+        # reset-before-request only retries if no response has been written at all
+        # so it still protects against e.g. connection failures
+        - reset-before-request
   targetSelectors:
     - group: gateway.networking.k8s.io
       kind: Gateway
-  tcpKeepalive: {}
+  tcpKeepalive:
+    idleTime: 60s
+    interval: 10s
+    probes: 3
   timeout:
     http:
+      connectionIdleTimeout: 4s
       requestTimeout: 0s
+      streamIdleTimeout: 1h
