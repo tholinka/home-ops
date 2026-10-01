@@ -13,6 +13,9 @@ spec:
     replicaCount: 2
     httpRoute:
       enabled: true
+      annotations:
+        gatus.home-operations.com/endpoint: |-
+          path: /healthz
       parentRefs:
         - name: envoy-external
           namespace: network

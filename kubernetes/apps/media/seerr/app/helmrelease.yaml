@@ -65,6 +65,9 @@ spec:
 
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            path: /api/v1/status
         hostnames:
           - requests.tholinka.dev
         parentRefs:
