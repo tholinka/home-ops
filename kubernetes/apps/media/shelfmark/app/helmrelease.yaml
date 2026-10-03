@@ -29,9 +29,7 @@ spec:
               BOOK_LANGUAGE: en
               CUSTOM_DNS: system
 
-              USING_EXTERNAL_BYPASSER: true
               EXT_BYPASSER_URL: http://flaresolverr.media.svc.cluster.local:8191
-              BYPASS_WARMUP_ON_CONNECT: false
 
               PROWLARR_ENABLED: true
               PROWLARR_URL: http://prowlarr.media.svc.cluster.local
