@@ -43,5 +43,4 @@ spec:
   healthCheckExprs:
     - apiVersion: *apiVersion
       kind: *kind
-      failed: status.currentRunners == 0 && status.pendingEphemeralRunners == 0 && status.runningEphemeralRunners == 0
-      current: status.currentRunners > 0
+      current: status.phase == "Running"
