@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: v1.20.8
-    digest: sha256:45829cf02128544fff7208f496fb117aa4189f612fe24be3b8c23db93ef90638
+    tag: 1.21.0
+    digest: sha256:0b5b8ec32bec6816fc27cdc4c6649dd224cd7012e195511b1432ed0962b26d7f
   url: oci://ghcr.io/rook/rook-ceph
