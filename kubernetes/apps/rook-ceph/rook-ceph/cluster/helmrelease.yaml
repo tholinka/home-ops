@@ -92,9 +92,6 @@ spec:
         modules:
           - name: pg_autoscaler
             enabled: true
-      network:
-        connections:
-          requireMsgr2: true
       security:
         cephx:
           allowedCiphers: [aes256k]
