@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.3.5
-    digest: sha256:335b4dfc10826a2b8e99c31c18434d0aa4c4e499ef8610e0487ecc01f23f1c8d
+    tag: 1.3.6
+    digest: sha256:50645510475a4aaf0690202aff7088bc9f483481e5eb110d45d24c87323b1100
   url: oci://ghcr.io/bjw-s-labs/helm/multus
