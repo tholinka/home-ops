@@ -10,7 +10,7 @@ JUST_UNSTABLE = "1"
 "aqua:helmfile/vals" = "0.47.0"
 "aqua:helmfile/helmfile" = "1.8.1"
 "aqua:koalaman/shellcheck" = "0.11.0"
-"aqua:zizmorcore/zizmor" = "1.31.0"
+"aqua:zizmorcore/zizmor" = "1.31.1"
 "github:mitsuhiko/minijinja" = "3.0.1"
 
 "npm:oxfmt" = "0.73.0"
