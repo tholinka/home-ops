@@ -1,6 +1,17 @@
 {
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
 	packageRules: [
+		// Commit message rules
+		{
+			// The flux manager also extracts HelmRelease values images, so the file
+			// name is the only signal that a docker dep is a chart
+			description: "Title OCI chart updates as charts instead of images",
+			matchDatasources: ["docker"],
+			matchFileNames: ["**/ocirepository.yaml"],
+			semanticCommitScope: "helm",
+			commitMessageTopic: "chart {{depName}}",
+		},
+		// Groups
 		{
 			description: "Actions Runner Controller Group",
 			groupName: "Actions Runner Controller",
