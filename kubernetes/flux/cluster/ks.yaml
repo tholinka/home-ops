@@ -6,15 +6,15 @@ metadata:
   name: cluster-apps
   namespace: flux-system
 spec:
+  deletionPolicy: Orphan
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
   path: ./kubernetes/apps
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  wait: false
   patches:
     - 
       # Add postBuild substitutions to child Kustomizations
