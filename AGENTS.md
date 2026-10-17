@@ -13,7 +13,6 @@ GitOps-managed Kubernetes homelab running Talos Linux. All infrastructure is dec
 
 ```
 kubernetes/
-├── flux/cluster/ks.yaml             # Flux entry point — points at kubernetes/apps/
 ├── apps/{category}/                  # One directory per namespace/category
 │   ├── kustomization.yaml           # K8s Kustomization: sets namespace, lists app ks.yaml refs, includes components
 │   └── {app}/
@@ -48,7 +47,7 @@ bootstrap/
 
 The reconciliation chain works as follows:
 
-1. **`kubernetes/flux/cluster/ks.yaml`** — A Flux Kustomization pointing `path: ./kubernetes/apps` with patches that auto-apply HelmRelease defaults (drift detection, rollback, upgrade remediation) to all child Kustomizations.
+1. **`kubernetes/apps/flux-system/flux-instance`** — A Flux instance pointing to `kubernetes/apps` with patches that auto-apply HelmRelease defaults (drift detection, rollback, upgrade remediation) to all child Kustomizations.
 2. **`kubernetes/apps/{category}/kustomization.yaml`** — A standard Kubernetes Kustomization (`kustomize.config.k8s.io/v1beta1`) that:
    - Sets `namespace:` for the category
    - Lists each app's `ks.yaml` as a resource
@@ -315,7 +314,7 @@ Use `flate test ks`, `flate test hr`, `flate build ks -n [namespace] [kustomizat
 
 1. **Wrong file for the edit** — Category `kustomization.yaml` lists apps; app `ks.yaml` defines Flux behavior; app `app/kustomization.yaml` lists resources
 2. **Hardcoding values** — Use `postBuild.substitute` in `ks.yaml`
-3. **Repeating auto-patched HelmRelease defaults** — They're applied globally by `kubernetes/flux/cluster/ks.yaml`
+3. **Repeating auto-patched HelmRelease defaults** — They're applied globally by `kubernetes/app/flux-system/flux-instance`
 4. **Editing `clusterconfig/` files** — Edit `talconfig.yaml` and run `just talos generate-config`
 5. **Missing `dependsOn`** — Declare dependencies for proper ordering (databases, storage, CRDs)
 6. **Missing `APP` substitution** — Required when using any component
@@ -333,5 +332,4 @@ Use `flate test ks`, `flate test hr`, `flate build ks -n [namespace] [kustomizat
 - `kubernetes/apps/self-hosted/homepage/` is a good simple reference
 - `kubernetes/apps/self-hosted/paperless/` shows a complex app (kopiur + cnpg + dragonfly + HPA scale to zero)
 - `kubernetes/apps/database/cnpg/ks.yaml` shows multi-document ks.yaml pattern
-- Review `kubernetes/flux/cluster/ks.yaml` to understand auto-patching
 - Check component READMEs (`components/dragonfly/readme.md`, `components/ext-auth/readme.md`)
