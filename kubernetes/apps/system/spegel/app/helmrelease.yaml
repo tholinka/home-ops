@@ -10,15 +10,6 @@ spec:
     kind: OCIRepository
     name: spegel
   values:
-    grafanaDashboard:
-      enabled: true
-      mode: GrafanaOperator
-      grafanaOperator:
-        matchLabels:
-          dashboards: grafana
-    service:
-      registry:
-        hostPort: 29999
     serviceMonitor:
       enabled: true
     spegel:
