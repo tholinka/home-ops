@@ -38,7 +38,7 @@ spec:
                     initContainers:
                       - name: dragonfly-tunnel
                         restartPolicy: Always
-                        image: ghcr.io/m00nwtchr/dfguard:rolling@sha256:c4486379074041f40e485443239d787ed1fc25e097d9b1813a7f3de218ddb93d
+                        image: ghcr.io/m00nwtchr/dfguard:rolling@sha256:6d46fdee9eaf1bc2bfa51f40b88e3665baa147fbb1297db353398b32f34e87de
                         args: ["tunnel"]
                         env:
                           - name: DFGUARD_TUNNEL_CERT
@@ -99,7 +99,7 @@ spec:
                     initContainers:
                       - name: dragonfly-tunnel
                         restartPolicy: Always
-                        image: ghcr.io/m00nwtchr/dfguard:rolling@sha256:c4486379074041f40e485443239d787ed1fc25e097d9b1813a7f3de218ddb93d
+                        image: ghcr.io/m00nwtchr/dfguard:rolling@sha256:6d46fdee9eaf1bc2bfa51f40b88e3665baa147fbb1297db353398b32f34e87de
                         args: ["tunnel"]
                         env:
                           - name: DFGUARD_TUNNEL_CERT
