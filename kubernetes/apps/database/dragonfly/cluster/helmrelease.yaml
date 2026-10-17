@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: ghcr.io/m00nwtchr/dfguard
-              tag: 0.2.8@sha256:4f4d55c7f91783856347898708617db818ebc4810846f79cf4a589f7b02045e5
+              tag: 0.2.9@sha256:2a098b5d81e1dc56cabdd783f901660ffafdc4f4f6b6bc09271c4e926985b0a1
             env:
               DFGUARD_UPSTREAM: dragonfly-cluster.database.svc.cluster.local:6379
               DFGUARD_SERVER_CERT: /tls/server/tls.crt
