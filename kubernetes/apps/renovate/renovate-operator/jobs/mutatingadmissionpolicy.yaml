@@ -55,7 +55,7 @@ spec:
               value: Object.spec.template.spec.initContainers{
                 name: "dragonfly-tunnel",
                 restartPolicy: "Always",
-                image: "ghcr.io/m00nwtchr/dfguard:rolling@sha256:c4486379074041f40e485443239d787ed1fc25e097d9b1813a7f3de218ddb93d",
+                image: "ghcr.io/m00nwtchr/dfguard:0.2.9@sha256:2a098b5d81e1dc56cabdd783f901660ffafdc4f4f6b6bc09271c4e926985b0a1",
                 args: ["tunnel"],
                 env: [
                   Object.spec.template.spec.initContainers.env{
