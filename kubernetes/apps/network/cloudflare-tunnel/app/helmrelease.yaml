@@ -23,20 +23,15 @@ spec:
               tag: 2026.10.1@sha256:a15a3b50b8dabd57ac2090e9484c0247dba9dfa1f0df4d298d4317f9d69eb2d5
             env:
               NO_AUTOUPDATE: true
-              TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_ORIGIN_ENABLE_HTTP2: true
-              TUNNEL_TRANSPORT_PROTOCOL: quic
-              TUNNEL_POST_QUANTUM: true
-              TUNNEL_ID: ${SECRET_CLOUDFLARE_TUNNEL_ID}
+            envFrom:
+              - externalSecretRef:
+                  identifier: env
             args:
               - tunnel
-              - --config
-              - /etc/cloudflared/config/config.yaml
               - --edge-ip-version
               - auto
               - run
-              - '$(TUNNEL_ID)'
             probes:
               liveness: &probes
                 enabled: true
@@ -53,7 +48,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
+              capabilities: { drop: [ALL] }
             resources:
               requests:
                 cpu: 10m
@@ -64,8 +59,8 @@ spec:
       hostUsers: false
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
+        runAsUser: 1000
+        runAsGroup: 1000
 
     service:
       app:
@@ -87,15 +82,8 @@ spec:
         type: configMap
         identifier: config
         globalMounts:
-          - path: /etc/cloudflared/config/config.yaml
+          - path: /etc/cloudflared/config.yaml
             subPath: config.yaml
-            readOnly: true
-      creds:
-        type: secret
-        externalSecretRef: files
-        globalMounts:
-          - path: /etc/cloudflared/creds/credentials.json
-            subPath: credentials.json
             readOnly: true
 
     configMaps:
@@ -103,17 +91,14 @@ spec:
         data:
           config.yaml: |-
             ---
-            originRequest:
-              http2Origin: true
-              keepAliveTimeout: 3600s
-              originServerName: external.tholinka.dev
-              tcpKeepAlive: 7200s
-
             ingress:
-              - hostname: tholinka.dev
-                service: &svc https://envoy-external.network.svc.cluster.local
               - hostname: '*.tholinka.dev'
-                service: *svc
+                originRequest:
+                  http2Origin: true
+                  keepAliveTimeout: 3600s
+                  originServerName: external.tholinka.dev
+                  tcpKeepAlive: 7200s
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local
               - service: http_status:404
 
     defaultExternalSecretStoreRef:
@@ -121,16 +106,12 @@ spec:
       name: bitwarden
 
     externalSecrets:
-      files:
+      env:
         target:
           template:
             data:
-              credentials.json: |
-                {
-                  "AccountTag": "{{ .CLOUDFLARE_ACCOUNT_TAG }}",
-                  "TunnelSecret": "{{ .CLOUDFLARE_TUNNEL_SECRET }}",
-                  "TunnelID": "{{ .CLOUDFLARE_TUNNEL_ID }}"
-                }
+              TUNNEL_TOKEN: |-
+                {{ toJson (dict "a" .CLOUDFLARE_ACCOUNT_TAG "t" .CLOUDFLARE_TUNNEL_ID "s" .CLOUDFLARE_TUNNEL_SECRET) | b64enc }}
         dataFrom:
           - extract:
               key: cloudflare
