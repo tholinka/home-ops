@@ -13,7 +13,7 @@ JUST_UNSTABLE = "1"
 "aqua:zizmorcore/zizmor" = "1.31.1"
 "github:mitsuhiko/minijinja" = "3.0.1"
 
-"npm:oxfmt" = "0.73.0"
+"npm:oxfmt" = "0.74.0"
 
 "github:home-operations/flate" = "v0.6.5"
 
