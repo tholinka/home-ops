@@ -18,7 +18,7 @@ spec:
           *app :
             image:
               repository: ghcr.io/lovelaze/nebula-sync
-              tag: v0.11.2@sha256:951576b448c08df16cc6b46f90cc3b40c44e10dfb56e431dfd0f1ead7d435724
+              tag: v0.11.3@sha256:59c51378460f6dc8707cc91a16aa62dff5cd5dd8b39353658b45cb00d6bfddd8
             env:
               FULL_SYNC: false
               CRON: '0/10 * * * *' # sync should be fast, since we're only syncing dns entries, but there seems to be a memory leak that eventually kills the primary pihole... also it randomly breaks the exporter sometimes
