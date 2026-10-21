@@ -13,12 +13,15 @@ if [ -f "/final/gravity.db" ]; then
 
 	echo "houskeeping - vacuuming gravity.db"
 	pihole-FTL sql /etc/pihole/gravity.db "VACUUM;" || true
-	echo "houskeeping - vacuuming pihole-FTL.db"
-	pihole-FTL sql /etc/pihole/pihole-FTL.db "VACUUM;" || true
 elif [ ! -f "/etc/pihole/gravity.db" ]; then
 	# run gravity to cause db to get created
 	echo "creating gravity db"
 	pihole -g
+fi
+
+if [ -f "/etc/pihole/pihole-FTL.db" ]; then
+	echo "houskeeping - vacuuming pihole-FTL.db"
+	pihole-FTL sql /etc/pihole/pihole-FTL.db "VACUUM;" || true
 fi
 
 ### Allowlist items
