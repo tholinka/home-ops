@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.5.4
-    digest: sha256:01811fa6ccedbf763d0fe1df12ab7ab48295f96fc46df29edf913e2f3fe6b509
+    tag: 0.5.5
+    digest: sha256:099c8e26eb6d44f3cd8bd849e96df53a5e1887ec61b35195b48c90f43efa78e9
   url: oci://ghcr.io/home-operations/charts/gatus-sidecar
