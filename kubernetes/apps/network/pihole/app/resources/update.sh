@@ -9,6 +9,12 @@ if [ -f "/final/gravity.db" ]; then
 	echo "using symbol link for /etc/pihole, as /final is already setup"
 	rm /etc/pihole -rf
 	ln -s /final /etc/pihole
+
+
+	echo "houskeeping - vacuuming gravity.db"
+	pihole-FTL sql /etc/pihole/gravity.db "VACUUM;" || true
+	echo "houskeeping - vacuuming pihole-FTL.db"
+	pihole-FTL sql /etc/pihole/pihole-FTL.db "VACUUM;" || true
 elif [ ! -f "/etc/pihole/gravity.db" ]; then
 	# run gravity to cause db to get created
 	echo "creating gravity db"
@@ -35,7 +41,7 @@ xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist_by_group WH
 
 to_add="$(comm -13 /tmp/current-allow.list /tmp/allow.list)"
 echo "Inserting new allow lists into db: $to_add"
-echo "$to_add" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "INSERT INTO adlist (address, comment, enabled, type) VALUES ('{}', 'allowlist, added `date +%F`', 1, 1);"
+echo "$to_add" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "INSERT INTO adlist (address, comment, enabled, type) VALUES ('{}', 'allowlist, added $(date +%F)', 1, 1);"
 
 echo "Done with allowlist"
 
@@ -64,11 +70,11 @@ xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist_by_group WH
 
 to_add="$(comm -13 /tmp/current.list /tmp/firebog.list)"
 echo "Inserting new firebog lists into db: $to_add"
-echo "$to_add" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "INSERT INTO adlist (address, comment, enabled, type) VALUES ('{}', 'firebog, added `date +%F`', 1, 0);"
+echo "$to_add" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "INSERT INTO adlist (address, comment, enabled, type) VALUES ('{}', 'firebog, added $(date +%F)', 1, 0);"
 
 to_add="$(comm -13 /tmp/current.list /tmp/tholinka.list)"
 echo "Inserting new tholinka.github.io lists into db: $to_add"
-echo "$to_add" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "INSERT INTO adlist (address, comment, enabled, type) VALUES ('{}', 'tholinka.github.io, added `date +%F`', 1, 0);"
+echo "$to_add" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "INSERT INTO adlist (address, comment, enabled, type) VALUES ('{}', 'tholinka.github.io, added $(date +%F)', 1, 0);"
 
 echo;
 echo "Running pihole gravity"
@@ -100,6 +106,8 @@ pihole-FTL --config dns.ignoreLocalhost true
 pihole-FTL --config ntp.ipv4.active false
 pihole-FTL --config ntp.ipv6.active false
 pihole-FTL --config ntp.sync.active false
+pihole-FTL --config database.maxDBdays 7 # default is 91, keep db size smaller
+pihole-FTL --config database.network.expire 7
 
 echo;
 if [ -L /etc/pihole ]; then
