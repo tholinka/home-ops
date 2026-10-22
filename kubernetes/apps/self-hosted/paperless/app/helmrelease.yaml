@@ -54,10 +54,10 @@ spec:
 
               # Postgres
               PAPERLESS_DBHOST: postgres-cluster-rw.database.svc.cluster.local
-              PAPERLESS_DBSSLMODE: verify-full
-              PAPERLESS_DBSSLROOTCERT: /var/run/secrets/postgresql/ca.crt
-              PAPERLESS_DBSSLCERT: /var/run/secrets/postgresql/tls.crt
-              PAPERLESS_DBSSLKEY: /var/run/secrets/postgresql/tls.key
+              PGSSLMODE: verify-full
+              PGSSLROOTCERT: /var/run/secrets/postgresql/ca.crt
+              PGSSLCERT: /var/run/secrets/postgresql/tls.crt
+              PGSSLKEY: /var/run/secrets/postgresql/tls.key
 
               # optional integrations
               PAPERLESS_TIKA_ENABLED: 1
