@@ -96,9 +96,9 @@ spec:
             ports:
               - containerPort: 3000
             command:
-              - 'gotenberg'
-              - '--chromium-disable-javascript=true'
-              - '--chromium-allow-list=file:///tmp/.*'
+              - gotenberg
+              - --chromium-disable-javascript=true
+              - --chromium-allow-list=^file:///tmp/.*
             resources:
               limits:
                 cpu: 500m
@@ -109,7 +109,7 @@ spec:
           tika:
             image:
               repository: mirror.gcr.io/apache/tika
-              tag: 3.3.3.0-full@sha256:6ef30abd65df4b6c478907904099d0245bdb0e0686f94fb9bc7493558442bb74
+              tag: 3.3.3.0@sha256:326b238b37904c94ff61fed87afe0af72e6a29fa715933b10af97b7d56f1d4cb
             ports:
               - containerPort: 9998
             resources:
