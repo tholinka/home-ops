@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 8.7.0
-    digest: sha256:fe8a3b03332acd1ce20652459b9dad835fc9a99e94a2a79c9040ee6adb87975b
+    tag: 8.7.1
+    digest: sha256:8bfb8cf69b245aaea39c7cafb690e5b2d3117df1d8933cda16834a6f6637b347
   url: oci://ghcr.io/prometheus-community/charts/kube-state-metrics
