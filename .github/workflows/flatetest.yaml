@@ -32,6 +32,6 @@ jobs:
 
       - name: Run flate test
         env:
-          KIND: ${{ matrix.kind }}
+          FLATE_BASE: ''
         run: |
           flate test all
