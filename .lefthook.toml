@@ -1,6 +1,11 @@
 [pre-commit]
 parallel = true
 
+[pre-commit.commands.deadvalues]
+glob = ["*.yaml"]
+run = "deadvalues scan kubernetes --changed-since HEAD"
+stage_fixed = true
+
 [pre-commit.commands.format-just]
 run = "for f in {staged_files}; do just --justfile $f --fmt; done"
 glob = ["*.just", ".justfile"]
