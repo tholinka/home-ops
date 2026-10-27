@@ -1,6 +1,5 @@
 ---
-# deadvalues: Helm values dead-code checker (https://github.com/guarnz/deadvalues)
-name: deadvalues
+name: Dead Helm Values
 
 on:
   pull_request:
@@ -17,21 +16,20 @@ concurrency:
 
 jobs:
   deadvalues:
-    name: deadvalues / check
+    name: Check for dead helm values
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     # first full run took ~14min on the 4-vCPU runner; manual-dispatch full scans keep headroom
     timeout-minutes: 25
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      # https://github.com/marketplace/actions/create-github-app-token
-      - name: generate token
+      - name: Generate Token
         id: generate-token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
@@ -39,8 +37,7 @@ jobs:
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           permission-pull-requests: write
 
-      # https://github.com/marketplace/actions/deadvalues
-      - name: deadvalues
+      - name: Run Dead Values
         uses: guarnz/deadvalues@6ed0a88f1513ea7c3c93b3bb9a4b4fc71b951b25 # v0.1.9
         with:
           github-token: ${{ steps.generate-token.outputs.token }}

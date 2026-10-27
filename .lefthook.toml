@@ -2,7 +2,7 @@
 parallel = true
 
 [pre-commit.commands.deadvalues]
-glob = ["*.yaml"]
+glob = ["**/helmrelease.yaml"]
 run = "deadvalues scan kubernetes --changed-since HEAD"
 stage_fixed = true
 
