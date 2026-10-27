@@ -20,10 +20,10 @@ kubernetes/
 │       └── app/
 │           ├── kustomization.yaml   # K8s Kustomization: lists the actual resources
 │           ├── helmrelease.yaml     # Flux HelmRelease CRD
+│           ├── ocirepository.yaml   # Flux OCIRepository CRD
 │           └── ...                  # PVCs, ExternalSecrets, ConfigMaps, etc.
 ├── components/                      # Reusable Kustomize Components (kind: Component)
 │   ├── common/                      # Namespace creation, alerts, ExternalSecret for substitutions
-│   ├── repos/app-template/          # OCIRepository for bjw-s app-template Helm chart
 │   ├── kopiur/                     # Kopiur backup/restore (PVC + ReplicationSource/Destination)
 │   ├── ext-auth/                    # Authentik external auth SecurityPolicy
 │   ├── cnpg/{app,app-template}      # CloudNativePG database provisioning
@@ -51,9 +51,9 @@ The reconciliation chain works as follows:
 2. **`kubernetes/apps/{category}/kustomization.yaml`** — A standard Kubernetes Kustomization (`kustomize.config.k8s.io/v1beta1`) that:
    - Sets `namespace:` for the category
    - Lists each app's `ks.yaml` as a resource
-   - Includes shared components (typically `../../components/common` and `../../components/repos/app-template`)
+   - Includes shared components (typically `../../components/common`)
 3. **`kubernetes/apps/{category}/{app}/ks.yaml`** — One or more Flux Kustomization CRDs (`kustomize.toolkit.fluxcd.io/v1`). Simple apps have one document; complex apps (e.g., cnpg, envoy-gateway) use multiple `---`-separated documents for CRDs, operator, config, etc.
-4. **`kubernetes/apps/{category}/{app}/app/kustomization.yaml`** — Standard Kubernetes Kustomization listing the actual resources (HelmRelease, PVCs, ExternalSecrets, etc.)
+4. **`kubernetes/apps/{category}/{app}/app/kustomization.yaml`** — Standard Kubernetes Kustomization listing the actual resources (HelmRelease, OCIRepository, PVCs, ExternalSecrets, etc.)
 
 ---
 
@@ -70,7 +70,8 @@ kubernetes/apps/{category}/{app-name}/
 ├── ks.yaml
 └── app/
     ├── kustomization.yaml
-    └── helmrelease.yaml
+    ├── helmrelease.yaml
+    └── ocirepository.yaml
 ```
 
 ### 3. Write the Flux Kustomization (`ks.yaml`)
@@ -118,7 +119,8 @@ Key rules:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - helmrelease.yaml
+  - ./helmrelease.yaml
+  - ./ocirepository.yaml
 ```
 
 ### 5. Register the app in the category kustomization
@@ -180,7 +182,6 @@ All components are Kustomize Components (`kind: Component`). They are referenced
 | Component                         | Referenced from               | Purpose                                                                      |
 | --------------------------------- | ----------------------------- | ---------------------------------------------------------------------------- |
 | `common`                          | Category `kustomization.yaml` | Creates namespace, common alerts, substitution ExternalSecret                |
-| `repos/app-template`              | Category `kustomization.yaml` | Provides the `app-template` OCIRepository                                    |
 | `kopiur`                          | App `ks.yaml`                 | PVC backup/restore via Kopiur                                                |
 | `ext-auth`                        | App `ks.yaml`                 | Authentik proxy auth SecurityPolicy                                          |
 | `cnpg/app` or `cnpg/app-template` | App `ks.yaml`                 | PostgreSQL database provisioning                                             |

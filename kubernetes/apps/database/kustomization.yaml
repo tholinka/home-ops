@@ -6,7 +6,6 @@ namespace: database
 components:
   - ../../components/common
   - ../../components/kopiur/namespace
-  - ../../components/repos/app-template
 resources:
   - ./cnpg/ks.yaml
   - ./dragonfly/ks.yaml

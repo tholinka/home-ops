@@ -14,4 +14,3 @@ resources:
 components:
   - ../../components/common
   - ../../components/kopiur/namespace
-  - ../../components/repos/app-template

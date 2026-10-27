@@ -15,4 +15,3 @@ resources:
   - ./pihole-nebula-sync/ks.yaml
 components:
   - ../../components/common
-  - ../../components/repos/app-template

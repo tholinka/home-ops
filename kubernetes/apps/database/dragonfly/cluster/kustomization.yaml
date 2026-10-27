@@ -6,6 +6,7 @@ resources:
   - ./certificate.yaml
   - ./dragonfly.yaml
   - ./helmrelease.yaml
+  - ./ocirepository.yaml
   - ./issuer.yaml
   - ./networkpolicy.yaml
   - ./podmonitor.yaml
