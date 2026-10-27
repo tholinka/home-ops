@@ -121,9 +121,7 @@ spec:
               name: *app
               namespace: self-hosted # ensure matches app
           roleRef:
-            apiGroup: rbac.authorization.k8s.io
-            kind: ClusterRole
-            name: *app
+            identifier: *app
 
     route:
       app:

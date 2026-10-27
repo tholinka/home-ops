@@ -24,7 +24,7 @@ spec:
     cni:
       exclusive: false
     cgroup:
-      automount:
+      autoMount:
         enabled: false
       hostRoot: /sys/fs/cgroup
     cluster:

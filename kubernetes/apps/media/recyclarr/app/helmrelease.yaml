@@ -43,7 +43,6 @@ spec:
 
     defaultPodOptions:
       hostUsers: false
-      restartPolicy: Never
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

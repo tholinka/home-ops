@@ -81,7 +81,6 @@ spec:
           lbipam.cilium.io/ips: 192.168.21.9, fd83:43a4:6dab:21::9
         ports:
           http:
-            primary: true
             port: *port
           rtsp:
             port: 554

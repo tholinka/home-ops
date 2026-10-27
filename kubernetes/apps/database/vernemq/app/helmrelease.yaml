@@ -108,7 +108,6 @@ spec:
 
     service:
       app:
-        primary: true
         type: LoadBalancer
         ipFamilies: [IPv4, IPv6]
         ipFamilyPolicy: PreferDualStack

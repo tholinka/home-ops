@@ -138,6 +138,7 @@ spec:
             probes:
               startup:
                 enabled: true
+                custom: true
                 spec:
                   httpGet:
                     path: /api/v2/app/version
@@ -181,11 +182,9 @@ spec:
 
     service:
       app:
-        primary: true
         forceRename: *app
         ports:
           http:
-            primary: true
             port: *port
       *gluetun :
         suffix: *gluetun
@@ -226,7 +225,6 @@ spec:
               - path: /config/.qbt.toml
                 subPath: .qbt.toml
                 readOnly: true
-
       tmpfs:
         type: emptyDir
         advancedMounts:
@@ -234,13 +232,6 @@ spec:
             port-forward:
               - path: /config
                 subPath: config
-            app:
-              - path: /addons
-                subPath: addons
-            vuetorrent:
-              - path: /addons
-                subPath: addons
-
       gluetun-auth:
         type: secret
         externalSecretRef: gluetun-files

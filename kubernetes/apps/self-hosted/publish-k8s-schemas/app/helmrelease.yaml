@@ -67,7 +67,6 @@ spec:
     defaultPodOptions:
       automountServiceAccountToken: true
       hostUsers: false
-      restartPolicy: OnFailure
       securityContext:
         runAsGroup: 65534
         runAsNonRoot: true

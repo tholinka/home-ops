@@ -260,7 +260,6 @@ spec:
           storageClassName: ceph-block
     additionalVictoriaMetricsMap:
       dockerhub-rules:
-        create: true
         groups:
           - name: dockerhub
             rules:
@@ -271,7 +270,6 @@ spec:
                 labels:
                   severity: critical
       oom-rules:
-        create: true
         groups:
           - name: oom
             rules:
