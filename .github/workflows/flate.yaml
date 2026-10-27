@@ -54,7 +54,7 @@ jobs:
         env:
           KIND: ${{ matrix.kind }}
         run: |
-          flate diff "$KIND" --strip-field webhooks --path ./kubernetes/apps/flux-system/flux-instance --output github > "$KIND.diff"
+          flate diff "$KIND" --strip-field webhooks --path ./kubernetes/apps/flux-system/flux-instance --output github | tee "$KIND.diff"
           [ -s "$KIND.diff" ] || rm "$KIND.diff"
 
       - if: ${{ hashFiles(format('{0}.diff', matrix.kind)) != '' }}
