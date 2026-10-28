@@ -136,16 +136,25 @@ spec:
               - externalSecretRef:
                   identifier: env
             probes:
-              startup:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /api/v2/app/version
-                    port: *port
-                  failureThreshold: 30
-                  periodSeconds: 10
+                  exec:
+                    # request needs to come from localhost, otherwise qbit will return 403
+                    command: [curl, localhost/api/v2/app/version]
                   timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
             securityContext: *securityContext
             resources:
               requests:
