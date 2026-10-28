@@ -12,7 +12,6 @@ spec:
   values:
     controllers:
       *app :
-        type: deployment
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'

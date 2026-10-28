@@ -31,7 +31,6 @@ spec:
             probes:
               liveness: &probes
                 enabled: true
-                custom: false
                 spec:
                   failureThreshold: 10
               startup: *probes
@@ -57,7 +56,6 @@ spec:
 
     service:
       app:
-        controller: *app
         ports:
           http:
             port: 3000

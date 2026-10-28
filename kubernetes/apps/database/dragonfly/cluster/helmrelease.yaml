@@ -35,12 +35,10 @@ spec:
                 enabled: true
                 type: HTTP
                 path: /livez
-                port: &metricsPort 9464
               readiness:
                 enabled: true
                 type: HTTP
                 path: /readyz
-                port: *metricsPort
             resources:
               requests:
                 cpu: 50m
@@ -59,7 +57,6 @@ spec:
 
     defaultPodOptions:
       hostUsers: false
-      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 65532
@@ -68,12 +65,11 @@ spec:
 
     service:
       app:
-        controller: *app
         ports:
           redis:
             port: 6379
           metrics:
-            port: *metricsPort
+            port: 9464
 
     persistence:
       acl:

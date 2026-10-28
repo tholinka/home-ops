@@ -26,8 +26,6 @@ spec:
           targetLabel: instance
           replacement: $1
           action: replace
-    prometheusRules:
-      enabled: false
     resources:
       requests:
         cpu: 10m

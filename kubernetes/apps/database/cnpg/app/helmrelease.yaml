@@ -10,8 +10,6 @@ spec:
     kind: OCIRepository
     name: *name
   values:
-    crds:
-      create: true
     monitoring:
       podMonitorEnabled: true
       grafanaDashboard:

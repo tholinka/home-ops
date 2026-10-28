@@ -10,8 +10,6 @@ spec:
     kind: OCIRepository
     name: external-secrets
   values:
-    installCRDs: true
-    replicaCount: 1
     leaderElect: true
     webhook:
       replicaCount: 2

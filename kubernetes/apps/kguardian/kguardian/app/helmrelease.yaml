@@ -17,7 +17,6 @@ spec:
     database:
       persistence:
         storageClassName: openebs-hostpath
-        size: 10Gi
       resources:
         limits:
           cpu: 4

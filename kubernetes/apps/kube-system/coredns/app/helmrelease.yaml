@@ -10,13 +10,10 @@ spec:
     kind: OCIRepository
     name: coredns
   values:
-    fullnameOverride: coredns
     image:
       repository: mirror.gcr.io/coredns/coredns
     k8sAppLabelOverride: kube-dns
     priorityClassName: system-cluster-critical
-    serviceAccount:
-      create: true
     service:
       name: kube-dns
       clusterIP: '10.96.0.10'

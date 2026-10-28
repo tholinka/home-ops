@@ -112,7 +112,6 @@ spec:
             subPath: limiter.toml
             readOnly: true
       tmpfs:
-        enabled: true
         type: emptyDir
         globalMounts:
           - path: /tmp

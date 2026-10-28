@@ -78,7 +78,6 @@ spec:
                 memory: 1Gi
 
     defaultPodOptions:
-      enableServiceLinks: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -102,8 +101,6 @@ spec:
     persistence:
       config:
         existingClaim: *app
-        globalMounts:
-          - path: /config
       downloads:
         forceRename: '{{ .Release.Name }}-downloads'
         storageClass: ceph-block

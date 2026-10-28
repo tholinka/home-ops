@@ -10,7 +10,6 @@ spec:
     name: *app
   interval: 1h
   values:
-    fullnameOverride: *app
     prometheus:
       monitor:
         enabled: true

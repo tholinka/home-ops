@@ -16,7 +16,6 @@ spec:
     - name: pihole
       namespace: network
   values:
-    fullnameOverride: *app
     provider:
       name: pihole
     env:

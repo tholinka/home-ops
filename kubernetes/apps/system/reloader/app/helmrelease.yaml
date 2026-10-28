@@ -13,9 +13,6 @@ spec:
     fullnameOverride: reloader
     reloader:
       enableHA: true
-      deployment:
-        replicas: 1
       readOnlyRootFileSystem: true
       podMonitor:
         enabled: true
-        namespace: '{{ .Release.Namespace }}'

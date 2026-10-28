@@ -18,13 +18,11 @@ spec:
     config:
       envoyGateway:
         provider:
-          type: Kubernetes
           kubernetes:
             deploy:
               type: GatewayNamespace
     hpa:
       enabled: true
-      minReplicas: 1
       maxReplicas: 5
       metrics:
         - resource:

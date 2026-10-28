@@ -103,7 +103,6 @@ spec:
             protocol: UDP
           dns-tcp:
             port: 53
-            protocol: TCP
 
     route:
       app:

@@ -13,7 +13,6 @@ spec:
     controllers:
       *app :
         type: statefulset
-        strategy: RollingUpdate
         replicas: 2
 
         annotations:

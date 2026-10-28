@@ -167,8 +167,6 @@ spec:
     prometheus-node-exporter:
       enabled: false
     victoria-metrics-operator:
-      admissionWebhooks:
-        policy: Ignore
       crds:
         cleanup:
           enabled: false
@@ -189,7 +187,6 @@ spec:
         extraArgs:
           promscrape.dropOriginalLabels: 'true'
           promscrape.maxScrapeSize: 50MiB
-          promscrape.streamParse: 'true'
         resources:
           requests:
             cpu: 200m
@@ -252,8 +249,6 @@ spec:
             memory: 2Gi
         retentionPeriod: 400d
         storage:
-          accessModes:
-            - ReadWriteOnce
           resources:
             requests:
               storage: 200Gi

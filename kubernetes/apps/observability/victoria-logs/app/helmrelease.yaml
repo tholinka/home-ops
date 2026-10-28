@@ -18,7 +18,6 @@ spec:
       extraArgs:
         enableTCP6: true
       persistentVolume:
-        enabled: true
         storageClassName: ceph-block
         size: 100Gi
       retentionPeriod: 90d

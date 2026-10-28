@@ -103,8 +103,6 @@ spec:
 
       tmp:
         type: emptyDir
-        globalMounts:
-          - path: /tmp
 
     defaultExternalSecretStoreRef:
       kind: ClusterSecretStore

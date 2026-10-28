@@ -196,7 +196,6 @@ spec:
           http:
             port: *port
       *gluetun :
-        suffix: *gluetun
         ports:
           socks-proxy:
             port: *proxy-port

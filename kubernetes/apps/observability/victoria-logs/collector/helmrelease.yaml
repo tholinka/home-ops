@@ -10,7 +10,6 @@ spec:
     kind: OCIRepository
     name: *app
   values:
-    fullnameOverride: *app
     remoteWrite:
       - url: http://victoria-logs-server.{{ .Release.Namespace }}.svc.cluster.local:9428
         maxDiskUsagePerURL: 10GB

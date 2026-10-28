@@ -16,7 +16,6 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
         replicas: 3
-        strategy: RollingUpdate
         rollingUpdate:
           maxUnavailable: 1
         pod:
@@ -181,7 +180,6 @@ spec:
             protocol: UDP
           dns-tcp:
             port: 53
-            protocol: TCP
           # ntp-udp:
           #   port: 123
           #   protocol: UDP
@@ -191,20 +189,16 @@ spec:
           http:
             primary: true
             port: *pihole-port
-            protocol: HTTP
           https:
             port: 443
-            protocol: HTTPS
           prometheus:
             port: *exporter-port
-            protocol: HTTP
 
       nas-exporter:
         controller: &nasExporter nas-exporter
         ports:
           prometheus:
             port: *exporter-port
-            protocol: HTTP
 
     route:
       app:

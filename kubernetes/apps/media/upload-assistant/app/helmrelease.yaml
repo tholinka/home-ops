@@ -73,7 +73,6 @@ spec:
             subPath: downloads/qbittorrent
 
       config:
-        enabled: true
         type: secret
         externalSecretRef: files
         globalMounts:
@@ -97,7 +96,6 @@ spec:
             readOnly: true
 
       tmpfs:
-        enabled: true
         type: emptyDir
         globalMounts:
           - path: /Upload-Assistant/tmp

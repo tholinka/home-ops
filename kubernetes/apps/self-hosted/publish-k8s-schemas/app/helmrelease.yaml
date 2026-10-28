@@ -16,7 +16,6 @@ spec:
         cronjob:
           backoffLimit: 3
           concurrencyPolicy: 'Replace'
-          failedJobsHistory: 1
           schedule: '0 */4 * * *'
           successfulJobsHistory: 0
 

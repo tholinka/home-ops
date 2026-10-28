@@ -10,7 +10,6 @@ spec:
     kind: OCIRepository
     name: *app
   values:
-    fullnameOverride: *app
     provider:
       name: cloudflare
     env:
