@@ -132,20 +132,26 @@ spec:
               UMASK: '022'
               QBT_WEBUI_PORT: &port 80
               PUSHOVER_ENABLED: true
-            envFrom:
-              - externalSecretRef:
-                  identifier: env
             probes:
-              startup:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /api/v2/app/version
-                    port: *port
-                  failureThreshold: 30
-                  periodSeconds: 10
+                  exec:
+                    # request needs to come from localhost, otherwise qbit will return 403
+                    command: [curl, localhost/api/v2/app/version]
                   timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
             securityContext: *securityContext
             resources:
               requests:
@@ -162,6 +168,9 @@ spec:
               CRON_ENABLED: true
               CRON_SCHEDULE: '*/5 * * * *'
               LOG_TIMESTAMP: false
+
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_WEBUI_PORT: 80
             envFrom:
               - externalSecretRef:
                   identifier: env
@@ -268,9 +277,6 @@ spec:
           template:
             data:
               GLUETUN_CONTROL_SERVER_API_KEY: '{{ .GLUETUN_API_KEY }}'
-              QBITTORRENT_HOST: qui.media.svc.cluster.local
-              # abusing the port sync script so it does what I want
-              QBITTORRENT_WEBUI_PORT: 80/proxy/{{ .GLUETUN_QB_PORT_SYNC_PROXY }}
         dataFrom:
           - extract:
               key: *gluetun
