@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.8.0
-    digest: sha256:79febd9f166858a67ca28d7510a0401384bf790297a2f309ef8651833673a4c8
+    tag: 0.8.1
+    digest: sha256:0f6685e12ba49fa57b3fd4329e0e9695d60d00024df102733f337e4752ca2e61
   url: oci://ghcr.io/spegel-org/helm-charts/spegel
