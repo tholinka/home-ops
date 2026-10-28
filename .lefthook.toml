@@ -3,7 +3,7 @@ parallel = true
 
 [pre-commit.commands.deadvalues]
 glob = ["**/helmrelease.yaml"]
-run = "deadvalues scan kubernetes --changed-since HEAD"
+run = "deadvalues scan kubernetes --changed-since HEAD --skip network/crowdsec"  # the chart schema rejects the kubernetes acquisition source
 stage_fixed = true
 
 [pre-commit.commands.format-just]

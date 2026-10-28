@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: crowdsec
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.24.2
+    digest: sha256:9078b83a6ba27a9a258cbdb4d8aefba6992a833041ba07317133fd61c5e6b446
+  url: oci://ghcr.io/crowdsecurity/helm-charts/crowdsec

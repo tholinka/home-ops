@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: crowdsec-bouncer
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.8.3
+    digest: sha256:b53c8f0180f4c40f73ac9abdfb97b90ff628a0a9e8faa6013d2183a33505bfd5
+  url: oci://ghcr.io/kdwils/charts/envoy-proxy-bouncer

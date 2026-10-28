@@ -45,3 +45,4 @@ jobs:
           mode: all
           fail-on-scan: dead
           fail-on-diff: breaking
+          skip: network/crowdsec # the chart schema rejects the kubernetes acquisition source
