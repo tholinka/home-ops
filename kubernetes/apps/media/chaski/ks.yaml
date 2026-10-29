@@ -3,13 +3,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: webhook
+  name: chaski
 spec:
   interval: 1h
-  targetNamespace: media
-  path: ./kubernetes/apps/media/webhook/app
+  path: ./kubernetes/apps/media/chaski/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: media

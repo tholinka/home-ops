@@ -91,6 +91,12 @@ spec:
         existingClaim: sonarr-cache
         globalMounts:
           - path: /config/MediaCover
+      scripts:
+        type: configMap
+        name: sonarr-configmap
+        defaultMode: 0775
+        globalMounts:
+          - readOnly: true
       media:
         type: nfs
         server: nas.servers.internal
