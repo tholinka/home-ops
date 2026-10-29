@@ -61,4 +61,7 @@ spec:
   webhook:
     enabled: true
     authentication:
-      enabled: false
+      enabled: true
+      secretRef:
+        name: renovate-webhook-token
+        key: token

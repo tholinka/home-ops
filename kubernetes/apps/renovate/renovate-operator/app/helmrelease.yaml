@@ -18,6 +18,12 @@ spec:
     fullnameOverride: *name
     webhook:
       enabled: true
+      route:
+        enabled: true
+        hostnames: [renovate-webhook.tholinka.dev]
+        parentRefs:
+          - name: envoy-external
+            namespace: network
     config:
       defaultJobBackoffLimit: 5
       defaultJobActiveDeadlineSeconds: 3600
