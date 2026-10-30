@@ -20,6 +20,9 @@ spec:
       enabled: true
       route:
         enabled: true
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 404"]
         hostnames: [renovate-webhook.tholinka.dev]
         parentRefs:
           - name: envoy-external
