@@ -118,7 +118,7 @@ spec:
           exporter: &exporter
             image:
               repository: mirror.gcr.io/ekofr/pihole-exporter
-              tag: v1.3.0@sha256:67dd0ec8c0fbc2f4edeffd6b0c6768f2b962dcc983b230bedd933a33e5a05cd9
+              tag: v1.3.1@sha256:4233c06fcd2d62c37b9345228bc9f798b3a66d052b4955ec6a0e5b8825e20827
             env: &exporterEnv
               PIHOLE_HOSTNAME:
                 valueFrom:
