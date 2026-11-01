@@ -54,6 +54,6 @@ nodes:
       disk: *sda
 
 data:
-  nutUsername: ref+onepasswordconnect://home-ops/nut-secondary#username
-  nutPassword: ref+onepasswordconnect://home-ops/nut-secondary#password
-  ipv6Prefix: ref+onepasswordconnect://home-ops/ipv6#-.servers
+  nutUsername: ref+op://home-ops/nut-secondary/username
+  nutPassword: ref+op://home-ops/nut-secondary/password
+  ipv6Prefix: ref+op://home-ops/ipv6/servers

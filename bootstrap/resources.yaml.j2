@@ -16,9 +16,9 @@ metadata:
   labels:
     reconcile.external-secrets.io/managed: 'true'
 stringData:
-  BITWARDEN_MACHINE_KEY: ref+onepasswordconnect://home-ops/bitwarden#-.machine_key
-  BITWARDEN_ORGANIZATION_ID: ref+onepasswordconnect://home-ops/bitwarden#-.organization_id
-  BITWARDEN_PROJECT_ID: ref+onepasswordconnect://home-ops/bitwarden#-.project_id
+  BITWARDEN_MACHINE_KEY: ref+op://home-ops/bitwarden/machine_key
+  BITWARDEN_ORGANIZATION_ID: ref+op://home-ops/bitwarden/organization_id
+  BITWARDEN_PROJECT_ID: ref+op://home-ops/bitwarden/project_id
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/secret-v1.json
 apiVersion: v1
