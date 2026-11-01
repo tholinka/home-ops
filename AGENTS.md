@@ -305,9 +305,16 @@ Verify schema URLs resolve before using them.
 
 ## Testing
 
-Use `flate test ks`, `flate test hr`, `flate build ks -n [namespace] [kustomization name]` and `flate build hr -n [namespace] [helm release name]` to test that Flux will reconcile the manifests without errors.
+### Flate
 
-`flate` is installed by `mise`, and as such is available from `~/.local/share/mise/installs/github-home-operations-flate/latest/flate` if `mise` is not already in the `PATH`.
+- Use `flate test all`, `flate test ks`, `flate test hr`, `flate build ks -n [namespace] [kustomization name]` and `flate build hr -n [namespace] [helm release name]` to test that Flux will reconcile the manifests without errors.
+- `flate` is installed by `mise`, and as such is available from `~/.local/share/mise/installs/github-home-operations-flate/latest/flate` if `mise` is not already in the `PATH`.
+
+### Deadvalues
+
+- Use `deadvalues scan kubernetes --details --changed-since HEAD` to find unused values in all flux `HelmRelease` manifests.
+  - `deadvalues scan` is computationally expensive - it checks every flux `HelmRelease`. Only run it when you have a specific reason to check for all dead values, such as after all edits to a `helmrelease.yaml` are complete. It is not necessary to run it on every change.
+- `deadvalues` is installed by `mise`, and as such is available from `~/.local/share/mise/installs/github-guarnz-deadvalues/latest/deadvalues` if `mise` is not already in the `PATH`.
 
 ---
 
