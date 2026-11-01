@@ -90,5 +90,11 @@
 			matchPackageNames: ["ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator"],
 			sourceUrl: "https://github.com/dragonflydb/dragonfly-operator",
 		},
+		{
+			description: "Set pihole-exporter source",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["docker.io/ekofr/pihole-exporter"],
+			sourceUrl: "https://github.com/eko/pihole-exporter",
+		},
 	],
 }
