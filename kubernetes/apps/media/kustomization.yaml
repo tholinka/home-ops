@@ -7,6 +7,7 @@ resources:
   - ./autobrr/ks.yaml
   - ./bazarr/ks.yaml
   - ./bookboss/ks.yaml
+  - ./brrpolice/ks.yaml
   - ./chaski/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./lidarr/ks.yaml

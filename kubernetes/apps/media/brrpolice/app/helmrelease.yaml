@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app brrpolice
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  driftDetection:
+    ignore:
+      - paths: [/spec/replicas]
+  valuesFrom:
+    - targetPath: config.qbittorrent.base_url
+      kind: Secret
+      name: *app
+      valuesKey: QBITTORRENT_URL
+  values:
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    persistence:
+      existingClaim: *app
+    monitoring:
+      serviceMonitor:
+        enabled: true
+      dashboards:
+        enabled: true
+        grafanaOperator:
+          enabled: true
+          matchLabels:
+            dashboards: grafana
