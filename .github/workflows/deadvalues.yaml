@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - '**/helmrelease.yaml'
+      - '**/ocirepository.yaml'
   workflow_dispatch:
 
 permissions:
