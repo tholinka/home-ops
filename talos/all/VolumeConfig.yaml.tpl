@@ -10,6 +10,9 @@ encryption:
   keys:
   - slot: 0
     tpm: {}
+  options:
+    - no_read_workqueue
+    - no_write_workqueue
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
@@ -20,5 +23,8 @@ encryption:
   keys:
   - slot: 0
     tpm: {}
+  options:
+    - no_read_workqueue
+    - no_write_workqueue
 {{ end }}
 {{ end }}
