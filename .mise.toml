@@ -11,7 +11,7 @@ JUST_UNSTABLE = "1"
 "aqua:postfinance/topf" = "0.6.2"
 "aqua:helmfile/vals" = "0.50.0"
 "aqua:koalaman/shellcheck" = "0.11.0"
-"aqua:zizmorcore/zizmor" = "1.31.1"
+"aqua:zizmorcore/zizmor" = "1.32.0"
 "github:guarnz/deadvalues" = "0.1.9"
 "github:mitsuhiko/minijinja" = "3.0.5"
 
