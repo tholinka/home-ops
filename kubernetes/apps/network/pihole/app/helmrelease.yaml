@@ -60,7 +60,7 @@ spec:
               size: 2Gi
               advancedMounts:
                 init:
-                  - path: /final
+                  - path: /etc/pihole
                 *app :
                   - path: /etc/pihole
         initContainers:

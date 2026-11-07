@@ -2,18 +2,10 @@
 
 set -Eeuo pipefail
 
-# use dnscrypt-proxy, and add coredns in case there's no dns container up
-printf "nameserver 192.168.21.7\nnameserver 10.96.0.10" > /etc/resolv.conf
-
-if [ -f "/final/gravity.db" ]; then
-	echo "using symbol link for /etc/pihole, as /final is already setup"
-	rm /etc/pihole -rf
-	ln -s /final /etc/pihole
-
-
+if [ -f "/etc/pihole/gravity.db" ]; then
 	echo "houskeeping - vacuuming gravity.db"
 	pihole-FTL sql /etc/pihole/gravity.db "VACUUM;" || true
-elif [ ! -f "/etc/pihole/gravity.db" ]; then
+else
 	# run gravity to cause db to get created
 	echo "creating gravity db"
 	pihole -g
@@ -40,7 +32,7 @@ to_remove=$(comm -23 /tmp/current-allow.list /tmp/allow.list)
 echo "Removing lists not in the combined allow lists from db: $to_remove"
 echo "$to_remove" |
 xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "SELECT id FROM adlist WHERE address='{}' AND type=1;" |
-xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist_by_group WHERE adlist_id='{}'; DELETE FROM gravity WHERE adlist_id='{}'; DELETE FROM adlist WHERE id='{}'"
+xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "DELETE FROM adlist_by_group WHERE adlist_id='{}'; DELETE FROM gravity WHERE adlist_id='{}'; DELETE FROM adlist WHERE id='{}';"
 
 to_add="$(comm -13 /tmp/current-allow.list /tmp/allow.list)"
 echo "Inserting new allow lists into db: $to_add"
@@ -80,13 +72,7 @@ echo "Inserting new tholinka.github.io lists into db: $to_add"
 echo "$to_add" | xargs -I{} pihole-FTL sql /etc/pihole/gravity.db "INSERT INTO adlist (address, comment, enabled, type) VALUES ('{}', 'tholinka.github.io, added $(date +%F)', 1, 0);"
 
 echo;
-echo "Running pihole gravity"
-echo;
-
-pihole -g
-
-echo;
-echo "Updating pihole.toml"
+echo "Updating pihole-FTL config"
 
 pihole-FTL --config misc.etc_dnsmasq_d true
 pihole-FTL --config dns.blockESNI false
@@ -111,14 +97,3 @@ pihole-FTL --config ntp.ipv6.active false
 pihole-FTL --config ntp.sync.active false
 pihole-FTL --config database.maxDBdays 7 # default is 91, keep db size smaller
 pihole-FTL --config database.network.expire 7
-
-echo;
-if [ -L /etc/pihole ]; then
-	echo "skipping copying of config, as /etc/pihole is a symlink"
-else
-	echo "copying config to pihole container config"
-	cp -a /etc/pihole/. /final
-fi
-
-# use only dnscrypt-proxy
-echo 'nameserver 192.168.21.7' > /etc/resolv.conf
