@@ -19,8 +19,7 @@ spec:
     onInvalidMessage: TerminateStream
   http3: {}
   targetSelectors:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
+    - kind: Gateway
   tcpKeepalive:
     idleTime: 60s
     interval: 10s
@@ -29,7 +28,6 @@ spec:
     http:
       idleTimeout: 600s
   tls:
-    minVersion: '1.2'
     alpnProtocols:
       - h2
       - http/1.1

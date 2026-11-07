@@ -13,7 +13,6 @@ spec:
     - type: Gzip
       gzip: {}
   retry:
-    numRetries: 2
     retryOn:
       triggers:
         # reset can have idempotent issues on e.g. POST calls,
@@ -21,8 +20,7 @@ spec:
         # so it still protects against e.g. connection failures
         - reset-before-request
   targetSelectors:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
+    - kind: Gateway
   tcpKeepalive:
     idleTime: 60s
     interval: 10s

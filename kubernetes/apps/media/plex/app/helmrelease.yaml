@@ -90,7 +90,8 @@ spec:
           - name: envoy-external
             namespace: network
         rules:
-          - backendRefs: [{}]
+          - name: app
+            backendRefs: [{}]
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier: &pipeline
@@ -98,7 +99,8 @@ spec:
                     # Plex closes idle keep-alive connections after 20s unless this is set, so Envoy owns the connection pool
                     - name: X-Plex-Http-Pipeline
                       value: infinite
-          - backendRefs: [{}]
+          - name: events
+            backendRefs: [{}]
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier: *pipeline
@@ -106,7 +108,10 @@ spec:
               - path:
                   type: PathPrefix
                   value: /:/eventsource
+              - path:
+                  value: /:/websockets
           - # Ref: https://forums.plex.tv/t/external-srt-subtitles-are-not-working-w-reverse-proxy/886540
+            name: subtitles
             backendRefs: [{}]
             filters:
               - type: RequestHeaderModifier
