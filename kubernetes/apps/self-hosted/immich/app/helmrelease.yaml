@@ -82,6 +82,9 @@ spec:
             format: webp
             quality: 80
             size: 1440
+        integrityChecks:
+          checksumFiles:
+            enabled: false # waste of time on btrfs
         machineLearning:
           clip:
             modelName: ViT-B-16-SigLIP2__webli
