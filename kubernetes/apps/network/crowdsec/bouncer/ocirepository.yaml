@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.8.3
-    digest: sha256:b53c8f0180f4c40f73ac9abdfb97b90ff628a0a9e8faa6013d2183a33505bfd5
+    tag: 0.8.4
+    digest: sha256:c0bd188de209cefd0a342ea3dfbb6a4d2c3909aadab352861bd633083c8d1a4a
   url: oci://ghcr.io/kdwils/charts/envoy-proxy-bouncer
