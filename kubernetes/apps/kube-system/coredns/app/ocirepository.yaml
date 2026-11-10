@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.50.3
-    digest: sha256:df24da082af7115e9914ea4b48ac828cff3281b052804894125d92445e90e378
+    tag: 1.50.4
+    digest: sha256:2f4d5b373b6f382ad6d31366b4e76135cc4be65f0b5886f30eeafc2732aa7c79
   url: oci://ghcr.io/coredns/charts/coredns
