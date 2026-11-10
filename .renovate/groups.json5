@@ -92,8 +92,6 @@
 			allowedVersions: "<31.0.0",
 		},
 		{
-			// Merge Flate updates for mise and github action together,
-			// and also don't wait the standard time before merging actions
 			description: "Flate Group",
 			groupName: "Flate",
 			matchManagers: ["github-actions", "mise"],
@@ -101,11 +99,7 @@
 			group: {
 				commitMessageTopic: "{{{groupName}}} group",
 			},
-			minimumGroupSize: 3,
-			minimumReleaseAge: "1d",
-			automerge: true,
-			automergeType: "branch",
-			ignoreTests: true,
+			minimumGroupSize: 4,
 		},
 		{
 			// block apps with bad digest updates
@@ -116,6 +110,12 @@
 			],
 			matchUpdateTypes: ["digest"],
 			enabled: false,
+		},
+		{
+			description: "Hold gotenberg until paperless supports >=9.0",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["/gotenberg\/gotenberg/"],
+			allowedVersions: "<9.0.0",
 		},
 	],
 }
