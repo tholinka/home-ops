@@ -30,5 +30,21 @@
 			minimumReleaseAge: "1 minute",
 			ignoreTests: true,
 		},
+		{
+			// Merge Flate updates for mise and github action together,
+			// and also don't wait the standard time before merging actions
+			description: "Flate Group",
+			groupName: "Flate",
+			matchManagers: ["github-actions", "mise"],
+			matchPackageNames: ["/flate/"],
+			group: {
+				commitMessageTopic: "{{{groupName}}} group",
+			},
+			minimumGroupSize: 4,
+			minimumReleaseAge: "1 hour",
+			automerge: true,
+			automergeType: "pr",
+			ignoreTests: true,
+		},
 	],
 }

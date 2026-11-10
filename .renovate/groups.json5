@@ -92,16 +92,6 @@
 			allowedVersions: "<31.0.0",
 		},
 		{
-			description: "Flate Group",
-			groupName: "Flate",
-			matchManagers: ["github-actions", "mise"],
-			matchPackageNames: ["/flate/"],
-			group: {
-				commitMessageTopic: "{{{groupName}}} group",
-			},
-			minimumGroupSize: 4,
-		},
-		{
 			// block apps with bad digest updates
 			matchPackageNames: [
 				"/ocis/",
