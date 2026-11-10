@@ -18,6 +18,9 @@ spec:
       name: *app
       valuesKey: QBITTORRENT_URL
   values:
+    config:
+      qbittorrent:
+        base_url: 'unused'
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
