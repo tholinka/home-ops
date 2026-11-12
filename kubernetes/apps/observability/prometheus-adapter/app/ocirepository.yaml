@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 5.4.0
-    digest: sha256:5c0dd28e36b025ff51df328cbd78d862b7f7029b39ba74bf0efe62e03b10491e
+    tag: 5.4.1
+    digest: sha256:0473594b52bf059d9757d04d8d4c6eca9154c973efafc8eede09d75377371cfd
   url: oci://ghcr.io/prometheus-community/charts/prometheus-adapter
