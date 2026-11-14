@@ -103,7 +103,7 @@ spec:
                   exec:
                     command:
                       - /usr/bin/nslookup
-                      - pihole
+                      - pi.hole
                       - '127.0.0.1'
               startup: *pihole-probes
               readiness: *pihole-probes
