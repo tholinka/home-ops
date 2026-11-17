@@ -83,10 +83,6 @@ spec:
         urlPrefix: /
         ssl: false
         prometheusEndpoint: http://vmsingle-victoria-metrics.observability.svc.cluster.local:8428
-      mgr:
-        modules:
-          - name: pg_autoscaler
-            enabled: true
       security:
         cephx:
           allowedCiphers: [aes256k]
