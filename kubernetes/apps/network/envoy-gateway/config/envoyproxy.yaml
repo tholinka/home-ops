@@ -22,6 +22,10 @@ spec:
       envoyDeployment:
         container:
           imageRepository: mirror.gcr.io/envoyproxy/envoy
+          volumeMounts:
+            - name: wasm-eep
+              mountPath: /opt/wasm/eep
+              readOnly: true
           resources:
             requests:
               cpu: 150m
@@ -29,6 +33,12 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+        pod:
+          volumes:
+            - name: wasm-eep
+              image:
+                reference: ghcr.io/ishioni/eep:0.4.1@sha256:57b684f4fbb5a6209ef32ba68f571d2de9f0253516ea1372219ad5341f1e0c91
+                pullPolicy: IfNotPresent
       envoyHpa:
         minReplicas: 1
         maxReplicas: 5
@@ -46,3 +56,9 @@ spec:
             stabilizationWindowSeconds: 300
       envoyService:
         externalTrafficPolicy: Local
+  wasmModules:
+    - name: eep
+      source:
+        type: Local
+        local:
+          path: /opt/wasm/eep/plugin.wasm

@@ -11,10 +11,6 @@ spec:
   wasm:
     - name: eep
       rootID: eep
-      code:
-        type: Image
-        image:
-          url: oci://ghcr.io/ishioni/eep:0.4.1 # can't digest tag this, because envoy checks the digest vs module checksum not the image hash
       config:
         theme: connection
         showDetails: false
