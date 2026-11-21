@@ -139,6 +139,21 @@ spec:
 apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
+  name: victoria-metrics-scrape-errors
+spec:
+  matchers:
+    - name: alertname
+      # TargetDown will already alert us of the actual scrape error, don't need the generic one as well
+      # an the unclean shutdown is just annoying, don't need an alert for 15 mins every time a node restarted
+      value: (TooManyLogs|TooManyScrapeErrors|UncleanShutdown)
+      matchType: '=~'
+    - name: job
+      value: vmagent-victoria-metrics
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
   name: victoria-metrics-authentik
 spec:
   matchers:
