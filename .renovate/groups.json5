@@ -107,5 +107,11 @@
 			matchPackageNames: ["/gotenberg\/gotenberg/"],
 			allowedVersions: "<9.0.0",
 		},
+		{
+			description: "Hold postgres until apps support v19",
+			matchDatasources: ["docker"],
+			matchPackageNames: ["ghcr.io/cloudnative-pg/postgresql"],
+			allowedVersions: "<19.0.0",
+		},
 	],
 }
