@@ -13,6 +13,12 @@ spec:
     commonAnnotations:
       fluxcd.controlplane.io/reconcileArtifactEvery: 24h
     instance:
+      components:
+        - source-controller
+        - kustomize-controller
+        - helm-controller
+        - notification-controller
+        - source-watcher
       cluster:
         networkPolicy: false
       sync:
