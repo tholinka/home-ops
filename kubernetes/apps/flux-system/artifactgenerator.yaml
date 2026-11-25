@@ -18,3 +18,21 @@ spec:
           to: '@artifact/kubernetes/apps/{namespace}/{app}/'
         - from: '@repo/kubernetes/components/**'
           to: '@artifact/kubernetes/components/'
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/source.extensions.fluxcd.io/artifactgenerator_v1beta1.json
+apiVersion: source.extensions.fluxcd.io/v1beta1
+kind: ArtifactGenerator
+metadata:
+  name: components
+spec:
+  sources:
+    - alias: repo
+      kind: GitRepository
+      name: flux-system
+  pathPattern: '@repo/kubernetes/components/{component}'
+  artifacts:
+    - name: 'components-{component}'
+      originRevision: '@repo'
+      copy:
+        - from: '@repo/kubernetes/components/{component}/**'
+          to: '@artifact/kubernetes/components/{component}/'

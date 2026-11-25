@@ -24,8 +24,8 @@ spec:
   prune: true
   retryInterval: 2m
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: components-cnpg
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m

@@ -18,8 +18,8 @@ spec:
   prune: true
   retryInterval: 2m
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: components-dragonfly
     namespace: flux-system
   targetNamespace: database
   timeout: 5m

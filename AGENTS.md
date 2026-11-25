@@ -98,9 +98,8 @@ spec:
       APP: *app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
+    kind: ExternalArtifact
+    name: *app
   targetNamespace: *namespace
 ```
 
