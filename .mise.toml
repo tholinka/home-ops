@@ -1,5 +1,6 @@
 [env]
 FLATE_PATH = '{{config_root}}/kubernetes/apps'
+FLATE_SUPPLY = '{{config_root}}/flate-supply.yaml'
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
 JUST_UNSTABLE = "1"

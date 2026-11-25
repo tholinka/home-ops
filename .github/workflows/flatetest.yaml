@@ -34,4 +34,4 @@ jobs:
         env:
           FLATE_BASE: ''
         run: |
-          flate test all
+          flate test all --supply flate-supply.yaml
