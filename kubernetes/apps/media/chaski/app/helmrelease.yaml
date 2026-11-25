@@ -39,9 +39,9 @@ spec:
           title: '{{ .payload.event }}: {{ .payload.subject }}'
           message: |-
             <small><b>Requested By:</b> {{ .payload.request.requestedBy_username }}</small>
-            <small>\t<b>Status:</b> {{ .payload.media.status }}</small>
-            <small>\t<b>Type:</b> {{ .payload.media.media_type }}</small>
-            <small>\n{{ .payload.image }}</small>
+            <small>&emsp;<b>Status:</b> {{ .payload.media.status }}</small>
+            <small>&emsp;<b>Type:</b> {{ .payload.media.media_type }}</small>
+            <small><br/>{{ .payload.image }}</small>
           params:
             format: html
             priority: low
