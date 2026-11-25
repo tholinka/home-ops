@@ -240,6 +240,12 @@ spec:
           - name: envoy-internal
             namespace: network
       spec:
+        extraArgs:
+          downsampling.period: 30d:5m,180d:1h
+          eula: 'true'
+        image:
+          repository: victoriametrics/victoria-metrics
+          tag: v1.157.0-enterprise
         resources:
           requests:
             cpu: 250m
