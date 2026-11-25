@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.16.4
-    digest: sha256:3042b0053cceff5799853d1aaa8f22728deade7b0dbaceb2789f20213e0b2338
+    tag: 0.16.5
+    digest: sha256:9b3219db6e3d1b7e92ef5d075a875d16576bd99746f0b5cfaa7e8749d838e7db
   url: oci://ghcr.io/zariel/charts/brrpolice
