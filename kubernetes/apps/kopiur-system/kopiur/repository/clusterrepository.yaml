@@ -26,6 +26,8 @@ spec:
       # applies twice: kopia caps the index-blobs cache at the same size.
       contentCacheSizeMb: 512
       metadataCacheSizeMb: 1024
+    podLabels:
+      app.kubernetes.io/name: kopiur-mover
     resources:
       requests:
         memory: 1Gi
@@ -88,6 +90,8 @@ spec:
       # applies twice: kopia caps the index-blobs cache at the same size.
       contentCacheSizeMb: 512
       metadataCacheSizeMb: 1024
+    podLabels:
+      app.kubernetes.io/name: kopiur-mover
     resources:
       requests:
         memory: 1Gi
