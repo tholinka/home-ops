@@ -9,7 +9,7 @@ spec:
   path: ./kubernetes/apps/observability/kube-state-metrics/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: kube-state-metrics
     namespace: flux-system
   targetNamespace: observability

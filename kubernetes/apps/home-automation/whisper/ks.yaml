@@ -12,7 +12,7 @@ spec:
   path: ./kubernetes/apps/home-automation/whisper/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: whisper
     namespace: flux-system
   targetNamespace: home-automation

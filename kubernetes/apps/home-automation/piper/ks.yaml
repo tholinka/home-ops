@@ -12,7 +12,7 @@ spec:
   path: ./kubernetes/apps/home-automation/piper/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: piper
     namespace: flux-system
   targetNamespace: home-automation

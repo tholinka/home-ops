@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/network/certificates/import
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: certificates
     namespace: flux-system
   targetNamespace: &namespace network
   healthChecks:
@@ -31,8 +31,8 @@ spec:
   path: ./kubernetes/apps/network/certificates/export
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: certificates
     namespace: flux-system
   targetNamespace: &namespace network
   healthChecks:

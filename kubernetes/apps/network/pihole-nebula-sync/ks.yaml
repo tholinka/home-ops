@@ -12,6 +12,6 @@ spec:
   path: ./kubernetes/apps/network/pihole-nebula-sync/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: pihole-nebula-sync
     namespace: flux-system

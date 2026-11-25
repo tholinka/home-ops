@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/observability/silence-operator/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: silence-operator
     namespace: flux-system
   targetNamespace: observability
   wait: true
@@ -25,8 +25,8 @@ spec:
   path: ./kubernetes/apps/observability/silence-operator/silences
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: silence-operator
     namespace: flux-system
   targetNamespace: observability
   dependsOn:

@@ -14,8 +14,8 @@ spec:
     - name: crds-ready
       namespace: flux-system
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: vernemq
     namespace: flux-system
   targetNamespace: database
   postBuild:

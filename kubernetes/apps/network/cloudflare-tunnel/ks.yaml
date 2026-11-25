@@ -10,6 +10,6 @@ spec:
   path: ./kubernetes/apps/network/cloudflare-tunnel/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cloudflare-tunnel
     namespace: flux-system

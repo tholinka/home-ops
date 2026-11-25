@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/database/dragonfly/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: dragonfly
     namespace: flux-system
   targetNamespace: database
   healthChecks:
@@ -28,8 +28,8 @@ spec:
   path: ./kubernetes/apps/database/dragonfly/cluster
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: dragonfly
     namespace: flux-system
   targetNamespace: &namespace database
   dependsOn:

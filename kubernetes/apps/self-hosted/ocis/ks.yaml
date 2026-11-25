@@ -18,7 +18,7 @@ spec:
       KOPIUR_CAPACITY: 150Gi
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: ocis
     namespace: flux-system
   targetNamespace: self-hosted

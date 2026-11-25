@@ -15,6 +15,6 @@ spec:
   path: ./kubernetes/apps/network/dnscrypt-proxy/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: dnscrypt-proxy
     namespace: flux-system

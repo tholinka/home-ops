@@ -20,7 +20,7 @@ spec:
       KOPIUR_PGID: '911'
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: orcaslicer
     namespace: flux-system
   targetNamespace: self-hosted

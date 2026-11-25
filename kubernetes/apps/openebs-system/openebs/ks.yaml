@@ -10,7 +10,7 @@ spec:
   path: ./kubernetes/apps/openebs-system/openebs/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: openebs
     namespace: flux-system
   wait: true

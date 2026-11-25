@@ -14,7 +14,7 @@ spec:
       APP: *app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: upload-assistant
     namespace: flux-system
   targetNamespace: media

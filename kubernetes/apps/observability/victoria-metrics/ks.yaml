@@ -23,7 +23,7 @@ spec:
       EXT_AUTH_TARGET_3: vmalertmanager-victoria-metrics
 
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: victoria-metrics
     namespace: flux-system
   targetNamespace: observability

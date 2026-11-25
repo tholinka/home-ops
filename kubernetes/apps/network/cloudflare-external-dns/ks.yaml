@@ -10,6 +10,6 @@ spec:
   path: ./kubernetes/apps/network/cloudflare-external-dns/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cloudflare-external-dns
     namespace: flux-system

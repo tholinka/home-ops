@@ -9,7 +9,8 @@ spec:
   path: ./kubernetes/apps/flux-system/flux-operator/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: flux-core
+    namespace: flux-system
   targetNamespace: flux-system
   wait: true

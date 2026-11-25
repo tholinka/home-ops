@@ -10,8 +10,8 @@ spec:
   path: ./kubernetes/apps/network/multus/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: multus
     namespace: flux-system
   wait: true
 ---
@@ -26,8 +26,8 @@ spec:
   path: ./kubernetes/apps/network/multus/networks
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: multus
     namespace: flux-system
   dependsOn:
     - name: multus

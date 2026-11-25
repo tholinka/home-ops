@@ -19,7 +19,7 @@ spec:
       APP: *app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: sabnzbd
     namespace: flux-system
   targetNamespace: media

@@ -9,7 +9,7 @@ spec:
   path: ./kubernetes/apps/observability/node-exporter/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: node-exporter
     namespace: flux-system
   targetNamespace: observability

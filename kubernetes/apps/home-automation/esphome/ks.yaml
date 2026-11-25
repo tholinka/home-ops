@@ -13,8 +13,8 @@ spec:
   path: ./kubernetes/apps/home-automation/esphome/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: esphome
     namespace: flux-system
   dependsOn:
     - name: multus-networks

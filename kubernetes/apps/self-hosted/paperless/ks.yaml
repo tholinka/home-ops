@@ -25,7 +25,7 @@ spec:
       KOPIUR_CAPACITY: 50Gi
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: paperless
     namespace: flux-system
   targetNamespace: self-hosted

@@ -20,7 +20,7 @@ spec:
       SCALER_INSTANCE: zwave.iot.internal
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: zwave
     namespace: flux-system
   targetNamespace: home-automation

@@ -9,8 +9,8 @@ spec:
   targetNamespace: database
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cnpg
     namespace: flux-system
   path: ./kubernetes/apps/database/cnpg/crds
   healthChecks:
@@ -31,8 +31,8 @@ spec:
   path: ./kubernetes/apps/database/cnpg/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cnpg
     namespace: flux-system
   targetNamespace: database
   wait: true
@@ -47,8 +47,8 @@ spec:
   path: ./kubernetes/apps/database/cnpg/plugin-barman-cloud
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cnpg
     namespace: flux-system
   targetNamespace: database
   wait: true
@@ -63,8 +63,8 @@ spec:
   path: ./kubernetes/apps/database/cnpg/cluster
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cnpg
     namespace: flux-system
   targetNamespace: &namespace database
   dependsOn:
@@ -98,8 +98,8 @@ spec:
   path: ./kubernetes/apps/database/cnpg/pgadmin
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cnpg
     namespace: flux-system
   targetNamespace: database
   postBuild:

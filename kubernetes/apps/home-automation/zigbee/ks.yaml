@@ -20,7 +20,7 @@ spec:
       SCALER_INSTANCE: zigbee.iot.internal
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: zigbee
     namespace: flux-system
   targetNamespace: home-automation

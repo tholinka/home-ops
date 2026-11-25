@@ -20,6 +20,6 @@ spec:
       SCALER_STATEFULSET: pihole
       SCALER_VALUE: '3'
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: pihole-external-dns
     namespace: flux-system

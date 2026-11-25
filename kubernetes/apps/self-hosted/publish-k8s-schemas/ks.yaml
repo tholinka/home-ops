@@ -9,7 +9,7 @@ spec:
   path: ./kubernetes/apps/self-hosted/publish-k8s-schemas/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: publish-k8s-schemas
     namespace: flux-system
   targetNamespace: self-hosted
