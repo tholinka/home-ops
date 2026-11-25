@@ -67,6 +67,8 @@ releases:
 
   - name: flux-instance
     namespace: flux-system
+    labels:
+      path: flux-operator/instance
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
     version: 0.63.1
     values: *template

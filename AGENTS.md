@@ -47,7 +47,7 @@ bootstrap/
 
 The reconciliation chain works as follows:
 
-1. **`kubernetes/apps/flux-system/flux-instance`** — A Flux instance pointing to `kubernetes/apps` with patches that auto-apply HelmRelease defaults (drift detection, rollback, upgrade remediation) to all child Kustomizations.
+1. **`kubernetes/apps/flux-system/flux-operator/instance`** — A Flux instance pointing to `kubernetes/apps` with patches that auto-apply HelmRelease defaults (drift detection, rollback, upgrade remediation) to all child Kustomizations.
 2. **`kubernetes/apps/{category}/kustomization.yaml`** — A standard Kubernetes Kustomization (`kustomize.config.k8s.io/v1beta1`) that:
    - Sets `namespace:` for the category
    - Lists each app's `ks.yaml` as a resource
@@ -322,7 +322,7 @@ Verify schema URLs resolve before using them.
 
 1. **Wrong file for the edit** — Category `kustomization.yaml` lists apps; app `ks.yaml` defines Flux behavior; app `app/kustomization.yaml` lists resources
 2. **Hardcoding values** — Use `postBuild.substitute` in `ks.yaml`
-3. **Repeating auto-patched HelmRelease defaults** — They're applied globally by `kubernetes/app/flux-system/flux-instance`
+3. **Repeating auto-patched HelmRelease defaults** — They're applied globally by `kubernetes/apps/flux-system/flux-operator/instance`
 4. **Editing `clusterconfig/` files** — Edit `talconfig.yaml` and run `just talos generate-config`
 5. **Missing `dependsOn`** — Declare dependencies for proper ordering (databases, storage, CRDs)
 6. **Missing `APP` substitution** — Required when using any component

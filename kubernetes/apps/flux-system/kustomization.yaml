@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ./artifactgenerator.yaml
-  - ./flux-instance/ks.yaml
   - ./flux-operator/ks.yaml
   - ./healthcheck/ks.yaml
 components:
